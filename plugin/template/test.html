@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta name="renderer" content="webkit" />
+	<meta name="keywords" content="" />
+	<meta name="description" content="" />
+	<meta name="copyright" content="" />
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="" />
+</head>
+
+<body class="g-body">
+    <div id="test"></div>
+
+    <script type="text/html" id="list">
+    <div>
+    {{each flights val key}}
+    <dl>
+        <dt>{{val['@orgCity']}}</dt>
+        {{each val['cabins'] v k}}
+        <dd>{{v['@cabinDiscount']}}啊sere色而</dd>
+        {{/each}}
+    </dl>
+    {{/each}}
+    </div>
+    </script>
+    <script type="text/javascript" src="file:///E:/User/static/jquery.js"></script>
+	<script type="text/javascript" src="template.js"></script>
+    <script type="text/javascript">
+    
+    $.ajax({
+        url:'http://www.yinjiazeng.com/testdata/test/data.php?callback=?',
+        dataType:'json',
+        success:function(data){
+            $('#test').html(template('list', data));
+        }
+    });
+    </script>
+</body>
+</html>

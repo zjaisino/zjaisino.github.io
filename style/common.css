@@ -1,0 +1,66 @@
+@charset "utf-8";
+
+/**
+ * Copyright(C), 2013-2014 ZheJiang Aisino Spaceflight Technology Co., Ltd.
+ * FileName: common.css
+ * Author: Aniu[date:2014-04-08 14:28]
+ * Update: Aniu[date:2014-04-23 12:22]
+ * Version: v1.0.1
+ * Description: Page Public Module
+ */
+ 
+/* grid */
+.g-body { width:100%; min-width:1000px;}
+.g-wrap { width:1000px; margin:0 auto;}
+ 
+/* header */
+.g-header { background:url(../images/bg/hd.png) repeat-x;}
+.m-htop { height:64px; position:relative; overflow:hidden;}
+.u-logo { width:172px; height:50px; float:left; margin-top:8px; background:url(../images/bg/logo.png) no-repeat; _filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/images/bg/logo.png'); _background:none;}
+.u-logo a { display:block; position:relative; overflow:hidden; text-indent:-999em; width:100%; height:100%;}
+.m-nav { background:url(../images/bg/nav.png) repeat-x left top; text-align:center;}
+.m-nav ul { text-align:center;}
+.m-nav li { display:inline;}
+.m-nav li a { display:inline-block; padding:0 24px; color:#556165; font-size:14px; font-weight:bold; height:45px; line-height:45px; background:url(../images/bg/vline.png) no-repeat right center; position:relative;}
+.m-nav li a:hover, .m-nav li.s-crt a { color:#488C9D; text-decoration:none;}
+.m-nav li a i { position:absolute; bottom:-6px; left:50%; margin-left:-7px; display:none;}
+.m-nav li.l-last a { background:none;}
+.m-nav li.s-crt a i { display:block;}
+.m-htop i { position:absolute; background:url(../images/bg/pao.png) no-repeat; width:41px; height:41px; bottom:-41px; -webkit-animation:bubble 5s 1s infinite; -ms-animation:bubble 5s 1s infinite; animation:bubble 5s 1s infinite;}
+.m-htop i:nth-child(1) { left:0px; -webkit-animation-delay:1s; -ms-animation-delay:1s; animation-delay:1s;}
+.m-htop i:nth-child(4) { left:200px; -webkit-animation-delay:4s; -ms-animation-delay:4s; animation-delay:4s;}
+.m-htop i:nth-child(6) { left:700px; -webkit-animation-delay:1.5s; -ms-animation-delay:1.5s; animation-delay:1.5s;}
+.m-htop i:nth-child(3) { left:350px; -webkit-animation-delay:7s; -ms-animation-delay:7s; animation-delay:7s;}
+.m-htop i:nth-child(2) { left:500px; -webkit-animation-delay:10s; -ms-animation-delay:10s; animation-delay:10s;}
+.m-htop i:nth-child(5) { right:0; -webkit-animation-delay:13s; -ms-animation-delay:13s; animation-delay:13s;}
+.m-htop i:nth-child(1), .m-htop i:nth-child(3) { background-position:0 0;}
+.m-htop i:nth-child(2), .m-htop i:nth-child(4) { background-position:0 -50px;}
+.m-htop i:nth-child(5) { background-position:0 -109px;}
+
+/* footer */
+.g-footer { text-align:center; border-top:1px solid #dbdbdb; height:50px; padding-bottom:20px; line-height:22px; filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#fff9f9f9,endColorstr=#ffffffff); background:-webkit-linear-gradient(#f9f9f9,#fff 50px); background:-ms-linear-gradient(#f9f9f9,#fff 50px); background:linear-gradient(#f9f9f9,#fff 50px); background:transparent\;}
+.g-footer div { padding-top:12px;}
+
+/* icon */
+.ui-icon { display:inline-block; overflow:hidden; background:url(../images/bg/ico.png) no-repeat;}
+.ui-icon-tip { width:14px; height:8px; background-position:-122px -52px;}
+
+/* animate */
+.ui-animate-fadeShow { -webkit-animation-name:fadeShow; animation-name:fadeShow;}
+@-webkit-keyframes bubble {
+    0% { bottom:-41px;}
+    100% { bottom:64px;}
+}
+@keyframes bubble {
+    0% { bottom:-41px;}
+    100% { bottom:64px;}
+}
+
+@-webkit-keyframes fadeShow {
+    0% { opacity:0;}
+    100% { opacity:1;}
+}
+@keyframes fadeShow {
+    0% { opacity:0;}
+    100% { opacity:1;}
+}

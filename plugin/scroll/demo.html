@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="renderer" content="webkit" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="copyright" content="" />
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../base.css" />
+    <style type="text/css">
+    body { padding:100px;}
+
+    .ui-scrollbtn { position:absolute; cursor:pointer;}
+    .ui-scrollbtn.s-dis { cursor:default;}
+    .ui-scrollwrap { overflow:hidden; position:relative;}
+    .ui-scroll { position:absolute; left:0; top:0;}
+    .ui-scroll li { float:left; display:inline;}
+    .ui-scroll li a, .ui-scroll li img { display:block;}
+    
+    .scroll { width:664px; height:120px;}
+    .scroll .ui-scrollbtn { width:12px; height:120px; background-color:#999;}
+    .scroll .ui-scrollbtn-prev { left:0; top:0;}
+    .scroll .ui-scrollbtn-next { right:0; top:0;}
+    .scroll .ui-scrollbtn.s-dis { background-color:#ccc;}
+    .scroll .ui-scrollwrap { margin:0 22px; height:100%;}
+    .scroll .ui-scroll li { width:200px; height:112px; margin-right:10px;}
+    
+    .scroll2 { width:200px; height:396px; overflow:hidden;} 
+    .scroll2 .ui-scrollbtn { width:200px; height:10px; background-color:#999;}
+    .scroll2 .ui-scrollbtn-prev { left:0; top:0;}
+    .scroll2 .ui-scrollbtn-next { right:0; bottom:0;}
+    .scroll2 .ui-scrollbtn.s-dis { background-color:#ccc;}
+    .scroll2 .ui-scrollwrap { margin-top:20px; height:356px;}
+    .scroll2 .ui-scroll li { width:200px; height:112px; margin-bottom:10px;}
+    </style>
+</head>
+
+<body>
+    <div class="scroll">
+        <ul class="ui-scroll">
+            <li><a href="#"><img src="1.jpg" width="200" height="112" /></a></li>
+            <li><a href="#"><img src="2.jpg" width="200" height="112" /></a></li>
+            <li><a href="#"><img src="3.jpg" width="200" height="112" /></a></li>
+            <li><a href="#"><img src="4.jpg" width="200" height="112" /></a></li>
+            <li><a href="#"><img src="5.jpg" width="200" height="112" /></a></li>
+            <li><a href="#"><img src="1.jpg" width="200" height="112" /></a></li>
+            <li><a href="#"><img src="2.jpg" width="200" height="112" /></a></li>
+            <li><a href="#"><img src="3.jpg" width="200" height="112" /></a></li>
+            <li><a href="#"><img src="4.jpg" width="200" height="112" /></a></li>
+            <li><a href="#"><img src="5.jpg" width="200" height="112" /></a></li>
+        </ul>
+    </div>
+    <div class="scroll2 e-mt20">
+        <ul class="ui-scroll">
+            <li><a href="#"><img src="1.jpg" width="200" height="112" /></a></li>
+            <li><a href="#"><img src="2.jpg" width="200" height="112" /></a></li>
+            <li><a href="#"><img src="3.jpg" width="200" height="112" /></a></li>
+            <li><a href="#"><img src="4.jpg" width="200" height="112" /></a></li>
+            <li><a href="#"><img src="5.jpg" width="200" height="112" /></a></li>
+            <li><a href="#"><img src="1.jpg" width="200" height="112" /></a></li>
+            <li><a href="#"><img src="2.jpg" width="200" height="112" /></a></li>
+            <li><a href="#"><img src="3.jpg" width="200" height="112" /></a></li>
+            <li><a href="#"><img src="4.jpg" width="200" height="112" /></a></li>
+            <li><a href="#"><img src="5.jpg" width="200" height="112" /></a></li>
+        </ul>
+    </div>
+    <script type="text/javascript" src="../jquery.js"></script>
+    <script type="text/javascript" src="jquery.scroll.js"></script>
+    <script type="text/javascript">
+    $('.scroll').scroll({isEnd:true});
+    $('.scroll2').scroll({isVertical:true});
+    </script>
+</body>
+</html>

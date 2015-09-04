@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="renderer" content="webkit" />
+    <meta name="keywords" content="前端规范,前端页面开发,CSS方案,CSS规范,CSS框架,CSS代码库,CSS插件,网页制作" />
+    <meta name="description" content="本站包括了规范、框架、代码库等内容，致力于为前端开发人员提供高效率高质量的前端页面开发解决方案，提高多人协作效率，也为非专业人员提供快速制作网页的解决方案。" />
+    <meta name="copyright" content="浙江爱信诺航天信息有限公司" />
+    <title>整体结构-HTML规范-浙江爱信诺前端规范</title>
+    <link rel="stylesheet" type="text/css" href="../style/base.css" />
+    <link rel="stylesheet" type="text/css" href="../style/common.css" />
+    <link rel="stylesheet" type="text/css" href="../style/page.css" />
+    <link type="text/css" rel="stylesheet" href="../style/syntax/shCore.css"/>
+    <link type="text/css" rel="stylesheet" href="../style/syntax/shThemeDefault.css"/>
+</head>
+
+<body class="g-body">
+    <!-- header begin -->
+    <div class="g-header">
+        <div class="m-htop g-wrap">
+            <i></i><i></i><i></i><i></i><i></i><i></i>
+            <h1 class="u-logo"><a href="../index.html">浙江爱信诺前端规范</a></h1>
+        </div>
+        <div class="m-nav">
+            <ul class="g-wrap">
+                <li class="s-crt"><a href="../index.html">规范<i class="ui-icon ui-icon-tip"></i></a></li>
+                <li><a href="../framework.html">框架<i class="ui-icon ui-icon-tip"></i></a></li>
+				<li><a href="../plugin.html">组件<i class="ui-icon ui-icon-tip"></i></a></li>
+                <li><a href="http://www.jss.com.cn/" title="诺诺服务">诺诺服务<i class="ui-icon ui-icon-tip"></i></a></li>
+                <li class="l-last"><a href="http://www.axnsc.com/" title="诺诺商城">诺诺商城<i class="ui-icon ui-icon-tip"></i></a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- header end -->
+    
+    <!-- content begin -->
+    <div class="g-content f-clearfix">
+        <div class="g-side">
+            <div class="m-menu" id="menu"> 
+                <ul> 
+                    <li class="s-crt"><a href="html-structure.html" title="整体结构">整体结构</a></li> 
+                    <li><a href="html-format.html" title="代码格式">代码格式</a></li> 
+                    <li class="l-last"><a href="html-content.html" title="内容语义">内容语义</a></li> 
+                </ul> 
+            </div>
+        </div>
+        <div class="g-main">
+            <div class="g-con">
+                <div class="m-article ui-animate ui-animate-fadeShow"> 
+                    <h2 class="u-ttb2">HTML规范 - 整体结构</h2> 
+                    <div class="u-line"><span class="linea"></span><span class="lineb"></span></div> 
+                    <dl> 
+                        <dt>HTML基础设施</dt> 
+                        <dd> 
+                            <ul> 
+                                <li>文件应以“&lt;!DOCTYPE ......&gt;”首行顶格开始，推荐使用“&lt;!DOCTYPE html&gt;”。</li> 
+                                <li>必须申明文档的编码charset，且与文件本身编码保持一致，推荐使用UTF-8编码&lt;meta charset="utf-8"/&gt;。</li> 
+                                <li>根据页面内容和需求填写适当的keywords和description。</li> 
+                                <li>页面title是极为重要的不可缺少的一项。</li> 
+                            </ul> 
+                            <pre class="brush: xml;">
+                            &lt;!DOCTYPE html&gt; 
+                            &lt;html&gt; 
+                            &lt;head&gt; 
+                                &lt;meta charset="utf-8" /&gt;
+								&lt;meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /&gt;
+                                &lt;meta name="renderer" content="webkit" /&gt;
+                                &lt;meta name="keywords" content="" /&gt; 
+                                &lt;meta name="description" content="" /&gt; 
+                                &lt;title&gt;浙江爱信诺前端规范&lt;/title&gt; 
+                                &lt;link rel="stylesheet" href="style/base.css"/&gt; 
+                                &lt;link rel="shortcut icon" href="images/favicon.ico"/&gt; 
+                            &lt;/head&gt; 
+                            &lt;body&gt; 
+                                &lt;!-- header --&gt; 
+                                &lt;div class="g-header"&gt; &lt;/div&gt; 
+                                &lt;!-- /header --&gt; 
+
+                                &lt;!-- content --&gt; 
+                                &lt;div class="g-content"&gt;&lt;/div&gt;
+                                &lt;!-- /content --&gt; 
+
+                                &lt;!-- footer --&gt; 
+                                &lt;div class="g-footer"&gt;&lt;/div&gt;
+                                &lt;!-- /footer --&gt; 
+                                &lt;script type="text/javascript" src="script/jquery.js"&gt;&lt;/script&gt;
+                            &lt;/body&gt; 
+                            &lt;/html&gt; 
+                            </pre> 
+                        </dd> 
+                        <dt>结构顺序和视觉顺序基本保持一致</dt> 
+                        <dd> 
+                            <ul> 
+                                <li>按照从上至下、从左到右的视觉顺序书写HTML结构。</li> 
+                                <li>有时候为了便于搜索引擎抓取，我们也会将重要内容在HTML结构顺序上提前。</li> 
+                                <li>用div代替table布局，可以使HTML更具灵活性，也方便利用CSS控制。</li> 
+                                <li>table不建议用于布局，但表现具有明显表格形式的数据，table还是首选。</li> 
+                            </ul> 
+                        </dd> 
+                        <dt>结构、表现、行为三者分离，避免内联</dt> 
+                        <dd> 
+                            <ul> 
+                                <li>使用link将css文件引入，并置于head中。</li> 
+                                <li>使用script将js文件引入，并置于body底部。</li> 
+                            </ul> 
+                        </dd> 
+                        <dt>保持良好的简洁的树形结构</dt> 
+                        <dd> 
+                            <ul> 
+                                <li>每一个块级元素都另起一行，每一行都使用Tab缩进对齐（head和body的子元素不需要缩进）。删除冗余的行尾的空格。</li> 
+                                <li>使用4个空格代替1个Tab（大多数编辑器中可设置）。</li> 
+                                <li>对于内容较为简单的表格，建议将tr写成单行。</li> 
+                                <li>你也可以在大的模块之间用空行隔开，使模块更清晰。</li> 
+                            </ul> 
+                            <pre class="brush: xml;">
+                            &lt;body&gt; 
+								&lt;!-- 侧栏内容区 --&gt; 
+								&lt;div class="g-sidecol"&gt; 
+									&lt;div class="m-side"&gt; 
+										&lt;div class="m-sidein"&gt; 
+											&lt;!-- 热门标签 --&gt; 
+											&lt;div class="m-sideblk"&gt; 
+												&lt;div class="m-hd3"&gt;&lt;h3 class="u-title"&gt;热门标签&lt;/h3&gt; &lt;/div&gt; 
+												... 
+											&lt;/div&gt;
+											&lt;!-- /热门标签 --&gt; 
+								 
+											&lt;!-- 最热TOP5 --&gt; 
+											&lt;div class="m-sideblk"&gt; 
+												&lt;div class="m-hd3"&gt;&lt;h3 class="u-title"&gt;最热TOP5&lt;/h3&gt; &lt;a href="#" class="f-fr"&gt;更多&raquo;&lt;/a&gt;&lt;/div&gt; 
+												... 
+											&lt;/div&gt; 
+											&lt;!-- /最热TOP5 --&gt; 
+										&lt;/div&gt; 
+									&lt;/div&gt; 
+								&lt;/div&gt; 
+								&lt;!-- /侧栏内容区 --&gt; 
+                            &lt;/body&gt; 
+                            </pre>     
+                        </dd> 
+                        <dt>另外，请做到以下几点</dt> 
+                        <dd> 
+                            <ul> 
+                                <li>结构上如果可以并列书写，就不要嵌套。 
+                                    <p>如果可以写成&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;那么就不要写成&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;</p> 
+                                </li> 
+                                <li>如果结构已经可以满足视觉和语义的要求，那么就不要有额外的冗余的结构。 
+                                    <p>比如&lt;div&gt;&lt;h2&gt;&lt;/h2&gt;&lt;/div&gt;已经能满足要求，那么就不要再写成&lt;div&gt;&lt;div&gt;&lt;h2&gt;&lt;/h2&gt;&lt;/div&gt;&lt;/div&gt;</p> 
+                                </li> 
+                                <li>一个标签上引用的className不要过多，越少越好。 
+                                    <p>比如不要出现这种情况：&lt;div class="class1 class2 class3 class4"&gt;&lt;/div&gt;</p> 
+                                </li> 
+                                <li>对于一个语义化的内部标签，应尽量避免使用className。 
+                                    <p>比如在这样一个列表中，li标签中的itm应去除：&lt;ul class="m-help"&gt;&lt;li class="itm"&gt;&lt;/li&gt;&lt;li class="itm"&gt;&lt;/li&gt;&lt;/ul&gt;</p> 
+                                </li> 
+                            </ul> 
+                        </dd> 
+                    </dl> 
+                </div> 
+            </div>
+        </div>
+    </div>
+    <!-- content end -->
+    
+    <!-- footer begin -->
+    <div class="g-footer">
+        <div class="g-wrap">
+            <p>
+                <a href="http://www.jss.com.cn/Contents/portal/allow/aboutus/about.ftl" title="关于我们">关于我们</a> |
+                <a href="http://www.jss.com.cn/portal/chronicle/allow/queryChronicle.action" title="大事记">大事记</a> |
+                <a href="http://www.jss.com.cn/Contents/portal/allow/network/network.ftl" title="服务与支持">服务与支持</a> |
+                <a href="http://www.jss.com.cn/Contents/portal/allow/helpcenter/helpcenter.ftl" title="帮助中心">帮助中心</a>
+            </p>
+            <p>Copyright © 2013-2015 Aisino. All Rights Reserved.</p>
+        </div>
+    </div>
+    <!-- footer end -->
+    
+    <script type="text/javascript" src="../script/jquery.js"></script>
+    <script type="text/javascript" src="../script/syntax/shCore.js"></script>
+    <script type="text/javascript" src="../script/syntax/shBrushCss.js"></script>
+    <script type="text/javascript" src="../script/syntax/shBrushXml.js"></script>
+    <script type="text/javascript" src="../script/page.js"></script>
+</body>
+</html>

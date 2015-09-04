@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="renderer" content="webkit" />
+    <meta name="keywords" content="前端规范,前端页面开发,CSS方案,CSS规范,CSS框架,CSS代码库,CSS插件,网页制作" />
+    <meta name="description" content="本站包括了规范、框架、代码库等内容，致力于为前端开发人员提供高效率高质量的前端页面开发解决方案，提高多人协作效率，也为非专业人员提供快速制作网页的解决方案。" />
+    <meta name="copyright" content="浙江爱信诺航天信息有限公司" />
+    <title>声明-JS规范-浙江爱信诺前端规范</title>
+    <link rel="stylesheet" type="text/css" href="../style/base.css" />
+    <link rel="stylesheet" type="text/css" href="../style/common.css" />
+    <link rel="stylesheet" type="text/css" href="../style/page.css" />
+	<link type="text/css" rel="stylesheet" href="../style/syntax/shCore.css"/>
+	<link type="text/css" rel="stylesheet" href="../style/syntax/shThemeDefault.css"/>
+</head>
+
+<body class="g-body">
+    <!-- header begin -->
+    <div class="g-header">
+		<div class="m-htop g-wrap">
+			<i></i><i></i><i></i><i></i><i></i><i></i>
+			<h1 class="u-logo"><a href="index.html">浙江爱信诺前端规范</a></h1>
+		</div>
+		<div class="m-nav">
+			<ul class="g-wrap">
+				<li class="s-crt"><a href="../index.html">规范<i class="ui-icon ui-icon-tip"></i></a></li>
+				<li><a href="../framework.html">框架<i class="ui-icon ui-icon-tip"></i></a></li>
+				<li><a href="../plugin.html">组件<i class="ui-icon ui-icon-tip"></i></a></li>
+				<li><a href="http://www.jss.com.cn/" title="诺诺服务">诺诺服务<i class="ui-icon ui-icon-tip"></i></a></li>
+				<li class="l-last"><a href="http://www.axnsc.com/" title="诺诺商城">诺诺商城<i class="ui-icon ui-icon-tip"></i></a></li>
+			</ul>
+		</div>
+	</div>
+    <!-- header end -->
+	
+	<!-- content begin -->
+	<div class="g-content f-clearfix">
+		<div class="g-side">
+			<div class="m-menu" id="menu"> 
+				<ul> 
+					<li><a href="js-name.html" title="标示符命名">标示符命名</a></li>
+					<li class="s-crt"><a href="js-declare.html" title="变量声明">变量声明</a></li>
+					<li class="l-last"><a href="js-typesetting.html" title="代码排版">代码排版</a></li>
+				</ul> 
+			</div>
+		</div>
+		<div class="g-main">
+			<div class="g-con">
+				<div class="m-article ui-animate ui-animate-fadeShow"> 
+                    <h2 class="u-ttb2">JS规范 - 声明</h2> 
+                    <div class="u-line"><span class="linea"></span><span class="lineb"></span></div> 
+                    <dl>
+						<dt>变量的声明</dt>
+                    	<dd>
+							<p>尽管 JavaScript 语言并不要求在变量使用前先对变量进行声明。但我们还是应该养成这个好习惯。这样可以比较容易的检测出那些未经声明的变量，避免其变为隐藏的全局变量，造成隐患。</p>
+							<p>在函数的开始应先用var关键字声明函数中要使用的局部变量，注释变量的功能及代表的含义，且应以字母顺序排序。每个变量单独占一行，以便添加注释。这是因为JavaScript中只有函数的{}表明作用域，用var关键字声明的局部变量只在函数内有效，而未经var声明的变量则被视为全局变量。</p>
+							<pre class="brush:js">
+							var val1  = 'a'; 
+							var val2  = 'b'; 
+							function test(){ 
+							    var valb = 'c'; 
+							    alert('val1=' + val1); //输出：val1=a
+							    val2 = 'd'; 
+							    alert('val2=' + val2); //输出：val2=d
+							} 
+							test(); 
+							alert('val1=' + val1); //输出：val1=a
+							alert('val2=' + val2); //输出：val2=d
+							</pre>
+							<p>从上例的输出惊奇地发现，用var声明过的变量val1和没有声明的变量val2是有区别的。特别需要注意的是，在函数内部用var声明的变量为局部变量，这样可以有效地避免因局部变量和全局变量同名而产生的错误。</p>
+						</dd>
+						<dt>函数的声明</dt>
+                    	<dd>
+							<p>函数也应在调用前进行声明，内部函数应在var声明内部变量的语句之后声明，可以清晰地表明内部变量和内部函数的作用域。</p>
+							<pre class="brush:js">
+							var val = 1; 
+							function test(){ 
+							    var val = 2; 
+							    function inner(){ 
+								    alert('val=' + val); 
+							    } 
+							    inner(); 
+							} 
+							test();
+							inner();
+							</pre>
+							<p>从上例的输出可以看出，inner()函数仅在test()函数的内部生效，局部变量val对内部函数的作用域生效。这样的编码方式使得变量和函数的作用域变得清晰。</p>
+						</dd>
+                    </dl>
+                </div> 
+			</div>
+		</div>
+	</div>
+	<!-- content end -->
+	
+	<!-- footer begin -->
+	<div class="g-footer">
+		<div class="g-wrap">
+			<p>
+				<a href="http://www.jss.com.cn/Contents/portal/allow/aboutus/about.ftl" title="关于我们">关于我们</a> |
+				<a href="http://www.jss.com.cn/portal/chronicle/allow/queryChronicle.action" title="大事记">大事记</a> |
+				<a href="http://www.jss.com.cn/Contents/portal/allow/network/network.ftl" title="服务与支持">服务与支持</a> |
+				<a href="http://www.jss.com.cn/Contents/portal/allow/helpcenter/helpcenter.ftl" title="帮助中心">帮助中心</a>
+			</p>
+			<p>Copyright © 2013-2015 Aisino. All Rights Reserved.</p>
+		</div>
+	</div>
+	<!-- footer end -->
+	
+	<script type="text/javascript" src="../script/jquery.js"></script>
+	<script type="text/javascript" src="../script/syntax/shCore.js"></script>
+	<script type="text/javascript" src="../script/syntax/shBrushJScript.js"></script>
+	<script type="text/javascript" src="../script/syntax/shBrushXml.js"></script>
+	<script type="text/javascript" src="../script/page.js"></script>
+</body>
+</html>

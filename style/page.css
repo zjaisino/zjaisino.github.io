@@ -1,0 +1,54 @@
+@charset "utf-8";
+
+/**
+ * Copyright(C), 2013-2014 ZheJiang Aisino Spaceflight Technology Co., Ltd.
+ * FileName: page.css
+ * Author: Aniu[date:2014-04-23 11:52]
+ * Update: Aniu[date:2014-04-23 11:52]
+ * Version: v1.0.1
+ */
+
+.m-typelist li a, .m-menu ul li.s-crt a { background:#fff url(../images/bg/ico.png) no-repeat;}
+.u-line, .u-line .linea, .u-line .lineb { height:3px; overflow:hidden; background: url(../images/bg/line.png) no-repeat -9999px -9999px;}
+.u-line .linea, .u-line .lineb { width: 373px;}
+.u-line { background-position:0 -8px; background-repeat:repeat-x;}
+.u-line .linea {float:left; margin-right:-373px; background-position:0 0;}
+.u-line .lineb {float:right; margin-left:-373px; background-position:0 -4px;}
+.m-article dt, .m-article dd, .m-article h3, .m-article h4, .m-article p, .m-article ul, .m-article ol, .m-article li, .m-article table { margin:0 0 0.6em;}
+.m-article table { width:100%;}
+.m-article dt { margin-top:2em; font-size:1.167em; font-weight:bold; color:#444;}
+.m-article th { background:#f7f7f7;}
+.m-article dt a { font-size:12px; font-weight:normal;}
+.m-plugin ul, .m-plugin li, .m-plugin p { margin:0;}
+.m-article th, .m-article td { padding:0.3em 1em; border:1px solid #e1e1e8; vertical-align:middle; empty-cells:show;}
+.m-article a { color:#448aca;}
+.m-article td em { font-weight:bold;}
+.m-plugin-list { overflow:hidden; *zoom:1;}
+.m-plugin-list a { float:left; margin-top:15px; margin-right:15px; padding:0 8px; height:30px; line-height:30px; font-size:14px; color:#666; border:1px solid #999;}
+.m-plugin-list a:hover { text-decoration:none;}
+.m-plugin-list a.s-crt { color:#448aca; border-color:#448aca;}
+.m-info { padding-bottom:35px;}
+.m-info h2 { font-size:45px; margin-bottom:10px;}
+.m-info p { line-height:22px;}
+.m-typelist li { float:left; display:inline; width:240px; height:151px; margin:0 5px 30px; overflow:hidden;}
+.m-typelist li a { display:block; height:100%; padding:0 28px; background-position:0 -66px;}
+.m-typelist li a:hover { background-position:0 -226px; text-decoration:none;}
+.m-typelist li a strong, .m-typelist li a span { display:block;}
+.m-typelist li a strong { font-size:20px; color:#128EC2; height:55px; line-height:55px; overflow:hidden;}
+.m-typelist li a span { margin-top:20px; line-height:24px;}
+.g-side { position:relative; float:left; width:160px; padding:36px 16px 40px 40px; border-right:1px solid #e7e7e7;}
+.g-main { float:right; width:100%; margin-left:-220px;}
+.g-con { min-height:500px; line-height:1.8; margin-left:216px; padding:35px 50px 35px 40px; border-left:1px solid #e7e7e7;}
+.m-menu { width:160px;}
+.m-menu ul li a { position:relative; z-index:2; background:url(../images/bg/dotx.png) repeat-x left bottom; display:block; width:100%; height:36px; text-indent:40px; line-height:36px; font-size:14px; color:#444; background-position:0 bottom;}
+.m-menu ul li.s-crt a { z-index:3; margin:-3px -36px -3px 0; padding:3px 36px 3px 0; color:#448aca; background-position:0 0;}
+.m-menu ul li a:hover { text-decoration:none; color:#448aca;}
+.m-menu ul li.l-last a { background:none;}
+.m-menu-fixed { position:fixed; top:12px; left:40px;}
+.u-ttb2 { margin:0 0 35px; font-size:24px;}
+.m-animate-list li { float:left; display:inline; margin-right:20px; width:200px; border:1px solid #E7E7E7; text-align:center;}
+.m-animate-list li img { margin:15px 0 10px;}
+.m-animate-list li div { border-top:1px solid #E7E7E7; height:22px; padding:5px;}
+.m-animate-list li select { float:left; border:1px solid #E7E7E7; width:110px; padding:2px 0;}
+.m-animate-list li span { float:right;}
+.m-animate-list li button { border:1px solid #E7E7E7; background:url(../images/bg/btn.png) repeat-x; border-radius:1px; height:22px; _height:20px; width:36px; _width:34px; margin-left:3px;}

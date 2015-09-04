@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="renderer" content="webkit" />
+    <meta name="keywords" content="前端规范,前端页面开发,CSS方案,CSS规范,CSS框架,CSS代码库,CSS插件,网页制作" />
+    <meta name="description" content="本站包括了规范、框架、代码库等内容，致力于为前端开发人员提供高效率高质量的前端页面开发解决方案，提高多人协作效率，也为非专业人员提供快速制作网页的解决方案。" />
+    <meta name="copyright" content="浙江爱信诺航天信息有限公司" />
+    <title>常见IEbug-CSS规范-浙江爱信诺前端规范</title>
+    <link rel="stylesheet" type="text/css" href="../style/base.css" />
+    <link rel="stylesheet" type="text/css" href="../style/common.css" />
+    <link rel="stylesheet" type="text/css" href="../style/page.css" />
+	<link type="text/css" rel="stylesheet" href="../style/syntax/shCore.css"/>
+	<link type="text/css" rel="stylesheet" href="../style/syntax/shThemeDefault.css"/>
+</head>
+
+<body class="g-body">
+    <!-- header begin -->
+    <div class="g-header">
+		<div class="m-htop g-wrap">
+			<i></i><i></i><i></i><i></i><i></i><i></i>
+			<h1 class="u-logo"><a href="../index.html">浙江爱信诺前端规范</a></h1>
+		</div>
+		<div class="m-nav">
+			<ul class="g-wrap">
+				<li class="s-crt"><a href="../index.html">规范<i class="ui-icon ui-icon-tip"></i></a></li>
+				<li><a href="../framework.html">框架<i class="ui-icon ui-icon-tip"></i></a></li>
+				<li><a href="../plugin.html">组件<i class="ui-icon ui-icon-tip"></i></a></li>
+			</ul>
+		</div>
+	</div>
+    <!-- header end -->
+	
+	<!-- content begin -->
+	<div class="g-content f-clearfix">
+		<div class="g-side">
+			<div class="m-menu" id="menu"> 
+				<ul> 
+					<li><a href="css-sort.html" title="分类方法">分类方法</a></li>
+					<li><a href="css-name.html" title="命名规则">命名规则</a></li>
+					<li><a href="css-format.html" title="代码格式">代码格式</a></li>
+					<li><a href="css-optimize.html" title="优化方案">优化方案</a></li> 
+					<li><a href="css-practice.html" title="最佳实践">最佳实践</a></li> 
+					<li><a href="css-error.html" title="典型错误">典型错误</a></li> 
+					<li class="s-crt"><a href="css-bug.html" title="常见IEbug">常见IEbug</a></li> 
+				</ul> 
+			</div>
+		</div>
+		<div class="g-main">
+			<div class="g-con">
+				<div class="m-article ui-animate ui-animate-fadeShow"> 
+                    <h2 class="u-ttb2">CSS规范 - 常见IEbug</h2> 
+                    <div class="u-line"><span class="linea"></span><span class="lineb"></span></div> 
+                    <dl> 
+                        <dt>css布局中常见IEbug总结</dt> 
+                        <dd> 
+                            <table> 
+                                <thead> 
+                                    <tr>
+										<th>bug名称</th>
+										<th>影响版本</th>
+										<th>bug描述</th>
+										<th>解决方案</th>
+									</tr> 
+                                </thead> 
+                                <tbody> 
+                                    <tr>
+										<td>双边距</td>
+										<td>ie6</td>
+										<td>块状元素浮动产生双倍的左右边距</td>
+										<td>添加属性display:inline</td>
+									</tr>
+									<tr>
+										<td>最小高度</td>
+										<td>ie6</td>
+										<td>ie6下面元素设置小于14px高度时，元素的高度还是14px</td>
+										<td>添加属性overflow:hidden</td>
+									</tr>
+									<tr>
+										<td>3px间隙</td>
+										<td>ie6</td>
+										<td>浮动元素相邻的元素或者有3px的间隙，或者向下移动了位置</td>
+										<td>添加属性_margin-right:-3px;</td>
+									</tr>
+									<tr>
+										<td>使用滤镜png透明区域无法点击</td>
+										<td>ie6</td>
+										<td>用IE6滤镜使PNG图片透明做背景时，a标签的透明区域无法点击</td>
+										<td>1.a标签本身不要给背景，给其父元素添加背景，然后再给a标签 position:relative。2.a标签给个透明的gif背景</td>
+									</tr>
+									<tr>
+										<td>无法让图片垂直居中</td>
+										<td>ie6, ie7</td>
+										<td>给元素使用line-height方法无法让内部图片垂直居中显示</td>
+										<td>添加了一个额外的span标签，定义属性display:inline-display</td>
+									</tr>
+									<tr>
+										<td>背景溢出</td>
+										<td>ie6</td>
+										<td>背景色会从一个元素溢出到与他下面相邻的元素里</td>
+										<td>添加属性_zoom:1</td>
+									</tr>
+									<tr>
+										<td>高度扩大</td>
+										<td>ie6</td>
+										<td>元素自身的高度大于对其定义的高度（此高度值很小）</td>
+										<td>添加属性_overflow:hidden</td>
+									</tr>
+									<tr>
+										<td>负边距</td>
+										<td>ie6、ie7</td>
+										<td>当元素定义了负边距时，超出父元素部分会被隐藏掉</td>
+										<td>添加属性*zoom:1和*position:relative</td>
+									</tr>
+									<tr>
+										<td>button元素不会自动居中</td>
+										<td>ie8</td>
+										<td>button元素和input元素如：type=submit,type=button,type=reset,当应用{display:block;margin-left:auto;margin
+					:auto;}属性时，是不起作用的。</td>
+										<td>用CSS指定按钮元素的宽度</td>
+									</tr>
+									<tr>
+										<td>错误的浮动布局</td>
+										<td>ie6, ie7</td>
+										<td>连续N个浮动元素且有clear属性时，显示出错误的排版（宽度没有自适应）</td>
+										<td>在clear元素前面增加一个块状元素</td>
+									</tr>
+									<tr>
+										<td>label标签中有img标签 无法focus到表单元素</td>
+										<td>ie6, ie7, ie8</td>
+										<td>当img标签包含在label标签中，点击img标签时，无法触发form元素选中事件</td>
+										<td>将图片用其他元素替代，然后将图片作为该元素的背景</td>
+									</tr>
+									<tr>
+										<td>连续浮动元素会重复出现最后一个元素的Bug</td>
+										<td>ie6, ie7</td>
+										<td>在连续浮动元素中，最后一个元素是重复的。</td>
+										<td>浮动元素css样式 position:relative; 或者给个背景颜色</td>
+									</tr>
+									<tr>
+										<td>空标签width:100%会有height值</td>
+										<td>ie6, ie7</td>
+										<td>拥有layout属性的空标签设置width:100%会有height值</td>
+										<td>去掉width:100%</td>
+									</tr>
+									<tr>
+										<td>表单元素双margin值</td>
+										<td>ie6, ie7</td>
+										<td>input textarea元素在水平方向的margin值会继承父级元素的margin和“layout”</td>
+										<td>给input和textAera标签的margin值为-100px</td>
+									</tr>
+									<tr>
+										<td>relative属性overflow失效</td>
+										<td>ie6, ie7</td>
+										<td>当子元素设置position为relative的时候，父元素的overflow属性值hidden与auto均失效</td>
+										<td>给父标签加上position:relative</td>
+									</tr>
+									<tr>
+										<td>图片浮动list标记</td>
+										<td>ie8</td>
+										<td>当list有浮动图片是list标记位置错误或根本不显示</td>
+										<td>移除掉list原有的标记，用背景图片来替代</td>
+									</tr>
+									<tr>
+										<td>th标签没有继承text-align属性</td>
+										<td>ie8</td>
+										<td>th元素不会继承来自其父元素的text-align的属性值</td>
+										<td>给th元素添加属性text-align:inherit</td>
+									</tr>
+									<tr>
+										<td>hover状态下白色背景忽略</td>
+										<td>ie7</td>
+										<td>:hover时背景不会改变</td>
+										<td>将background-color属性改成background</td>
+									</tr>
+									<tr>
+										<td>注释bug</td>
+										<td>ie6</td>
+										<td>应用/**/注释的页面的样式会不解析</td>
+										<td>把/**/改为/*  */</td>
+									</tr>
+									<tr>
+										<td>margin值为auto无法居中</td>
+										<td>ie6</td>
+										<td>给块级元素设置margin值为auto时没法居中</td>
+										<td>再加一个父标签设置text-align:center</td>
+									</tr>
+									<tr>
+										<td>浮动元素阶梯状</td>
+										<td>ie6, ie7</td>
+										<td>浮动元素像楼梯状排列在一起</td>
+										<td>给浮动元素添加属性display:inline</td>
+									</tr>
+									<tr>
+										<td>列表背景消失</td>
+										<td>ie6</td>
+										<td>li,dt,dd元素背景不显示</td>
+										<td>设置属性_zoom:1</td>
+									</tr>
+									<tr>
+										<td>ol列表数没有增加</td>
+										<td>ie6, ie7</td>
+										<td>在ie6 7中我们无法看到ol列表数增加，而始终是1，不会发生变化</td>
+										<td>li元素设置属性display:list-item</td>
+									</tr>
+									<tr>
+										<td>斜体字浮动</td>
+										<td>ie6</td>
+										<td>浮动元素字体为斜体时，与其相邻的浮动元素会被挤下</td>
+										<td>添加属性_overflow:hidden</td>
+									</tr>
+                                </tbody> 
+                            </table> 
+                        </dd> 
+                    </dl> 
+                </div> 
+			</div>
+		</div>
+	</div>
+	<!-- content end -->
+	
+	<!-- footer begin -->
+	<div class="g-footer">
+		<div class="g-wrap">
+			<p>
+				<a href="http://wpa.qq.com/msgrd?v=3&uin=897102078&site=qq&menu=yes" target="_blank">技术支持</a>
+			</p>
+			<p>Copyright © 2013-2015 Aisino. All Rights Reserved.</p>
+		</div>
+	</div>
+	<!-- footer end -->
+	
+	<script type="text/javascript" src="../script/jquery.js"></script>
+	<script type="text/javascript" src="../script/syntax/shCore.js"></script>
+	<script type="text/javascript" src="../script/syntax/shBrushCss.js"></script>
+	<script type="text/javascript" src="../script/syntax/shBrushXml.js"></script>
+	<script type="text/javascript" src="../script/page.js"></script>
+</body>
+</html>

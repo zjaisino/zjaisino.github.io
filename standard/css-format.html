@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="renderer" content="webkit" />
+    <meta name="keywords" content="前端规范,前端页面开发,CSS方案,CSS规范,CSS框架,CSS代码库,CSS插件,网页制作" />
+    <meta name="description" content="本站包括了规范、框架、代码库等内容，致力于为前端开发人员提供高效率高质量的前端页面开发解决方案，提高多人协作效率，也为非专业人员提供快速制作网页的解决方案。" />
+    <meta name="copyright" content="浙江爱信诺航天信息有限公司" />
+    <title>代码格式-CSS规范-浙江爱信诺前端规范</title>
+    <link rel="stylesheet" type="text/css" href="../style/base.css" />
+    <link rel="stylesheet" type="text/css" href="../style/common.css" />
+    <link rel="stylesheet" type="text/css" href="../style/page.css" />
+	<link type="text/css" rel="stylesheet" href="../style/syntax/shCore.css"/>
+	<link type="text/css" rel="stylesheet" href="../style/syntax/shThemeDefault.css"/>
+</head>
+
+<body class="g-body">
+    <!-- header begin -->
+    <div class="g-header">
+		<div class="m-htop g-wrap">
+			<i></i><i></i><i></i><i></i><i></i><i></i>
+			<h1 class="u-logo"><a href="../index.html">浙江爱信诺前端规范</a></h1>
+		</div>
+		<div class="m-nav">
+			<ul class="g-wrap">
+				<li class="s-crt"><a href="../index.html">规范<i class="ui-icon ui-icon-tip"></i></a></li>
+				<li><a href="../framework.html">框架<i class="ui-icon ui-icon-tip"></i></a></li>
+				<li><a href="../plugin.html">组件<i class="ui-icon ui-icon-tip"></i></a></li>
+			</ul>
+		</div>
+	</div>
+    <!-- header end -->
+	
+	<!-- content begin -->
+	<div class="g-content f-clearfix">
+		<div class="g-side">
+			<div class="m-menu" id="menu"> 
+				<ul> 
+					<li><a href="css-sort.html" title="分类方法">分类方法</a></li>
+					<li><a href="css-name.html" title="命名规则">命名规则</a></li>
+					<li class="s-crt"><a href="css-format.html" title="代码格式">代码格式</a></li>
+					<li><a href="css-optimize.html" title="优化方案">优化方案</a></li> 
+					<li><a href="css-practice.html" title="最佳实践">最佳实践</a></li> 
+					<li><a href="css-error.html" title="典型错误">典型错误</a></li> 
+					<li class="l-last"><a href="css-bug.html" title="常见IEbug">常见IEbug</a></li> 
+				</ul> 
+			</div>
+		</div>
+		<div class="g-main">
+			<div class="g-con">
+				<div class="m-article ui-animate ui-animate-fadeShow"> 
+                    <h2 class="u-ttb2">CSS规范 - 代码格式</h2> 
+                    <div class="u-line"><span class="linea"></span><span class="lineb"></span></div> 
+                    <dl> 
+                        <dt>选择器、属性和值都使用小写</dt> 
+                        <dd> 
+                            <p>在xhtml标准中规定了所有标签、属性和值都小写，CSS也是如此。</p> 
+                        </dd> 
+                        <dt>单行写完一个选择器定义</dt> 
+                        <dd> 
+                            <p>便于选择器的寻找和阅读，也便于插入新选择器和编辑，便于模块等的识别。去除多余空格，使代码紧凑减少换行。</p> 
+                            <p>如果有嵌套定义，可以采取内部单行的形式。</p> 
+							<pre class="brush: css;">
+							/* 单行定义一个选择器 */ 
+							.m-list li, .m-list h3 { width:100px; padding:10px; border:1px solid #ddd;} 
+							/* 这是一个有嵌套定义的选择器 */ 
+							@media all and (max-width:600px) { 
+								.m-class1 .itm { height:17px; line-height:17px; font-size:12px;} 
+								.m-class2 .itm { width:100px; overflow:hidden;} 
+							} 
+							@-webkit-keyframes showitm { 
+								0% { height:0; opacity:0;} 
+								100% { height:100px; opacity:1;} 
+							} 
+							</pre> 
+                        </dd> 
+                        <dt>最后一个值也以分号结尾</dt> 
+                        <dd> 
+                            <p>通常在大括号结束前的值可以省略分号，但是这样做会对修改、添加和维护工作带来不必要的失误和麻烦。</p> 
+                        </dd> 
+						<dt>空格分隔</dt> 
+                        <dd> 
+                            <p>选择器集合逗号前面加上一个空格，大括号“{”需要和前面的选择器之间有个空格，每个属性前面都要加上一个空格，冒号前后不能有空格，分好前面不能有空格。</p> 
+							<pre class="brush: css;">
+							.m-nav li.s-crt a, .m-nav li a:hover { height:40px; background-color:#f60;}
+							</pre> 
+                        </dd> 
+                        <dt>省略值为0时的单位</dt> 
+                        <dd> 
+                            <p>为节省不必要的字节同时也使阅读方便，我们将0px、0em、0%等值缩写为0。</p> 
+							<pre class="brush: css;">
+							.m-box { margin:0 10px; background-position:50% 0;} 
+							</pre> 
+                        </dd> 
+                        <dt>使用单引号</dt> 
+                        <dd> 
+                            <p>省略url引用中的引号，其他需要引号的地方使用单引号。</p> 
+							<pre class="brush: css;">
+							.m-box { background:url(bg.png);} 
+							.m-box:after { content:'.';} 
+							</pre> 
+                        </dd> 
+                        <dt>使用16进制表示颜色值</dt> 
+                        <dd> 
+                            <p>除非你需要透明度而使用rgba，否则都使用#f0f0f0这样的表示方法，并尽量缩写。</p> 
+							<pre class="brush: css;">
+							.m-box { color:#f00; background:rgba(0,0,0,0.5);} 
+							</pre> 
+                        </dd> 
+                        <dt>根据属性的重要性按顺序书写</dt> 
+                        <dd> 
+                            <p>只遵循横向顺序即可，先显示定位布局类属性，后盒模型等自身属性，最后是文本类及修饰类属性。</p> 
+                            <table> 
+                                <thead> 
+                                    <tr><th>&rarr;</th><th>显示属性</th><th>自身属性</th><th>文本属性和其他修饰</th></tr> 
+                                </thead> 
+                                <tbody> 
+                                    <tr><td>&nbsp;</td><td>display</td><td>width</td><td>font</td></tr> 
+                                    <tr><td>&nbsp;</td><td>visibility</td><td>height</td><td>text-align</td></tr> 
+                                    <tr><td>&nbsp;</td><td>position</td><td>margin</td><td>text-decoration</td></tr> 
+                                    <tr><td>&nbsp;</td><td>float</td><td>padding</td><td>vertical-align</td></tr> 
+                                    <tr><td>&nbsp;</td><td>clear</td><td>border</td><td>white-space</td></tr> 
+                                    <tr><td>&nbsp;</td><td>list-style</td><td>overflow</td><td>color</td></tr> 
+                                    <tr><td>&nbsp;</td><td>top</td><td>min-width</td><td>background </td></tr> 
+                                </tbody> 
+                            </table> 
+							<pre class="brush: css;">
+							.m-box { position:relative; width:600px; margin:0 auto 10px; text-align:center; color:#000;} 
+							</pre> 
+                            <p>如果属性间存在关联性，则不要隔开写。</p> 
+							<pre class="brush: css;">
+							/* 这里的height和line-height有关联性 */ 
+							.m-box { position:relative; height:20px; line-height:20px; padding:5px; color:#000;} 
+							</pre> 
+                        </dd> 
+                        <dt>私有在前，标准在后</dt> 
+                        <dd> 
+                            <p>先写带有浏览器私有标志的，后写W3C标准的。</p> 
+							<pre class="brush: css;">
+							.m-box { -webkit-box-shadow:0 0 0 #000; -moz-box-shadow:0 0 0 #000; box-shadow:0 0 0 #000;} 
+							</pre> 
+                        </dd> 
+                        <dt>注释格式：/* 注释文字 */</dt> 
+                        <dd> 
+                            <p>对选择器的注释统一写在被注释对象的上一行，对属性及值的注释写于分号后。</p> 
+                            <p>注释内容两端需空格，已确保即使在编码错误的情况下也可以正确解析样式。</p> 
+                            <p>在必要的情况下，可以使用块状注释，块状注释保持统一的缩进对齐。</p> 
+                            <p>原则上每个系列的样式都需要有一个注释，言简意赅的表明名称、用途、注意事项等。</p> 
+							<pre class="brush: css;">
+							/* 块状注释文字 
+							 * 块状注释文字 
+							 * 块状注释文字 
+							 */ 
+							.m-list { width:500px;} 
+							.m-list li { height:20px; line-height:20px;/* 这里是对line-height的一个注释 */overflow:hidden;} 
+							.m-list li a { color:#333;} 
+							/* 单行注释文字 */ 
+							.m-list li em { color:#666;} 
+							</pre> 
+                        </dd> 
+                        <dt>原则上不允许使用Hack</dt> 
+                        <dd> 
+                            <p>很多不兼容问题可以通过改变方法和思路来解决，并非一定需要Hack，根据经验你完全可以绕过某些兼容问题。</p> 
+                            <p>一种合理的结构和合理的样式，是极少会碰到兼容问题的。</p> 
+                            <p>由于浏览器自身缺陷，我们无法避开的时候，可以允许使用适当的Hack。</p> 
+                        </dd> 
+                        <dt>统一Hack方法</dt> 
+                        <dd> 
+                            <p>统一使用“*”和“_”分别对IE7和6进行Hack。如下代码所示：</p> 
+							<pre class="brush: css;">
+							/* IE7会显示灰色#888，IE6会显示白色#fff，其他浏览器显示黑色#000 */ 
+							.m-list { color:#000; *color:#888; _color:#fff;} 
+							</pre> 
+                        </dd> 
+                        <dt>建议并适当缩写值</dt> 
+                        <dd> 
+                            <p>“建议并适当”是因为缩写总是会包含一系列的值，而有时候我们并不希望设置某一值，反而造成了麻烦，那么这时候你可以不缩写，而是分开写。</p> 
+                            <p>当然，在一切可以缩写的情况下，请务必缩写，它最大的好处就是节省了字节，便于维护，并使阅读更加一目了然。</p> 
+                            <p>缩写方法请查阅css手册。</p> 
+                        </dd> 
+                        <dt>选择器权重</dt> 
+                        <dd> 
+                            <p>行内样式style = 1000</p> 
+                            <p>ID选择器的数量 = 100</p> 
+                            <p>类、伪类和属性选择器 = 10</p> 
+                            <p>类型选择器和伪元素选择器 = 1</p> 
+                            <table> 
+                                <tr><th>选择器</th><th>权重</th></tr> 
+                                <tr><td>style=”” </td><td>1000</td></tr> 
+                                <tr><td>#wrapper #content {}</td><td>200</td></tr> 
+                                <tr><td>#content .dateposted {}</td><td>110</td></tr> 
+                                <tr><td>div#content {}</td><td>101</td></tr> 
+                                <tr><td>#content p {}</td><td>101</td></tr> 
+                                <tr><td>#content {}</td><td>100</td></tr> 
+                                <tr><td>p.comment .dateposted {}</td><td>21</td></tr> 
+                                <tr><td>div.comment p {}</td><td>12</td></tr> 
+                                <tr><td>.comment p {}</td><td>11</td></tr> 
+                                <tr><td>p.comment {}</td><td>11</td></tr> 
+                                <tr><td>.comment {}</td><td>10</td></tr> 
+                                <tr><td>div p {}</td><td>2</td></tr> 
+                                <tr><td>p {}</td><td>1</td></tr> 
+                            </table> 
+                        </dd> 
+                    </dl> 
+                </div> 
+			</div>
+		</div>
+	</div>
+	<!-- content end -->
+	
+	<!-- footer begin -->
+	<div class="g-footer">
+		<div class="g-wrap">
+			<p>
+				<a href="http://wpa.qq.com/msgrd?v=3&uin=897102078&site=qq&menu=yes" target="_blank">技术支持</a>
+			</p>
+			<p>Copyright © 2013-2015 Aisino. All Rights Reserved.</p>
+		</div>
+	</div>
+	<!-- footer end -->
+	
+	<script type="text/javascript" src="../script/jquery.js"></script>
+	<script type="text/javascript" src="../script/syntax/shCore.js"></script>
+	<script type="text/javascript" src="../script/syntax/shBrushCss.js"></script>
+	<script type="text/javascript" src="../script/syntax/shBrushXml.js"></script>
+	<script type="text/javascript" src="../script/page.js"></script>
+</body>
+</html>

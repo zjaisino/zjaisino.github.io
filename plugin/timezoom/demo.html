@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="renderer" content="webkit" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="copyright" content="" />
+    <title>时间轴</title>
+    <link rel="stylesheet" type="text/css" href="../../style/base.css" />
+	<style type="text/css">
+	.m-timezoom { font-family:\5fae\8f6f\96c5\9ed1;}
+	.m-timezoom h3, .m-timezoom dt { color:#e71f19;}
+	.m-timezoom h3 { height:60px; line-height:60px; font-size:25px;}
+	.m-timezoom h3 span { cursor:pointer; height:100%;}
+	.m-timezoom h3 span, .m-timezoom h3 strong, .m-timezoom h3 i, .m-timezoom h3 em { float:left;}
+	.m-timezoom h3 i { line-height:0; font-size:0; border:5px dashed transparent; border-bottom-color:#e71f19; border-bottom-style:solid; margin:24px 0 0 10px; -webkit-transition:all .3s ease-out; -ms-transition:all .3s ease-out; transition:all .3s ease-out;}
+	.m-timezoom h3 span.z-crt i { margin-top:28px; border:5px dashed transparent; border-top-color:#e71f19; border-top-style:solid;}
+	.m-timezoom h3 em { width:60px; height:60px; margin-left:10px;}
+	.u-timezoom-ico { background:url(timezoom-ico.png) no-repeat center top;}
+	.u-timezoom-line { background:url(timezoom-line.png) repeat-y center top;}
+	.m-timezoom h3 strong { width:85px; height:100%; overflow:hidden;}
+	.m-timezoom dl, .m-timezoom h3 { display:none;}
+	.m-timezoom div { *margin-top:-4px; background:url(timezoom-line.png) repeat-y 144px top; *zoom:1;}
+	.m-timezoom dl { overflow:hidden; padding-bottom:40px; *zoom:1;}
+	.m-timezoom dt, .m-timezoom dd { float:left; display:inline;}
+	.m-timezoom dt { width:131px; text-align:right; padding-right:20px; line-height:24px; font-size:16px; background:url(timezoom-dot.png) no-repeat right 6px;}
+	.m-timezoom dd { padding-left:10px; line-height:25px;}
+	.m-timezoom dd h4 { font-size:20px;}
+	.m-timezoom dd p { color:#999;}
+	</style>
+</head>
+
+<body class="g-box">
+    <div class="g-wrap">
+		<!-- timezoom -->
+		<ul class="m-timezoom">
+			<li>
+				<h3>
+					<span><strong>2014年</strong><i></i></span>
+					<em class="u-timezoom-ico"></em>
+				</h3>
+				<div>
+					<dl>
+						<dt>03-05</dt>
+						<dd>
+							<h4>诺诺商城迎来交易开门红</h4>
+						</dd>
+					</dl>
+					<dl>
+						<dt>02-01</dt>
+						<dd>
+							<h4>Aisino一站式服务平台上线</h4>
+							<p>国内首个财税专业服务平台,试水服务在线化</p>
+						</dd>
+					</dl>
+					<dl>
+						<dt>01-05</dt>
+						<dd>
+							<h4>诺诺商城迎来交易开门红</h4>
+							<p>开创企业办公采购O2O模式</p>
+						</dd>
+					</dl>
+				</div>
+			</li>
+			<li>
+				<h3>
+					<span><strong>2014年</strong><i></i></span>
+					<em class="u-timezoom-ico"></em>
+				</h3>
+				<div>
+					<dl>
+						<dt>03-05</dt>
+						<dd>
+							<h4>诺诺商城迎来交易开门红</h4>
+						</dd>
+					</dl>
+					<dl>
+						<dt>02-01</dt>
+						<dd>
+							<h4>Aisino一站式服务平台上线</h4>
+							<p>国内首个财税专业服务平台,试水服务在线化</p>
+						</dd>
+					</dl>
+					<dl>
+						<dt>01-05</dt>
+						<dd>
+							<h4>诺诺商城迎来交易开门红</h4>
+							<p>开创企业办公采购O2O模式</p>
+						</dd>
+					</dl>
+				</div>
+			</li>
+			<li>
+				<h3>
+					<span><strong>2014年</strong><i></i></span>
+					<em class="u-timezoom-ico"></em>
+				</h3>
+				<div>
+					<dl>
+						<dt>03-05</dt>
+						<dd>
+							<h4>诺诺商城迎来交易开门红</h4>
+						</dd>
+					</dl>
+					<dl>
+						<dt>02-01</dt>
+						<dd>
+							<h4>Aisino一站式服务平台上线</h4>
+							<p>国内首个财税专业服务平台,试水服务在线化</p>
+						</dd>
+					</dl>
+					<dl>
+						<dt>01-05</dt>
+						<dd>
+							<h4>诺诺商城迎来交易开门红</h4>
+							<p>开创企业办公采购O2O模式</p>
+						</dd>
+					</dl>
+				</div>
+			</li>
+		</ul>
+		<!-- timezoom -->
+	</div>
+    <script type="text/javascript" src="../../script/jquery.js"></script>
+	<script type="text/javascript">
+	;(function($){
+		var status = false, delay = 800, speed = 2400;
+		$('.m-timezoom li:eq(0) h3').show();
+		$('.m-timezoom li:last dl:last').css({paddingBottom:0});
+		setTimeout(function(){
+			$('.m-timezoom dl').slideDown(speed, function(){
+				status = true;
+			});
+			$('.m-timezoom div').animate({paddingTop:40}, speed);
+			$('.m-timezoom li:gt(0) h3').slideDown(speed);
+		}, delay);
+		
+		$('.m-timezoom h3 span').click(function(){
+			if(status){
+				var p = $(this).parent('h3'), dl = p.next('div').children('dl'), last = p.parents('ul').children('li:last');
+				if(!dl.is(':animated')){
+					if(dl.is(':visible')){
+						$(this).addClass('z-crt');
+						dl.slideUp(delay);
+						(last.index() == p.parent().index()) && p.next('div').animate({paddingTop:0}, delay);
+					}
+					else{
+						$(this).removeClass('z-crt');
+						dl.slideDown(delay);
+						(last.index() == p.parent().index()) && p.next('div').animate({paddingTop:40}, delay);
+					}
+				}
+			}
+		});
+	})(jQuery);
+	</script>
+</body>
+</html>

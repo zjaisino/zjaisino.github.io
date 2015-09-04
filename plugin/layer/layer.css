@@ -1,0 +1,47 @@
+/* layer */
+.ui-layer { overflow:visible !important; position:absolute; display:none; padding:5px; background-color:#BFBFBF;}
+.ui-layer-box { position:relative; background-color:#fff; _zoom:1;}
+.ui-layer-body { *zoom:1;}
+.ui-layer-title { padding-left:10px; height:32px; line-height:32px; font-size:14px; color:#fff; font-weight:bold; background-color:#E81F18;}
+.ui-layer-button { display:inline-block; overflow:hidden; border-width:1px; border-style:solid; cursor:pointer;}
+.ui-layer-close { position:absolute; top:6px; right:10px; width:20px; height:20px; line-height:20px; border-color:#D60F08; border-radius:100%; text-align:center; font-size:20px; color:#E81F18; background-color:#E3A9A7;}
+.ui-layer-main:before, .ui-layer-main:after { content:''; display:table;}
+.ui-layer-main:after { clear:both;}
+.ui-layer-main { *zoom:1;}
+.ui-layer-tips { padding:0; border:1px solid #E82018;}
+.ui-layer-tips, .ui-layer-tips .ui-layer-body { background-color:#FFEBEB;}
+.ui-layer-tips .ui-layer-body, .ui-layer-tips .ui-layer-main { _display:inline;}
+.ui-layer-tips .ui-layer-box, .ui-layer-tips .ui-layer-main { _zoom:0;}
+.ui-layer-tips .ui-layer-main { color:#E82018;}
+.ui-layer-arrow, .ui-layer-arrow b, .ui-layer-arrow i { position:absolute;}
+.ui-layer-arrow b, .ui-layer-arrow i { overflow:hidden; line-height:0; font-size:0; border:6px dashed transparent;}
+.ui-layer-arrow-top { top:-12px; left:10px;}
+.ui-layer-arrow-top b, .ui-layer-arrow-top i { border-bottom-style:solid;}
+.ui-layer-arrow-top b { border-bottom-color:#E82018; top:0; left:0;}
+.ui-layer-arrow-top i { border-bottom-color:#FFEBEB; top:1px; left:0;}
+.ui-layer-arrow-right { right:-12px; top:10px;}
+.ui-layer-arrow-right b, .ui-layer-arrow-right i { border-left-style:solid;}
+.ui-layer-arrow-right b { border-left-color:#E82018; right:0; top:0;}
+.ui-layer-arrow-right i { border-left-color:#FFEBEB; right:1px; top:0;}
+.ui-layer-arrow-bottom { bottom:-12px; left:10px;}
+.ui-layer-arrow-bottom b, .ui-layer-arrow-bottom i { border-top-style:solid;}
+.ui-layer-arrow-bottom b { border-top-color:#E82018; bottom:0; left:0;}
+.ui-layer-arrow-bottom i { border-top-color:#FFEBEB; bottom:1px; left:0;}
+.ui-layer-arrow-left { left:-12px; top:10px;}
+.ui-layer-arrow-left b, .ui-layer-arrow-left i { border-right-style:solid;}
+.ui-layer-arrow-left b { border-right-color:#E82018; left:0; top:0;}
+.ui-layer-arrow-left i { border-right-color:#FFEBEB; left:1px; top:0;}
+.ui-layer-foot { padding:10px; text-align:right;}
+.ui-layer-foot .ui-layer-button { margin-left:10px; padding:0 10px; height:25px; text-align:center; line-height:25px;}
+.ui-layer-confirm { border-color:#D60F08; color:#fff; background-color:#E81F18;}
+.ui-layer-cancel { border-color:#CBCBCB; color:#333; background-color:#EAEBEF;}
+.ui-layer-mask { display:none; position:fixed; top:0; left:0; z-index:10000; width:100%; height:100%;}
+.ui-layer-mask div { position:relative; width:100%; height:100%; filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#4c000000,endColorstr=#4c000000); background:rgba(0,0,0,.3); background:transparent\;}
+.ui-layer-movemask { position:absolute; cursor:move; filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#7f000000,endColorstr=#7f000000); background:rgba(0,0,0,0.5); background:transparent\;}
+
+.t-layer-white { padding:0 10px; border:1px solid #A1C4EE; box-shadow:0 0 4px #DADBDD; background-color:#fff;}
+.t-layer-white .ui-layer-title { padding:0; height:40px; line-height:40px; border-bottom:1px solid #D8E6F3; color:#333; font-weight:normal; background-color:#fff;}
+.t-layer-white .ui-layer-close { top:4px; right:0; width:30px; height:30px; line-height:30px; border:0; font-size:25px; font-weight:normal; color:#A1C4EE; background:none;}
+.t-layer-white .ui-layer-confirm { background-color:#D8E6F3; border-color:#A1C4EE; color:#333;}
+.t-movemask-white { border:1px dashed #A1C4EE; filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#7fffffff,endColorstr=#7fffffff); background:rgba(255,255,255,0.5); background:transparent\;}
+.t-mask-white div { filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#4cffffff,endColorstr=#4cffffff); background:rgba(255,255,255,.3); background:transparent\;}

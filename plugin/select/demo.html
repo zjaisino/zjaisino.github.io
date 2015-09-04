@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="renderer" content="webkit" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="copyright" content="" />
+    <link rel="stylesheet" type="text/css" href="../../style/base.css" />
+	<style type="text/css">
+	body { padding:100px;}
+	
+	select, .ui-imitselect { font-size:12px;}
+	.ui-imitselect { float:left; display:inline; margin-right:10px; font-family:\5FAE\8F6F\96C5\9ED1; color:#666; height:24px; cursor:pointer; background-color:#fff; -webkit-user-select:none; -moz-user-select:none; -o-user-select:none;}
+	.ui-imitselect, .ui-imitselect dt b, .ui-imitselect dd { border:1px solid #ACACAC;}
+	.ui-imitselect dt i { -webkit-transition:all .3s ease-in; -ms-transition:all .3s ease-in; transition:all .3s ease-in;}
+	.ui-imitselect dt { height:100%; padding-right:28px; padding-left:5px; position:relative;}
+	.ui-imitselect dt strong, .ui-imitselect dt input { display:block; border:none; font-weight:normal; width:100%; text-align:left; height:24px; line-height:24px; overflow:hidden;}
+    .ui-imitselect dt input { line-height:normal; line-height:24px\9;}
+	.ui-imitselect dt b { position:absolute; width:18px; height:18px; top:2px; right:2px; background:url(sel.png) repeat-x;}
+	.ui-imitselect dt i { float:left; margin:8px 0 0 5px; line-height:0; font-size:0; border:4px dashed transparent; border-top-color:#666; border-top-style:solid;}
+	.ui-imitselect.s-dis { cursor:default;}
+	.ui-imitselect.s-dis dt, .ui-imitselect.s-dis dt input { background-color:#E2E2E2; color:#ABABAB;}
+	.ui-imitselect.s-dis, .ui-imitselect.s-dis dt b { border-color:#ACACAC;}
+	.ui-imitselect.s-dis dt b { background-image:url(sel-dis.png);}
+	.ui-imitselect.s-dis dt i { border-top-color:#ABABAB;}
+	.ui-imitselect dd { width:100%; display:none; text-align:left; border-radius:0 0 3px 3px; position:absolute; top:24px; left:-1px; z-index:1; background-color:#fff;}
+	.ui-imitselect.s-show dd { display:block;}
+	.ui-imitselect.s-show dt i { 
+        -webkit-transform:rotate(180deg);
+        -webkit-transform-origin:50% 2px;
+        -ms-transform:rotate(180deg);
+        -ms-transform-origin:50% 2px;
+        transform:rotate(180deg);
+        transform-origin:50% 2px;	
+     }
+	.ui-imitselect dd li { padding-left:5px; font-style:normal; height:24px; line-height:27px;}
+	.ui-imitselect dd li.s-crt { background-color:#F3F3F3;}
+	.ui-imitselect dd::-webkit-scrollbar { width:10px;}
+	.ui-imitselect dd::-webkit-scrollbar-track-piece { background-color:#efefef;}
+	.ui-imitselect dd::-webkit-scrollbar-thumb { background-color:#dfdfdf; border-radius:10px;}
+	.ui-imitselect dd::-webkit-scrollbar-thumb:hover { background-color:#cfcfcf;}
+	
+	.ui-animate { -webkit-animation-duration:1s; animation-duration:1s; -webkit-animation-fill-mode:both; animation-fill-mode:both;}
+	.ui-animate-flipInX { -webkit-animation-name:flipInX; animation-name:flipInX; -webkit-animation-duration:.5s; animation-duration:.5s;}
+	.ui-animate-bounceIn { -webkit-animation-name:bounceIn; animation-name:bounceIn;}
+	@-webkit-keyframes flipInX {
+		0% { -webkit-transform:perspective(400px) rotateX(30deg); transform:perspective(400px) rotateX(30deg); opacity:0;}
+		100% { -webkit-transform:perspective(400px) rotateX(0deg); transform:perspective(400px) rotateX(0deg); opacity:1;}
+	}
+	@keyframes flipInX {
+		0% { -webkit-transform:perspective(400px) rotateX(30deg); -ms-transform:perspective(400px) rotateX(30deg); transform:perspective(400px) rotateX(30deg); opacity:0;}
+		100% { -webkit-transform:perspective(400px) rotateX(0deg); -ms-transform:perspective(400px) rotateX(0deg); transform:perspective(400px) rotateX(0deg); opacity:1;}
+	}
+	@-webkit-keyframes bounceIn {
+		0% { opacity:0; -webkit-transform:scale(.6); transform:scale(.6);}
+		50% { opacity:1; -webkit-transform:scale(1); transform:scale(1);}
+		70% { -webkit-transform:scale(.9); transform:scale(.9);}
+		100% { -webkit-transform:scale(1); transform:scale(1);}
+	}
+	@keyframes bounceIn {
+		0% { opacity:0; -webkit-transform:scale(.3); -ms-transform:scale(.3); transform:scale(.3);}
+		50% { opacity:1; -webkit-transform:scale(1.1); -ms-transform:scale(1.1); transform:scale(1.1);}
+		70% { -webkit-transform:scale(.9); -ms-transform:scale(.9); transform:scale(.9);}
+		100% { -webkit-transform:scale(1); -ms-transform:scale(1); transform:scale(1);}
+	}
+	</style>
+</head>
+
+<body>
+	<select name="name1" class="f-dn" data-css="width:100px" data-init="getProv" data-value="1">
+		<option value="0">请选择</option>
+	</select>
+	<select name="name2" class="f-dn" data-css="width:100px" data-func="getCity" disabled="disabled">
+		<option value="0">请选择</option>
+	</select>
+	<select name="name3" class="f-dn" data-css="width:100px" data-func="getArea" disabled="disabled">
+		<option value="0">请选择</option>
+	</select>
+
+    <div style="clear:both; padding-top:20px;">
+        <select id="isedit" name="name4" class="f-dn" data-css="width:100px">
+            <option value=""></option>
+            <option value="菜单一">菜单一</option>
+            <option value="菜单二">菜单二</option>
+        </select>
+    </div>
+    
+    <div style="clear:both; padding-top:20px;">
+    <select name="name" class="f-dn" data-css="width:100px">
+		<option value="0">请选择</option>
+        <option value="菜单一">菜单一</option>
+        <option value="菜单二">菜单二</option>
+	</select>
+    <b id="bb">dfg</b>
+    </div>
+    
+    <script type="text/javascript" src="../../script/jquery.js"></script>
+    <script type="text/javascript" src="jquery.select.js"></script>
+    <script type="text/javascript" src="data.js"></script>
+	<script type="text/javascript">
+    $('#bb').click(function(){
+        $('select[name="name"] option:eq(1)').remove();
+        $('select[name="name"]').imitSelect();
+    });
+	$('select').imitSelect();
+    $('#isedit').imitSelect({isEdit:true});
+    function getProv(value){
+        if(value !== undefined){
+            if(value != '0'){
+                $('select[name="name2"]').data('func', 'getArea').imitSelect({isInit:false, disabled:false, value:value});
+            }
+            else{
+                $('select[name="name2"]').data('func', 'getArea').imitSelect({isInit:false, disabled:true, isNull:true});
+            }
+            $('select[name="name2"]').nextAll('select').imitSelect({isInit:false, disabled:true, isNull:true, hide:true});
+        }
+        else{
+            var option = '<option value="0">请选择</option>';
+            for(var k in GP){
+                option += '<option value="'+ (parseInt(k)+1) +'">'+ GP[k] +'</option>';
+            }
+            return option;
+        }
+    }
+    
+    function getCity(value){
+        if(value !== undefined){
+            if(value != '0'){
+                $('select[name="name3"]').imitSelect({isInit:false, disabled:false, value:value});
+            }
+            else{
+                $('select[name="name3"]').imitSelect({isInit:false, disabled:true, isNull:true});
+            }
+            $('select[name="name3"]').nextAll('select').imitSelect({isInit:false, disabled:true, isNull:true});
+        }
+        else{
+            var option = '<option value="0">请选择</option>';
+            var data = GT[$('select[name="name1"]').val()-1];
+            for(var k in data){
+                option += '<option value="'+ (parseInt(k)+1) +'">'+ data[k] +'</option>';
+            }
+            return option;
+        }
+    }
+    
+    function getArea(value){
+        if(value === undefined){
+            var option = '<option value="0">请选择</option>';
+			if($('select[name="name2"]').data('func') == 'getArea'){
+				var data = GT[$('select[name="name1"]').val()-1];
+			}
+			else{
+				var data = GC[$('select[name="name1"]').val()-1][$('select[name="name2"]').val()-1];
+			}
+            
+            for(var k in data){
+                option += '<option value="'+ (parseInt(k)+1) +'">'+ data[k] +'</option>';
+            }
+            return option;
+        }
+    }
+	</script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="renderer" content="webkit" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="copyright" content="" />
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../base.css" />
+	<style type="text/css">
+	div { position:absolute; width:50px; height:50px; background-color:#f60;}
+	.start { bottom:300px; left:300px; cursor:pointer;}
+	.end { top:200px; right:500px;}
+	</style>
+</head>
+
+<body>
+    <div class="start"></div>
+    <div class="end"></div>
+    <script type="text/javascript" src="../jquery.js"></script>
+    <script type="text/javascript" src="jquery.parabola.js"></script>
+	<script type="text/javascript">
+	$('.start').parabola({
+		target:{
+			left:$('.end').offset().left,
+			top:$('.end').offset().top
+		},
+		moveElement:function(){
+			return $('<div class="u-move"></div>').appendTo('body');
+		},
+		complete:function(){
+			
+		}
+	});
+	</script>
+</body>
+</html>

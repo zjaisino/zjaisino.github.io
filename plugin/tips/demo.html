@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<title></title>
+<link rel="stylesheet" type="text/css" href="../base.css" />
+<style type="text/css">
+body { padding:100px;}
+input { border:1px solid #f60; width:200px; height:25px; line-height:25px\9; padding:0 5px;}
+textarea { border:1px solid #f60; width:300px; height:150px; padding:5px;}
+</style>
+</head>
+
+<body>
+
+<!-- content begin -->
+<input type="text" name="uname" data-tips="请输入用户名" />
+<input type="password" name="upsw" data-tips="请输入密码" />
+<textarea data-tips="请输入留言信息..."></textarea>
+<!-- content end -->
+
+<script type="text/javascript" src="../jquery.js"></script>
+<script type="text/javascript">
+$.fn.tips = function(o){
+	o = $.extend({
+		isVal:true,
+		style:{}
+	}, o||{});
+	return this.each(function(){
+		var that = $(this), tips = that.data('tips');
+		if(!!tips){
+			if(o.isVal){
+				var arr = tips.split('|'), i = 0, len = arr.length;
+				for(i; i<len; i++){
+					arr[i] = $.trim(arr[i]);
+				}
+				if(len==1 || (!arr[1] && !arr[2])){
+					arr[1] = '#999';
+					arr[2] = '#333';
+				}
+				if(!arr[0]){return;}
+				$(this).focus(function(){
+					$.trim($(this).val()) == arr[0] && $(this).val('').css({color:arr[2]});
+				}).blur(function(){
+					($.trim($(this).val()) == '' || $.trim($(this).val()) == arr[0]) && $(this).val(arr[0]).css({color:arr[1]});
+				}).blur();
+			}
+			else{
+				var data = {
+					pleft:parseInt(that.css('paddingLeft')),
+					ptop:parseInt(that.css('paddingTop')),
+					height:that.outerHeight()
+				};
+				var style = $.extend({
+					position:'absolute',
+					left:data.pleft,
+					top:data.ptop,
+					height:data.height,
+					lineHeight:data.height+'px'
+				}, o.style),
+				tip = that.wrap('<strong />').after('<b>'+ tips +'</b>').parent().css({
+					position:'relative',
+					display:'inline-block',
+					width:'100%',
+					overflow:'hidden'
+				}).children('b');
+				if(that.is('textarea')){
+					style = $.extend(style, {lineHeight:'normal', height:'auto'});
+				}
+				tip.css(style).on('click', function(){
+					that.focus();
+				});
+				
+				that.on('focus', function(){
+					tip.stop(false, true).animate({left:data.pleft+10, opacity:'0.5'});
+				}).on('blur', function(){
+					var val = $.trim($(this).val());
+					if(val == tips || !val){
+						$(this).val('');
+						tip.animate({left:data.pleft, opacity:'1'});
+					}
+					else{
+						tip.hide();
+					}
+				}).on('keyup', function(){
+					$.trim($(this).val()) ? tip.hide() : tip.show();
+				}).blur();
+			}
+		}
+	});
+}
+$(function(){
+	$(':text, textarea').tips();
+	$(':password').tips({isVal:false});
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="renderer" content="webkit" />
+    <meta name="keywords" content="前端规范,前端页面开发,CSS方案,CSS规范,CSS框架,CSS代码库,CSS插件,网页制作" />
+    <meta name="description" content="本站包括了规范、框架、代码库等内容，致力于为前端开发人员提供高效率高质量的前端页面开发解决方案，提高多人协作效率，也为非专业人员提供快速制作网页的解决方案。" />
+    <meta name="copyright" content="浙江爱信诺航天信息有限公司" />
+    <title>css animate-框架-浙江爱信诺前端规范</title>
+    <link rel="stylesheet" type="text/css" href="../style/base.css" />
+    <link rel="stylesheet" type="text/css" href="../style/common.css" />
+    <link rel="stylesheet" type="text/css" href="../style/animate.css" />
+    <link rel="stylesheet" type="text/css" href="../style/page.css" />
+    <link rel="stylesheet" type="text/css" href="../plugin/layer/layer.css" />
+	<link type="text/css" rel="stylesheet" href="../style/syntax/shCore.css"/>
+	<link type="text/css" rel="stylesheet" href="../style/syntax/shThemeDefault.css"/>
+</head>
+
+<body class="g-body">
+    <!-- header begin -->
+    <div class="g-header">
+		<div class="m-htop g-wrap">
+			<i></i><i></i><i></i><i></i><i></i><i></i>
+			<h1 class="u-logo"><a href="../index.html">浙江爱信诺前端规范</a></h1>
+		</div>
+		<div class="m-nav">
+			<ul class="g-wrap">
+				<li><a href="../index.html">规范<i class="ui-icon ui-icon-tip"></i></a></li>
+				<li class="s-crt"><a href="../framework.html">框架<i class="ui-icon ui-icon-tip"></i></a></li>
+				<li><a href="../plugin.html">组件<i class="ui-icon ui-icon-tip"></i></a></li>
+			</ul>
+		</div>
+	</div>
+    <!-- header end -->
+	
+	<!-- content begin -->
+	<div class="g-content f-clearfix">
+		<div class="g-side">
+			<div class="m-menu" id="menu"> 
+				<ul> 
+					<li><a href="css-reset.html" title="css-reset">CSS Reset</a></li>
+					<li><a href="css-function.html" title="css-function">CSS Function</a></li>
+					<li><a href="css-edge.html" title="css-edge">CSS Edge</a></li> 
+					<!--<li><a href="css-ui.html" title="css-ui">CSS UI</a></li>-->
+					<li class="s-crt"><a href="css-animate.html" title="css-animate">CSS Animate</a></li>
+					<li class="l-last"><a href="html-template.html" title="html-template">HTML Template</a></li> 
+				</ul> 
+			</div>
+		</div>
+		<div class="g-main">
+			<div class="g-con">
+				<div class="m-article ui-animate ui-animate-fadeShow"> 
+                    <h2 class="u-ttb2">框架 - CSS Animate</h2> 
+                    <div class="u-line"><span class="linea"></span><span class="lineb"></span></div> 
+                    <dl> 
+                        <dt>概述</dt> 
+                        <dd> 
+                            <p>常见动画效果的集合，主要用于效果演示和参考，可以自定义也可以直接调用。</p> 
+                        </dd> 
+                        <dt>代码展示（部分）</dt> 
+                        <dd> 
+						<pre class="brush: css;">
+						@-webkit-keyframes bounce {
+							0%, 20%, 50%, 80%, 100% { -webkit-transform:translateY(0); transform:translateY(0);}
+							40% { -webkit-transform:translateY(-30px); transform:translateY(-30px);}
+							60% { -webkit-transform:translateY(-15px); transform:translateY(-15px);}
+						}
+						@keyframes bounce {
+							0%, 20%, 50%, 80%, 100% { -webkit-transform:translateY(0); -ms-transform:translateY(0); transform:translateY(0);}
+							40% { -webkit-transform:translateY(-30px); -ms-transform:translateY(-30px); transform:translateY(-30px);}
+							60% { -webkit-transform:translateY(-15px); -ms-transform:translateY(-15px); transform:translateY(-15px);}
+						}
+						.ui-animate-bounce { -webkit-animation-name:bounce; animation-name:bounce;}
+						</pre> 
+                        </dd> 
+                        <dt>使用方法</dt> 
+                        <dd> 
+                            <p>直接下载<a href="../style/animate.css">animate.css</a>并引入到页面中，因为很多动画用不到，也可以复制部分到样式表中</p>
+							<p>在元素上先挂上ui-animate类，然后再挂上相应动画的类</p>
+							<pre class="brush: css;">
+							/* 在base.css中已经定义了 */
+							.ui-animate { -webkit-animation-duration:1s; -webkit-animation-fill-mode:both; animation-duration:1s; animation-fill-mode:both;}
+							</pre>
+							<pre class="brush: xml;">
+							&lt;div class="m-nav"&gt;
+								&lt;li class="ui-animate ui-animate-bounce">&lt;/li&gt;
+							&lt;/div&gt;
+							</pre>
+                        </dd> 
+						<dt>动画列表</dt> 
+                        <dd> 
+							<ul class="m-animate-list f-clearfix">
+								<li>
+									<img src="../images/bounce.png" width="150" height="113" alt="bounce" />
+									<div>
+										<select>
+											<option value="bounce">bounce</option>
+											<option value="bounceShake">bounceShake</option>
+											<option value="bounceSwing">bounceSwing</option>
+											<option value="bounceTada">bounceTada</option>
+											<option value="bounceWobble">bounceWobble</option>
+											<option value="bounceIn">bounceIn</option>
+											<option value="bounceInDown">bounceInDown</option>
+											<option value="bounceInLeft">bounceInLeft</option>
+											<option value="bounceInRight">bounceInRight</option>
+											<option value="bounceInUp">bounceInUp</option>
+											<option value="bounceOut">bounceOut</option>
+											<option value="bounceOutDown">bounceOutDown</option>
+											<option value="bounceOutLeft">bounceOutLeft</option>
+											<option value="bounceOutRight">bounceOutRight</option>
+											<option value="bounceOutUp">bounceOutUp</option>
+										</select>
+										<span>
+											<button type="button" class="j-exec">执行</button><button type="button" class="j-code">代码</button>
+										</span>
+									</div>
+								</li>
+								<li>
+									<img src="../images/fade.png" width="150" height="113" alt="fade" />
+									<div>
+										<select>
+											<option value="fadeIn">fadeIn</option>
+											<option value="fadeInDown">fadeInDown</option>
+											<option value="fadeInLeft">fadeInLeft</option>
+											<option value="fadeInRight">fadeInRight</option>
+											<option value="fadeInUp">fadeInUp</option>
+											<option value="fadeOut">fadeOut</option>
+											<option value="fadeOutDown">fadeOutDown</option>
+											<option value="fadeOutLeft">fadeOutLeft</option>
+											<option value="fadeOutRight">fadeOutRight</option>
+											<option value="fadeOutUp">fadeOutUp</option>
+											<option value="fadeWarpIn">fadeWarpIn</option>
+											<option value="fadeWarpOut">fadeWarpOut</option>
+										</select>
+										<span>
+											<button type="button" class="j-exec">执行</button><button type="button" class="j-code">代码</button>
+										</span>
+									</div>
+								</li>
+								<li>
+									<img src="../images/rotate.png" width="150" height="113" alt="rotate" />
+									<div>
+										<select>
+											<option value="rotateIn">rotateIn</option>
+											<option value="rotateInDownLeft">rotateInDownLeft</option>
+											<option value="rotateInDownRight">rotateInDownRight</option>
+											<option value="rotateInUpLeft">rotateInUpLeft</option>
+											<option value="rotateInUpRight">rotateInUpRight</option>
+											<option value="rotateOut">rotateOut</option>
+											<option value="rotateOutDownLeft">rotateOutDownLeft</option>
+											<option value="rotateOutDownRight">rotateOutDownRight</option>
+											<option value="rotateOutUpLeft">rotateOutUpLeft</option>
+											<option value="rotateOutUpRight">rotateOutUpRight</option>
+										</select>
+										<span>
+											<button type="button" class="j-exec">执行</button><button type="button" class="j-code">代码</button>
+										</span>
+									</div>
+								</li>
+								<li>
+									<img src="../images/flip.png" width="150" height="113" alt="flip" />
+									<div>
+										<select>
+											<option value="flip">flip</option>
+											<option value="flipInX">flipInX</option>
+											<option value="flipInY">flipInY</option>
+											<option value="flipOutX">flipOutX</option>
+											<option value="flipOutY">flipOutY</option>
+										</select>
+										<span>
+											<button type="button" class="j-exec">执行</button><button type="button" class="j-code">代码</button>
+										</span>
+									</div>
+								</li>
+							</ul>
+                        </dd> 
+                    </dl> 
+                </div> 
+			</div>
+		</div>
+	</div>
+	<!-- content end -->
+	
+	<!-- footer begin -->
+	<div class="g-footer">
+		<div class="g-wrap">
+			<p>
+				<a href="http://wpa.qq.com/msgrd?v=3&uin=897102078&site=qq&menu=yes" target="_blank">技术支持</a>
+			</p>
+			<p>Copyright © 2013-2015 Aisino. All Rights Reserved.</p>
+		</div>
+	</div>
+	<!-- footer end -->
+	
+	<script type="text/javascript" src="../script/jquery.js"></script>
+    <script type="text/javascript" src="../plugin/layer/jquery.layer.js"></script>
+	<script type="text/javascript" src="../script/syntax/shCore.js"></script>
+	<script type="text/javascript" src="../script/syntax/shBrushCss.js"></script>
+	<script type="text/javascript" src="../script/syntax/shBrushXml.js"></script>
+	<script type="text/javascript" src="../script/page.js"></script>
+	<script type="text/javascript" src="../script/animate.js"></script>
+	<script type="text/javascript">
+	(function(){
+		var timer = null;
+		$('.j-exec').on('click', function(){
+			var val = $(this).parents('div').children('select').val();
+			var img = $(this).parents('li').children('img');
+			img.addClass('ui-animate ui-animate-'+val);
+			clearTimeout(timer);
+			timer = setTimeout(function(){
+				img.removeClass();
+			}, 1000);
+		});
+		$('.j-code').click(function(){
+			var val = $(this).parents('div').children('select').val();
+            $.layer({
+                content:'<pre style="padding:16px 20px 20px; font-size:14px;">'+Animate[val]+'</pre>',
+                width:'auto',
+                theme:'white',
+                cancel:{
+                    enable:true,
+                    text:'关闭'
+                }
+            });
+		});
+	})();
+	</script>
+</body>
+</html>

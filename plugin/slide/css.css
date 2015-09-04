@@ -1,0 +1,25 @@
+.ui-slidewrap { position:relative; overflow:hidden; height:100%;}
+.ui-slide-btn { display:none; position:absolute; top:50%; width:48px; height:60px; margin-top:-30px; cursor:pointer; background:url(slide-btn.png) no-repeat;}
+.ui-slide-prev { background-position:10px center; left:0;}
+.ui-slide-next { background-position:-67px center; right:0;}
+.ui-slide, .ui-slide li { height:100%; width:100%;}
+.ui-slide li a, .ui-slide li img { display:block;}
+.ui-slide { position:absolute; top:0; left:0; overflow:hidden; width:100%;}
+.ui-slide li { float:left; background:url(loading.gif) no-repeat center;}
+.ui-slide-list { position:absolute; bottom:20px; z-index:1; width:100%; text-align:center;}
+.ui-slide-list b { display:inline-block; overflow:hidden; margin-left:5px; width:11px; height:11px; border-radius:100%; cursor:pointer; font-size:0; background-color:#fff;}
+.ui-slide-list b.s-crt { background-color:#E50065;}
+.ui-slide-title { position:absolute; bottom:0; left:0; width:100%; height:40px; line-height:40px; filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#7f000000,endColorstr=#7f000000); background:rgba(0,0,0,0.5); background:transparent\;}
+.ui-slide-title span { padding-left:10px; color:#fff; font-size:14px;}
+.ui-slide-thumb { position:relative; margin-top:10px; height:64px;}
+.ui-slide-thumbtn { position:absolute; bottom:1px; width:15px; height:55px; background:#939393 url(slide-thumb-btn.png) no-repeat; cursor:pointer;}
+.ui-slide-thumb-prev { left:0; background-position:3px center;}
+.ui-slide-thumb-next { right:0; background-position:-39px center;}
+.ui-slide-thumbtn.s-dis { cursor:default; background-color:#ccc;}
+.ui-slide-thumb-img { overflow:hidden; position:relative; top:0; margin:0 25px; height:100%;}
+.ui-slide-thumb-img p { position:absolute; left:0; bottom:0;}
+.ui-slide-thumb-img p span { position:relative; float:left; margin-right:18px; padding:1px; width:95px; height:53px; border:1px solid #fff;}
+.ui-slide-thumb-img p img { display:block;}
+.ui-slide-thumb-img p span i { position:absolute; left:50%; top:-12px; margin-left:-6px; display:none; line-height:0; font-size:0; border:6px dashed transparent; border-bottom-style:solid; border-bottom-color:#ed7612;}
+.ui-slide-thumb-img p span.s-crt { border-color:#ed7612;}
+.ui-slide-thumb-img p span.s-crt i { display:block;}

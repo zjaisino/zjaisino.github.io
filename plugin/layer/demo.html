@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="renderer" content="webkit" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="copyright" content="" />
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../../base.css" />
+    <link rel="stylesheet" type="text/css" href="layer.css" />
+    <link rel="stylesheet" type="text/css" href="../../slide/css.css" />
+    <style type="text/css">
+    body { padding:100px;}
+    .button { width:100px; height:40px; border:1px solid #ccc;}
+
+    @-webkit-keyframes bounceSwing {
+        20% { -webkit-transform:rotate(15deg); transform:rotate(15deg);}
+        40% { -webkit-transform:rotate(-10deg); transform:rotate(-10deg);}
+        60% { -webkit-transform:rotate(5deg); transform:rotate(5deg);}
+        80% { -webkit-transform:rotate(-5deg); transform:rotate(-5deg);}
+        100% { -webkit-transform:rotate(0deg); transform:rotate(0deg);}
+    }
+    @keyframes bounceSwing {
+        20% { -webkit-transform:rotate(15deg); -ms-transform:rotate(15deg); transform:rotate(15deg);}
+        40% { -webkit-transform:rotate(-10deg); -ms-transform:rotate(-10deg); transform:rotate(-10deg);}
+        60% { -webkit-transform:rotate(5deg); -ms-transform:rotate(5deg); transform:rotate(5deg);}
+        80% { -webkit-transform:rotate(-5deg); -ms-transform:rotate(-5deg); transform:rotate(-5deg);}
+        100% { -webkit-transform:rotate(0deg); -ms-transform:rotate(0deg); transform:rotate(0deg);}
+    }
+    .ui-animate-bounceSwing { 
+        -webkit-transform-origin:top center; 
+        -webkit-animation-name:bounceSwing; 
+        -webkit-animation-delay:.5s;
+        -ms-transform-origin:top center; 
+        -ms-animation-name:bounceSwing; 
+        -ms-animation-delay:.5s;
+        transform-origin:top center;  
+        animation-name:bounceSwing;
+        animation-delay:.5s;
+    }
+    
+    .t-layer-slide { padding:0;}
+    .t-layer-slide .ui-layer-main { width:960px; height:440px;}
+    .t-mask-slide .ui-layer-close { border:none; background:none; color:#D9D9D9; font-size:25px; font-weight:normal;}
+    </style>
+</head>
+
+<body>
+    <button class="button" id="alert1">提示框</button>
+    <button class="button" id="confirm1">确定框</button>
+    <button class="button" id="iframe1">内嵌框架</button>
+    <div style="height:20px;"></div>
+    <button class="button" id="alert2">提示框</button>
+    <button class="button" id="confirm2">确定框</button>
+    <button class="button" id="iframe2">内嵌框架</button>
+	<div style="height:20px;"></div>
+	<button class="button" id="resize">更改大小</button>
+	<button class="button" id="slideUp">右下角上升显示</button>
+	<button class="button" id="close">关闭全部</button>
+    <div style="height:20px;"></div>
+    <button class="button" id="poptip">小提示</button>
+    <button class="button" id="tips2">小提示2</button>
+    <select id="tips3" style="border:1px solid #ccc; padding:5px 3px;">
+        <option value="">小提示3</option>
+        <option value="top">top</option>
+        <option value="right">right</option>
+        <option value="bottom">bottom</option>
+        <option value="left">left</option>
+    </select>
+    <div style="height:20px;"></div>
+    <button class="button" id="mask">弹出幻灯片</button>
+    <div style="height:20px;"></div>
+    <button class="button" id="self">自适应</button>
+    <div id="tips4" class="e-mt20 f-clearfix" style="margin-left:auto; margin-right:auto; width:1000px; height:190px; background-color:#efefef;">
+        <p class="e-pl20 e-mt20"><span>哈哈</span></p>
+        <p class="e-pl20 e-mt20"><span>哈哈</span></p>
+        <p class="e-pl20 e-mt20"><span>哈哈</span></p>
+        <p class="e-pl20 e-mt20"><span>哈哈</span></p>
+        <p class="e-pl20 e-mt20"><span>哈哈</span></p>
+    </div>
+    <p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>
+    <script type="text/javascript" src="../../jquery.js"></script>
+    <script type="text/javascript" src="jquery.layer.js"></script>
+    <script type="text/javascript" src="../../slide/jquery.slide.js"></script>
+    <style type="text/css">
+    .t-mask-photo div { opacity:.7; filter:alpha(opacity=70);}
+    .t-layer-photo .ui-layer-main, .m-photo, .m-slide, .m-ping, .m-photobox { height:100%;}
+    .t-layer-photo .ui-layer-main { position:relative;}
+    .m-photo { padding-right:300px;}
+    .m-photobox { width:100%;}
+    .m-slide { background-color:#cfcccf;}
+    .m-slide li { text-align:center;}
+    .m-slide li p { width:100%; display:table; height:100%; _position:relative;}
+    .m-slide li span { display:table-cell; vertical-align:middle; width:100%; _left:0; _position:absolute; _top:50%;}
+    .m-slide li img { height:70%; display:inline-block; _position:relative; _top:-50%;}
+    .m-slide .ui-slide-list { display:none;}
+    .m-ping { width:300px; position:absolute; right:0; top:0;}
+    </style>
+    <script type="text/javascript">
+    var photo = '<div class="m-photo">\
+                    <div class="m-photobox">\
+                        <div class="m-slide">\
+                            <ul class="ui-slide">\
+                                <li><p><span><img data-src="../../slide/photo/1.jpg" alt="1" /></span></p></li>\
+                                <li><p><span><img data-src="../../slide/photo/2.jpg" alt="2" /></span></p></li>\
+                                <li><p><span><img data-src="../../slide/photo/3.jpg" alt="3" /></span></p></li>\
+                                <li><p><span><img data-src="../../slide/photo/4.jpg" alt="4" /></span></p></li>\
+                                <li><p><span><img data-src="../../slide/photo/5.jpg" alt="5" /></span></p></li>\
+                                <li><p><span><img data-src="../../slide/photo/6.jpg" alt="6" /></span></p></li>\
+                            </ul>\
+                        </div>\
+                    </div>\
+                </div>\
+                <div class="m-ping">\
+                \
+                </div>';
+    $('#self').click(function(){
+        $.layer({
+            content:photo,
+            theme:'photo',
+            isFadein:false,
+            isMove:false,
+            isMaxSize:true,
+            isFixed:true,
+            title:{
+                enable:false
+            },
+            onShowEvent:function(main, index){
+                main.find('.m-slide').slide({width:100, resize:true, resizeRarget:main.find('.m-photobox'), title:true, auto:false, resizeCallback:function(){
+                }});
+            }
+        })
+    });
+    
+    $('#tips4 p').each(function(){
+        var span = $(this).children('span'), offset = span.offset(), mTop = 10, mLeft = span.width() + 10;
+        $.layer({
+            content:'<p style="padding:6px;">这是一个小测试</p>',
+            isTips:true,
+            isClose:false,
+            arrow:{
+                enable:true,
+                dir:'left'
+            },
+            close:{
+                enable:false
+            },
+            offset:{
+                top:offset.top - mTop,
+                left:offset.left + mLeft
+            },
+            onWinRisizeEvent:function(layer){
+                var that = this;
+                offset = span.offset();
+                layer.css(that.offset = {
+                    top:offset.top - mTop,
+                    left:offset.left + mLeft
+                });
+            }
+        });
+    });
+    
+    var html = '<ul class="ui-slide">\
+                    <li><a href="#"><img data-src="../../slide/5.jpg" width="960" height="440" alt="图片1" /></a></li>\
+                    <li><a href="#"><img data-src="../../slide/6.jpg" width="960" height="440" alt="图片2" /></a></li>\
+                    <li><a href="#"><img data-src="../../slide/5.jpg" width="960" height="440" alt="图片3" /></a></li>\
+                    <li><a href="#"><img data-src="../../slide/6.jpg" width="960" height="440" alt="图片4" /></a></li>\
+                    <li><a href="#"><img data-src="../../slide/5.jpg" width="960" height="440" alt="图片5" /></a></li>\
+                    <li><a href="#"><img data-src="../../slide/6.jpg" width="960" height="440" alt="图片6" /></a></li>\
+                </ul>';
+    
+    $('#mask').click(function(){
+        $.layer({
+            content:html,
+            width:960,
+            theme:'slide',
+            isFadein:false,
+            isCenter:true,
+            title:{
+                enable:false
+            },
+            onShowEvent:function(main, index){
+                var layer = main.parents('.ui-layer');
+                main.slide({width:960, button:{enable:true, isHide:false, auto:false}});
+                layer.find('.ui-layer-button').appendTo('.ui-layer-mask div');
+                this.onResizeEvent(main);
+            },
+            onResizeEvent:function(main){
+                var move = -(main.parents('.ui-layer').offset().left - 40);
+                main.children('.ui-slide-prev').animate({left:move})
+                    .end().children('.ui-slide-next').animate({right:move});
+            }
+        });
+    });
+    
+    verifyTips.timer = null;
+    function verifyTips(msg, target){
+        clearTimeout(verifyTips.timer);
+        var offset = target.offset();
+        layerHide('verifyTips');
+        $.layer({
+            content:'<p style="padding:5px;">'+ msg +'</p>',
+            isTips:true,
+            theme:'verifyTips',
+            close:{
+                enable:false
+            },
+            arrow:{
+                dir:'top'
+            },
+            offset:{
+                top:offset.top + target.height() - 3,
+                left:offset.left + 10
+            },
+            onShowEvent:function(main, index){
+                var layer = main.parents('.ui-layer'), speed = 120;
+                layer.queue('queue', [
+                    function(){
+                        layer.animate({left:'-=15px'}, speed).dequeue('queue');
+                    },
+                    function(){
+                        layer.animate({left:'+=25px'}, speed).dequeue('queue');
+                    },
+                    function(){
+                        layer.animate({left:'-=15px'}, speed).dequeue('queue');
+                    },
+                    function(){
+                        layer.animate({left:'+=5px'}, speed, function(){
+                            verifyTips.timer = setTimeout(function(){
+                                layerHide('verifyTips');
+                            }, 1500);
+                        }).dequeue('queue');
+                    }
+                ]).dequeue('queue');
+            }
+        });
+    }
+    
+    $('#poptip').on('click', function(){
+        var html = '<p class="e-pl10 e-mt10">\
+                       <span style="display:inline-block; width:60px; text-align:right;">姓名：</span>\
+                       <input type="text" id="name" style="border:1px solid #999; width:150px; height:25px; line-height:25px\9; padding:0 5px;" autocomplete="off">\
+                   </p>\
+                   <p class="e-pl10 e-mt10">\
+                       <span style="display:inline-block; width:60px; text-align:right;">手机号码：</span>\
+                       <input type="text" id="mobile" style="border:1px solid #999; width:150px; height:25px; line-height:25px\9; padding:0 5px;" autocomplete="off">\
+                   </p>';
+        $.layer({
+            content:html,
+            title:{
+                text:'小提示测试'
+            },
+            width:280,
+            confirm:{
+                enable:true,
+                callback:function(){
+                    var name = $('#name'), mobile = $('#mobile');
+                    if(!name.val()){
+                        verifyTips('姓名不能为空', name.focus());
+                        return false;
+                    }
+                    if(!mobile.val()){
+                        verifyTips('手机号码不能为空', mobile.focus());
+                        return false;
+                    }
+                    return true;
+                }
+            },
+            cancel:{
+                enable:true
+            },
+            onHideEvent:function(){
+                layerHide('verifyTips');
+            }
+        });
+    });
+    
+    $('#tips3').change(function(){
+        var that = $(this), offset = that.offset(), type = $(this).val();
+        layerHide();
+        if(!type) return;
+        $.layer.tips('<p style="padding:10px;">哈登36分火箭擒尼克斯 休城创18年来最佳开局</p>', type, {}, function(main, index){
+            var layer = main.parents('.ui-layer'), width = layer.outerWidth(), height = layer.outerHeight();
+            switch(type){
+                case 'top':
+                    offset.top = offset.top + that.height() + 23;
+                    break;
+                case 'right':
+                    offset.left = offset.left - width - 10;
+                    break;
+                case 'bottom':
+                    offset.top = offset.top - height - 10;
+                    break;
+                case 'left':
+                    offset.left = offset.left + that.width() + 20;
+                    break;
+            }
+            layer.css({top:offset.top, left:offset.left});
+        });
+    });
+    
+    $('#tips2').hover(function(){
+        var that = $(this), offset = that.offset();
+        $.layer({
+            content:'<p style="padding:10px; color:#fff;">哈登36分火箭擒尼克斯 休城创18年来最佳开局</p>',
+            theme:'blacktips',
+            isTips:true,
+            close:{
+                enable:false
+            },
+            offset:{
+                top:offset.top + that.height() + 10,
+                left:offset.left + that.width()/2
+            },
+            onShowEvent:function(main, index){
+                that.data('index', index);
+                var layer = main.parents('.ui-layer');
+                layer.css({marginLeft : -layer.outerWidth()/2}).addClass('ui-animate ui-animate-bounceSwing');
+            }
+        });
+    }, function(){
+        layerHide($(this).data('index'));
+    });
+    
+    $('#alert1').on('click', function(){
+        $.layer.alert('<p style="padding:10px;">这是一个提示框</p>', '', 280);
+    });
+    $('#confirm1').on('click', function(){
+        $.layer.confirm('<p style="padding:10px;">您确定要放弃治疗吗？</p>', function(){
+            location.href = 'http://www.yinjiazeng.com/';
+            return true;
+        }, '', 280);
+    });
+    $('#iframe1').on('click', function(){
+        $.layer.iframe('iframe/index.html', '内嵌浮动框架', 1100);
+    });
+    $('#alert2').on('click', function(){
+        $.layer({
+            content:'<iframe height="498" width="100%" src="http://player.youku.com/embed/XNzQyMjk2ODY0" frameborder=0 allowfullscreen></iframe>',
+            width:524,
+            isCenter:true,
+			title:{
+				text:'加载视频'
+			},
+			theme:'blue',
+            isMask:false
+        });
+    });
+    $('#confirm2').on('click', function(){
+        $.layer({
+            content:'<p style="padding:10px;">您确定要放弃治疗吗？</p>',
+            theme:'white',
+            width:280,
+            confirm:{
+                enable:true,
+                callback:function(){
+                    location.href = 'http://www.yinjiazeng.com/';
+                    return true;
+                }
+            },
+			offset:{
+				isOffset:false
+			},
+            cancel:{
+                enable:true,
+                text:'确定'
+            },
+			isMoveMask:true
+        });
+    });
+    $('#iframe2').on('click', function(){
+        $.layer({
+            iframe:{
+                enable:true,
+                src:'./a.html'
+            },
+            theme:'white',
+            isFadein:false,
+            title:{
+                text:'内嵌浮动框架'
+            },
+            width:960,
+			isMoveMask:true
+        });
+    });
+	$('#resize').on('click', function(){
+		$.layer({
+			content:'<div><button class="gao">变高</button> <button class="ai">变矮</button></div>',
+			title:{
+				text:'更改大小'
+			},
+			width:500,
+			isMoveMask:true,
+			onShowEvent:function(main, index){
+				main.find('.gao').on('click', function(){
+					$(this).parent().append('<p style="height:100px;">hahahahahahaha</p>');
+					layerResize(index);
+				});
+				main.find('.ai').on('click', function(){
+					$(this).parent().children('p:last').remove();
+					layerResize(index);
+				});
+			}
+		});
+	});
+	
+    var layers;
+	$('#slideUp').on('click', function(){
+		layers = $.layer({
+			content:'<p style="height:400px;"></p>',
+			title:{
+				text:'右下角显示'
+			},
+			offset:{
+				top:$(window).height(),
+				left:$(window).width() - 500
+			},
+			width:500,
+            theme:'boss',
+			isMove:false,
+			isMask:false,
+            isFixed:true,
+            close:{
+                text:'',
+                callback:function(main, index){
+                    var layer = main.parents('.ui-layer'), height = layer.outerHeight();
+                    if(layer.hasClass('s-show')){
+                        var mHeight = layers.options.offset.top - height;
+                        layer.animate({top:mHeight}, 800, function(){
+                            layers.offsetWinTop = mHeight - $(window).scrollTop();
+                            layer.removeClass('s-show');
+                        });
+                    }
+                    else{
+                        var mHeight = layers.options.offset.top - 37;
+                        layer.animate({top:mHeight}, 800, function(){
+                            layers.offsetWinTop = mHeight - $(window).scrollTop();
+                            layer.addClass('s-show');
+                        });
+                    } 
+                }
+            },
+			onShowEvent:function(main, index){
+				var layer = main.parents('.ui-layer'), height = layer.outerHeight(), that = this;
+                layer.animate({top:'-='+height+'px'}, 800, function(){
+                    layers.offsetWinTop -= height;
+                });
+			}
+		});
+	});
+
+	$('#close').on('click', function(){
+		layerHide();
+	});
+    </script>
+</body>
+</html>

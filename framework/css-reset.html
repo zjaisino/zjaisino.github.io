@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="renderer" content="webkit" />
+    <meta name="keywords" content="前端规范,前端页面开发,CSS方案,CSS规范,CSS框架,CSS代码库,CSS插件,网页制作" />
+    <meta name="description" content="本站包括了规范、框架、代码库等内容，致力于为前端开发人员提供高效率高质量的前端页面开发解决方案，提高多人协作效率，也为非专业人员提供快速制作网页的解决方案。" />
+    <meta name="copyright" content="浙江爱信诺航天信息有限公司" />
+    <title>css reset-框架-浙江爱信诺前端规范</title>
+    <link rel="stylesheet" type="text/css" href="../style/base.css" />
+    <link rel="stylesheet" type="text/css" href="../style/common.css" />
+    <link rel="stylesheet" type="text/css" href="../style/page.css" />
+	<link type="text/css" rel="stylesheet" href="../style/syntax/shCore.css"/>
+	<link type="text/css" rel="stylesheet" href="../style/syntax/shThemeDefault.css"/>
+</head>
+
+<body class="g-body">
+    <!-- header begin -->
+    <div class="g-header">
+		<div class="m-htop g-wrap">
+			<i></i><i></i><i></i><i></i><i></i><i></i>
+			<h1 class="u-logo"><a href="../index.html">浙江爱信诺前端规范</a></h1>
+		</div>
+		<div class="m-nav">
+			<ul class="g-wrap">
+				<li><a href="../index.html">规范<i class="ui-icon ui-icon-tip"></i></a></li>
+				<li class="s-crt"><a href="../framework.html">框架<i class="ui-icon ui-icon-tip"></i></a></li>
+				<li><a href="../plugin.html">组件<i class="ui-icon ui-icon-tip"></i></a></li>
+			</ul>
+		</div>
+	</div>
+    <!-- header end -->
+	
+	<!-- content begin -->
+	<div class="g-content f-clearfix">
+		<div class="g-side">
+			<div class="m-menu" id="menu"> 
+				<ul> 
+					<li class="s-crt"><a href="css-reset.html" title="css-reset">CSS Reset</a></li>
+					<li><a href="css-function.html" title="css-function">CSS Function</a></li>
+					<li><a href="css-edge.html" title="css-edge">CSS Edge</a></li> 
+					<!--<li><a href="css-ui.html" title="css-ui">CSS UI</a></li>-->
+					<li><a href="css-animate.html" title="css-animate">CSS Animate</a></li>
+					<li class="l-last"><a href="html-template.html" title="html-template">HTML Template</a></li> 
+				</ul> 
+			</div>
+		</div>
+		<div class="g-main">
+			<div class="g-con">
+				<div class="m-article ui-animate ui-animate-fadeShow"> 
+                    <h2 class="u-ttb2">框架 - CSS Reset</h2> 
+                    <div class="u-line"><span class="linea"></span><span class="lineb"></span></div> 
+                    <dl> 
+                        <dt>概述</dt> 
+                        <dd> 
+                            <p>重置样式，清除浏览器默认样式，并配置适合设计的基础样式（强调文本是否大多是粗体、主文字色，主链接色，主字体等）。</p> 
+                        </dd> 
+                        <dt>代码展示</dt> 
+                        <dd> 
+						<pre class="brush: css;">
+						html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+						a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp,
+						small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li,
+						fieldset, form, label, legend, keygen, table, caption, tbody, tfoot, thead, tr, th, td,
+						article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary,
+						time, mark, audio, video, input, textarea, select, button { margin:0; padding:0; border:none; outline:0; font-size:100%; font:inherit; vertical-align:baseline;}
+						html, body, form, fieldset, p, div, h1, h2, h3, h4, h5, h6 { -webkit-text-size-adjust:none;}
+						article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section { display:block;}
+						ol, ul { list-style:none;}
+						sup, sub {font-size:83%;}
+						blockquote, q { quotes:none;}
+						blockquote:before, blockquote:after, q:before, q:after { content:''; content:none;}
+						del { text-decoration:line-through;}
+						ins, u, s, a, a:hover { text-decoration:none;}
+						pre, code, kbd, samp { font-family:inherit;}
+						em, i, cite, var, address, dfn { font-style:normal;}
+						h1, h2, h3, h4, h5, h6, strong, b { font-weight:normal;}
+						html, body, fieldset, img, iframe, abbr { border:0;}
+						table { border-collapse:collapse; border-spacing:0;}
+						caption, th { text-align:left; font-weight:normal;}
+						textarea{ overflow:auto; resize:none;}
+						label, summary { cursor:default;}
+						a, button, label { cursor:pointer;}
+						body, textarea, input, button, select, keygen, legend { font:12px/1.14 tahoma,arial,\5b8b\4f53,helvetica,sans-serif; color:#666;}
+						html { _background-image:url(about:blank); _background-attachment:fixed;}
+						body { background:#fff;}
+						a { color:#666; -webkit-tap-highlight-color:rgba(0,0,0,0);}
+						a:hover { color:#666; text-decoration:underline;}
+						</pre> 
+                        </dd> 
+                        <dt>使用方法</dt> 
+                        <dd> 
+                            <p>直接代码复制到你的css文件顶部。</p> 
+                        </dd> 
+                    </dl> 
+                </div> 
+			</div>
+		</div>
+	</div>
+	<!-- content end -->
+	
+	<!-- footer begin -->
+	<div class="g-footer">
+		<div class="g-wrap">
+			<p>
+				<a href="http://wpa.qq.com/msgrd?v=3&uin=897102078&site=qq&menu=yes" target="_blank">技术支持</a>
+			</p>
+			<p>Copyright © 2013-2015 Aisino. All Rights Reserved.</p>
+		</div>
+	</div>
+	<!-- footer end -->
+	
+	<script type="text/javascript" src="../script/jquery.js"></script>
+	<script type="text/javascript" src="../script/syntax/shCore.js"></script>
+	<script type="text/javascript" src="../script/syntax/shBrushCss.js"></script>
+	<script type="text/javascript" src="../script/syntax/shBrushXml.js"></script>
+	<script type="text/javascript" src="../script/page.js"></script>
+</body>
+</html>

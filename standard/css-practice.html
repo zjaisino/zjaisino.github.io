@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="renderer" content="webkit" />
+    <meta name="keywords" content="前端规范,前端页面开发,CSS方案,CSS规范,CSS框架,CSS代码库,CSS插件,网页制作" />
+    <meta name="description" content="本站包括了规范、框架、代码库等内容，致力于为前端开发人员提供高效率高质量的前端页面开发解决方案，提高多人协作效率，也为非专业人员提供快速制作网页的解决方案。" />
+    <meta name="copyright" content="浙江爱信诺航天信息有限公司" />
+    <title>最佳实践-CSS规范-浙江爱信诺前端规范</title>
+    <link rel="stylesheet" type="text/css" href="../style/base.css" />
+    <link rel="stylesheet" type="text/css" href="../style/common.css" />
+    <link rel="stylesheet" type="text/css" href="../style/page.css" />
+	<link type="text/css" rel="stylesheet" href="../style/syntax/shCore.css"/>
+	<link type="text/css" rel="stylesheet" href="../style/syntax/shThemeDefault.css"/>
+</head>
+
+<body class="g-body">
+    <!-- header begin -->
+    <div class="g-header">
+		<div class="m-htop g-wrap">
+			<i></i><i></i><i></i><i></i><i></i><i></i>
+			<h1 class="u-logo"><a href="../index.html">浙江爱信诺前端规范</a></h1>
+		</div>
+		<div class="m-nav">
+			<ul class="g-wrap">
+				<li class="s-crt"><a href="../index.html">规范<i class="ui-icon ui-icon-tip"></i></a></li>
+				<li><a href="../framework.html">框架<i class="ui-icon ui-icon-tip"></i></a></li>
+				<li><a href="../plugin.html">组件<i class="ui-icon ui-icon-tip"></i></a></li>
+			</ul>
+		</div>
+	</div>
+    <!-- header end -->
+	
+	<!-- content begin -->
+	<div class="g-content f-clearfix">
+		<div class="g-side">
+			<div class="m-menu" id="menu"> 
+				<ul> 
+					<li><a href="css-sort.html" title="分类方法">分类方法</a></li>
+					<li><a href="css-name.html" title="命名规则">命名规则</a></li>
+					<li><a href="css-format.html" title="代码格式">代码格式</a></li>
+					<li><a href="css-optimize.html" title="优化方案">优化方案</a></li> 
+					<li class="s-crt"><a href="css-practice.html" title="最佳实践">最佳实践</a></li> 
+					<li class="l-last"><a href="css-error.html" title="典型错误">典型错误</a></li> 
+					<li><a href="css-bug.html" title="常见IEbug">常见IEbug</a></li> 
+				</ul> 
+			</div>
+		</div>
+		<div class="g-main">
+			<div class="g-con">
+				<div class="m-article ui-animate ui-animate-fadeShow"> 
+                    <h2 class="u-ttb2">CSS规范 - 最佳实践</h2> 
+                    <div class="u-line"><span class="linea"></span><span class="lineb"></span></div> 
+                    <dl> 
+                        <dt>最佳选择器写法（模块）</dt> 
+                        <dd> 
+						<pre class="brush: css;">
+						/* 这是某个模块 */ 
+						.m-nav {}/* 模块容器 */ 
+						.m-nav li, .m-nav a {}/* 先共性  优化组合 */ 
+						.m-nav li {}/* 后个性  语义化标签选择器 */ 
+						.m-nav a {}/* 后个性中的共性 按结构顺序 */ 
+						.m-nav a.a1 {}/* 后个性中的个性 */ 
+						.m-nav a.a2 {}/* 后个性中的个性 */ 
+						.m-nav .s-crt a {}/* 交互状态变化 */ 
+						.m-nav .s-crt a.a1 {} 
+						.m-nav .s-crt a.a2 {} 
+						.m-nav .btn {}/* 典型后代选择器 */ 
+						.m-nav .btn-1 {}/* 典型后代选择器扩展 */ 
+						.m-nav .btn-dis {}/* 典型后代选择器扩展（状态） */ 
+						.m-nav .btn.s-dis {}/* 作用同上，请二选一（如果可以不兼容IE6时使用） */ 
+						.m-nav .m-sch {}/* 控制内部其他模块位置 */ 
+						.m-nav .u-sel {}/* 控制内部其他元件位置 */ 
+						.m-nav-1 {}/* 模块扩展 */ 
+						.m-nav-1 li {} 
+						.m-nav-dis {}/* 模块扩展（状态） */ 
+						.m-nav.s-dis {}/* 作用同上，请二选一（如果可以不兼容IE6时使用） */ 
+						</pre> 
+                        </dd> 
+                        <dt>统一语义理解和命名</dt> 
+                        <dd> 
+                            <table> 
+                                <caption>布局（.g-）</caption> 
+                                <thead> 
+                                    <tr><th>语义</th><th>命名</th><th>简写</th></tr> 
+                                </thead> 
+                                <tbody> 
+									<tr><td>盒容器</td><td>body/wrap</td><td>body/wrap</td></tr> 
+                                    <tr><td>头部</td><td>header</td><td>hd</td></tr> 
+                                    <tr><td>内容</td><td>content</td><td>ct</td></tr> 
+									<tr><td>主栏</td><td>main</td><td>mn</td></tr> 
+                                    <tr><td>侧栏</td><td>sidecol</td><td>sdc</td></tr> 
+                                    <tr><td>尾部</td><td>footer</td><td>ft</td></tr> 
+                                </tbody> 
+                            </table> 
+                            <table> 
+                                <caption>模块（.m-）、元件（.u-）</caption> 
+                                <thead> 
+                                    <tr><th>语义</th><th>命名</th><th>简写</th></tr> 
+                                </thead> 
+                                <tbody> 
+                                    <tr><td>导航</td><td>nav</td><td>nav</td></tr> 
+                                    <tr><td>子导航</td><td>subnav</td><td>snav</td></tr> 
+                                    <tr><td>面包屑</td><td>crumb</td><td>crm</td></tr> 
+                                    <tr><td>菜单</td><td>menu</td><td>menu</td></tr> 
+                                    <tr><td>选项卡</td><td>tab</td><td>tab</td></tr> 
+                                    <tr><td>标题区</td><td>head/title</td><td>hd/tt</td></tr> 
+                                    <tr><td>内容区</td><td>body/content</td><td>bd/ct</td></tr> 
+                                    <tr><td>列表</td><td>list</td><td>lst</td></tr> 
+                                    <tr><td>表格</td><td>table</td><td>tb</td></tr> 
+                                    <tr><td>表单</td><td>form</td><td>fm</td></tr> 
+                                    <tr><td>热点</td><td>hot</td><td>hot</td></tr> 
+                                    <tr><td>排行</td><td>top</td><td>top</td></tr> 
+                                    <tr><td>登录</td><td>login</td><td>log</td></tr> 
+                                    <tr><td>标志</td><td>logo</td><td>logo</td></tr> 
+                                    <tr><td>广告</td><td>advertise</td><td>ad</td></tr> 
+                                    <tr><td>搜索</td><td>search</td><td>sch</td></tr> 
+                                    <tr><td>幻灯</td><td>slide</td><td>sld</td></tr> 
+                                    <tr><td>提示</td><td>tips</td><td>tips</td></tr> 
+                                    <tr><td>帮助</td><td>help</td><td>help</td></tr> 
+                                    <tr><td>新闻</td><td>news</td><td>news</td></tr> 
+                                    <tr><td>下载</td><td>download</td><td>dld</td></tr> 
+                                    <tr><td>注册</td><td>regist</td><td>reg</td></tr> 
+                                    <tr><td>投票</td><td>vote</td><td>vote</td></tr> 
+                                    <tr><td>版权</td><td>copyright</td><td>cprt</td></tr> 
+                                    <tr><td>结果</td><td>result</td><td>rst</td></tr> 
+                                    <tr><td>标题</td><td>title</td><td>tt</td></tr> 
+                                    <tr><td>按钮</td><td>button</td><td>btn</td></tr> 
+                                    <tr><td>输入</td><td>input</td><td>ipt</td></tr> 
+                                </tbody> 
+                            </table> 
+                            <table> 
+                                <caption>功能（.f-）</caption> 
+                                <thead> 
+                                    <tr><th>语义</th><th>命名</th><th>简写</th></tr> 
+                                </thead> 
+                                <tbody> 
+                                    <tr><td>浮动清除</td><td>clearboth</td><td>cb</td></tr> 
+                                    <tr><td>向左浮动</td><td>floatleft</td><td>fl</td></tr> 
+                                    <tr><td>向右浮动</td><td>floatright</td><td>fr</td></tr> 
+                                    <tr><td>内联块级</td><td>inlineblock</td><td>ib</td></tr> 
+                                    <tr><td>文本居中</td><td>textaligncenter</td><td>tac</td></tr> 
+                                    <tr><td>文本居右</td><td>textalignright</td><td>tar</td></tr> 
+                                    <tr><td>文本居左</td><td>textalignleft</td><td>tal</td></tr> 
+                                    <tr><td>垂直居中</td><td>verticalalignmiddle</td><td>vam</td></tr> 
+                                    <tr><td>溢出隐藏</td><td>overflowhidden</td><td>oh</td></tr> 
+                                    <tr><td>完全消失</td><td>displaynone</td><td>dn</td></tr> 
+                                    <tr><td>字体大小</td><td>fontsize</td><td>fs</td></tr> 
+                                    <tr><td>字体粗细</td><td>fontweight</td><td>fw</td></tr> 
+                                </tbody> 
+                            </table>
+							<table> 
+                                <caption>边距（.e-）</caption> 
+                                <thead> 
+                                    <tr><th>语义</th><th>命名</th><th>简写</th></tr> 
+                                </thead> 
+                                <tbody> 
+                                    <tr><td>上外边距10px</td><td>mt10</td><td>mt10</td></tr> 
+                                    <tr><td>右外边距10px</td><td>mr10</td><td>mr10</td></tr> 
+									<tr><td>下外边距10px</td><td>mb10</td><td>mb10</td></tr> 
+                                    <tr><td>左外边距10px</td><td>ml10</td><td>ml10</td></tr> 
+									<tr><td>上内边距10px</td><td>pt10</td><td>pt10</td></tr> 
+                                    <tr><td>右内边距10px</td><td>pr10</td><td>pr10</td></tr> 
+									<tr><td>下内边距10px</td><td>pb10</td><td>pb10</td></tr> 
+                                    <tr><td>左内边距10px</td><td>pl10</td><td>pl10</td></tr> 
+                                </tbody> 
+                            </table> 
+                            <table> 
+                                <caption>皮肤（.t-）</caption> 
+                                <thead> 
+                                    <tr><th>语义</th><th>命名</th><th>简写</th></tr> 
+                                </thead> 
+                                <tbody> 
+                                    <tr><td>字体颜色</td><td>fontcolor</td><td>fc</td></tr> 
+                                    <tr><td>背景</td><td>background</td><td>bg</td></tr> 
+                                    <tr><td>背景颜色</td><td>backgroundcolor</td><td>bgc</td></tr> 
+                                    <tr><td>背景图片</td><td>backgroundimage</td><td>bgi</td></tr> 
+                                    <tr><td>背景定位</td><td>backgroundposition</td><td>bgp</td></tr> 
+                                    <tr><td>边框颜色</td><td>bordercolor</td><td>bdc</td></tr> 
+                                </tbody> 
+                            </table> 
+                            <table> 
+                                <caption>状态（.s-）</caption> 
+                                <thead> 
+                                    <tr><th>语义</th><th>命名</th><th>简写</th></tr> 
+                                </thead> 
+                                <tbody> 
+                                    <tr><td>选中</td><td>selected</td><td>sel</td></tr> 
+                                    <tr><td>当前</td><td>current</td><td>crt</td></tr> 
+                                    <tr><td>显示</td><td>show</td><td>show</td></tr> 
+                                    <tr><td>隐藏</td><td>hide</td><td>hide</td></tr> 
+                                    <tr><td>打开</td><td>open</td><td>open</td></tr> 
+                                    <tr><td>关闭</td><td>close</td><td>close</td></tr> 
+                                    <tr><td>出错</td><td>error</td><td>err</td></tr> 
+                                    <tr><td>不可用</td><td>disabled</td><td>dis</td></tr> 
+                                </tbody> 
+                            </table> 
+                        </dd> 
+                    </dl> 
+                </div> 
+			</div>
+		</div>
+	</div>
+	<!-- content end -->
+	
+	<!-- footer begin -->
+	<div class="g-footer">
+		<div class="g-wrap">
+			<p>
+				<a href="http://wpa.qq.com/msgrd?v=3&uin=897102078&site=qq&menu=yes" target="_blank">技术支持</a>
+			</p>
+			<p>Copyright © 2013-2015 Aisino. All Rights Reserved.</p>
+		</div>
+	</div>
+	<!-- footer end -->
+	
+	<script type="text/javascript" src="../script/jquery.js"></script>
+	<script type="text/javascript" src="../script/syntax/shCore.js"></script>
+	<script type="text/javascript" src="../script/syntax/shBrushCss.js"></script>
+	<script type="text/javascript" src="../script/syntax/shBrushXml.js"></script>
+	<script type="text/javascript" src="../script/page.js"></script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="renderer" content="webkit" />
+    <meta name="keywords" content="前端规范,前端页面开发,CSS方案,CSS规范,CSS框架,CSS代码库,CSS插件,网页制作" />
+    <meta name="description" content="本站包括了规范、框架、代码库等内容，致力于为前端开发人员提供高效率高质量的前端页面开发解决方案，提高多人协作效率，也为非专业人员提供快速制作网页的解决方案。" />
+    <meta name="copyright" content="浙江爱信诺航天信息有限公司" />
+    <title>分类方法-CSS规范-浙江爱信诺前端规范</title>
+    <link rel="stylesheet" type="text/css" href="../style/base.css" />
+    <link rel="stylesheet" type="text/css" href="../style/common.css" />
+    <link rel="stylesheet" type="text/css" href="../style/page.css" />
+	<link type="text/css" rel="stylesheet" href="../style/syntax/shCore.css"/>
+	<link type="text/css" rel="stylesheet" href="../style/syntax/shThemeDefault.css"/>
+</head>
+
+<body class="g-body">
+    <!-- header begin -->
+    <div class="g-header">
+		<div class="m-htop g-wrap">
+			<i></i><i></i><i></i><i></i><i></i><i></i>
+			<h1 class="u-logo"><a href="../index.html">浙江爱信诺前端规范</a></h1>
+		</div>
+		<div class="m-nav">
+			<ul class="g-wrap">
+				<li class="s-crt"><a href="../index.html">规范<i class="ui-icon ui-icon-tip"></i></a></li>
+				<li><a href="../framework.html">框架<i class="ui-icon ui-icon-tip"></i></a></li>
+				<li><a href="../plugin.html">组件<i class="ui-icon ui-icon-tip"></i></a></li>
+			</ul>
+		</div>
+	</div>
+    <!-- header end -->
+	
+	<!-- content begin -->
+	<div class="g-content f-clearfix">
+		<div class="g-side">
+			<div class="m-menu" id="menu"> 
+				<ul> 
+					<li class="s-crt"><a href="css-sort.html" title="分类方法">分类方法</a></li>
+					<li><a href="css-name.html" title="命名规则">命名规则</a></li>
+					<li><a href="css-format.html" title="代码格式">代码格式</a></li>
+					<li><a href="css-optimize.html" title="优化方案">优化方案</a></li> 
+					<li><a href="css-practice.html" title="最佳实践">最佳实践</a></li> 
+					<li><a href="css-error.html" title="典型错误">典型错误</a></li> 
+					<li class="l-last"><a href="css-bug.html" title="常见IEbug">常见IEbug</a></li> 
+				</ul> 
+			</div>
+		</div>
+		<div class="g-main">
+			<div class="g-con">
+				<div class="m-article ui-animate ui-animate-fadeShow"> 
+                    <h2 class="u-ttb2">CSS规范 - 分类方法</h2> 
+                    <div class="u-line"><span class="linea"></span><span class="lineb"></span></div> 
+                    <dl> 
+                        <dt>CSS文件的分类和引用顺序</dt> 
+                        <dd> 
+                            <p>通常，一个项目我们只引用一个CSS，但是对于较大的项目，我们需要把CSS文件进行分类。</p> 
+                            <p>我们按照CSS的性质和用途，将CSS文件分成“基层样式”、“公共样式”、“页面样式”，并以此顺序引用（按需求决定是否添加版本号）。</p> 
+                            <ol> 
+                                <li>基层样式：包括了以下几个部分：“样式重置、功能、边距、ui组件”。</li> 
+                                <li>公共样式：包括了以下几个部分：“头部、脚注、页面中重复用到的地方”。</li> 
+                                <li>页面样式：页面独有的样式</li> 
+                            </ol> 
+							<pre class="brush: xml;">
+							&lt;link href="style/base.css" rel="stylesheet" type="text/css" /&gt; 
+							&lt;link href="style/common.css" rel="stylesheet" type="text/css" /&gt; 
+							&lt;link href="style/index.css" rel="stylesheet" type="text/css" /&gt; 
+							</pre> 
+                        </dd> 
+                        <dt>CSS内部的分类和使用顺序</dt> 
+                        <dd> 
+                            <ol> 
+								<li>统一文档编码：文档顶部以@charset "utf-8";开始</li>
+								<li>页面注释：包含了爱信诺版权、文件名、创建人、更新人、版本、详细说明，每次更新完样式表都需要修改更新人、更新时间以及版本号！</li>
+                                <li>重置（reset）和默认（base）（tags）：消除默认样式和浏览器差异，并设置部分标签的初始样式，以减少后面的重复劳动！你可以根据你的网站需求设置！</li> 
+                                <li>统一处理：建议在这个位置统一调用背景图（这里指多个布局或模块或元件共用的图）和清除浮动（这里指通用性较高的布局、模块、元件内的清除）等统一设置处理的样式！</li> 
+                                <li>布局（grid）（.g-）：将页面分割为几个大块，通常有头部、主体、主栏、侧栏、尾部等！</li> 
+                                <li>模块（module）（.m-）：通常是一个语义化的可以重复使用的较大的整体！比如导航、登录、注册、各种列表、评论、搜索等！</li> 
+                                <li>元件（unit）（.u-）：通常是一个不可再分的较为小巧的个体，通常被重复用于各种模块中！比如按钮、输入框、loading、图标等！</li> 
+                                <li>功能（function）（.f-）：为方便一些常用样式的使用，我们将这些使用率较高的样式剥离出来，按需使用，通常这些选择器具有固定样式表现，比如清除浮动等！不可滥用！</li> 
+                                <li>边距（edge）(.e-) ：定义布局中所使用的内边距以及外边距！</li>
+								<li>皮肤（theme）（.t-）：如果你需要把皮肤型的样式抽离出来，通常为文字色、背景色（图）、边框色等，非换肤型网站通常只提取文字色！非换肤型网站不可滥用此类！</li> 
+                                <li>状态（status）（.s-）：为状态类样式加入前缀，统一标识，方便识别，她只能组合使用或作为后代出现（.u-ipt.s-dis{}，.m-list li.s-sel{}），具体详见<a href="css-name.html">命名规则</a>的扩展相关项。</li> 
+                            </ol> 
+                            <p>功能类和皮肤类样式为表现化的样式，请不要滥用！以上顺序可以按需求适当调整。</p> 
+                            <p>以上分类的命名方法详见<a href="css-name.html">命名规则</a></p> 
+							<pre class="brush: css;">
+							@charset "utf-8";
+							/* 顶部注释 */
+							/**
+							 * Copyright(C), 2013-2014 ZheJiang Aisino Spaceflight Technology Co., Ltd.
+							 * FileName: 文件名.css
+							 * Author: 创建人姓名[日期] 例如：Aniu[date:2014-04-25 10:25]
+							 * Update: 更新人姓名[日期]
+							 * Version: 版本号  例如：v1.0.7
+							 * Description: 文档说明
+							 */
+							/* 重置 */ 
+							div, p, ul, ol, li { margin:0; padding:0;} 
+							/* 默认 */ 
+							strong, em { font-style:normal; font-weight:bold;} 
+							/* 统一调用背景图 */ 
+							.m-logo a, .m-nav a, .m-nav em { background:url(images/sprite.png) no-repeat 9999px 9999px;} 
+							/* 统一清除浮动 */ 
+							.g-bdc:after, .m-dimg ul:after, .u-tab:after { display:block; visibility:hidden; clear:both; height:0; overflow:hidden; content:'.';} 
+							.g-bdc, .m-dimg ul, .u-tab { zoom:1;} 
+							/* 布局 */ 
+							.g-sidecol { float:left; width:300px;} 
+							/* 模块 */ 
+							.m-logo { width:200px; height:50px;} 
+							/* 元件 */ 
+							.u-btn { height:20px; border:1px solid #333;} 
+							/* 功能 */ 
+							.f-tac { text-align:center;} 
+							/* 边距 */ 
+							.e-mr20 { margin-right:20px;} 
+							/* 皮肤 */ 
+							.t-fc, a.t-fc:hover { color:#fff;} 
+							/* 状态 */ 
+							.m-nav li.s-crt { background-color:#f60;} 
+							</pre> 
+                        </dd> 
+                    </dl> 
+                </div> 
+			</div>
+		</div>
+	</div>
+	<!-- content end -->
+	
+	<!-- footer begin -->
+	<div class="g-footer">
+		<div class="g-wrap">
+			<p>
+				<a href="http://wpa.qq.com/msgrd?v=3&uin=897102078&site=qq&menu=yes" target="_blank">技术支持</a>
+			</p>
+			<p>Copyright © 2013-2015 Aisino. All Rights Reserved.</p>
+		</div>
+	</div>
+	<!-- footer end -->
+	
+	<script type="text/javascript" src="../script/jquery.js"></script>
+	<script type="text/javascript" src="../script/syntax/shCore.js"></script>
+	<script type="text/javascript" src="../script/syntax/shBrushCss.js"></script>
+	<script type="text/javascript" src="../script/syntax/shBrushXml.js"></script>
+	<script type="text/javascript" src="../script/page.js"></script>
+</body>
+</html>

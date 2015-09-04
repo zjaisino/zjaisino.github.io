@@ -1,0 +1,14 @@
+@charset "utf-8";
+
+/**
+ * @fileName lottery.css
+ * @author Aniu[date:2015-08-24 14:58]
+ * @update Aniu[date:2015-08-24 14:58]
+ * @version v1.1
+ * @description none
+ */
+ 
+.ui-lottery { position:relative; height:100%;}
+.ui-lottery li { position:absolute;}
+.ui-lottery-btn { z-index:1; position:absolute; cursor:pointer;}
+.ui-lottery-btn.s-dis { cursor:default;}

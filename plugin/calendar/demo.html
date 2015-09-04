@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="gb2312" />
+<title></title>
+<link rel="stylesheet" type="text/css" href="../base.css" />
+<script type="text/javascript" src="../jquery.js"></script>
+<style type="text/css">
+.u-calendar { width:218px; -webkit-user-select:none; margin:100px auto 0;}
+.u-calendar-header { height:30px; line-height:30px;}
+.u-calendar-header div { float:left; display:inline;}
+.u-calendar-prev,.u-calendar-next { width:30px; text-align:center; cursor:pointer;}
+div.u-calendar-next { float:right;}
+.u-calendar-date { width:158px; text-align:center;}
+.u-calendar-body tr, .u-calendar-body td, .u-calendar-body th { border:1px solid #ccc;}
+.u-calendar-body td, .u-calendar-body th { width:30px; height:30px; text-align:center; vertical-align:middle;}
+.u-calendar-body td.z-c,.u-calendar-body td.z-c:hover { background-color:#ed7612; color:#fff;}
+.u-calendar-body td { color:#999;}
+.u-calendar-body .td-day { color:#333; cursor:pointer;}
+.u-calendar-body .td-day:hover { background-color:#999; color:#fff;}
+</style>
+</head>
+
+<body>
+<div class="u-calendar">
+    <div class="u-calendar-header">
+        <div class="u-calendar-prev" onclick="calendar.prevMonth();">&lt;&lt;</div>
+        <div class="u-calendar-date">
+            <strong>简易小日历</strong>
+            <span><em class="u-calendar-year"></em>-<em class="u-calendar-month"></em></span>
+        </div>
+        <div class="u-calendar-next" onclick="calendar.nextMonth();">&gt;&gt;</div>
+    </div>
+    <table class="u-calendar-body"></table>
+    <div class="u-calendar-footer"></div>
+</div>
+<script type="text/javascript">
+
+var calendar = {
+    /**
+     * @func : 初始化日历
+     * @param : year:年
+     * @param : month:月
+     */
+    init:function(year, month){
+		if(year === undefined){
+			var date = new Date();
+			year = date.getFullYear();
+			month = date.getMonth() + 1;
+		}
+		this.initDate(year, month);
+		this.getYear = year;
+		this.getMonth = month;
+        month -= 1;
+        var dayCount = [31, (this.isLeap(year) ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
+            date = new Date(year, month, 1),
+            currentDay = date.getDay(),
+            indentCell = 0,
+            allCell = 43,
+            dayStart = 0;
+        for(var i = 0; i < 7; i++){
+            dayStart == 7 && (dayStart = 0);
+            dayStart == currentDay && (indentCell = i);
+            dayStart++;
+        }
+        var validCell = indentCell + dayCount[month];
+        
+        this.createFrame(year, month, validCell, indentCell, allCell);
+        this.selectDay();
+    },
+    /**
+     * @func : 创建骨架
+     * @param : year:年
+     * @param : month:月
+     * @param : validCell:有效单元格
+     * @param : indentCell:缩进的单元格
+     * @param : allCell:全部单元格
+     */
+    createFrame:function(year, month, validCell, indentCell, allCell){
+        var tbody = '<tr>',
+            thead = '<thead><tr><th>日</th><th>一</th><th>二</th><th>三</th><th>四</th><th>五</th><th>六</th></tr></thead>',
+            today = this.isToday(year, month),
+            that = this,
+            createDay = function(i){
+                var current = today == (i - indentCell) ? ' z-c' : '';
+                tbody = tbody + '<td class="td-day'+current+'">' + that.formatNum((i - indentCell)) + '</td>';
+            },
+            otherDay = function(i){
+                var type = i > validCell ? 'td-back' : 'td-front';
+                tbody += '<td class="'+type+'"></td>';
+            }
+        for(var i = 1; i < allCell; i++){
+            (i>1 && ((i-1) % 7 == 0)) && (tbody += '<tr>');
+            (i>indentCell && i<=validCell) ? createDay(i) : otherDay(i);
+            (i % 7 == 0) && (tbody += '</tr>');
+        }
+        $('.u-calendar-body').html(thead+'<tbody>'+tbody+'</tbody>');
+        this.fillDay(); 
+    },      
+    /**
+     * @func : 填充空日期
+     */
+    fillDay:function(){
+        var backIndex = 1,
+            frontCnt = $('.u-calendar-body td.td-front').size()-1,
+            first = $('.u-calendar-year').text()+'/'+$('.u-calendar-month').text()+'/01',
+            lastDay = this.formatDate(new Date(first).getTime()-86400000, 'date'),
+            frontIndex = lastDay - frontCnt,
+            that = this;
+        $('.u-calendar-body td.td-back').each(function(){
+            $(this).text(that.formatNum(backIndex));
+            backIndex += 1;
+        });
+        $('.u-calendar-body td.td-front').each(function(){
+            $(this).text(that.formatNum(frontIndex));
+            frontIndex += 1;
+        });
+    },
+    /**
+     * @func : 单击选择日
+     */
+    selectDay:function(){
+        var that = this,
+            date = null;
+        $('.u-calendar-body').undelegate().delegate('td.td-day', 'click', function(){
+            $(this).addClass('z-c').siblings().removeClass('z-c').parent().siblings().children().removeClass('z-c');
+            date = $('.u-calendar-year').text()+'-'+$('.u-calendar-month').text()+'-'+$(this).text();
+            that.getData(date);
+        });
+    },
+    /**
+     * @func : 格式化数字
+     */
+    formatNum:function(num){
+        num = num.toString();
+        num.length == 1 && (num = '0'+num);
+        return num;
+    },
+    /**
+     * @func : 格式化时间戳
+     * @param : date:时间戳
+     * @param : type:返回类型
+     */
+    formatDate:function(time, type){
+        var date = new Date(time),
+            year = date.getYear(), 
+            month = date.getMonth()+1,
+            date = date.getDate();
+        switch(type){
+            case 'year':
+                return year;
+                break;
+            case 'month':
+                return month;
+                break;
+            case 'date':
+                return date;
+                break;
+            default:
+                return year+'-'+month+'-'+date;
+        }
+    },
+    /**
+     * @func : 返回当天日期
+     */
+    today:function(){
+        var date = new Date();
+        return [date.getFullYear(), date.getMonth(), date.getDate()];
+    },
+    /**
+     * @func : 判断是不是闰年
+     */
+    isLeap:function(year){
+        return (year % 4) == 0 ? true : false;
+    },
+    /**
+     * @func : 判断是不是当天
+     */
+    isToday:function(year, month){
+        var date = this.today();
+        return (date[0] == year && date[1] == month) ? date[2] : false;
+    },
+    /**
+     * @func : 选择月份后改变其值
+     * @param : year:年
+     * @param : month:月
+     * @param : callback:月、年改变后重置当月日期视图
+     */
+    initDate:function(year, month, callback){
+        month = this.formatNum(month);
+        $('.u-calendar-month').text(month);
+        $('.u-calendar-year').text(year);
+        callback && callback.call(this);
+    },
+    /**
+     * @func : 下个月
+     */
+    nextMonth:function(){
+        var month = this.getMonth,
+            year = this.getYear;
+        if(month < 12){
+            ++month;
+        }
+        else{
+            month = '01';
+            ++year;
+        }
+        this.initDate(year, month, $.proxy(function(){
+            this.dir = 'right';
+            this.init(year, month);
+        }, this));
+    },
+    /**
+     * @func : 上个月
+     */
+    prevMonth:function(){
+        var month = this.getMonth,
+            year = this.getYear;
+        if(month <= 1){
+            month = 12;
+            --year;
+        }
+        else{
+            --month;
+        }
+        this.initDate(year, month, $.proxy(function(){
+            this.dir = 'left';
+            this.init(year, month);
+        }, this));
+    },
+    /**
+     * @func : ajax请求数据
+     * @param : date:选择的日期
+     */
+    getData:function(date){
+       // $('.u-calendar-footer').text(date);
+    }
+}
+
+calendar.init();
+</script>
+</body>
+</html>

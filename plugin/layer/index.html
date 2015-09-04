@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="renderer" content="webkit" />
+    <meta name="keywords" content="前端规范,前端页面开发,CSS方案,CSS规范,CSS框架,CSS代码库,CSS插件,网页制作" />
+    <meta name="description" content="本站包括了规范、框架、代码库等内容，致力于为前端开发人员提供高效率高质量的前端页面开发解决方案，提高多人协作效率，也为非专业人员提供快速制作网页的解决方案。" />
+    <meta name="copyright" content="浙江爱信诺航天信息有限公司" />
+    <title>幻灯片-组件-浙江爱信诺前端规范</title>
+    <link rel="stylesheet" type="text/css" href="../../style/base.css" />
+    <link rel="stylesheet" type="text/css" href="../../style/common.css" />
+    <link rel="stylesheet" type="text/css" href="../../style/page.css" />
+    <link rel="stylesheet" type="text/css" href="layer.css" />
+	<link type="text/css" rel="stylesheet" href="../../style/syntax/shCore.css"/>
+	<link type="text/css" rel="stylesheet" href="../../style/syntax/shThemeDefault.css"/>
+</head>
+
+<body class="g-body">
+    <!-- header begin -->
+    <div class="g-header">
+		<div class="m-htop g-wrap">
+			<i></i><i></i><i></i><i></i><i></i><i></i>
+			<h1 class="u-logo"><a href="../../index.html">浙江爱信诺前端规范</a></h1>
+		</div>
+		<div class="m-nav">
+			<ul class="g-wrap">
+				<li><a href="../../index.html">规范<i class="ui-icon ui-icon-tip"></i></a></li>
+				<li><a href="../../framework.html">框架<i class="ui-icon ui-icon-tip"></i></a></li>
+				<li class="s-crt"><a href="../../plugin.html">组件<i class="ui-icon ui-icon-tip"></i></a></li>
+			</ul>
+		</div>
+	</div>
+    <!-- header end -->
+	
+	<!-- content begin -->
+	<div class="g-content f-clearfix">
+		<div class="g-side">
+			<div class="m-menu" id="menu"> 
+				<ul></ul> 
+			</div>
+		</div>
+		<div class="g-main">
+			<div class="g-con">
+				<div class="m-article m-plugin ui-animate ui-animate-fadeShow"> 
+                    <h2 class="u-ttb2">组件 - <em id="title">弹出层</em></h2> 
+                    <div class="u-line"><span class="linea"></span><span class="lineb"></span></div> 
+                    <dl> 
+                        <dt>使用说明</dt>
+                        <dd>
+							<pre class="brush:xml;">
+                            <!-- 引入组件样式 -->
+                            &lt;link rel="stylesheet" type="text/css" href="layer.css" /&gt;
+                            
+                            <!-- 引入jQuery和组件脚本 -->
+                            &lt;script type="text/javascript" src="jquery.js"&gt;&lt;/script&gt;
+                            &lt;script type="text/javascript" src="jquery.layer.js"&gt;&lt;/script&gt;
+                            </pre>
+                        </dd>
+                        <dt>通用接口</dt>
+                        <dd>
+                            <a href="javascript:void(0);" id="alert">alert</a>
+                            <a href="javascript:void(0);" id="confirm" class="e-ml10">confirm</a>
+                            <a href="javascript:void(0);" id="iframe" class="e-ml10">iframe</a>
+                            <select id="tips" class="e-ml10">
+                                <option value="">tips</option>
+                                <option value="top">top</option>
+                                <option value="right">right</option>
+                                <option value="bottom">bottom</option>
+                                <option value="left">left</option>
+                            </select>
+							<pre class="brush:js;">
+                            /**
+                             * @func alert
+                             * @param &lt;String, JQuery Object&gt; 内容
+                             * @param &lt;String&gt; 标题
+                             * @param &lt;String, Number&gt; 宽度
+                             * @param &lt;String, Number&gt; 高度
+                             */
+							$.layer.alert('<p style="padding:10px;">弹出层内容</p>', '标题', '280');
+                            
+                            /**
+                             * @func confirm
+                             * @param &lt;String, JQuery Object&gt; 内容
+                             * @param &lt;Function&gt; 确认按钮回调函数，接收3个参数：$('.ui-layer-main')、弹出层索引、$('.ui-layer-confirm')
+                             * @param &lt;String&gt; 标题
+                             * @param &lt;String, Number&gt; 宽度
+                             * @param &lt;String, Number&gt; 高度
+                             */
+                            $.layer.confirm('<p style="padding:10px;">10 * 10 = <input type="text" style="border:1px solid #ccc; width:40px;" /> ？</p>', function(main, index, button){
+                                if(main.find(':text').val() == '100'){
+                                    return true;
+                                }
+                            }, '标题', '280');
+                            
+                            /**
+                             * @func iframe
+                             * @param &lt;String&gt; url地址
+                             * @param &lt;String&gt; 标题
+                             * @param &lt;String, Number&gt; 宽度
+                             * @param &lt;String, Number&gt; 高度
+                             * @desc 跨域无法正常使用
+                             * @desc 谷歌浏览器在服务器环境下才能正常使用
+                             */
+							$.layer.iframe('iframe/index.html', '标题', 1100);
+                            
+                            /**
+                             * @func tips
+                             * @param &lt;String, JQuery Object&gt; 内容
+                             * @param &lt;String&gt; 箭头方向 top right bottom left
+                             * @param &lt;Object&gt; 显示位置 {top:value, left:value}
+                             * @param &lt;Function&gt; 显示回调函数，接收2个参数：$('.ui-layer-main')、弹出层索引
+                             */
+							$.layer.tips('<p style="padding:10px;">这是一个弹出层！</p>', type, {}, function(main, index){
+                                //code...
+                            });
+							</pre>
+						</dd>
+                        <dt>自定义</dt>
+                        <dd>
+                            <a href="javascript:void(0);" id="unmove">不可拖动</a>
+                            <a href="javascript:void(0);" id="theme" class="e-ml10">自定义皮肤</a>
+                            <a href="javascript:void(0);" id="right" class="e-ml10">右下角滑出</a>
+                            <a href="javascript:void(0);" id="resize" class="e-ml10">更改大小</a>
+                            <a href="javascript:void(0);" id="slide" class="e-ml10">弹出幻灯片</a>
+                            <pre class="brush:js;">
+                            //不可拖动
+                            $.layer({
+                                content:'<p style="padding:10px;">该弹出层无法拖动！</p>',
+                                width:300,
+                                isMove:false,
+                                title:{
+                                    text:'标题',
+                                },
+                                cancel:{
+                                    enable:true,
+                                    text:'关闭'
+                                }
+                            });
+                            
+                            //自定义皮肤
+                            $('#theme').click(function(){
+                                $.layer({
+                                    content:'<p style="padding:10px;">这是一个自定义皮肤弹出层</p>',
+                                    theme:'white',
+                                    width:300,
+                                    isMoveMask:true,
+                                    title:{
+                                        text:'标题',
+                                    },
+                                    cancel:{
+                                        enable:true,
+                                        text:'关闭'
+                                    }
+                                });
+                            });
+                            
+                            //更多...DIY
+                            </pre>
+                            <pre class="brush:css;">
+                            /* 自定义皮肤css */
+                            .t-layer-white { padding:0 10px; border:1px solid #A1C4EE; box-shadow:0 0 4px #DADBDD; background-color:#fff;}
+                            .t-layer-white .ui-layer-title { padding:0; height:40px; line-height:40px; border-bottom:1px solid #D8E6F3; color:#333; font-weight:normal; background-color:#fff;}
+                            .t-layer-white .ui-layer-close { top:4px; right:0; width:30px; height:30px; line-height:30px; border:0; font-size:25px; font-weight:normal; color:#A1C4EE; background:none;}
+                            .t-layer-white .ui-layer-confirm { background-color:#D8E6F3; border-color:#A1C4EE; color:#333;}
+                            .t-movemask-white { border:1px dashed #A1C4EE; filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#7fffffff,endColorstr=#7fffffff); background:rgba(255,255,255,0.5); background:transparent\;}
+                            .t-mask-white div { filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#4cffffff,endColorstr=#4cffffff); background:rgba(255,255,255,.3); background:transparent\;}
+                            </pre>
+                        </dd>
+						<dt>API</dt>
+                        <dd>
+							<table> 
+                                <thead> 
+                                    <tr>
+                                        <th width="120">普通属性</th>
+                                        <th width="120">值类型</th>
+                                        <th width="120">默认值</th>
+                                        <th width="150">可填值</th>
+                                        <th>功能说明</th>
+                                    </tr> 
+                                </thead> 
+                                <tbody> 
+									<tr>
+                                        <td>width</td>
+                                        <td>Number | String</td>
+                                        <td>380</td>
+                                        <td>正整数 | 'auto'</td>
+                                        <td>宽度</td>
+                                    </tr>
+									<tr>
+                                        <td>height</td>
+                                        <td>Number | String</td>
+                                        <td>220</td>
+                                        <td>正整数 | 'auto'</td>
+                                        <td>高度</td>
+                                    </tr>
+									<tr>    
+                                        <td>content</td>
+                                        <td>String | Object</td>
+                                        <td>空字符串</td>
+                                        <td>任意字符串 | jQuery对象</td>
+                                        <td>显示内容</td>
+                                    </tr>
+									<tr>
+                                        <td>theme</td>
+                                        <td>String</td>
+                                        <td>空字符串</td>
+                                        <td>任意字符串</td>
+                                        <td>标识、主题</td>
+                                    </tr>
+									<tr>
+                                        <td>isFadein</td>
+                                        <td>Boolean</td>
+                                        <td>false</td>
+                                        <td>true | false</td>
+                                        <td>是否淡入方式显示</td>
+                                    </tr>
+									<tr>
+                                        <td>isMove</td>
+                                        <td>Boolean</td>
+                                        <td>true</td>
+                                        <td>true | false</td>
+                                        <td>是否可以拖动</td>
+                                    </tr>
+									<tr>
+                                        <td>isMask</td>
+                                        <td>Boolean</td>
+                                        <td>true</td>
+                                        <td>true | false</td>
+                                        <td>是否有遮罩层</td>
+                                    </tr>
+									<tr>
+                                        <td>isClickMask</td>
+                                        <td>Boolean</td>
+                                        <td>false</td>
+                                        <td>true | false</td>
+                                        <td>点击遮罩层是否关闭弹出层</td>
+                                    </tr>
+									<tr>
+                                        <td>isMoveMask</td>
+                                        <td>Boolean</td>
+                                        <td>false</td>
+                                        <td>true | false</td>
+                                        <td>是否有移动遮罩层</td>
+                                    </tr>
+									<tr>
+                                        <td>isClose</td>
+                                        <td>Boolean</td>
+                                        <td>true</td>
+                                        <td>true | false</td>
+                                        <td>是否能被layerHide()方法关闭</td>
+                                    </tr>
+									<tr>
+                                        <td>isCenter</td>
+                                        <td>Boolean</td>
+                                        <td>false</td>
+                                        <td>true | false</td>
+                                        <td>是否居中</td>
+                                    </tr>
+									<tr>
+                                        <td>isMaxSize</td>
+                                        <td>Boolean</td>
+                                        <td>false</td>
+                                        <td>true | false</td>
+                                        <td>是否自适应最大尺寸显示</td>
+                                    </tr>
+									<tr>
+                                        <td>isTips</td>
+                                        <td>Boolean</td>
+                                        <td>false</td>
+                                        <td>true | false</td>
+                                        <td>是否以tips形式显示</td>
+                                    </tr>
+									<tr>
+                                        <td>isSticky</td>
+                                        <td>Boolean</td>
+                                        <td>false</td>
+                                        <td>true | false</td>
+                                        <td>点击layer是否置顶</td>
+                                    </tr>
+									<tr>
+                                        <td>isFixed</td>
+                                        <td>Boolean</td>
+                                        <td>false</td>
+                                        <td>true | false</td>
+                                        <td>是否固定弹出层</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table>
+                                <thead> 
+                                    <tr>
+                                        <th width="120">对象属性</th>
+                                        <th width="120">属性名</th>
+                                        <th width="120">值类型</th>
+                                        <th width="150">默认值/参数</th>
+                                        <th width="150">可填值/参数值</th>
+                                        <th>功能说明</th>
+                                    </tr> 
+                                </thead>
+                                <tbody> 
+									<tr>
+                                        <td rowspan="2">title</td>
+                                        <td>enable</td>
+                                        <td>Boolean</td>
+                                        <td>true</td>
+                                        <td>true | false</td>
+                                        <td>是否启用标题</td>
+                                    </tr>
+                                    <tr>
+                                        <td>text</td>
+                                        <td>String</td>
+                                        <td>空字符串</td>
+                                        <td>任意字符串</td>
+                                        <td>标题名称</td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="2">iframe</td>
+                                        <td>enable</td>
+                                        <td>Boolean</td>
+                                        <td>false</td>
+                                        <td>true | false</td>
+                                        <td>是否载入浮动框架</td>
+                                    </tr>
+                                    <tr>
+                                        <td>src</td>
+                                        <td>String</td>
+                                        <td>空字符串</td>
+                                        <td>任意字符串</td>
+                                        <td>浮动框架url地址</td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="3">offset</td>
+                                        <td>isBasedPrev</td>
+                                        <td>Boolean</td>
+                                        <td>false</td>
+                                        <td>true | false</td>
+                                        <td>是否基于上一个弹出层进行定位</td>
+                                    </tr>
+                                    <tr>
+                                        <td>top</td>
+                                        <td>Number</td>
+                                        <td>0</td>
+                                        <td>正整数</td>
+                                        <td>上边距</td>
+                                    </tr>
+                                    <tr>
+                                        <td>left</td>
+                                        <td>Number</td>
+                                        <td>0</td>
+                                        <td>正整数</td>
+                                        <td>左边距</td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="2">arrow</td>
+                                        <td>enable</td>
+                                        <td>Boolean</td>
+                                        <td>false</td>
+                                        <td>true | false</td>
+                                        <td>是否启用小箭头</td>
+                                    </tr>
+                                    <tr>
+                                        <td>dir</td>
+                                        <td>String</td>
+                                        <td>top</td>
+                                        <td>top | right | bottom | left</td>
+                                        <td>小箭头方向</td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="5">close</td>
+                                        <td>enable</td>
+                                        <td>Boolean</td>
+                                        <td>true</td>
+                                        <td>true | false</td>
+                                        <td>是否启用右上角关闭按钮</td>
+                                    </tr>
+                                    <tr>
+                                        <td>text</td>
+                                        <td>String</td>
+                                        <td>×</td>
+                                        <td>任意字符串</td>
+                                        <td>按钮文本内容</td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="3">callback</td>
+                                        <td rowspan="3">Function</td>
+                                        <td>main</td>
+                                        <td>$('.ui-layer-main')</td>
+                                        <td rowspan="3">点击触发回调函数</td>
+                                    </tr>
+                                    <tr>
+                                        <td>index</td>
+                                        <td>弹出层索引</td>
+                                    </tr>
+                                    <tr>
+                                        <td>button</td>
+                                        <td>$('.ui-layer-close')</td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="5">confirm</td>
+                                        <td>enable</td>
+                                        <td>Boolean</td>
+                                        <td>false</td>
+                                        <td>true | false</td>
+                                        <td>是否启用底部确认按钮</td>
+                                    </tr>
+                                    <tr>
+                                        <td>text</td>
+                                        <td>String</td>
+                                        <td>确认</td>
+                                        <td>任意字符串</td>
+                                        <td>按钮文本内容</td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="3">callback</td>
+                                        <td rowspan="3">Function</td>
+                                        <td>main</td>
+                                        <td>$('.ui-layer-main')</td>
+                                        <td rowspan="3">点击触发回调函数，当返回值为true时关闭弹出层</td>
+                                    </tr>
+                                    <tr>
+                                        <td>index</td>
+                                        <td>弹出层索引</td>
+                                    </tr>
+                                    <tr>
+                                        <td>button</td>
+                                        <td>$('.ui-layer-confirm')</td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="4">cancel</td>
+                                        <td>enable</td>
+                                        <td>Boolean</td>
+                                        <td>false</td>
+                                        <td>true | false</td>
+                                        <td>是否启用底部取消按钮</td>
+                                    </tr>
+                                    <tr>
+                                        <td>text</td>
+                                        <td>String</td>
+                                        <td>取消</td>
+                                        <td>任意字符串</td>
+                                        <td>按钮文本内容</td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="2">callback</td>
+                                        <td rowspan="2">Function</td>
+                                        <td>main</td>
+                                        <td>$('.ui-layer-main')</td>
+                                        <td rowspan="2">点击触发回调函数</td>
+                                    </tr>
+                                    <tr>
+                                        <td>index</td>
+                                        <td>弹出层索引</td>
+                                    </tr>
+                                </tbody> 
+                            </table>
+                            <table>
+                                <thead> 
+                                    <tr>
+                                        <th width="120">普通方法</th>
+                                        <th width="120">参数</th>
+                                        <th width="120">默认值</th>
+                                        <th>功能说明</th>
+                                    </tr> 
+                                </thead> 
+                                <tbody> 
+									<tr>
+                                        <td rowspan="2">onShowEvent</td>
+                                        <td>main</td>
+                                        <td>$('.ui-layer-main')</td>
+                                        <td rowspan="2">弹出层显示时执行</td>
+                                    </tr>
+                                    <tr>
+                                        <td>index</td>
+                                        <td>弹出层索引</td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="2">onHideEvent</td>
+                                        <td>main</td>
+                                        <td>$('.ui-layer-main')</td>
+                                        <td rowspan="2">弹出层关闭时执行</td>
+                                    </tr>
+                                    <tr>
+                                        <td>index</td>
+                                        <td>弹出层索引</td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="2">onResizeEvent</td>
+                                        <td>main</td>
+                                        <td>$('.ui-layer-main')</td>
+                                        <td rowspan="2">弹出层大小、位置改变后执行</td>
+                                    </tr>
+                                    <tr>
+                                        <td>index</td>
+                                        <td>弹出层索引</td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="3">onWinRisizeEvent</td>
+                                        <td>layer</td>
+                                        <td>$('.ui-layer')</td>
+                                        <td rowspan="3">window窗口改变大小时执行</td>
+                                    </tr>
+                                    <tr>
+                                        <td>width</td>
+                                        <td>window窗口宽度</td>
+                                    </tr>
+                                    <tr>
+                                        <td>height</td>
+                                        <td>window窗口高度</td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="2">onWinScrollEvent</td>
+                                        <td>layer</td>
+                                        <td>$('.ui-layer')</td>
+                                        <td rowspan="2">window窗口滚动时执行</td>
+                                    </tr>
+                                    <tr>
+                                        <td>scrollTop</td>
+                                        <td>window窗口滚动高度</td>
+                                    </tr>
+                                </tbody>
+                            </table> 
+                            <table>
+                                <thead> 
+                                    <tr>
+                                        <th width="120">全局方法</th>
+                                        <th width="120">参数</th>
+                                        <th width="120">值类型</th>
+                                        <th width="150">参数说明</th>
+                                        <th>功能说明</th>
+                                    </tr> 
+                                </thead> 
+                                <tbody> 
+									<tr>
+                                        <td rowspan="2">layerResize</td>
+                                        <td>index | theme</td>
+                                        <td>Number | String</td>
+                                        <td>弹出层索引或者标识</td>
+                                        <td rowspan="2">弹出层居中、自适应高度</td>
+                                    </tr>
+                                    <tr>
+                                        <td>iframe</td>
+                                        <td>undefined | Object</td>
+                                        <td>框架DOM对象</td>
+                                    </tr>
+									<tr>
+                                        <td>layerHide</td>
+                                        <td>index | theme</td>
+                                        <td>Number | String</td>
+                                        <td>弹出层索引或者标识</td>
+                                        <td>删除弹出层</td>
+                                    </tr>
+                                </tbody> 
+                            </table>
+						</dd> 
+                        <dt>下载</dt>
+                        <dd>
+                            <a href="layer.css">layer.css</a>
+                            <a href="jquery.layer.js" class="e-ml10">jquery.layer.js</a>
+                        </dd>
+                        <dt>版本更新</dt>
+                        <dd>
+							<p>Version: v2.8.7</p>
+                            <p>Date:2015-08-14</p>
+                            <p>1.将遮罩层优化为全局的，如果显示多个都设置了遮罩的弹出层，直到关闭最后一个才会关闭遮罩层</p>
+                            <br />
+                            <p>Version: v2.8.6</p>
+                            <p>1.优化了实例方法layerResize逻辑</p>
+                            <br />
+                            <p>Version: v2.8.4</p>
+                            <p>1.优化了Layer.extend逻辑</p>
+                            <br />
+                            <p>Version: v2.8.3</p>
+                            <p>1.修复了提示层没有绑定事件在关闭时，unbind报错问题</p>
+                            <p>2.修复了弹出层在关闭时options未定义错误</p>
+                        </dd>
+                    </dl> 
+                </div> 
+			</div>
+		</div>
+	</div>
+	<!-- content end -->
+	
+	<!-- footer begin -->
+	<div class="g-footer">
+		<div class="g-wrap">
+			<p>
+				<a href="http://wpa.qq.com/msgrd?v=3&uin=897102078&site=qq&menu=yes" target="_blank">技术支持</a>
+			</p>
+			<p>Copyright © 2013-2015 Aisino. All Rights Reserved.</p>
+		</div>
+	</div>
+	<!-- footer end -->
+	
+	<script type="text/javascript" src="../../script/jquery.js"></script>
+    <script type="text/javascript" src="jquery.layer.js"></script>
+	<script type="text/javascript" src="../../script/syntax/shCore.js"></script>
+	<script type="text/javascript" src="../../script/syntax/shBrushCss.js"></script>
+	<script type="text/javascript" src="../../script/syntax/shBrushXml.js"></script>
+	<script type="text/javascript" src="../../script/syntax/shBrushJScript.js"></script>
+	<script type="text/javascript" src="../../script/page.js"></script>
+	<script type="text/javascript" src="../data.js"></script>
+	<script type="text/javascript" src="../menu.js"></script>
+	<script type="text/javascript">
+	$('#alert').click(function(){
+        $.layer.alert('<p style="padding:10px;">弹出层内容</p>', '标题', '280');
+    });
+    
+	$('#confirm').click(function(){
+        $.layer.confirm('<p style="padding:10px;">10 * 10 = <input type="text" style="border:1px solid #ccc; width:40px;" /> ？</p>', function(main, index, button){
+            if(main.find(':text').val() == '100'){
+                return true;
+            }
+        }, '标题', '280');
+    });
+    
+    $('#iframe').click(function(){
+        $.layer.iframe('iframe/index.html', '标题', 1100);
+    });
+    
+    $('#tips').change(function(){
+        var that = $(this), offset = that.offset(), type = $(this).val();
+        layerHide();
+        if(!type) return;
+        $.layer.tips('<p style="padding:10px;">这是一个弹出层！</p>', type, {}, function(main, index){
+            var layer = main.parents('.ui-layer'), width = layer.outerWidth(), height = layer.outerHeight();
+            switch(type){
+                case 'top':
+                    offset.top = offset.top + that.height() + 23;
+                    break;
+                case 'right':
+                    offset.left = offset.left - width - 10;
+                    break;
+                case 'bottom':
+                    offset.top = offset.top - height - 10;
+                    break;
+                case 'left':
+                    offset.left = offset.left + that.width() + 20;
+                    break;
+            }
+            layer.css({top:offset.top, left:offset.left});
+        });
+    });
+    
+    $('#unmove').click(function(){
+        $.layer({
+            content:'<p style="padding:10px;">该弹出层无法拖动！</p>',
+            width:300,
+            isMove:false,
+            title:{
+                text:'标题',
+            },
+            cancel:{
+                enable:true,
+                text:'关闭'
+            }
+        });
+    });
+    
+    $('#theme').click(function(){
+        $.layer({
+            content:'<p style="padding:10px;">这是一个自定义皮肤弹出层</p>',
+            theme:'white',
+            width:300,
+            isMoveMask:true,
+            title:{
+                text:'标题',
+            },
+            cancel:{
+                enable:true,
+                text:'关闭'
+            }
+        });
+    });
+	</script>
+</body>
+</html>

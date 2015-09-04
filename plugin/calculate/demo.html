@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="renderer" content="webkit" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="copyright" content="" />
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../../style/base.css" />
+    <style type="text/css">
+    a:hover { color:#e81f18;}
+    .g-wrap { margin:0 auto; width:1000px;}
+    .m-form { margin-top:50px;}
+    .m-form h3 { font-size:20px; color:#43493A; margin-bottom:6px;}
+    .m-cart-table, .m-order { border:1px solid #E1E1E1; background-color:#fff; width:100%;}
+    .m-cart-table td , .m-cart-table th { text-align:center; vertical-align:middle;}
+    .m-cart-table .f-tal { text-align:left;}
+    .m-cart-table td { border-top:1px solid #F2F2F2;}
+    .m-cart-table th { height:30px; background-color:#F8F8F8; color:#586050; border-bottom:1px solid #E9E9E9;}
+    .m-cart-table tbody td { height:105px;}
+    .m-cart-table th label { margin-right:130px;}
+    .m-cart-table tbody td img { border:1px solid #E1E1E1; width:64px; height:64px;}
+    .m-cart-table tbody table td { border-top:0; text-align:left;}
+    .m-cart-table tbody table td a { line-height:20px;}
+    .m-cart-table tbody td.l-child a { margin:0 6px;}
+    .m-cart-table tbody tr:hover { background-color:#F7F8F3;}
+    .m-cart-table .m-num button, .m-cart-table .m-num input { float:left;}
+    .m-cart-table .m-num button { border:1px solid #ccc; width:22px; height:22px; background:url(num.png) repeat-x; color:#333;}
+    .m-cart-table .m-num input { width:30px; text-align:center; color:#333; line-height:20px\9; height:20px; border-top:1px solid #ccc; border-bottom:1px solid #ccc;}
+    .m-cart-table td.s-crt { color:#e81f18;}
+    .m-cart-main, .m-cart-foot { height:55px; line-height:53px; padding:0 20px;}
+    .m-cart-foot { background-color:#F9F9F9;}
+    .m-cart-main .f-fl span { margin-right:20px; float:left; padding-left:18px; background-position:0 center; background-repeat:no-repeat;}
+    .m-cart-main .f-fl span.i-close { background-image:url(close.png);}
+    .m-cart-main .f-fl span.i-void { background-image:url(void.png);}
+    .m-cart-main .f-fr em { margin:0 5px; color:#E9962C;}
+    .m-cart-foot .u-goon { margin-top:13px; width:80px; height:28px; border:1px solid #EDEDED; background-color:#fff; line-height:28px; text-align:center; border-radius:3px;}
+    .m-cart-foot .u-goon:hover { background-color:#e81f18; color:#fff;}
+    .m-cart-foot .f-fr span, .m-cart-foot .f-fr button { float:right;}
+    .m-cart-foot .f-fr button { width:160px; height:38px; border-radius:3px; border:1px solid #EC7F00; margin-left:30px; text-shadow:1px 1px 3px rgba(0,0,0,.3); margin-top:9px; background:url(login.png) repeat-x; font-size:16px; color:#fff; font-weight:bold;}
+    .m-cart-foot .f-fr em { font-size:18px; font-family:\5fae\8f6f\96c5\9ed1; color:#EA962C;}
+    </style>
+</head>
+
+<body>
+    <div class="g-wrap">
+        <form class="m-form m-cart" action="#" method="post">
+            <h3>我的购物车</h3>
+            <table class="m-cart-table">
+                <thead>
+                    <tr>
+                        <th width="35"><input type="checkbox" id="selectAll" /></th>
+                        <th width="350" class="f-tal"><label for="selectAll">全选</label>商品</th>
+                        <th width="110">单价</th>
+                        <th width="100">库存</th>
+                        <th width="74">数量</th>
+                        <th width="110">优惠</th>
+                        <th width="110">小计</th>
+                        <th width="90">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-price="1000.00" data-youhui="10.00">
+                        <td><input type="checkbox" class="u-checkbox" name="select[]" value="" /></td>
+                        <td class="f-tal">
+                            <table>
+                                <tr>
+                                    <td width="64"><a href="#"><img src="1.jpg" width="64" height="64" /></a></td>
+                                    <td class="e-pl15"><a href="#">联想打印机S1801  联想（Lenovo） S1801 黑白激光打印机</a></td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td>￥1000.00</td>
+                        <td>15</td>
+                        <td>
+                            <span class="m-num" data-max="15">
+                                <button type="button" class="j-less">-</button><input type="text" name="num[]" autocomplete="off" class="u-input j-num" value="1" /><button type="button" class="j-add">+</button>
+                            </span>
+                        </td>
+                        <td>￥10.00</td>
+                        <td class="s-crt">￥<em>990.00</em></td>
+                        <td class="l-child"><a href="#">删除</a></td>
+                    </tr>
+                    <tr data-price="650.00" data-youhui="0.00">
+                        <td><input type="checkbox" class="u-checkbox" name="select[]" value="" /></td>
+                        <td class="f-tal">
+                            <table>
+                                <tr>
+                                    <td width="64"><a href="#"><img src="2.jpg" width="64" height="64" /></a></td>
+                                    <td class="e-pl15"><a href="#">联想F2071H  联想打印机F2071H</a></td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td>￥650.00</td>
+                        <td>101</td>
+                        <td>
+                            <span class="m-num" data-max="101">
+                                <button type="button" class="j-less">-</button><input type="text" name="num[]" autocomplete="off" class="u-input j-num" value="1" /><button type="button" class="j-add">+</button>
+                            </span>
+                        </td>
+                        <td>￥0.00</td>
+                        <td class="s-crt">￥<em>650.00</em></td>
+                        <td class="l-child"><a href="#">删除</a></td>
+                    </tr>
+                    <tr data-price="2899.00" data-youhui="40.00">
+                        <td><input type="checkbox" class="u-checkbox" name="select[]" value="" /></td>
+                        <td class="f-tal">
+                            <table>
+                                <tr>
+                                    <td width="64"><a href="#"><img src="3.jpg" width="64" height="64" /></a></td>
+                                    <td class="e-pl15"><a href="#">特卖 联想台机T410  联想T410 G2030 2G1TD-L</a></td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td>￥2899.00</td>
+                        <td>8</td>
+                        <td>
+                            <span class="m-num" data-max="8">
+                                <button type="button" class="j-less">-</button><input type="text" name="num[]" autocomplete="off" class="u-input j-num" value="1" /><button type="button" class="j-add">+</button>
+                            </span>
+                        </td>
+                        <td>￥40.00</td>
+                        <td class="s-crt">￥<em>2859.00</em></td>
+                        <td class="l-child"><a href="#">删除</a></td>
+                    </tr>
+                    <tr data-price="1500.00" data-youhui="15.00">
+                        <td><input type="checkbox" class="u-checkbox" name="select[]" value="" /></td>
+                        <td class="f-tal">
+                            <table>
+                                <tr>
+                                    <td width="64"><a href="#"><img src="4.jpg" width="64" height="64" /></a></td>
+                                    <td class="e-pl15"><a href="#">联想打印机M1840  联想（Lenovo） M1840 黑白激光多功能一体机 (打印 复印 扫描)</a></td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td>￥1500.00</td>
+                        <td>27</td>
+                        <td>
+                            <span class="m-num" data-max="27">
+                                <button type="button" class="j-less">-</button><input type="text" name="num[]" autocomplete="off" class="u-input j-num" value="1" /><button type="button" class="j-add">+</button>
+                            </span>
+                        </td>
+                        <td>￥15.00</td>
+                        <td class="s-crt">￥<em>1485.00</em></td>
+                        <td class="l-child"><a href="#">删除</a></td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="8">
+                            <div class="m-cart-main">
+                                <p class="f-fl">
+                                    <span class="i-close"><a href="#">删除选中商品</a></span>
+                                    <span class="i-void"><a href="#">清空购物车</a></span>
+                                </p>
+                                <p class="f-fr">
+                                    <span class="e-mr20">商品数<em class="u-gnum">0</em>件</span>
+                                    <span>商品总计：￥<strong class="u-money">0.00</strong></span>
+                                </p>
+                            </div>
+                            <div class="m-cart-foot">
+                                <a href="#" class="u-goon f-fl">继续购物</a>
+                                <p class="f-fr">
+                                    <button type="button">去结算 &gt;</button>
+                                    <span>总计（不含运费）<em>￥<strong class="u-money">0.00</strong></em></span>
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </form>
+    </div>
+    <script type="text/javascript" src="../../script/jquery.js"></script>
+    <script type="text/javascript">
+    $.fn.calculate = function(o){
+    	o = $.extend({
+            count:$.noop,
+            total:$.noop,
+            max:$.noop
+        }, o||{});
+        var result = function(num, val, that){
+            (o.max !== null && val > o.max(that)) && (val = o.max(that));
+            num.val(val);
+            o.count(val, that);
+            o.total();
+        }
+    	return this.each(function(){
+    		var that = $(this),
+                less = that.find('.j-less'),
+                num = that.find('.j-num'),
+                add = that.find('.j-add');
+            less.click(function(){
+                var val = num.val();
+                isNaN(val) && (val = 0);
+                val > 0 && (val -= 1);
+                result(num, val, that);
+            });
+            add.click(function(){
+                var val = num.val();
+                isNaN(val) && (val = 0);
+                val = parseInt(val) + 1;
+                result(num, val, that);
+            });
+            num.keyup(function(){
+                var val = num.val();	
+                val = isNaN(val) ? 0 : ((val = parseInt(val)).toString() == 'NaN' ? 0 : val);
+                result(num, val, that);
+            });
+    	});
+    }
+    
+    function total(){
+		var total = 0, num = 0;
+		$('.u-checkbox:checked').each(function(){
+			var tr = $(this).parents('tr'),
+				res = parseFloat(tr.find('td.s-crt em').text());
+			total += res;
+			num += 1;
+		});
+		$('.u-money').text(total.toFixed(2));	
+		$('.u-gnum').text(num);
+	}
+	$('#selectAll').click(function(){
+		$('.u-checkbox').prop('checked', $(this).prop('checked'));
+		total();	
+	});
+	$('.u-checkbox').click(function(){
+		total();	
+	});
+	$('.m-num').calculate({
+		count:function(num, object){
+			var tr = object.parents('tr'),
+				price = parseFloat(tr.data('price')),
+				youhui = parseFloat(tr.data('youhui')),
+				resDom = tr.find('td.s-crt em'),
+				res = (price * num - youhui).toFixed(2);
+				res <= 0 && (res = '0.00');
+			resDom.text(res);
+		},
+		total:total,
+        max:function(object){
+            return object.data('max');
+        }
+	});
+    </script>
+</body>
+</html>
