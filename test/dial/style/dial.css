@@ -69,7 +69,7 @@ footer { margin-top:25px; color:#fff;}
 .t-layer-confirm .ui-layer-foot { height:0; pading:0;}
 .t-layer-lookto .ui-layer-close, .t-layer-confirm .ui-layer-close { top: -10px; right: -14px;}
 .t-layer-lookto .ui-layer-foot { text-align:center;}
-@-webkit-keyframes bounceIn {
+/*@-webkit-keyframes bounceIn {
 	0% { opacity:0; -webkit-transform:scale(.3); transform:scale(.3);}
 	50% { opacity:1; -webkit-transform:scale(1.05); transform:scale(1.05);}
 	70% { -webkit-transform:scale(.9); transform:scale(.9);}
@@ -171,4 +171,4 @@ footer { margin-top:25px; color:#fff;}
 	0% { opacity:0;}
 	100% { opacity:1;}
 }
-.ui-animate-fadein { -webkit-animation-name:fadein; animation-name:fadein; -webkit-animation-delay:1s; animation-delay:1s;}
+.ui-animate-fadein { -webkit-animation-name:fadein; animation-name:fadein; -webkit-animation-delay:1s; animation-delay:1s;}*/
