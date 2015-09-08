@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<meta name="format-detection" content="telephone=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="renderer" content="webkit" />
+	<meta name="keywords" content="" />
+	<meta name="description" content="" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<base href="" target="_self" />
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="../../style/base-mobile.css" />
+	<link rel="stylesheet" type="text/css" href="../../plugin/lottery/lottery.css" />
+	<link rel="stylesheet" type="text/css" href="../../plugin/layer/layer.css" />
+	<link rel="stylesheet" type="text/css" href="./style/dial.css" />
+</head>
+
+<body class="g-box">
+	<div class="g-wrap">
+		
+		<div class="m-dialbox">
+			<div class="m-dial">
+				<ul class="ui-lottery" data-rotate="true" data-count="8">
+					<li class="ui-animate ui-animate-rotate1"><i></i></li>
+					<li class="ui-animate ui-animate-rotate2"><i></i></li>
+					<li class="ui-animate ui-animate-rotate3"><i></i></li>
+					<li class="ui-animate ui-animate-rotate4"><i></i></li>
+					<li class="ui-animate ui-animate-rotate5"><i></i></li>
+					<li class="ui-animate ui-animate-rotate6"><i></i></li>
+					<li class="ui-animate ui-animate-rotate7"><i></i></li>
+					<li class="ui-animate ui-animate-rotate8"><i></i></li>
+				</ul>
+				<img src="images/1.png" class="u-img1 ui-animate ui-animate-fadein" width="58" />
+				<img src="images/2.png" class="u-img2 ui-animate ui-animate-fadein" width="52" />
+				<img src="images/3.png" class="u-img3 ui-animate ui-animate-fadein" width="58" />
+				<img src="images/4.png" class="u-img4 ui-animate ui-animate-fadein" width="45" />
+				<img src="images/5.png" class="u-img5 ui-animate ui-animate-fadein" width="59" />
+				<img src="images/6.png" class="u-img6 ui-animate ui-animate-fadein" width="50" />
+				<img src="images/7.png" class="u-img7 ui-animate ui-animate-fadein" width="59" />
+				<img src="images/8.png" class="u-img8 ui-animate ui-animate-fadein" width="46" />
+				<div class="ui-lottery-btn"></div>
+			</div>
+		</div>
+		
+	</div>
+	<script type="text/javascript" src="../../script/jquery.js"></script>
+	<script type="text/javascript" src="../../plugin/lottery/jquery.lottery.js"></script>
+	<script type="text/javascript" src="../../plugin/layer/jquery.layer.js"></script>
+	<script type="text/javascript">
+	var dataArr = [
+			{name:'商城贺卡', prob:15},
+			{name:'充值卡', prob:10},
+			{name:'商城贺卡', prob:1},
+			{name:'牙刷杯', prob:2},
+			{name:'商城贺卡', prob:2},
+			{name:'现金券', prob:12},
+			{name:'商城贺卡', prob:50},
+			{name:'洗手液', prob:1}
+		];
+		
+	$('.m-dial').lottery({
+		count:8,
+		getRandom:function(self){
+            var beginNum = temp = index = 0,
+                rand = Math.round(Math.random()*100) + 1;
+            $.each(dataArr, function(k, v){
+                var prob = v.prob;
+                temp += prob;
+                beginNum = 100 - temp;
+                if(rand > beginNum && rand <= (beginNum + prob)){
+                    index = k;
+                    return false;
+                }
+            });
+            return index;
+        },
+		complete:function(data, items){
+            $.layer.alert('<p style="padding:6px;">'+ dataArr[data.index].name +'</p>', '', 210);
+        }
+	});
+	</script>
+</body>
+</html>
