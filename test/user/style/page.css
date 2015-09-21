@@ -1,0 +1,32 @@
+@charset "utf-8";
+@font-face {font-family: "iconfont";
+  src: url('iconfont.ttf') format('truetype')
+}
+
+/**
+ * @fileName page.css
+ * @author Aniu[date:2015-09-21 14:19]
+ * @update Aniu[date:2015-09-21 14:19]
+ * @version v1.1
+ * @description none
+ */
+ 
+html, body { background-color:#eee;}
+body { padding-bottom:10px; background-color:#eee;}
+header { margin-bottom:10px; padding:12px; background-color:#2391CB;}
+header div { width:58px; height:58px; background:url(../images/default.png) no-repeat center; background-size:58px;}
+header dl { margin-left:12px;}
+header dt { font-size:16px;}
+header dd { margin-top:10px; font-size:12px;}
+header, header a, header a:visited { color:#fff;}
+header dd span { margin-right:5px;}
+.g-content { overflow:hidden;}
+.m-listview li { margin-top:10px;}
+.m-listview li a { padding:0 20px;}
+.m-listview li a > span, .m-listview li a > i { display:block;}
+.m-listview li a { height:45px; background-color:#fff;}
+.m-listview li a.j-active.s-crt { background-color:#E5E5E5;}
+.m-listview li a i { color:#A0A0A0;}
+.m-listview li a span, .m-listview li a > i { font-size:14px;}
+.m-listview li a span i { margin-right:5px;}
+.iconfont { font-family:"iconfont" !important; font-size:16px; font-style:normal; -webkit-font-smoothing:antialiased; -webkit-text-stroke-width:0.2px; -moz-osx-font-smoothing:grayscale;}
