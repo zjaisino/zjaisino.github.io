@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<meta name="format-detection" content="telephone=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="keywords" content="" />
+	<meta name="description" content="" />
+	<title>工作情况-个人资料-个人中心</title>
+	<link rel="stylesheet" type="text/css" href="style/base-mobile.css" />
+    <link rel="stylesheet" type="text/css" href="style/mobiscroll.css">
+    <link rel="stylesheet" type="text/css" href="style/page.css">
+</head>
+
+<body>
+	<!-- content -->
+	<div class="g-content">
+		<form action="http://www.yinjiazeng.com/testdata/test/goodslist/list.php?callback=?">
+			<ul class="m-listview m-listview-edit">
+				<li>
+					<a class="f-df f-aic">
+						<span class="f-f1 f-df s-rdy">
+							<label for="schoolname">学校名称</label>
+							<em class="f-f1"><input type="text" id="schoolname" name="schoolname" class="ui-input" readonly="readonly" placeholder="请输入学校名称" /></em>
+						</span>
+						<i class="iconfont j-edit">&#xe64e;</i>
+					</a>
+				</li>
+				<li>
+					<a class="f-df f-aic">
+						<span class="f-f1 f-df">
+							<label for="starttime">入学时间</label>
+							<em class="f-f1"><input type="text" id="starttime" name="starttime" class="ui-input" readonly="readonly" placeholder="请选择" /></em>
+						</span>
+					</a>
+				</li>
+			</ul>
+			<div class="m-box e-mt20">
+				<button type="submit" class="ui-btn ui-btn-save">保 存</button>
+			</div>
+		</form>
+	</div>
+	<!-- /content -->
+	<script type="text/javascript" src="script/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript" src="script/showmsg.js"></script>
+	<script type="text/javascript" src="script/validform.js"></script>
+	<script type="text/javascript" src="script/mobiscroll.js"></script>
+	<script type="text/javascript" src="script/page.js"></script>
+	<script type="text/javascript">
+	var currYear = (new Date()).getFullYear();	
+	$('#starttime, #endtime').mobiscroll({
+		preset:'date',
+		theme: 'android-ics light', //皮肤样式
+		display: 'modal', //显示方式 
+		mode: 'scroller', //日期选择模式
+		dateFormat: 'yyyy-mm-dd',
+		lang: 'zh',
+		showNow: true,
+		nowText: "今天",
+		startYear: currYear - 10, //开始年份
+		endYear: currYear + 10 //结束年份
+	});
+	
+	$.addMethods('lengths', function(val){
+		return $.trim(val).length >= 2;
+	});
+	
+	$('form').validform({
+		blur:false,
+		rules:{
+			schoolname:{
+				required:true,
+				lengths:true
+			},
+			starttime:{
+				required:true
+			}
+		},
+		message:{
+			schoolname:{
+				required:'请输入学校名称',
+				lengths:'学校名称至少2个字符串'
+			},
+			starttime:{
+				required:'请选择入学时间'
+			}
+		},
+		ajaxSuccess:function(data){
+			if(data.result == 'success'){
+				$.showmsg({message:'保存成功'});
+			}
+		}
+	});
+	</script>
+</body>
+</html>

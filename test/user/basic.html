@@ -7,7 +7,7 @@
 	<meta name="apple-mobile-web-app-capable" content="yes" />
 	<meta name="keywords" content="" />
 	<meta name="description" content="" />
-	<title>个人资料-个人中心</title>
+	<title>基本资料-个人资料-个人中心</title>
 	<link rel="stylesheet" type="text/css" href="style/base-mobile.css" />
     <link rel="stylesheet" type="text/css" href="style/page.css">
 </head>
@@ -15,42 +15,127 @@
 <body>
 	<!-- content -->
 	<div class="g-content">
-		<ul class="m-listview m-listview-edit">
-			<li>
-				<a class="f-df f-aic">
-					<span class="f-f1 f-df s-rdy">
-						<label for="username">用户名</label>
-						<em class="f-f1"><input type="text" id="username" name="username" class="ui-input" readonly="readonly" value="阿牛" /></em>
-					</span>
-					<i class="iconfont j-edit">&#xe64e;</i>
-				</a>
-			</li>
-			<li>
-				<a class="f-df f-aic">
-					<span class="f-f1 f-df s-rdy">
-						<label for="mobile">手机号码</label>
-						<em class="f-f1"><input type="text" id="mobile" name="mobile" class="ui-input" readonly="readonly" value="18258429962" /></em>
-					</span>
-					<i class="iconfont j-edit">&#xe64e;</i>
-				</a>
-			</li>
-			<li>
-				<a class="f-df f-aic">
-					<span class="f-f1 f-df s-rdy">
-						<label for="code">验证码</label>
-						<em class="f-f1"><input type="text" id="code" name="code" class="ui-input" readonly="readonly" /></em>
-					</span>
-					<em class="j-send">发送验证码</em>
-				</a>
-			</li>
-		</ul>
-		<div class="m-box e-mt20">
-			<button type="button" class="ui-btn ui-btn-save">保 存</button>
-		</div>
+		<form action="http://www.yinjiazeng.com/testdata/test/goodslist/list.php?callback=?">
+			<ul class="m-listview m-listview-edit">
+				<li>
+					<a class="f-df f-aic">
+						<span class="f-f1 f-df s-rdy">
+							<label for="username">用户名</label>
+							<em class="f-f1"><input type="text" id="username" name="username" class="ui-input" readonly="readonly" value="阿牛" placeholder="请输入用户名" /></em>
+						</span>
+						<i class="iconfont j-edit">&#xe64e;</i>
+					</a>
+				</li>
+				<li>
+					<a class="f-df f-aic">
+						<span class="f-f1 f-df s-rdy">
+							<label for="mobile">手机号码</label>
+							<em class="f-f1"><input type="text" id="mobile" name="mobile" class="ui-input" readonly="readonly" value="18258429962" placeholder="请输入手机号码" /></em>
+						</span>
+						<i class="iconfont j-edit">&#xe64e;</i>
+					</a>
+				</li>
+				<li>
+					<a class="f-df f-aic">
+						<span class="f-f1 f-df">
+							<label for="code">验证码</label>
+							<em class="f-f1"><input type="text" id="code" name="code" vcode="1" class="ui-input" placeholder="请输入验证码" /></em>
+						</span>
+						<em class="j-send">发送验证码</em>
+					</a>
+				</li>
+			</ul>
+			<div class="m-box e-mt20">
+				<button type="submit" class="ui-btn ui-btn-save">保 存</button>
+			</div>
+		</form>
 	</div>
 	<!-- /content -->
-	<script type="text/javascript" src="http://www.jss.com.cn/Contents/common/jQuery/jquery-1.8.3.min.js"></script>
-	<script type="text/javascript" src="http://www.jss.com.cn/Contents/common/jQuery/jquery.layer.js"></script>
+	<script type="text/javascript" src="script/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript" src="script/showmsg.js"></script>
+	<script type="text/javascript" src="script/validform.js"></script>
+	<script type="text/javascript" src="script/jquery.countdown.js"></script>
 	<script type="text/javascript" src="script/page.js"></script>
+	<script type="text/javascript">
+	$('.j-send').countdown({
+		text:'秒后重新获',
+		ajax:{
+			url:'http://www.yinjiazeng.com/testdata/test/goodslist/list.php?callback=?',
+			dataType:'json',
+			cache:false,
+			data:{
+				mobile:$.trim($('#mobile').val())
+			},
+			success:function(res){
+				if(res.result == 'success'){
+					$('#code').attr({vcode:res.aCount});
+					$.showmsg({message:'验证码发送成功'});
+				}
+				else{
+					$.showmsg({message:'验证码发送失败'});
+				}
+			}
+		},
+		startCallback:function(){
+			var mobile = $.trim($('#mobile').val());
+			if(!mobile){
+				$.showmsg({message:'请输入手机号码'});
+				return false;
+			}
+			if(!/^0?(13|14|15|17|18)[0-9]{9}$/.test(mobile)){
+				$.showmsg('alert', '手机号码格式有误');
+				return false;
+			}
+			$('#code').attr({vcode:''});
+		}
+	});
+	
+	$.addMethods('lengths', function(val){
+		return $.trim(val).length >= 2;
+	});
+	
+	$.addMethods('vcode', function(val){
+		val = $.trim(val);
+		return val && val == $('#code').attr('vcode');
+	});
+	
+	$('form').validform({
+		blur:false,
+		rules:{
+			username:{
+				required:true,
+				lengths:true
+			},
+			mobile:{
+				required:true,
+				mobile:true
+			},
+			code:{
+				required:true,
+				vcode:true
+			}
+		},
+		message:{
+			username:{
+				required:'请输入用户名',
+				lengths:'用户名至少2个字符串'
+			},
+			mobile:{
+				required:'请输入手机号码',
+				mobile:'手机号码格式有误'
+			},
+			code:{
+				required:'请输入验证码',
+				vcode:'验证码错误'
+			}
+		},
+		ajaxSuccess:function(data){
+			if(data.result == 'success'){
+				$('#code').attr({vcode:''});
+				$.showmsg({message:'保存成功'});
+			}
+		}
+	});
+	</script>
 </body>
 </html>
