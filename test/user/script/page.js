@@ -16,4 +16,10 @@ $(function(){
 			me.removeClass('s-crt');
 		});
 	});
+	
+	$('.j-edit').click(function(){
+		var a = $(this).closest('a'), 
+			rdy = a.find('span').toggleClass('s-rdy').hasClass('s-rdy');
+		a.find('input').prop('readonly', rdy);
+	});
 });

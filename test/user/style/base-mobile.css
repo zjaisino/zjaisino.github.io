@@ -35,7 +35,7 @@ h1, h2, h3, h4, h5, h6, strong, b { font-weight:normal;}
 table { border-collapse:collapse; border-spacing:0;}
 caption, th { text-align:left; font-weight:normal;}
 td, th { padding:0;}
-body, keygen, legend { font:14px/1.0 \5fae\8f6f\96c5\9ed1,helvetica,sans-serif; color:#333;}
+body, keygen, legend { font:14px/1.0 \5fae\8f6f\96c5\9ed1,helvetica,sans-serif; color:#282828;}
 
 /* func */
 .f-dn { display:none;}
