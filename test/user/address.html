@@ -53,9 +53,9 @@
 		$('.m-address li').click(function(){
 			var that = $(this);
 			if(!that.hasClass('ul-li-crt')){
-				that.addClass('ul-li-crt').siblings().removeClass('ul-li-crt');
+				that.addClass('ul-li-crt').fadeOut().siblings().removeClass('ul-li-crt');
 				setTimeout(function(){
-					that.insertBefore($('.m-address li').eq(0));
+					that.insertBefore($('.m-address li').eq(0)).fadeIn();
 				},500)
 			}
 		})
