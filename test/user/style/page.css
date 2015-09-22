@@ -89,12 +89,12 @@ header dd span { margin-right:5px;}
 .m-newlist li.u-li-used, .m-newlist li.u-li-notdef{ background-image: url(../images/trian.png)}
 .m-newlist li.u-li span{ display: block;}
 .m-newlist li.u-li > b{ position: absolute; top: 4px; right: 4px; font-size: 12px; color: #fff;}
-.m-newlist li.u-li span.f-f1{ padding-top: 15px; padding-left:6px; font-size: 16px; color: #282828; }
-.m-newlist li.u-li span.f-f2{ padding-top:10px; padding-left:6px; font-size: 12px; color: #505050;}
+.m-newlist li.u-li span.f-f1{ padding-top: 12px; padding-left:6px; font-size: 16px; color: #282828; }
+.m-newlist li.u-li span.f-f2{ padding-top:8px; padding-left:6px; font-size: 12px; color: #505050;}
 .m-address li.u-li span.f-f1{ padding-top: 20px;}
 .m-address li.u-li span.f-f1 .phone{ padding-left: 10px;}
 .m-address li.u-li span.f-f1 .address{ display: block; width: 100%; white-space:nowrap; text-overflow:ellipsis;}
 .m-address li.u-li span.f-f2{ padding-top:16px;}
-.m-newlist li.u-li span.f-f3{ padding-top:12px; padding-left:6px; font-size: 12px; color: #a0a0a0;}
+.m-newlist li.u-li span.f-f3{ padding-top:10px; padding-left:6px; font-size: 12px; color: #a0a0a0;}
 .m-newlist li.u-li span.f-f3 label.e-money{ position: absolute; right: 20px; color: #d71312;  z-index: 2;}
 .m-newlist li.u-li-used span.f-f3 label.e-money{ color: #a0a0a0;}
