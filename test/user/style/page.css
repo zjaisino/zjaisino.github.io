@@ -85,9 +85,9 @@ header dd span { margin-right:5px;}
 .g-content-temp{  display: none;}
 .g-content-temp p{ text-align: center; line-height: 300px;}
 .m-invoice, .m-voucher, .m-address{ padding: 0 20px;}
-.m-newlist li.u-li{ position: relative; margin:0 auto; margin-bottom: 10px; height:75px; background-color:#fff; background-size:  50px 50px; background-position: right top; background-repeat: no-repeat;}
-.m-newlist li.u-li-used, .m-newlist li.u-li{ background-image: url(../images/trian.png)}
-.m-newlist li.ul-li-crt{ background-image: url(../images/trian-crt.png)}
+.m-newlist li.u-li{ position: relative; margin:0 auto; margin-bottom: 10px; height:75px; background-color:#fff; background-image: url(../images/trian.png); background-size:  50px 50px; background-position: right top; background-repeat: no-repeat;}
+.m-voucher li.u-li, .m-newlist li.ul-li-crt{ background-image: url(../images/trian-crt.png);}
+.m-newlist li.u-li-used{ background-image: url(../images/trian.png);}
 .m-newlist li.u-li span{ display: block;}
 .m-newlist li.u-li > b{ position: absolute; top: 4px; right: 4px; font-size: 12px; color: #fff;}
 .m-newlist li.u-li span.f-f1{ padding-top: 12px; padding-left:6px; font-size: 16px; color: #282828; }
