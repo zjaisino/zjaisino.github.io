@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<meta name="format-detection" content="telephone=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="keywords" content="" />
+	<meta name="description" content="" />
+	<title>收货地址-新增收货地址</title>
+	<link rel="stylesheet" type="text/css" href="style/base-mobile.css" />
+    	<link rel="stylesheet" type="text/css" href="style/page.css">
+</head>
+
+<body>
+	<!-- content -->
+	<div class="g-content">
+		<form action="http://www.yinjiazeng.com/testdata/test/goodslist/list.php?callback=?">
+			<ul class="m-listview m-listview-edit">
+				<li>
+					<a class="f-df f-aic">
+						<span class="f-f1 f-df s-rdy">
+							<label for="username">收货人</label>
+							<em class="f-f1"><input type="text" id="username" name="username" class="ui-input" readonly="readonly" value="ss" placeholder="请输入收货人信息" /></em>
+						</span>
+						<i class="iconfont j-edit">&#xe64e;</i>
+					</a>
+				</li>
+				<li>
+					<a class="f-df f-aic">
+						<span class="f-f1 f-df s-rdy">
+							<label for="mobile">手机号码</label>
+							<em class="f-f1"><input type="text" id="mobile" name="mobile" class="ui-input" readonly="readonly" value="18668096666" placeholder="请输入手机号码" /></em>
+						</span>
+						<i class="iconfont j-edit">&#xe64e;</i>
+					</a>
+				</li>
+				<li>
+					<a class="f-df f-aic">
+						<span class="f-f1 f-df s-rdy">
+							<label for="username">所在区域</label>
+							<em class="f-f1"><input type="text" id="area" name="area" class="ui-input" readonly="readonly" value="杭州" placeholder="请输入所在区域" /></em>
+						</span>
+						<i class="iconfont j-edit">&#xe64e;</i>
+					</a>
+				</li>
+				<li>
+					<a class="f-df f-aic">
+						<span class="f-f1 f-df s-rdy">
+							<label for="mobile">详细地址</label>
+							<em class="f-f1"><input type="text" id="adress" name="adress" class="ui-input" readonly="readonly" value="西湖区" placeholder="请输入详细地址" /></em>
+						</span>
+						<i class="iconfont j-edit">&#xe64e;</i>
+					</a>
+				</li>
+			</ul>
+			<div class="m-box e-mt20">
+				<button type="submit" class="ui-btn ui-btn-save">保 存</button>
+			</div>
+		</form>
+	</div>
+	<!-- /content -->
+	<script type="text/javascript" src="script/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript" src="script/showmsg.js"></script>
+	<script type="text/javascript" src="script/validform.js"></script>
+	<script type="text/javascript" src="script/jquery.countdown.js"></script>
+	<script type="text/javascript" src="script/page.js"></script>
+	<script type="text/javascript">
+	
+	$.addMethods('lengths', function(val){
+		return $.trim(val).length >= 2;
+	});
+
+	$('form').validform({
+		blur:false,
+		rules:{
+			username:{
+				required:true,
+				lengths:true
+			},
+			mobile:{
+				required:true,
+				mobile:true
+			},
+			area:{
+				required:true,
+				lengths:true
+			},
+			address:{
+				required:true,
+				lengths:true
+			}
+		},
+		message:{
+			username:{
+				required:'请输入用户名',
+				lengths:'用户名至少2个字符串'
+			},
+			mobile:{
+				required:'请输入手机号码',
+				mobile:'手机号码格式有误'
+			},
+			area:{
+				required:'请输入所在区域',
+				vcode:'所在区域至少2个字符串'
+			},
+			address:{
+				required:'请输入详细地址',
+				vcode:'详细地址至少2个字符串'
+			}
+		},
+		ajaxSuccess:function(data){
+			if(data.result == 'success'){
+				$('#code').attr({vcode:''});
+				$.showmsg({message:'保存成功'});
+			}
+		}
+	});
+	</script>
+</body>
+</html>

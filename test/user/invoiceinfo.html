@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<meta name="format-detection" content="telephone=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="keywords" content="" />
+	<meta name="description" content="" />
+	<title>开票信息</title>
+	<link rel="stylesheet" type="text/css" href="style/base-mobile.css" />
+   	 <link rel="stylesheet" type="text/css" href="style/page.css">
+</head>
+
+<body>
+	<!-- content -->
+	<div class="g-content">
+		<form action="http://www.yinjiazeng.com/testdata/test/goodslist/list.php?callback=?">
+			<ul class="m-listview m-listview-edit m-invoice">
+				<li>
+					<a class="f-df f-aic">
+						<span class="f-f1 f-df s-rdy">
+							<label for="invoicetype">发票类型</label>
+							<em class="f-f1">
+								<select id="invoicetype" name="invoicetype" class="ui-input">
+									<option>增值税普通发票</option>
+									<option>增值税专用发票</option>
+								</select>
+							</em>
+						</span>
+						<i class="iconfont j-edit">&#xe64e;</i>
+					</a>
+				</li>
+				<li>
+					<a class="f-df f-aic">
+						<span class="f-f1 f-df s-rdy">
+							<label for="invoicetitle">发票抬头</label>
+							<em class="f-f1">
+								<input type="text" id="invoicetitle" name="invoicetitle" class="ui-input" readonly="readonly" placeholder="企业名称/个人名称" />
+							</em>
+						</span>
+						<i class="iconfont j-edit">&#xe64e;</i>
+					</a>
+				</li>
+			</ul>
+			<div class="m-box e-mt20">
+				<button type="submit" class="ui-btn ui-btn-save">保 存</button>
+			</div>
+		</form>
+	</div>
+	<!-- /content -->
+	<script type="text/javascript" src="script/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript" src="script/showmsg.js"></script>
+	<script type="text/javascript" src="script/validform.js"></script>
+	<script type="text/javascript" src="script/mobiscroll.js"></script>
+	<script type="text/javascript" src="script/page.js"></script>
+	<script type="text/javascript">
+	$.addMethods('lengths', function(val){
+		return $.trim(val).length >= 2;
+	});
+	
+	$('form').validform({
+		blur:false,
+		rules:{
+			invoicetype:{
+				required:true
+			},
+			invoicetitle:{
+				required:true,
+				lengths:true
+			}
+		},
+		message:{
+			invoicetype:{
+				required:'请选择发票类型'
+			},
+			invoicetitle:{
+				required:'请请输入发票抬头',
+				lengths:'发票抬头至少2个字符串'
+			}
+		},
+		ajaxSuccess:function(data){
+			if(data.result == 'success'){
+				$.showmsg({message:'保存成功'});
+			}
+		}
+	});
+	</script>
+</body>
+</html>
