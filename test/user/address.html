@@ -22,19 +22,19 @@
 	<!-- content -->
 	<div class="g-content">
 		<ul class="m-newlist m-address">
+			<li class="u-li ul-li-crt">
+				<span class="f-f1">收件人<label class="phone">18668096666</label></span>
+				<span class="f-f2"><label class="address">杭州市西湖区万塘路30号</label></span>
+				
+				<b>默认</b>
+			</li>
 			<li class="u-li">
 				<span class="f-f1">收件人<label class="phone">18668096666</label></span>
 				<span class="f-f2"><label class="address">杭州市西湖区万塘路30号</label></span>
 				
 				<b>默认</b>
 			</li>
-			<li class="u-li u-li-notdef">
-				<span class="f-f1">收件人<label class="phone">18668096666</label></span>
-				<span class="f-f2"><label class="address">杭州市西湖区万塘路30号</label></span>
-				
-				<b>默认</b>
-			</li>
-			<li class="u-li u-li-notdef">
+			<li class="u-li">
 				<span class="f-f1">收件人<label class="phone">18668096666</label></span>
 				<span class="f-f2"><label class="address">杭州市西湖区万塘路30号</label></span>
 				
@@ -49,5 +49,13 @@
 	<script type="text/javascript" src="http://www.jss.com.cn/Contents/common/jQuery/jquery-1.8.3.min.js"></script>
 	<script type="text/javascript" src="http://www.jss.com.cn/Contents/common/jQuery/jquery.layer.js"></script>
 	<script type="text/javascript" src="script/page.js"></script>
+	<script type="text/javascript">
+		$('.m-address li').click(function(){
+			var that = $(this);
+			if(!that.hasClass('ul-li-crt')){
+				that.addClass('ul-li-crt').siblings().removeClass('ul-li-crt');
+			}
+		})
+	</script>
 </body>
 </html>
