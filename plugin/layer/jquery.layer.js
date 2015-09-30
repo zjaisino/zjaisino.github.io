@@ -1,8 +1,8 @@
 /**
  * FileName: jquery.layer.js
  * Author: Aniu[date:2014-07-11 14:01]
- * Update: Aniu[date:2015-08-14 16:49]
- * Version: v2.8.7 beta
+ * Update: Aniu[date:2015-09-30 13:37]
+ * Version: v2.8.8 beta
  */
 
 ;!(function(window, document, $, undefined){
@@ -146,23 +146,6 @@
     Layer.bsie6 = !-[1,] && !window.XMLHttpRequest;
     Layer.listArray = [];
     Layer.mask = null;
-    /*Layer.extend = function(options, extend){
-        if(isObject(extend)){
-            var temp;
-            $.each(extend, function(key, val){
-                temp = options[key];
-                if(temp !== undefined){
-                    if(isObject(temp) && isObject(val)){
-                        options[key] = Layer.extend(temp, val);
-                    }
-                    else if(!isObject(temp) && !isObject(val)){
-                        options[key] = val;
-                    }
-                }
-            });
-        }
-        return options;  
-    }*/
     Layer.getBorderSize = function(object, isHorz){
         var result = 0;
         if(isHorz){
@@ -176,11 +159,8 @@
     /**
      * @func 弹出层居中、高度改变
      * @param index:弹出层索引或者标识
-     * @param iframe:内嵌框架
-     * @desc 框架内的document对象会增加layer对象属性，值属性分别为:
-     * @desc index => 弹出层所属索引，iframe => 当前框架DOM对象
      * @desc 可在框架内操作父窗口弹出层:
-     * @desc top.layerResize(document.layer.index, document.layer.iframe)
+     * @desc top.layerResize(document.layer.index)
      * @desc parent.layerHide(document.layer.index)
      */
     window.layerResize = function(index){
@@ -545,6 +525,9 @@
                 that.bindEvent(win, 'resize', function(){
                     that.layerResize();
                 });
+				if(Layer.bsie6){
+					that.layerResize();
+				}
             }
             if(typeof options.onShowEvent === 'function'){
                 options.onShowEvent(main, that.index);

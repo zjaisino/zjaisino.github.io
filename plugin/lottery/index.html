@@ -403,15 +403,7 @@
                             <a href="jquery.lottery.js" class="e-ml10">jquery.lottery.js</a>
                         </dd>
                         <dt>版本更新</dt>
-                        <dd>
-							<p>Version:v2.2</p>
-                            <p>Date:2015-08-26</p>
-                            <p>1.增加getParam方法，ajax交互时可传递参数</p>
-                            <br />
-                            <p>Version:v2.1</p>
-                            <p>Date:2015-08-24</p>
-                            <p>1.增加转盘模式，仅支持移动端</p>
-                        </dd>
+                        <dd id="updatelog"></dd>
                     </dl> 
                 </div> 
 			</div>
@@ -440,6 +432,20 @@
 	<script type="text/javascript" src="../../script/page.js"></script>
 	<script type="text/javascript" src="../data.js"></script>
 	<script type="text/javascript" src="../menu.js"></script>
+	<script type="text/javascript" src="../../script/template.js"></script>
+	<script type="text/javascript" src="./log.js"></script>
+	<script type="text/html" id="updatelog-tpl">
+	{{each list as val key}}
+		<p>Version:{{val.ver}}</p>
+		{{if val.date}}
+		<p>Date:{{val.date}}</p>	
+		{{/if}}
+		{{each val.desc as v k}}
+		<p>{{v}}</p>
+		{{/each}}
+		<br />
+	{{/each}}
+	</script>
 	<script type="text/javascript">
 	$('.m-demo1').lottery({
 		url:function(self){

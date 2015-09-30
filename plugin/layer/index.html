@@ -559,21 +559,7 @@
                             <a href="jquery.layer.js" class="e-ml10">jquery.layer.js</a>
                         </dd>
                         <dt>版本更新</dt>
-                        <dd>
-							<p>Version: v2.8.7</p>
-                            <p>Date:2015-08-14</p>
-                            <p>1.将遮罩层优化为全局的，如果显示多个都设置了遮罩的弹出层，直到关闭最后一个才会关闭遮罩层</p>
-                            <br />
-                            <p>Version: v2.8.6</p>
-                            <p>1.优化了实例方法layerResize逻辑</p>
-                            <br />
-                            <p>Version: v2.8.4</p>
-                            <p>1.优化了Layer.extend逻辑</p>
-                            <br />
-                            <p>Version: v2.8.3</p>
-                            <p>1.修复了提示层没有绑定事件在关闭时，unbind报错问题</p>
-                            <p>2.修复了弹出层在关闭时options未定义错误</p>
-                        </dd>
+                        <dd id="updatelog"></dd>
                     </dl> 
                 </div> 
 			</div>
@@ -593,7 +579,7 @@
 	<!-- footer end -->
 	
 	<script type="text/javascript" src="../../script/jquery.js"></script>
-    <script type="text/javascript" src="jquery.layer.js"></script>
+    <script type="text/javascript" src="./jquery.layer.js"></script>
 	<script type="text/javascript" src="../../script/syntax/shCore.js"></script>
 	<script type="text/javascript" src="../../script/syntax/shBrushCss.js"></script>
 	<script type="text/javascript" src="../../script/syntax/shBrushXml.js"></script>
@@ -601,6 +587,20 @@
 	<script type="text/javascript" src="../../script/page.js"></script>
 	<script type="text/javascript" src="../data.js"></script>
 	<script type="text/javascript" src="../menu.js"></script>
+	<script type="text/javascript" src="../../script/template.js"></script>
+	<script type="text/javascript" src="./log.js"></script>
+	<script type="text/html" id="updatelog-tpl">
+	{{each list as val key}}
+		<p>Version:{{val.ver}}</p>
+		{{if val.date}}
+		<p>Date:{{val.date}}</p>	
+		{{/if}}
+		{{each val.desc as v k}}
+		<p>{{v}}</p>
+		{{/each}}
+		<br />
+	{{/each}}
+	</script>
 	<script type="text/javascript">
 	$('#alert').click(function(){
         $.layer.alert('<p style="padding:10px;">弹出层内容</p>', '标题', '280');
