@@ -1,0 +1,7 @@
+@charset "utf-8";
+
+.ui-tab { display:none;}
+.ui-tab li { display:inline;}
+.ui-tab li a { display:inline-block; text-align:center;}
+.ui-tab li a:hover { text-decoration:none;}
+.ui-tab li { position:relative; cursor:pointer;}

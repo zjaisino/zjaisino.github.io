@@ -1,9 +1,13 @@
 /**
  * FileName: jqyery.timer.js
  * Author: Aniu[date:2015-01-04 09:48]
- * Update: Aniu[date:2015-01-08 13:35]
- * Version: v1.2
- * Description: 倒计时，调用元素含有属性data-starttime，data-endtime，data-stoptime
+ * Update: Aniu[date:2015-07-24 19:29]
+ * Version: v1.3
+ * Description: data-starttime  倒计时开始时间，默认为当前系统时间
+ *              data-readytime  活动开始前准备时间，例如活动开始前几分钟需要改变一些状态，默认空
+ *              data-begintime  活动开始时间，必须值
+ *              data-endtime    活动结束时间，必须值
+ *              data-beforetime 结束前某一时间，默认空
  */
  
 $.fn.timer = function(o){
@@ -37,8 +41,9 @@ $.fn.timer = function(o){
             target.html(html);
         },
         /**
-         * @func 倒计时进行时回调函数
+         * @func 倒计时运行回调函数
          * @type <Function>
+         * @return <Boolean> 返回true则会立即终止当前倒计时
          * @param target <jQuery Object> 调用组件的当前对象
          * @param dayArray <Array> 剩余天数数组
          * @param dateArray <Array> 剩时间数组，若天数为0，会被移除
@@ -48,11 +53,25 @@ $.fn.timer = function(o){
             this.createHtml(target, dayArray, dateArray, dateUnit);
         },
         /**
-         * @func 下一个倒计时，若系统时间大于结束时间，并且小于倒计时停止时间，将被调用
+         * @func 活动倒计时进行中时调用,用于初始化进行中倒计时，仅调用一次
          * @type <Function>
          * @param target <jQuery Object> 调用组件的当前对象
          */
-        nextCallback:$.noop,
+        runningCallback:$.noop,
+        /**
+         * @func 结束前回调函数，搭配data-beforetime使用
+         * @type <Function>
+		 * @return <Boolean> 返回false仅执行一次
+         * @param target <jQuery Object> 调用组件的当前对象
+         */
+        beforeCallback:$.noop,
+        /**
+         * @func 准备阶段回调函数
+         * @type <Function>
+		 * @return <Boolean> 返回false仅执行一次
+         * @param target <jQuery Object> 调用组件的当前对象
+         */
+        readyCallback:$.noop,
         /**
          * @func 倒计时结束回调函数
          * @type <Function>
@@ -60,23 +79,26 @@ $.fn.timer = function(o){
          */
         endCallback:function(target){
             target.html('<span><em>活动已结束</em></span>');
-        },
-        showCallback:$.noop
+        }
 	}, o||{});
+    var getTime = function(date){
+        return new Date(date).getTime();
+    }
 	return this.each(function(){
-		var _this = $(this), delay = 1000, timeout = null, isStop = false, data = _this.data(), status = 1, //1未开始 2进行中 3已结束
-            starttime = data.starttime ? new Date(data.starttime).getTime() : new Date().getTime(),
-            endtime = new Date(data.endtime).getTime(), stoptime = new Date(data.stoptime).getTime(),
-            nexttime = new Date(data.nexttime).getTime(), system = [new Date().getTime()], isAuto = false, //是否自动切换到进行中的倒计时，如果在进行中，用户刷新页面，将自动创建进行中的倒计时，之后必须设为true
-            showtime = _this.prev().data('nexttime') ? new Date(_this.prev().data('nexttime')).getTime() : null,
+		var _this = $(this), delay = 1000, timeout = null, data = _this.data(), status = 1, //1未开始 2进行中
+            starttime = data.starttime ? getTime(data.starttime) : new Date().getTime(),
+            readytime = data.readytime ? getTime(data.readytime) : null,
+            begintime = getTime(data.begintime), _begintime = begintime, endtime = getTime(data.endtime),
+            beforetime = data.beforetime ? getTime(data.beforetime) : null, system = [new Date().getTime()], 
+			ready = true, before = true, isStop = false, isAuto = false, //是否自动切换到进行中的倒计时，如果在进行中，用户刷新页面，将自动创建进行中的倒计时，之后必须设为true
             dateArray = [], dayArray = [], dateUnit = ['时', '分', '秒'],
 			running = function(isInit){
-				var day = hour = minute = second = 0, time = endtime - starttime;
-                if((starttime>=endtime && starttime<stoptime && !isAuto) || ((isAuto=true) && time>0 && !isStop)){
+				var day = hour = minute = second = 0, time = begintime - starttime, underway = starttime>=begintime && starttime<endtime && !isAuto;
+                if(underway || ((isAuto=true) && time>0 && !isStop)){
                     delay = 1000;
-                    if(starttime>=endtime && starttime<stoptime && !isAuto){
-                        endtime = stoptime;
-                        time = endtime - starttime;
+                    if(underway){
+                        begintime = endtime;
+                        time = begintime - starttime;
                         status = 2;
                         delay = 0;
                     }
@@ -93,26 +115,20 @@ $.fn.timer = function(o){
                     dateArray = (day+''+hour+''+minute+''+second).split('');
                     dayArray = dateArray.slice(0, -6);
                     if(isInit == true){
-                        o.createHtml(_this, dayArray, dateArray.slice(dayArray.length), dateUnit, isAuto);
+                        o.createHtml(_this, dayArray, dateArray.slice(dayArray.length), dateUnit);
                     }
                     else{
                         dayArray[0] == 0 && dateArray.shift();
-                        isStop = o.runCallback(_this, dayArray, dateArray, dateUnit);
+                        isStop = o.runCallback(_this, dayArray, dateArray, dateUnit, status);
                         if(isStop){
                             delay = 0;
-                            o.showCallback(_this.next(), 1);
                         }
                     }
-                    if(starttime < nexttime){
-                        if(!showtime || (showtime && starttime >= showtime)){
-                            o.showCallback(_this, status);
-                        }
+                    if(beforetime && starttime >= beforetime && before !== false){
+                        before = o.beforeCallback(_this);
                     }
-                    else if(starttime >= nexttime || !isAuto){
-                        o.showCallback(_this.next(), 1);
-                        if(!isAuto){
-                            o.showCallback(_this, status);
-                        }
+                    if(readytime && readytime <=starttime && starttime < _begintime && ready !== false){
+                        ready = o.readyCallback(_this);
                     }
 
                     //不能加等于1000，因为不同浏览器对js的渲染速度不一样，会导致时间延迟，应该获取系统时间的差值
@@ -121,14 +137,13 @@ $.fn.timer = function(o){
                     starttime += (system[1] - system[0]);
                     isAuto = true;
                 }
-                else if(starttime >= endtime && starttime < stoptime && !isStop && isAuto){
-                    endtime = stoptime;
+                else if(starttime >= begintime && starttime < endtime && !isStop && isAuto){
+                    begintime = endtime;
                     delay = 0;
                     status = 2;
-                    o.nextCallback(_this);
+                    o.runningCallback(_this);
                 }
                 else{
-                    o.showCallback(_this, 3);
                     o.endCallback(_this, starttime);
                     clearTimeout(timeout);
                     return;

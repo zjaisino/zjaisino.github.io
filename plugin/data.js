@@ -14,4 +14,10 @@ var MENUDATA = [
         name:'arttemplate',
         desc:'性能卓越的javascript模板引擎'
 	}
+	,
+	{
+		title:'活动倒计时', 
+        name:'timer',
+        desc:'可满足各类活动倒计时，自定义显示方式'
+	}
 ]
