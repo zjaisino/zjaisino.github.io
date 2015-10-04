@@ -20,7 +20,7 @@ var MENUDATA = [{
 	desc:'选项卡菜单'
 }, {
 	title:'图片轮播', 
-	name:'slider',
+	name:'superslide',
 	desc:'固定尺寸、自适应、视差滚动'
 }, {
 	title:'分页', 

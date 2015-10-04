@@ -1,8 +1,8 @@
 /**
  * FileName: jquery.superslide.js
- * Author: Aniu[date:2014-12-15 8:07]
- * Update: Aniu[date:2014-12-16 13:40]
- * Version: v1.1
+ * Author: Aniu[date:2014-12-15 08:07]
+ * Update: Aniu[date:2015-03-23 16:33]
+ * Version: v1.3
  * Description: 超级幻灯片
  */
 
@@ -10,7 +10,7 @@
     var win = $(window);
     var SuperSlide = function(options){
         var that = this;
-        that.options = SuperSlide.extend({
+        that.options = $.extend(true, {
             target:null,
             //自动切换延迟时间
             delay:4000,
@@ -34,6 +34,11 @@
             isHorz:true,
             //是否显示标题，<li data-title="文本或者html"></li>
             isTitle:false,
+            //点按钮配置
+            list:{
+            	//是否默认隐藏，鼠标悬停后显示
+                isHide:false 	
+            },
             //左右切换按钮
             button:{
                 enable:true,
@@ -60,43 +65,21 @@
             scroll:{
                 enable:false,
                 //是否默认显示最后一屏
-                isEnd:false
+                isEnd:false,
+                isClick:true
             },
             /**
-             * @func 切换后的回调函数，若非循环滚动，表示li标签触发event后的回调函数
+             * @func 切换中的回调函数，若非循环滚动，表示li标签触发event后的回调函数
              * @param index <Number> 触发目标元素索引
              */
-            callback:null
+            callback:null,
+            /**
+             * @func 切换后的回调函数
+             * @param index <Number> 触发目标元素索引
+             */
+            endCallback:null
         }, options);
         that.init();
-    }
-    
-    SuperSlide.extend = function(options, extend){
-        for(var i in extend){
-            var value = extend[i];
-            if($.isPlainObject(value)){
-                for(var m in value){
-                    if($.isPlainObject(value[m])){
-                        for(var n in value[m]){
-                            if(value[m][n] != null){
-                                options[i][m][n] = value[m][n];
-                            }
-                        }
-                    }
-                    else{
-                        if(value[m] != null){
-                            options[i][m] = value[m];
-                        }       
-                    }
-                }
-            }
-            else{
-                if(value !== ''){
-                    options[i] = value;
-                }
-            }
-        }
-        return options;  
     }
     
     SuperSlide.prototype = {
@@ -127,7 +110,7 @@
             if(options.button.enable == true){
                 target.append('<span class="ui-slide-btn ui-slide-prev"></span><span class="ui-slide-btn ui-slide-next"></span>');
             }
-            that.button = target.find('.ui-slide-btn');
+            that.button = target.children('.ui-slide-btn');
 
             if(that.itemSize){
                 that.index = 0;
@@ -140,6 +123,13 @@
                 }
                 else{
                     that.button.show();
+                }
+                if(options.list.isHide == true){
+                    target.hover(function(){
+                        that.list.fadeIn();
+                    }, function(){
+                        that.list.stop(true, false).fadeOut();
+                    });
                 }
                 if(options.scroll.enable != true){
                     that.items[type](that[type]);
@@ -163,15 +153,15 @@
                 item = $(item);
                 list = item.data('list') === undefined ? (i+1) : item.data('list');
                 listItems += '<span>'+ list +'</span>';
-                thumbItems += '<li><img data-src="'+ item.data('thumb') +'" /><i></i></li>';
+                thumbItems += '<li><img src="'+ item.data('thumb') +'" /><i></i></li>';
             });
-            
+            if(options.isTitle == true){
+                target.append('<div class="ui-slide-title"><span></span></div>');
+            }
+            that.title = target.find('.ui-slide-title span');
+            that.list = target.find('.ui-slide-list');
             if(that.itemSize > 1){
-                var html = '<div class="ui-slide-list">'+ listItems +'</div>';
-                if(options.isTitle == true){
-                    html += '<div class="ui-slide-title"><span></span></div>';
-                }
-                target.append(html);
+                target.append('<div class="ui-slide-list">'+ listItems +'</div>');
                 if(options.thumb.enable == true){
                     that.thumb = new SuperSlide({
                         target:$('<div class="ui-slide-scroll"><ul class="ui-slide">'+ thumbItems +'</ul></div>').appendTo(target),
@@ -191,8 +181,7 @@
                     });
                 }
                 
-                that.list = target.find('.ui-slide-list');
-                that.title = target.find('.ui-slide-title span');
+                that.list = target.children('.ui-slide-list');
                 
                 if(options.isFadein != true){
                     var oneItem = that.items.eq(0);
@@ -288,11 +277,15 @@
             if(options.isFadein != true){
                 var animate = {};
                 animate[that.size.dir] = -index*that[that.size.type];
-                that.scroll.stop(true, false).animate(animate, options.speed, options.ease);
+                that.scroll.stop(true, false).animate(animate, options.speed, options.ease, function(){
+                	typeof options.endCallback == 'function' && options.endCallback(index);
+                });
                 animate = null;
             }
             else{
-                item.fadeIn(options.speed).siblings().stop(true, false).fadeOut(options.speed);
+                item.fadeIn(options.speed).siblings().stop(true, false).fadeOut(options.speed, function(){
+                	typeof options.endCallback == 'function' && options.endCallback(index);
+                });
             }
             that.title.html(item.data('title'));
             index = index < that.itemSize ? index : 0;
@@ -336,7 +329,7 @@
                 that.slideMove();
             }
         },
-        createScroll:function(){
+        createScroll:function(isReset){
             var that = this, options = that.options, target = options.target;
             that.setting = {
                 dir:'left',
@@ -355,11 +348,17 @@
             that.outline  = that.items[that.setting.outer]() + parseInt(that.items.css(that.setting.margin));
 			that.count  = Math.ceil(that.wrap[that.setting.outline]()/that.outline);
 			that.cOutline = that.outline*that.count;
-            that.scroll[that.setting.outline](that.outline*that.itemSize);
+			that.scrollVal = that.outline*that.itemSize - that.cOutline;
+            that.scroll[that.setting.outline](that.scrollVal + that.cOutline);
+            that.button.removeClass('s-crt');
             if(that.itemSize<=that.count){
                 that.button.addClass('s-dis');
             }
-            that.scrollEvent();
+            if(!isReset){
+            	that.moveTo = 0;
+                that.scrollEvent();
+            }
+            
             return that;
         },
         scrollEvent:function(){
@@ -367,78 +366,78 @@
             that.button.on('click', function(){
                 target = $(this);
                 if(!target.hasClass('s-dis')){
-                    var dir = Math.abs(that.scroll.position()[that.setting.dir]),
-                        num = (dir+(that.cOutline))/that.outline;
-                    if(target.hasClass('ui-slide-prev')){
-                        if(num-that.count > that.count){
-                            that.index = -that.cOutline;
-                            that.scrollMove(target, false, num, true);
-                        }
-                        else{
-                            that.index = -(num-that.count)*that.outline;
-                            that.scrollMove(target, true, num, true);
-                        }
-                        that.items.eq(dir/that.outline-1)[options.event]();
-                    }
-                    else{
-                        if(that.itemSize-num > that.count){
-                            that.index = that.cOutline;
-                            that.scrollMove(target, false, num);
-                        }
-                        else{
-                            that.index = (that.itemSize-num)*that.outline;
-                            that.scrollMove(target, true, num);
-                        }
-                        that.items.eq(num)[options.event]();
-                    }
+					var dir = Math.abs(that.scroll.position()[that.setting.dir]);
+					if(target.hasClass('ui-slide-prev')){
+						if(dir > that.cOutline){
+							if(!that.moveTo){
+								that.index = -that.cOutline;
+							}
+							else{
+								that.index = -that.moveTo;
+								that.moveTo = 0;
+							}
+                            that.scrollMove(target, false);
+						}
+						else{
+							that.moveTo = that.index = -dir;	
+							that.scrollMove(target, true);
+						}
+					}
+					else{
+						var sval = that.scrollVal-dir;
+						that.moveTo = Math.abs(that.moveTo);
+						if(sval-that.cOutline>=0){
+							if(!that.moveTo){
+								that.index = that.cOutline;	
+							}
+							else{
+								that.index = that.moveTo;
+								that.moveTo = 0;
+							}
+                            that.scrollMove(target, false);
+						}
+						else{
+							that.moveTo = that.index = sval;	
+							that.scrollMove(target, false);
+						}	
+					}
                 }
             });
             
-            that.items.on(options.event, function(){
+            options.scroll.isClick && that.items.on(options.event, function(){
                  typeof options.callback == 'function' && options.callback($(this).index());
                  $(this).addClass('s-crt').siblings().removeClass('s-crt');
             });
             
             if(options.scroll.isEnd === true){
                 that.index = that.itemSize*that.outline-that.cOutline;
-                that.scrollMove(that.button.last(), true, (that.itemSize+that.count), true, 0);
+                that.scrollMove(that.button.last(), true, 0);
             }
-            else if(that.moveTo > 0){
-                if((that.moveTo + that.count) >= that.itemSize){
-                    that.index = that.itemSize*that.outline-that.cOutline;
-                    that.scrollMove(that.button.last(), true, (that.itemSize+that.count), true, 0);
-                }
-                else if((that.moveTo + 1) <= that.count){
-                    that.scrollMove(that.button.first(), true, 0, false, 0);
-                }
-                else{
-                    that.index = that.moveTo*that.outline;
-                    that.scrollMove(that.button.first(), false, that.moveTo, false, 0);
-                }
+            else if(options.moveTo > 0){
+				var moveTo = options.moveTo + 1, step = Math.ceil(that.count/2), temp = moveTo-step;
+				if(temp <= 0){
+					that.scrollMove(that.button.first(), true, 0);
+				}
+				else if(temp+step*2 > that.itemSize){
+					that.index = that.itemSize*that.outline-that.cOutline;
+                    that.scrollMove(that.button.last(), true, 0);
+				}
+				else{
+					that.index = temp*that.outline;
+					that.scrollMove(that.button.first(), false, 0);
+				}
+                options.scroll.isClick && that.items.eq(options.moveTo)[options.event]();
             }
             else{
-                that.scrollMove(that.button.first(), true, 0, false, 0);
+                that.scrollMove(that.button.first(), true, 0);
             }
         },
-        scrollMove:function(target, isDis, num, isPrev, speed){
+        scrollMove:function(target, isDis, speed){
             var that = this, options = that.options, animate = {};
             speed = speed === undefined ? options.speed : speed;
             if(!that.scroll.is(':animated')){
-                var img, start, end;
-                if(!isPrev){
-                    start = num;
-                    end = start+that.count;
-                }
-                else{
-                    end = num - that.count;
-                    start = (start = end - that.count) > 0 ? start : 0;
-                }
-                that.items.slice(start, end).each(function(){
-                    img = $(this).find('img');
-                    !img.attr('src') && img.attr('src', img.data('src'));
-                });
                 animate[that.setting.dir] = '-='+that.index+'px';
-				that.scroll.animate(animate, speed, function(){
+				that.scroll.stop(true, false).animate(animate, speed, function(){
 					that.itemSize>that.count && target.siblings('.ui-slide-btn').removeClass('s-dis');
 					if(isDis == true){
 						target.addClass('s-dis');
@@ -446,6 +445,12 @@
 				});
                 animate = null;
 			}
+        },
+        resetItem:function(){
+        	var that = this;
+        	that.items = that.scroll.children();
+        	that.itemSize = that.items.size();
+        	that.createScroll(true);
         },
         autoplay:function(){
             var that = this, options = that.options;
@@ -456,9 +461,10 @@
     }
     
     $.fn.superSlide = function(options){
+    	options = options || {};
     	return this.each(function(){
             options.target = $(this);
-    		new SuperSlide(options);
+    		this.set = new SuperSlide(options);
     	});
     }
 })(this, document, jQuery);
