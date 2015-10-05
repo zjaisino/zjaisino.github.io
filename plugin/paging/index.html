@@ -73,6 +73,10 @@
 							window['paging'].query();
                             </pre>
                         </dd>
+						<dd>
+							<p>接口会接收pCount和current二个参数，分别表示一页显示个数和当前页码</p>
+							<p>接口必须返回数据总数，属性建议为aCount，否则需要在echoData方法中重新赋值，因为组件分页逻辑中使用到了aCount属性</p>
+						</dd>
 						<dt>实例</dt>
 						<dd>
 							<h3 class="f-fwb">页面无刷新</h3>
