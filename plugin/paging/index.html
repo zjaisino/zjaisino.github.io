@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="renderer" content="webkit" />
+    <meta name="keywords" content="浙江爱信诺前端规范,爱信诺规范,爱信诺前端,爱信诺组件" />
+    <meta name="description" content="本站包括了规范、框架、代码库等内容，致力于为前端开发人员提供高效率高质量的前端页面开发解决方案，提高多人协作效率，也为非专业人员提供快速制作网页的解决方案。" />
+    <meta name="copyright" content="浙江爱信诺航天信息有限公司" />
+    <title>分页-组件-浙江爱信诺前端规范</title>
+    <link rel="stylesheet" type="text/css" href="../../style/base.css" />
+    <link rel="stylesheet" type="text/css" href="../../style/common.css" />
+    <link rel="stylesheet" type="text/css" href="../../style/page.css" />
+    <link rel="stylesheet" type="text/css" href="paging.css" />
+	<link type="text/css" rel="stylesheet" href="../../style/syntax/shCore.css"/>
+	<link type="text/css" rel="stylesheet" href="../../style/syntax/shThemeDefault.css"/>
+	<style type="text/css">
+	.m-demo li { margin-top:10px;}
+	ul.m-demo { margin-bottom:10px;}
+	.ui-loading { top:10px; left:100px;}
+	</style>
+</head>
+
+<body class="g-body">
+    <!-- header begin -->
+    <div class="g-header">
+		<div class="m-htop g-wrap">
+			<i></i><i></i><i></i><i></i><i></i><i></i>
+			<h1 class="u-logo"><a href="../../index.html">浙江爱信诺前端规范</a></h1>
+		</div>
+		<div class="m-nav">
+			<ul class="g-wrap">
+				<li><a href="../../index.html">规范<i class="ui-icon ui-icon-tip"></i></a></li>
+				<li><a href="../../framework.html">框架<i class="ui-icon ui-icon-tip"></i></a></li>
+				<li class="s-crt"><a href="../../plugin.html">组件<i class="ui-icon ui-icon-tip"></i></a></li>
+			</ul>
+		</div>
+	</div>
+    <!-- header end -->
+	
+	<!-- content begin -->
+	<div class="g-content f-clearfix">
+		<div class="g-side">
+			<div class="m-menu" id="menu"> 
+				<ul></ul> 
+			</div>
+		</div>
+		<div class="g-main">
+			<div class="g-con">
+				<div class="m-article m-plugin ui-animate ui-animate-fadeShow"> 
+                    <h2 class="u-ttb2">组件 - <em id="title">分页</em></h2> 
+                    <div class="u-line"><span class="linea"></span><span class="lineb"></span></div> 
+                    <dl> 
+                        <dt>使用说明</dt>
+                        <dd>
+							<pre class="brush:xml;">
+                            <!-- 引入组件样式 -->
+                            &lt;link rel="stylesheet" type="text/css" href="paging.css" /&gt;
+                            
+							<!-- 创建骨架 -->
+							&lt;div id="datalist"&gt;&lt;/div&gt; <!-- 展示数据 -->
+							&lt;div class="m-paging"&gt;&lt;/div&gt; <!-- 展示分页 -->
+							
+                            <!-- 引入jQuery和组件脚本 -->
+                            &lt;script type="text/javascript" src="jquery.js"&gt;&lt;/script&gt;
+                            &lt;script type="text/javascript" src="jquery.paging.js"&gt;&lt;/script&gt;
+							
+							<!-- 调用方式1 -->
+							$.paging(配置参数);
+							
+							<!-- 调用方式2 -->
+							window['paging'] = new Paging(配置参数);
+							window['paging'].query();
+                            </pre>
+                        </dd>
+						<dt>实例</dt>
+						<dd>
+							<h3 class="f-fwb">页面无刷新</h3>
+							<ul class="m-demo" id="data1"></ul>
+							<div class="m-paging" id="paging1"></div>
+							<pre class="brush:html;">
+							&lt;ul class="m-demo" id="data1"&gt;&lt;/ul&gt;
+							&lt;div class="m-paging" id="paging1"&gt;&lt;/div&gt;
+							</pre>
+							<pre class="brush:js;">
+							$.paging({
+								url:'http://www.yinjiazeng.com/testdata/test/goodslist/list.php?callback=?',
+								pCount:5,
+								wrap:$('#paging1'),
+								loading:{
+									wrap:$('#data1')
+								},
+								condition:{
+									price:1
+								},
+								echoData:function(data){
+									if(data.result == 'success'){
+										var html = (function(list){
+											var arr = [];
+											$.each(list, function(k, v){
+												arr.push('<li>'+ v.buname +'</li>');
+											});
+											return arr.join('');
+										})(data.list);
+										$('#data1').html(html);
+									}
+								}
+							});
+							</pre>
+							<h3 class="f-fwb">传统页面刷新</h3>
+							<ul class="m-demo" id="data2"></ul>
+							<div class="m-paging" id="paging2"></div>
+							<pre class="brush:html;">
+							&lt;ul class="m-demo" id="data2"&gt;&lt;/ul&gt;
+							&lt;div class="m-paging" id="paging2"&gt;&lt;/div&gt;
+							</pre>
+							<pre class="brush:js;">
+							var page = parseInt(tools.getParam('page')||1);
+							var crt = (page-1)*3;
+							var data = MENUDATA.slice(crt, crt+3);
+							var arr = [];
+							$.each(data, function(k, v){
+								arr.push('<li>'+ v.title +'</li>');
+							});
+							$('#data2').html(arr.join(''));
+							window['pages'] = new Paging({
+								pCount:3,
+								wrap:$('#paging2'),
+								isFull:false,
+								refreshCallback:function(current){
+									tools.jumpUrl(tools.setParam('page', current));
+								}
+							});
+							window['pages'].aCount = MENUDATA.length;
+							window['pages'].current = page;
+							window['pages'].create();
+							</pre>
+						</dd>
+						<dt>API</dt>
+                        <dd>
+							<table> 
+                                <thead> 
+                                    <tr>
+                                        <th width="120">普通属性</th>
+                                        <th width="120">值类型</th>
+                                        <th width="150">默认值</th>
+                                        <th width="120">可填值</th>
+                                        <th>功能说明</th>
+                                    </tr> 
+                                </thead> 
+                                <tbody> 
+									<tr>
+                                        <td>url</td>
+                                        <td>String</td>
+                                        <td>''</td>
+                                        <td>url地址</td>
+                                        <td>ajax请求url</td>
+                                    </tr>
+									<tr>
+                                        <td>wrap</td>
+                                        <td>Object</td>
+                                        <td>null</td>
+                                        <td>null/jquery object</td>
+                                        <td>数据填充容器</td>
+                                    </tr>
+									<tr>    
+                                        <td>paramJSON</td>
+                                        <td>String</td>
+                                        <td>''</td>
+                                        <td>英文字符串</td>
+                                        <td>传递参数值，将传递参数封装为json字符串，后台接收该参数来获取该json</td>
+                                    </tr>
+									<tr>
+                                        <td>pCount</td>
+                                        <td>Number</td>
+                                        <td>10</td>
+                                        <td>正整数</td>
+                                        <td>当页显示数量</td>
+                                    </tr>
+									<tr>
+                                        <td>last</td>
+                                        <td>Boolean</td>
+                                        <td>false</td>
+                                        <td>true/false</td>
+                                        <td>是否初始化展示最后一页</td>
+                                    </tr>
+									<tr>
+                                        <td>allData</td>
+                                        <td>Boolean</td>
+                                        <td>false</td>
+                                        <td>true/false</td>
+                                        <td>是否读取全部数据，该参数启用后，接口将无法接收到pCount和current参数，前后端约定好，若没接收到这2个参数，将返回全部数据</td>
+                                    </tr>
+									<tr>
+                                        <td>isFull</td>
+                                        <td>Boolean</td>
+                                        <td>true</td>
+                                        <td>true/false</td>
+                                        <td>是否完整形式展示分页</td>
+                                    </tr>
+									<tr>
+                                        <td>ajax</td>
+                                        <td>Object</td>
+                                        <td>{}</td>
+                                        <td>{key:value,...}</td>
+                                        <td>ajax配置信息</td>
+                                    </tr>
+									<tr>
+                                        <td>condition</td>
+                                        <td>Object</td>
+                                        <td>{}</td>
+                                        <td>{key:value,...}</td>
+                                        <td>接口接收参数</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+							<table> 
+                                <thead> 
+                                    <tr>
+                                        <th width="120">对象属性</th>
+										<th width="120">属性名</th>
+                                        <th width="120">值类型</th>
+                                        <th width="120">默认值</th>
+                                        <th width="120">可填值</th>
+                                        <th>功能说明</th>
+                                    </tr>
+                                </thead> 
+                                <tbody> 
+									<tr>
+                                        <td rowspan="3">loading</td>
+                                        <td>wrap</td>
+                                        <td>Obejct</td>
+                                        <td>null</td>
+                                        <td>null/jquery object</td>
+                                        <td>loading容器</td>
+                                    </tr>
+									<tt>
+										<td>show</td>
+										<td>Function</td>
+										<td>function(){...}</td>
+										<td>function(){...}</td>
+										<td>显示loading</td>
+									<tr>
+									<tt>
+										<td>hide</td>
+										<td>Function</td>
+										<td>function(){...}</td>
+										<td>function(){...}</td>
+										<td>隐藏loading</td>
+									<tr>
+									<tr>
+                                        <td rowspan="2">button</td>
+                                        <td>prev</td>
+                                        <td>String</td>
+                                        <td>«</td>
+                                        <td>任意字符串</td>
+                                        <td>上一页按钮文本内容</td>
+                                    </tr>
+									<tt>
+										<td>next</td>
+										<td>String</td>
+                                        <td>»</td>
+                                        <td>任意字符串</td>
+                                        <td>下一页按钮文本内容</td>
+									<tr>
+									<tr>
+                                        <td rowspan="4">extPage</td>
+                                        <td>wrap</td>
+                                        <td>Obejct</td>
+                                        <td>null</td>
+                                        <td>null/jquery object</td>
+                                        <td>拓展分页容器</td>
+                                    </tr>
+									<tr>
+                                        <td>desc</td>
+                                        <td>String</td>
+                                        <td>''</td>
+                                        <td>任意字符串</td>
+                                        <td>展示文字内容</td>
+                                    </tr>
+									<tr>
+                                        <td>prev</td>
+                                        <td>String</td>
+                                        <td>«</td>
+                                        <td>任意字符串</td>
+                                        <td>上一页按钮文本内容</td>
+                                    </tr>
+									<tt>
+										<td>next</td>
+										<td>String</td>
+                                        <td>»</td>
+                                        <td>任意字符串</td>
+                                        <td>下一页按钮文本内容</td>
+									<tr>
+                                </tbody>
+                            </table>
+                            <table>
+                                <thead> 
+                                    <tr>
+                                        <th width="120">普通方法</th>
+                                        <th width="120">参数</th>
+                                        <th width="150">参数说明</th>
+                                        <th width="120">返回值</th>
+                                        <th>功能说明</th>
+                                    </tr> 
+                                </thead> 
+                                <tbody> 
+									<tr>
+                                        <td>refreshCallback</td>
+                                        <td>current</td>
+                                        <td>目标页码</td>
+                                        <td>-</td>
+                                        <td>传统页面刷新方式，在函数内使用location跳转，建议使用new Paging()方式调用分页组件，手动设置aCount和current属性，然后调用query('refresh')</td>
+                                    </tr>
+									<tr>
+                                        <td>endCallback</td>
+                                        <td>data</td>
+                                        <td>响应数据</td>
+                                        <td>-</td>
+                                        <td>ajax响应数据并且分页创建完毕后回调函数</td>
+                                    </tr>
+									<tr>
+                                        <td>echoData</td>
+                                        <td>data</td>
+                                        <td>响应数据</td>
+                                        <td>-</td>
+                                        <td>分页数据处理</td>
+                                    </tr>
+                                </tbody>
+                            </table> 
+							<table>
+                                <thead> 
+                                    <tr>
+                                        <th width="120">实例对象方法</th>
+                                        <th width="120">参数</th>
+                                        <th width="120">参数类型</th>
+                                        <th width="150">参数说明</th>
+                                        <th width="120">返回值</th>
+                                        <th>功能说明</th>
+                                    </tr> 
+                                </thead> 
+                                <tbody> 
+									<tr>
+                                        <td>query</td>
+                                        <td>condition</td>
+                                        <td>String, Boolean</td>
+                                        <td>是否保留查询参数</td>
+                                        <td>-</td>
+                                        <td>查询数据，若参数值为refresh，则表示为页面刷新分页，搭配refreshCallback使用，若值为false，则会清空所有condition参数，只保留current=1</td>
+                                    </tr>
+                                </tbody>
+                            </table> 
+						</dd> 
+                        <dt>下载</dt>
+                        <dd>
+                            <a href="paging.css">paging.css</a>
+                            <a href="jquery.paging.js" class="e-ml10">jquery.paging.js</a>
+                        </dd>
+                        <dt>版本更新</dt>
+                        <dd id="updatelog"></dd>
+                    </dl> 
+                </div> 
+			</div>
+		</div>
+	</div>
+	<!-- content end -->
+	
+	<!-- footer begin -->
+	<div class="g-footer">
+		<div class="g-wrap">
+			<p>
+				<a href="http://wpa.qq.com/msgrd?v=3&uin=897102078&site=qq&menu=yes" target="_blank">技术支持</a>
+			</p>
+			<p>Copyright © 2013-2015 Aisino. All Rights Reserved.</p>
+		</div>
+	</div>
+	<!-- footer end -->
+	
+	<script type="text/javascript" src="../../script/jquery.js"></script>
+	<script type="text/javascript" src="../../script/tools.js"></script>
+	<script type="text/javascript" src="jquery.paging.js"></script>
+    <script type="text/javascript" src="../layer/jquery.layer.js"></script>
+	<script type="text/javascript" src="../../script/syntax/shCore.js"></script>
+	<script type="text/javascript" src="../../script/syntax/shBrushCss.js"></script>
+	<script type="text/javascript" src="../../script/syntax/shBrushXml.js"></script>
+	<script type="text/javascript" src="../../script/syntax/shBrushJScript.js"></script>
+	<script type="text/javascript" src="../../script/page.js"></script>
+	<script type="text/javascript" src="../data.js"></script>
+	<script type="text/javascript" src="../menu.js"></script>
+	<script type="text/javascript" src="../arttemplate/template.js"></script>
+	<script type="text/javascript" src="./log.js"></script>
+	<script type="text/html" id="updatelog-tpl">
+	{{each list as val key}}
+		<p>Version:{{val.ver}}</p>
+		{{if val.date}}
+		<p>Date:{{val.date}}</p>	
+		{{/if}}
+		{{each val.desc as v k}}
+		<p>{{v}}</p>
+		{{/each}}
+		<br />
+	{{/each}}
+	</script>
+	<script type="text/javascript">
+	$.paging({
+		url:'http://www.yinjiazeng.com/testdata/test/goodslist/list.php?callback=?',
+		pCount:5,
+		wrap:$('#paging1'),
+		loading:{
+			wrap:$('#data1')
+		},
+		condition:{
+			price:1
+		},
+		echoData:function(data){
+			if(data.result == 'success'){
+				var html = (function(list){
+					var arr = [];
+					$.each(list, function(k, v){
+						arr.push('<li>'+ v.buname +'</li>');
+					});
+					return arr.join('');
+				})(data.list);
+				$('#data1').html(html);
+			}
+		}
+	});
+	
+	var page = parseInt(tools.getParam('page')||1);
+	var crt = (page-1)*4;
+	var data = MENUDATA.slice(crt, crt+4);
+	var arr = [];
+	$.each(data, function(k, v){
+		arr.push('<li>'+ v.title +'</li>');
+	});
+	$('#data2').html(arr.join(''));
+	window['pages'] = new Paging({
+		pCount:4,
+		wrap:$('#paging2'),
+		isFull:false,
+		refreshCallback:function(current){
+			tools.jumpUrl(tools.setParam('page', current));
+		}
+	});
+	window['pages'].aCount = MENUDATA.length;
+	window['pages'].current = page;
+	window['pages'].query('refresh');
+	</script>
+</body>
+</html>

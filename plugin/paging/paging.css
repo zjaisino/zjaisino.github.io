@@ -1,0 +1,17 @@
+@charset "utf-8";
+
+/**
+ * @fileName paging.css
+ * @author Aniu[date:2015-10-05 16:52]
+ * @update Aniu[date:2015-10-05 16:52]
+ * @version v1.1
+ * @description none
+ */
+ 
+.ui-paging { overflow:hidden; background-color:#fff;}
+.ui-paging li { float:left; display:inline; text-align:center; margin-right:5px; line-height:22px;}
+.ui-paging span,.ui-paging a,.ui-paging em,.ui-paging input,.ui-paging button { float:left;}
+.ui-paging span,.ui-paging a { height:22px; width:22px; text-align:center; border:1px solid #ccc;}
+.ui-paging span { background-color:#efefef;}
+.ui-paging input { border:1px solid #DBDBDB; width:30px; height:22px; margin:0 3px; text-align:center; line-height:22px;}
+.ui-paging button { margin-left:2px; width:40px; height:24px; border:1px solid #DBDBDB; background:#fff; cursor:pointer;}

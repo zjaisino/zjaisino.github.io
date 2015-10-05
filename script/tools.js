@@ -52,8 +52,8 @@ var tools = {
                 url += '?';
             }
             if(url.indexOf(name+'=') !== -1){
-                var reg = new Regexp('('+name+'=)[^&]*');
-                url.replace(reg, '$1'+value);
+                var reg = new RegExp('('+name+'=)[^&]*');
+                url = url.replace(reg, '$1'+value);
             }
             else{
                 var and = '';
