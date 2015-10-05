@@ -19,10 +19,8 @@
 	.m-demo2 { height:35px; line-height:35px;}
 	.m-demo2 li { background:none;}
 	.m-demo2 li a { display:inline;}
-	.m-demo2 .ui-slide-list { display:none;}
 	.m-demo3 { height:400px;}
 	.m-demo4 { margin-bottom:80px; width:500px; height:281px;}
-	.m-demo4 .ui-slide-list { display:none;}
 	.m-demo5 { width:500px; height:61px;}
 	</style>
 </head>
@@ -111,12 +109,11 @@
 							$('.m-demo1').superSlide({
 								isTitle:true,
 								button:{
-									enable:true,
 									isHide:true
 								}
 							});
 							</pre>
-							<h3 class="f-fwb">广播滚动</h3>
+							<h3 class="f-fwb">循环滚动切换</h3>
 							<div class="m-demo2 f-pr e-mt10">
 								<ul class="ui-slide">
 									<li><a href="#">媒体：全球买买买！中国人其实是穷嘚瑟</a></li>
@@ -131,7 +128,6 @@
 							.m-demo2 { height:35px; line-height:35px;}
 							.m-demo2 li { background:none;}
 							.m-demo2 li a { display:inline;}
-							.m-demo2 .ui-slide-list { display:none;}
 							</pre>
 							<pre class="brush:html;">
 							&lt;div class="m-demo2 f-pr e-mt10"&gt;
@@ -147,7 +143,11 @@
 							</pre>
 							<pre class="brush:js;">
 							$('.m-demo2').superSlide({
-								isHorz:false
+								isHorz:false,
+								delay:2000,
+								list:{
+									enable:false
+								}
 							});
 							</pre>
 							<h3 class="f-fwb">自适应</h3>
@@ -173,8 +173,11 @@
 							<pre class="brush:js;">
 							$('.m-demo3').superSlide({
 								isBackdrop:true,
-								button:{
+								resize:{
 									enable:true,
+									target:$('.m-article')
+								},
+								button:{
 									isHide:true
 								}
 							});
@@ -195,7 +198,6 @@
 							</div>
 							<pre class="brush:css;">
 							.m-demo4 { margin-bottom:80px; width:500px; height:281px;}
-							.m-demo4 .ui-slide-list { display:none;}
 							</pre>
 							<pre class="brush:xml">
 							&lt;div class="m-demo4 e-mt10"&gt;
@@ -217,12 +219,15 @@
 								thumb:{
 									enable:true
 								}, 
+								list:{
+									enable:false
+								},
 								isAuto:false, 
 								isFadein:true, 
 								speed:800
 							});
 							</pre>
-							<h3 class="f-fwb">滚动切换</h3>
+							<h3 class="f-fwb">非循环滚动切换</h3>
 							<div class="m-demo5 ui-slide-scroll f-pr e-mt10">
 								<ul class="ui-slide">
 									<li><img src="images/photo/1s.jpg" width="95" /></li>
@@ -257,9 +262,6 @@
 							<pre class="brush:js;">
 							$('.m-demo5').superSlide({
 								speed:450,
-								button:{
-									enable:true
-								},
 								scroll:{
 									enable:true
 								},
@@ -273,53 +275,198 @@
                                     <tr>
                                         <th width="120">普通属性</th>
                                         <th width="120">值类型</th>
-                                        <th width="150">默认值</th>
+                                        <th width="120">默认值</th>
                                         <th width="120">可填值</th>
                                         <th>功能说明</th>
                                     </tr> 
                                 </thead> 
                                 <tbody> 
 									<tr>
+                                        <td>delay</td>
+                                        <td>Number</td>
+                                        <td>4000</td>
+                                        <td>正整数</td>
+                                        <td>自动切换延迟时间，1000=1s</td>
+                                    </tr>
+									<tr>
                                         <td>speed</td>
                                         <td>Number</td>
-                                        <td>240</td>
+                                        <td>450</td>
                                         <td>正整数</td>
-                                        <td>初始速度</td>
-                                    </tr>
-									<tr>
-                                        <td>trans</td>
-                                        <td>Number</td>
-                                        <td>2</td>
-                                        <td>正整数</td>
-                                        <td>最大速度过渡圈数</td>
+                                        <td>切换速度</td>
                                     </tr>
 									<tr>    
-                                        <td>turns</td>
-                                        <td>Number</td>
-                                        <td>2</td>
-                                        <td>正整数</td>
-                                        <td>达到最大速度时圈数</td>
-                                    </tr>
-									<tr>
-                                        <td>count</td>
-                                        <td>Number</td>
-                                        <td>8</td>
-                                        <td>正整数</td>
-                                        <td>宫格数量</td>
-                                    </tr>
-									<tr>
-                                        <td>url</td>
+                                        <td>event</td>
                                         <td>String</td>
-                                        <td>''</td>
-                                        <td>字符串</td>
-                                        <td>异步交互url</td>
+                                        <td>click</td>
+                                        <td>click/mouseover</td>
+                                        <td>圆点按钮触发事件</td>
                                     </tr>
 									<tr>
-                                        <td>rotate</td>
+                                        <td>ease</td>
+                                        <td>String</td>
+                                        <td>null</td>
+                                        <td>easing动画类型</td>
+                                        <td>缓动效果，依赖jquery.easing.js</td>
+                                    </tr>
+									<tr>
+                                        <td>itemNum</td>
+                                        <td>Number</td>
+                                        <td>0</td>
+                                        <td>正整数</td>
+                                        <td>一屏显示数量，&lt;ul class="ui-slide"&gt;&lt;/ul&gt;中不要使用li标签，会自动生成</td>
+                                    </tr>
+									<tr>
+                                        <td>moveTo</td>
+                                        <td>Number</td>
+                                        <td>0</td>
+                                        <td>正整数</td>
+                                        <td>默认展示第几个</td>
+                                    </tr>
+									<tr>
+                                        <td>isBackdrop</td>
                                         <td>Boolean</td>
                                         <td>false</td>
                                         <td>true|false</td>
-                                        <td>是否旋转形式</td>
+                                        <td>切换图片为背景图片，&lt;li data-src="背景图片路径"&gt;&lt;/li&gt;</td>
+                                    </tr>
+									<tr>
+                                        <td>isFadein</td>
+                                        <td>Boolean</td>
+                                        <td>false</td>
+                                        <td>true|false</td>
+                                        <td>是否以淡入淡出效果显示</td>
+                                    </tr>
+									<tr>
+                                        <td>isAuto</td>
+                                        <td>Boolean</td>
+                                        <td>true</td>
+                                        <td>true|false</td>
+                                        <td>是否自动切换</td>
+                                    </tr>
+									<tr>
+                                        <td>isHorz</td>
+                                        <td>Boolean</td>
+                                        <td>true</td>
+                                        <td>true|false</td>
+                                        <td>是否水平切换</td>
+                                    </tr>
+									<tr>
+                                        <td>isTitle</td>
+                                        <td>Boolean</td>
+                                        <td>false</td>
+                                        <td>true|false</td>
+                                        <td>是否显示标题，&lt;li data-title="文本或者html"&gt;&lt;/li&gt;</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+							<table> 
+                                <thead> 
+                                    <tr>
+                                        <th width="120">对象属性</th>
+										<th width="120">属性名</th>
+                                        <th width="120">值类型</th>
+                                        <th width="120">默认值</th>
+                                        <th width="120">可填值</th>
+                                        <th>功能说明</th>
+                                    </tr> 
+                                </thead> 
+                                <tbody> 
+									<tr>
+                                        <td rowspan="2">list</td>
+                                        <td>enable</td>
+                                        <td>Boolean</td>
+                                        <td>true</td>
+                                        <td>true|false</td>
+                                        <td>是否展示圆点按钮</td>
+                                    </tr>
+									<tr>
+                                        <td>isHide</td>
+                                        <td>Boolean</td>
+                                        <td>false</td>
+                                        <td>true|false</td>
+                                        <td>是否默认隐藏，鼠标悬停后显示</td>
+                                    </tr>
+									<tr>
+                                        <td rowspan="2">button</td>
+                                        <td>enable</td>
+                                        <td>Boolean</td>
+                                        <td>true</td>
+                                        <td>true|false</td>
+                                        <td>是否展示左右切换按钮</td>
+                                    </tr>
+									<tr>
+                                        <td>isHide</td>
+                                        <td>Boolean</td>
+                                        <td>false</td>
+                                        <td>true|false</td>
+                                        <td>是否默认隐藏，鼠标悬停后显示</td>
+                                    </tr>
+									<tr>
+                                        <td rowspan="2">thumb</td>
+                                        <td>enable</td>
+                                        <td>Boolean</td>
+                                        <td>false</td>
+                                        <td>true|false</td>
+                                        <td>是否展示相册底部缩略图</td>
+                                    </tr>
+									<tr>
+                                        <td>isHorz</td>
+                                        <td>Boolean</td>
+                                        <td>true</td>
+                                        <td>true|false</td>
+                                        <td>缩略图是否水平切换</td>
+                                    </tr>
+									<tr>
+                                        <td rowspan="4">resize</td>
+                                        <td>enable</td>
+                                        <td>Boolean</td>
+                                        <td>false</td>
+                                        <td>true|false</td>
+                                        <td>是否自适应切换</td>
+                                    </tr>
+									<tr>
+                                        <td>target</td>
+                                        <td>Object</td>
+                                        <td>$(window)</td>
+                                        <td>jQuery Object</td>
+                                        <td>自适应目标元素</td>
+                                    </tr>
+									<tr>
+                                        <td>minSize</td>
+                                        <td>Number</td>
+                                        <td>0</td>
+                                        <td>正整数</td>
+                                        <td>水平切换表示最小宽度，垂直切换表示最小高度</td>
+                                    </tr>
+									<tr>
+                                        <td>callback</td>
+                                        <td>Function</td>
+                                        <td>空函数</td>
+                                        <td>function(){...}</td>
+                                        <td>窗口大小改变后回调函数</td>
+                                    </tr>
+									<tr>
+                                        <td rowspan="3">scroll</td>
+                                        <td>enable</td>
+                                        <td>Boolean</td>
+                                        <td>false</td>
+                                        <td>true|false</td>
+                                        <td>是否开启非循环滚动</td>
+                                    </tr>
+									<tr>
+                                        <td>isEnd</td>
+                                        <td>Boolean</td>
+                                        <td>false</td>
+                                        <td>true|false</td>
+                                        <td>是否默认显示最后一屏</td>
+                                    </tr>
+									<tr>
+                                        <td>isEvent</td>
+                                        <td>Boolean</td>
+                                        <td>false</td>
+                                        <td>true|false</td>
+                                        <td>列表中元素是否触发事件，配合callback函数使用</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -328,79 +475,25 @@
                                     <tr>
                                         <th width="120">普通方法</th>
                                         <th width="120">参数</th>
-                                        <th width="150">默认值</th>
+                                        <th width="150">参数说明</th>
                                         <th width="120">返回值</th>
                                         <th>功能说明</th>
                                     </tr> 
                                 </thead> 
                                 <tbody> 
 									<tr>
-                                        <td>getRandom</td>
-                                        <td>self</td>
-                                        <td>调用组件的jQuery对象</td>
-                                        <td>抽中随机数</td>
-                                        <td>前端不通过ajax交互返回随机数</td>
+                                        <td>callback</td>
+                                        <td>index</td>
+                                        <td>目标元素索引</td>
+                                        <td>Undefined</td>
+                                        <td>切换过渡回调函数，若为非循环滚动，表示li标签触发event后的回调函数</td>
                                     </tr>
 									<tr>
-                                        <td>url</td>
-                                        <td>self</td>
-                                        <td>调用组件的jQuery对象</td>
-                                        <td>url字符串</td>
-                                        <td>异步交互url，如果一个页面有多个抽奖活动，每个接口都不一样，但是参数都一样，可以用这个</td>
-                                    </tr>
-									<tr>
-                                        <td>getParam</td>
-                                        <td>-</td>
-                                        <td>-</td>
-                                        <td>参数对象</td>
-                                        <td>处理并返回ajax传递参数</td>
-                                    </tr>
-									<tr>
-                                        <td rowspan="2">succCallback</td>
-                                        <td>data</td>
-                                        <td>ajax响应JSON对象</td>
-                                        <td rowspan="2">返回抽中列表元素索引</td>
-                                        <td rowspan="2">ajax交互成功时回调函数</td>
-                                    </tr>
-									<tr>
-										<td>items</td>
-										<td>宫格列表jQuery对象</td>
-									</tr>
-									<tr>
-                                        <td>errCallback</td>
-                                        <td>data</td>
-                                        <td>ajax响应JSON对象</td>
-                                        <td>-</td>
-                                        <td>ajax交互失败回调函数</td>
-                                    </tr>
-                                    <tr>
-                                        <td rowspan="2">complete</td>
-                                        <td>data</td>
-                                        <td>数据对象，包含index属性</td>
-                                        <td rowspan="2">-</td>
-                                        <td rowspan="2">抽奖圈数转完执行函数</td>
-                                    </tr>
-									<tr>
-										<td>items</td>
-										<td>宫格列表jQuery对象</td>
-									</tr>
-									<tr>
-                                        <td rowspan="2">statusCallback</td>
-                                        <td>items</td>
-                                        <td>宫格列表jQuery对象</td>
-                                        <td rowspan="2">-</td>
-                                        <td rowspan="2">转圈中执行回调函数，通常作为对选中状态的改变</td>
-                                    </tr>
-									<tr>
-										<td>index</td>
-										<td>选中状态元素的索引</td>
-									</tr>
-									<tr>
-                                        <td>bindClick</td>
-                                        <td>-</td>
-                                        <td>-</td>
-                                        <td>布尔值</td>
-                                        <td>抽奖按钮点击时触发函数，若返回false则不会触发ajax</td>
+                                        <td>endCallback</td>
+                                        <td>index</td>
+                                        <td>目标元素索引</td>
+                                        <td>Undefined</td>
+                                        <td>切换完成回调函数</td>
                                     </tr>
                                 </tbody>
                             </table> 
@@ -458,40 +551,46 @@
 	$('.m-demo1').superSlide({
 		isTitle:true,
 		button:{
-			enable:true,
 			isHide:true
 		}
 	});
 	
 	$('.m-demo2').superSlide({
-		isHorz:false
+		isHorz:false,
+		delay:2000,
+		list:{
+			enable:false
+		}
 	});
 	
 	$('.m-demo3').superSlide({
 		isBackdrop:true,
-		button:{
+		resize:{
 			enable:true,
+			target:$('.m-article')
+		},
+		button:{
 			isHide:true
 		}
 	});
 	
 	$('.m-demo4').superSlide({
-        thumb:{
-            enable:true
-        }, 
         isAuto:false, 
         isFadein:true, 
-        speed:800
+        speed:800,
+		thumb:{
+            enable:true
+        },
+		list:{
+			enable:false
+		}
     });
 	
 	$('.m-demo5').superSlide({
 		speed:450,
-		button:{
-			enable:true
-		},
 		scroll:{
 			enable:true
-		},
+		}
 	});
 	</script>
 </body>

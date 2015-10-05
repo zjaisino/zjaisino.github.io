@@ -34,8 +34,10 @@
             isHorz:true,
             //是否显示标题，<li data-title="文本或者html"></li>
             isTitle:false,
-            //点按钮配置
+            //圆点按钮配置
             list:{
+				//是否启用
+				enable:true,
             	//是否默认隐藏，鼠标悬停后显示
                 isHide:false 	
             },
@@ -59,25 +61,25 @@
                 //水平切换表示最小宽度，垂直切换表示最小高度
                 minSize:0,
                 //窗口大小改变后回调函数
-                callback:null
+                callback:$.noop
             },
             //非循环滚动
             scroll:{
                 enable:false,
                 //是否默认显示最后一屏
                 isEnd:false,
-                isClick:true
+                isEvent:true
             },
             /**
              * @func 切换中的回调函数，若非循环滚动，表示li标签触发event后的回调函数
              * @param index <Number> 触发目标元素索引
              */
-            callback:null,
+            callback:$.noop,
             /**
              * @func 切换后的回调函数
              * @param index <Number> 触发目标元素索引
              */
-            endCallback:null
+            endCallback:$.noop
         }, options);
         that.init();
     }
@@ -99,43 +101,22 @@
                 that.items = that.scroll.children();
             }
             that.itemSize = that.items.size();
-            that.size = options.isHorz == true ? {type:'width', dir:'left'} : {type:'height', dir:'top'};
+            that.size = options.isHorz === true ? {type:'width', dir:'left'} : {type:'height', dir:'top'};
             that.moveTo = target.data('moveto')||options.moveTo;
             var type = that.size.type, dir = that.size.dir;
             that[type] = target[type]();
-            if(options.resize.enable == true){
+            if(options.resize.enable === true){
                 var size = options.resize.target[type](), minSize = options.resize.minSize;
                 that[type] = size >= minSize ? target[type](size)[type]() : target[type](minSize)[type]();
             }
-            if(options.button.enable == true){
-                target.append('<span class="ui-slide-btn ui-slide-prev"></span><span class="ui-slide-btn ui-slide-next"></span>');
-            }
-            that.button = target.children('.ui-slide-btn');
 
             if(that.itemSize){
                 that.index = 0;
-                if(options.button.isHide == true){
-                    target.hover(function(){
-                        that.button.fadeIn();
-                    }, function(){
-                        that.button.stop(true, false).fadeOut();
-                    });
-                }
-                else{
-                    that.button.show();
-                }
-                if(options.list.isHide == true){
-                    target.hover(function(){
-                        that.list.fadeIn();
-                    }, function(){
-                        that.list.stop(true, false).fadeOut();
-                    });
-                }
-                if(options.scroll.enable != true){
+                if(options.scroll.enable !== true){
                     that.items[type](that[type]);
                     that.timer = null;
                     that.createSlide();
-                    if(that.moveTo > 0 && that.moveTo < that.itemSize){
+                    if(that.moveTo > 0 && that.moveTo < that.itemSize && that.list){
                         that.list.find('span:eq('+ that.moveTo +')')[options.event]();
                     }
                     else{
@@ -144,6 +125,27 @@
                 }
                 else{
                     that.createScroll();
+                }
+				
+				if(options.button.enable === true && that.button){
+					if(options.button.isHide === true){
+						target.hover(function(){
+							that.button.fadeIn();
+						}, function(){
+							that.button.stop(true, false).fadeOut();
+						});
+					}
+					else{
+						that.button.show();
+					}
+				}
+				
+                if(options.list.enable === true && options.list.isHide === true && that.list){
+                    target.hover(function(){
+                        that.list.fadeIn();
+                    }, function(){
+                        that.list.stop(true, false).fadeOut();
+                    });
                 }
             }
         },
@@ -155,14 +157,16 @@
                 listItems += '<span>'+ list +'</span>';
                 thumbItems += '<li><img src="'+ item.data('thumb') +'" /><i></i></li>';
             });
-            if(options.isTitle == true){
-                target.append('<div class="ui-slide-title"><span></span></div>');
+            if(options.isTitle === true){
+                that.title = $('<div class="ui-slide-title"><span></span></div>').appendTo(target).find('span');
             }
-            that.title = target.find('.ui-slide-title span');
-            that.list = target.find('.ui-slide-list');
+			
             if(that.itemSize > 1){
-                target.append('<div class="ui-slide-list">'+ listItems +'</div>');
-                if(options.thumb.enable == true){
+                that.list = $('<div class="ui-slide-list">'+ listItems +'</div>').appendTo(target);
+				if(options.button.enable === true){
+					that.button = $('<span class="ui-slide-btn ui-slide-prev"></span><span class="ui-slide-btn ui-slide-next"></span>').appendTo(target);
+				}
+                if(options.thumb.enable === true){
                     that.thumb = new SuperSlide({
                         target:$('<div class="ui-slide-scroll"><ul class="ui-slide">'+ thumbItems +'</ul></div>').appendTo(target),
                         speed:450,
@@ -180,12 +184,14 @@
                         }
                     });
                 }
+				
+				if(options.list.enable !== true){
+					that.list.hide();
+				}
                 
-                that.list = target.children('.ui-slide-list');
-                
-                if(options.isFadein != true){
+                if(options.isFadein !== true){
                     var oneItem = that.items.eq(0);
-                    if(options.isBackdrop == true){
+                    if(options.isBackdrop === true){
                         oneItem.css({backgroundImage:'url('+ oneItem.data('src') +')'});
                     }
                     else{
@@ -208,40 +214,40 @@
         },
         slideEvent:function(){
             var that = this, options = that.options, target = options.target;
-            that.list.on(options.event || 'click', 'span', function(){
+            that.list && that.list.on(options.event || 'click', 'span', function(){
                 that.thumbClick = false;
                 that.index = $(this).index();
                 that.slideMove();
             });
-            that.button.click(function(){
+            that.button && that.button.click(function(){
                 that.thumbClick = false;
                 if($(this).hasClass('ui-slide-prev')){
-                    if(options.thumb.enable == true && that.index == 0){
+                    if(options.thumb.enable === true && that.index == 0){
 	                    return false;
 	                }
                     that.slidePrev();
                 }
                 else{
-                    if(options.thumb.enable == true && that.index == that.itemSize-1){
+                    if(options.thumb.enable === true && that.index == that.itemSize-1){
 	                    return false;
 	                }
                     that.slideNext();
                 }
             });
-            if(options.resize.enable == true){
+            if(options.resize.enable === true){
                 var size, minSize, type = that.size.type, dir = that.size.dir;
                 win.resize(function(){
                     size = options.resize.target[type]();
                     minSize = options.resize.minSize;
                     that[type] = size >= minSize ? target[type](size)[type]() : target[type](minSize)[type]();
                     that.items[type](that[type]);
-                    if(options.isFadein != true){
+                    if(options.isFadein !== true){
                         that.scroll.css(dir, -that.index*that[type])[type](that[type]*(that.itemSize+1));
                     }
                     typeof options.resize.callback === 'function' && options.resize.callback();
 	            });
             }
-            if(options.isAuto == true){
+            if(options.isAuto === true){
                 that.autoplay();
                 target.hover(function(){
                     clearInterval(that.timer);
@@ -253,10 +259,10 @@
         },
         slideMove:function(isPrev){
             var that = this, options = that.options, index = that.index, item = that.items.eq(index), crt;
-            if(!that.thumbClick && options.thumb.enable == true){
+            if(!that.thumbClick && options.thumb.enable === true){
                 var thumb = that.thumb, thumbLeft = Math.abs(thumb.scroll.position()[thumb.setting.dir]),
                     thumbNum = (thumbLeft+(thumb.cOutline))/thumb.outline;
-                if(isPrev == true && thumbNum-thumb.count == index+1){
+                if(isPrev === true && thumbNum-thumb.count == index+1){
                     thumb.button.first().click();
                 }
                 else if(index === thumbNum){
@@ -264,7 +270,7 @@
                 }
                 thumb.items.eq(index).addClass('s-crt').siblings().removeClass('s-crt');
             }
-            if(options.isBackdrop == true){
+            if(options.isBackdrop === true){
                 crt = item;
                 crt.css({backgroundImage:'url('+ crt.data('src') +')'});
             }
@@ -274,7 +280,7 @@
                     !crt.attr('src') && crt.attr('src', crt.data('src'));
                 });
             }
-            if(options.isFadein != true){
+            if(options.isFadein !== true){
                 var animate = {};
                 animate[that.size.dir] = -index*that[that.size.type];
                 that.scroll.stop(true, false).animate(animate, options.speed, options.ease, function(){
@@ -287,17 +293,17 @@
                 	typeof options.endCallback == 'function' && options.endCallback(index);
                 });
             }
-            that.title.html(item.data('title'));
+            that.title && that.title.html(item.data('title'));
             index = index < that.itemSize ? index : 0;
             typeof options.callback == 'function' && options.callback(index);
-            that.list.children('span:eq('+ index +')').addClass('s-crt').siblings().removeClass('s-crt');
+            that.list && that.list.children('span:eq('+ index +')').addClass('s-crt').siblings().removeClass('s-crt');
         },
         slidePrev:function(){
             var that = this, options = that.options;
-            if(options.thumb.enable == true && that.index == 0){
+            if(options.thumb.enable === true && that.index == 0){
                 return false;
             }
-            if(options.isFadein != true){
+            if(options.isFadein !== true){
                 if(!that.scroll.is(':animated')){
                     if(that.index == 0){
                         that.index = that.itemSize;
@@ -314,7 +320,7 @@
         },
         slideNext:function(){
             var that = this, options = that.options;
-            if(options.isFadein != true){
+            if(options.isFadein !== true){
                 if(!that.scroll.is(':animated')){
                     if(that.index == that.itemSize){
                         that.index = 0;
@@ -337,7 +343,7 @@
                 outline:'width',
                 outer:'outerWidth'
             }
-            if(options.isHorz != true){
+            if(options.isHorz !== true){
                 that.setting = {
                     dir:'top',
                     margin:'marginBottom',
@@ -345,15 +351,21 @@
                     outer:'outerHeight'
                 }
             }
+			options.button = {
+				enable:true,
+				isHide:false
+			}
+			options.list.enable = false;
+			that.button = $('<span class="ui-slide-btn ui-slide-prev"></span><span class="ui-slide-btn ui-slide-next"></span>').appendTo(target);
             that.outline  = that.items[that.setting.outer]() + parseInt(that.items.css(that.setting.margin));
 			that.count  = Math.ceil(that.wrap[that.setting.outline]()/that.outline);
 			that.cOutline = that.outline*that.count;
 			that.scrollVal = that.outline*that.itemSize - that.cOutline;
             that.scroll[that.setting.outline](that.scrollVal + that.cOutline);
             that.button.removeClass('s-crt');
-            if(that.itemSize<=that.count){
-                that.button.addClass('s-dis');
-            }
+			if(that.itemSize<=that.count){
+				that.button.addClass('s-dis');
+			}
             if(!isReset){
             	that.moveTo = 0;
                 that.scrollEvent();
@@ -398,17 +410,16 @@
 						}
 						else{
 							that.moveTo = that.index = sval;	
-							that.scrollMove(target, false);
+							that.scrollMove(target, true);
 						}	
 					}
                 }
             });
             
-            options.scroll.isClick && that.items.on(options.event, function(){
+            options.scroll.isEvent && that.items.on(options.event, function(){
                  typeof options.callback == 'function' && options.callback($(this).index());
                  $(this).addClass('s-crt').siblings().removeClass('s-crt');
             });
-            
             if(options.scroll.isEnd === true){
                 that.index = that.itemSize*that.outline-that.cOutline;
                 that.scrollMove(that.button.last(), true, 0);
@@ -426,7 +437,7 @@
 					that.index = temp*that.outline;
 					that.scrollMove(that.button.first(), false, 0);
 				}
-                options.scroll.isClick && that.items.eq(options.moveTo)[options.event]();
+                options.scroll.isEvent && that.items.eq(options.moveTo)[options.event]();
             }
             else{
                 that.scrollMove(that.button.first(), true, 0);
@@ -439,7 +450,7 @@
                 animate[that.setting.dir] = '-='+that.index+'px';
 				that.scroll.stop(true, false).animate(animate, speed, function(){
 					that.itemSize>that.count && target.siblings('.ui-slide-btn').removeClass('s-dis');
-					if(isDis == true){
+					if(isDis === true){
 						target.addClass('s-dis');
 					} 
 				});
