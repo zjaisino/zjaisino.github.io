@@ -21,7 +21,7 @@ var MENUDATA = [{
 }, {
 	title:'图片轮播', 
 	name:'superslide',
-	desc:'固定尺寸、自适应、视差滚动'
+	desc:'固定尺寸、自适应、非循环滚动'
 }, {
 	title:'分页', 
 	name:'paging',
