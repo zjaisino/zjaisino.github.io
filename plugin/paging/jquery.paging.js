@@ -249,7 +249,7 @@
 		echoList:function(html, i, instance){
 			var that = this;
 			if(that.current == i){
-				html = '<li><span>'+ i +'</span></li>';
+				html = '<li><span class="s-crt">'+ i +'</span></li>';
 			}
 			else{
 				html = '<li><a href="javascript:'+ instance +'.jump('+ i +');" target="_self">'+ i +'</a></li>';
@@ -266,9 +266,9 @@
 			if(extPage.wrap){
 				var page = '<div>';
 				page += current == count || count == 0 ?
-					 '<span class="s-dis">'+ extPage.next +'</span>' : '<a href="javascript:'+ instance +'.jump('+ (current+1) +');" target="_self">'+ extPage.next +'</a>';
+					 '<span>'+ extPage.next +'</span>' : '<a href="javascript:'+ instance +'.jump('+ (current+1) +');" target="_self">'+ extPage.next +'</a>';
 				page += current == 1 ?
-					 '<span class="s-dis">'+ extPage.prev +'</span>' : '<a href="javascript:'+ instance +'.jump('+ (current-1) +');" target="_self">'+ extPage.prev +'</a>';
+					 '<span>'+ extPage.prev +'</span>' : '<a href="javascript:'+ instance +'.jump('+ (current-1) +');" target="_self">'+ extPage.prev +'</a>';
 				page += '</div><em>'+ (count !== 0 ? current : 0) +'/'+ count +'</em><strong>共'+ that.aCount + extPage.desc +'</strong>';
 				extPage.wrap.html(page);
 			}
@@ -282,7 +282,7 @@
 				return;
 			}
 
-			html += current == 1 ? '<li><span class="s-dis">'+ button.prev +'</span></li>' : '<li><a href="javascript:'+ instance +'.jump('+ (current-1) +');" target="_self">'+ button.prev +'</a></li>';
+			html += current == 1 ? '<li><span>'+ button.prev +'</span></li>' : '<li><a href="javascript:'+ instance +'.jump('+ (current-1) +');" target="_self">'+ button.prev +'</a></li>';
 			if(count <= 7){
 				for(var i = 1; i <= count; i++){
 					html += that.echoList(html, i, instance);
@@ -313,7 +313,7 @@
 					}
 				}
 			}
-			html += current == count ? '<li><span class="s-dis">'+ button.next +'</span></li>' : '<li><a href="javascript:'+ instance +'.jump('+ (current+1) +');" target="_self">'+ button.next +'</a></li>';
+			html += current == count ? '<li><span>'+ button.next +'</span></li>' : '<li><a href="javascript:'+ instance +'.jump('+ (current+1) +');" target="_self">'+ button.next +'</a></li>';
 			if(opts.isFull){
 				html += '<li><em>跳转到第</em><input type="text" onblur="'+ instance +'.trim(this);" value="'+ next +'" /><em>页</em><button type="button" onclick="'+ instance +'.jump(this);">确定</button></li>';
 			}
