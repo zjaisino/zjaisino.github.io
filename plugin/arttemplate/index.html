@@ -11,153 +11,153 @@
     <link rel="stylesheet" type="text/css" href="../../style/base.css" />
     <link rel="stylesheet" type="text/css" href="../../style/common.css" />
     <link rel="stylesheet" type="text/css" href="../../style/page.css" />
-	<link type="text/css" rel="stylesheet" href="../../style/syntax/shCore.css"/>
-	<link type="text/css" rel="stylesheet" href="../../style/syntax/shThemeDefault.css"/>
+    <link type="text/css" rel="stylesheet" href="../../style/syntax/shCore.css"/>
+    <link type="text/css" rel="stylesheet" href="../../style/syntax/shThemeDefault.css"/>
 </head>
 
 <body class="g-body">
     <!-- header begin -->
     <div class="g-header">
-		<div class="m-htop g-wrap">
-			<i></i><i></i><i></i><i></i><i></i><i></i>
-			<h1 class="u-logo"><a href="../../index.html">浙江爱信诺前端规范</a></h1>
-		</div>
-		<div class="m-nav">
-			<ul class="g-wrap">
-				<li><a href="../../index.html">规范<i class="ui-icon ui-icon-tip"></i></a></li>
-				<li><a href="../../framework.html">框架<i class="ui-icon ui-icon-tip"></i></a></li>
-				<li class="s-crt"><a href="../../plugin.html">组件<i class="ui-icon ui-icon-tip"></i></a></li>
-			</ul>
-		</div>
-	</div>
+        <div class="m-htop g-wrap">
+            <i></i><i></i><i></i><i></i><i></i><i></i>
+            <h1 class="u-logo"><a href="../../index.html">浙江爱信诺前端规范</a></h1>
+        </div>
+        <div class="m-nav">
+            <ul class="g-wrap">
+                <li><a href="../../index.html">规范<i class="ui-icon ui-icon-tip"></i></a></li>
+                <li><a href="../../framework.html">框架<i class="ui-icon ui-icon-tip"></i></a></li>
+                <li class="s-crt"><a href="../../plugin.html">组件<i class="ui-icon ui-icon-tip"></i></a></li>
+            </ul>
+        </div>
+    </div>
     <!-- header end -->
-	
-	<!-- content begin -->
-	<div class="g-content f-clearfix">
-		<div class="g-side">
-			<div class="m-menu" id="menu"> 
-				<ul></ul> 
-			</div>
-		</div>
-		<div class="g-main">
-			<div class="g-con">
-				<div class="m-article m-plugin ui-animate ui-animate-fadeShow"> 
+    
+    <!-- content begin -->
+    <div class="g-content f-clearfix">
+        <div class="g-side">
+            <div class="m-menu" id="menu"> 
+                <ul></ul> 
+            </div>
+        </div>
+        <div class="g-main">
+            <div class="g-con">
+                <div class="m-article m-plugin ui-animate ui-animate-fadeShow"> 
                     <h2 class="u-ttb2">组件 - <em id="title">模版引擎</em></h2> 
                     <div class="u-line"><span class="linea"></span><span class="lineb"></span></div> 
                     <dl> 
                         <dt>使用说明</dt>
                         <dd>
-							<pre class="brush:xml;">
+                            <pre class="brush:xml;">
                             <!-- 引入组件脚本 -->
                             &lt;script type="text/javascript" src="template.js"&gt;&lt;/script&gt;
-							
-							<!-- 使用一个type="text/html"的script标签存放模板，该script标签上必须存在id属性，建议命名为tpl-xxx -->
-							&lt;script type="text/html" id="tpl-test"&gt;
-							{{title}}
-							{{each list as val key}}
-								{{val.name}}:{{val.post}}
-							{{/each}}
-							&lt;/script&gt;
-							
-							<!-- 渲染模版 -->
-							$('#test').html(template('tpl-test', data));
-							&lt;/script&gt;
+                            
+                            <!-- 使用一个type="text/html"的script标签存放模板，该script标签上必须存在id属性，建议命名为tpl-xxx -->
+                            &lt;script type="text/html" id="tpl-test"&gt;
+                            {{title}}
+                            {{each list as val key}}
+                                {{val.name}}:{{val.post}}
+                            {{/each}}
+                            &lt;/script&gt;
+                            
+                            <!-- 渲染模版 -->
+                            $('#test').html(template('tpl-test', data));
+                            &lt;/script&gt;
                             </pre>
                         </dd>
-						<dt>实例</dt>
-						<dd>
-							<h3 class="f-fwb">对象/数组</h3>
-							<div id="test1"></div>
-							<pre class="brush:html;">
-							&lt;script type="text/html" id="tpl-test1"&gt;
-							{{title}}
-							{{each list as val key}}
-								{{val.name}}:{{val.post}}
-							{{/each}}
-							&lt;/script&gt;
-							</pre>
-							<pre class="brush:js;">
-							var data = {
-								title:'这是js模板引擎',
-								list:[{
-									name:'张三',
-									post:'前端开发'
-								}, {
-									name:'李四',
-									post:'设计师'
-								}, {
-									name:'王五',
-									post:'java工程师'
-								}]
-							}
-							$('#test1').html(template('tpl-test1', data));
-							</pre>
-							<h3 class="f-fwb">包含其它模版</h3>
-							<div id="test2"></div>
-							<pre class="brush:html;">
-							&lt;script type="text/html" id="tpl-test2"&gt;
-							{{include 'tpl-test1'}}
-							&lt;/script&gt;
-							</pre>
-							<pre class="brush:js;">
-							$('#test2').html(template('tpl-test2', data));
-							</pre>
-							<h3 class="f-fwb">辅助方法</h3>
-							<div id="test3"></div>
-							<pre class="brush:html;">
-							&lt;script type="text/html" id="tpl-test3"&gt;
-							{{if aCount}}
-								{{each list as val key}}
-								<p>楼盘名：{{val.buname}}，更新时间：{{val.hits | format : 'yyyy-MM-dd'}}</p>
-								{{/each}}
-							{{else}}
-							<p>暂无数据。</p>
-							{{/if}}
-							&lt;/script&gt;
-							</pre>
-							<pre class="brush:js;">
-							template.helper('format', function(date, format){
-								if(date = parseInt(date)){
-									date = new Date(date)
-									var map = {
-										'M':date.getMonth()+1,
-										'd':date.getDate(),
-										'h':date.getHours(),
-										'm':date.getMinutes(),
-										's':date.getSeconds()
-									}
-									format = format.replace(/([yMdhms])+/g, function(all, single){
-										var value = map[single];
-										if(value !== undefined){
-											if(all.length > 1){
-											   value = '0' + value;
-											   value = value.substr(value.length-2);
-										   } 
-										   return value;
-										}
-										else if(single === 'y'){
-											return (date.getFullYear() + '').substr(4-all.length);
-										}
-										return all;
-									});
-									return format;
-								}
-								return '-';
-							});
-							$.ajax({
-								url:'http://www.yinjiazeng.com/testdata/test/goodslist/list.php?callback=?',
-								data:{
-									pCount:5,
-									current:1
-								},
-								dataType:'json',
-								success:function(res){
-									$('#test3').html(template('tpl-test3', res));
-								}
-							});
-							</pre>
-						</dd>
-						<dt>API</dt>
+                        <dt>实例</dt>
+                        <dd>
+                            <h3 class="f-fwb">对象/数组</h3>
+                            <div id="test1"></div>
+                            <pre class="brush:html;">
+                            &lt;script type="text/html" id="tpl-test1"&gt;
+                            {{title}}
+                            {{each list as val key}}
+                                {{val.name}}:{{val.post}}
+                            {{/each}}
+                            &lt;/script&gt;
+                            </pre>
+                            <pre class="brush:js;">
+                            var data = {
+                                title:'这是js模板引擎',
+                                list:[{
+                                    name:'张三',
+                                    post:'前端开发'
+                                }, {
+                                    name:'李四',
+                                    post:'设计师'
+                                }, {
+                                    name:'王五',
+                                    post:'java工程师'
+                                }]
+                            }
+                            $('#test1').html(template('tpl-test1', data));
+                            </pre>
+                            <h3 class="f-fwb">包含其它模版</h3>
+                            <div id="test2"></div>
+                            <pre class="brush:html;">
+                            &lt;script type="text/html" id="tpl-test2"&gt;
+                            {{include 'tpl-test1'}}
+                            &lt;/script&gt;
+                            </pre>
+                            <pre class="brush:js;">
+                            $('#test2').html(template('tpl-test2', data));
+                            </pre>
+                            <h3 class="f-fwb">辅助方法</h3>
+                            <div id="test3"></div>
+                            <pre class="brush:html;">
+                            &lt;script type="text/html" id="tpl-test3"&gt;
+                            {{if aCount}}
+                                {{each list as val key}}
+                                <p>楼盘名：{{val.buname}}，更新时间：{{val.hits | format : 'yyyy-MM-dd'}}</p>
+                                {{/each}}
+                            {{else}}
+                            <p>暂无数据。</p>
+                            {{/if}}
+                            &lt;/script&gt;
+                            </pre>
+                            <pre class="brush:js;">
+                            template.helper('format', function(date, format){
+                                if(date = parseInt(date)){
+                                    date = new Date(date)
+                                    var map = {
+                                        'M':date.getMonth()+1,
+                                        'd':date.getDate(),
+                                        'h':date.getHours(),
+                                        'm':date.getMinutes(),
+                                        's':date.getSeconds()
+                                    }
+                                    format = format.replace(/([yMdhms])+/g, function(all, single){
+                                        var value = map[single];
+                                        if(value !== undefined){
+                                            if(all.length > 1){
+                                               value = '0' + value;
+                                               value = value.substr(value.length-2);
+                                           } 
+                                           return value;
+                                        }
+                                        else if(single === 'y'){
+                                            return (date.getFullYear() + '').substr(4-all.length);
+                                        }
+                                        return all;
+                                    });
+                                    return format;
+                                }
+                                return '-';
+                            });
+                            $.ajax({
+                                url:'http://www.yinjiazeng.com/testdata/test/goodslist/list.php?callback=?',
+                                data:{
+                                    pCount:5,
+                                    current:1
+                                },
+                                dataType:'json',
+                                success:function(res){
+                                    $('#test3').html(template('tpl-test3', res));
+                                }
+                            });
+                            </pre>
+                        </dd>
+                        <dt>API</dt>
                         <dd>
                             <table>
                                 <thead> 
@@ -169,65 +169,65 @@
                                     </tr> 
                                 </thead> 
                                 <tbody> 
-									<tr>
+                                    <tr>
                                         <td rowspan="2">template</td>
                                         <td>id</td>
                                         <td>模版id</td>
                                         <td rowspan="2">根据id查找模板，并返回渲染后的数据，如果没有data参数，那么将返回一渲染函数</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td>data</td>
                                         <td>模版数据，数组或者对象</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td>template.get</td>
                                         <td>id</td>
                                         <td>模版id</td>
                                         <td>从缓存中获取渲染函数</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td rowspan="2">template.compile</td>
                                         <td>data</td>
                                         <td>模版数据，数组或者对象</td>
                                         <td rowspan="2">返回渲染函数</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td>options</td>
                                         <td>模版配置数据</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td rowspan="2">template.render</td>
                                         <td>data</td>
                                         <td>模版数据，数组或者对象</td>
                                         <td rowspan="2">返回渲染后的数据</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td>options</td>
                                         <td>模版配置数据</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td rowspan="2">template.config</td>
                                         <td>name</td>
                                         <td>配置名</td>
                                         <td rowspan="2">修改模板引擎默认配置</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td>value</td>
                                         <td>配置值</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td rowspan="2">template.helper</td>
                                         <td>name</td>
                                         <td>方法名</td>
                                         <td rowspan="2">添加模版辅助方法</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td>callback</td>
                                         <td>方法回调函数</td>
                                     </tr>
                                 </tbody>
                             </table> 
-							<table>
+                            <table>
                                 <thead> 
                                     <tr>
                                         <th width="120">配置名</th>
@@ -237,31 +237,31 @@
                                     </tr> 
                                 </thead> 
                                 <tbody> 
-									<tr>
+                                    <tr>
                                         <td>openTag</td>
                                         <td>{{</td>
                                         <td>String</td>
                                         <td>逻辑语法开始标签</td>
                                     </tr> 
-									<tr>
+                                    <tr>
                                         <td>closeTag</td>
                                         <td>}}</td>
                                         <td>String</td>
                                         <td>逻辑语法结束标签</td>
                                     </tr> 
-									<tr>
+                                    <tr>
                                         <td>escape</td>
                                         <td>true</td>
                                         <td>Boolean</td>
                                         <td>是否编码输出HTML字符</td>
                                     </tr> 
-									<tr>
+                                    <tr>
                                         <td>cache</td>
                                         <td>true</td>
                                         <td>Boolean</td>
                                         <td>是否开启缓存（依赖options的filename字段）</td>
                                     </tr> 
-									<tr>
+                                    <tr>
                                         <td>compress</td>
                                         <td>false</td>
                                         <td>Boolean</td>
@@ -269,115 +269,115 @@
                                     </tr>
                                 </tbody>
                             </table> 
-						</dd> 
+                        </dd> 
                         <dt>官方网站</dt>
                         <dd>
                             <a href="https://github.com/aui/artTemplate" class="e-ml10" target="_blank">artTemplate</a>
                         </dd>
                     </dl> 
                 </div> 
-			</div>
-		</div>
-	</div>
-	<!-- content end -->
-	
-	<!-- footer begin -->
-	<div class="g-footer">
-		<div class="g-wrap">
-			<p>
-				<a href="http://wpa.qq.com/msgrd?v=3&uin=897102078&site=qq&menu=yes" target="_blank">技术支持</a>
-			</p>
-			<p>Copyright © 2013-2015 Aisino. All Rights Reserved.</p>
-		</div>
-	</div>
-	<!-- footer end -->
-	
-	<script type="text/javascript" src="../../script/jquery.js"></script>
-	<script type="text/javascript" src="./template.js"></script>
+            </div>
+        </div>
+    </div>
+    <!-- content end -->
+    
+    <!-- footer begin -->
+    <div class="g-footer">
+        <div class="g-wrap">
+            <p>
+                <a href="http://wpa.qq.com/msgrd?v=3&uin=897102078&site=qq&menu=yes" target="_blank">技术支持</a>
+            </p>
+            <p>Copyright © 2013-2015 Aisino. All Rights Reserved.</p>
+        </div>
+    </div>
+    <!-- footer end -->
+    
+    <script type="text/javascript" src="../../script/jquery.js"></script>
+    <script type="text/javascript" src="./template.js"></script>
     <script type="text/javascript" src="../layer/jquery.layer.js"></script>
-	<script type="text/javascript" src="../../script/syntax/shCore.js"></script>
-	<script type="text/javascript" src="../../script/syntax/shBrushCss.js"></script>
-	<script type="text/javascript" src="../../script/syntax/shBrushXml.js"></script>
-	<script type="text/javascript" src="../../script/syntax/shBrushJScript.js"></script>
-	<script type="text/javascript" src="../../script/page.js"></script>
-	<script type="text/javascript" src="../data.js"></script>
-	<script type="text/javascript" src="../menu.js"></script>
-	<script type="text/html" id="tpl-test1">
-	{{title}}
-	{{each list as val key}}
-		<p>{{val.name}}:{{val.post}}</p>
-	{{/each}}
-	</script>
-	<script type="text/html" id="tpl-test2">
-	{{include 'tpl-test1'}}
-	</script>
-	<script type="text/html" id="tpl-test3">
-	{{if aCount}}
-		{{each list as val key}}
-		<p>楼盘名：{{val.buname}}，更新时间：{{val.hits | format : 'yyyy-MM-dd'}}</p>
-		{{/each}}
-	{{else}}
-	<p>暂无数据。</p>
-	{{/if}}
-	</script>
-	<script type="text/javascript">
-	var data = {
-		title:'这是js模板引擎',
-		list:[{
-			name:'张三',
-			post:'前端开发'
-		}, {
-			name:'李四',
-			post:'设计师'
-		}, {
-			name:'王五',
-			post:'java工程师'
-		}]
-	}
-	$('#test1').html(template('tpl-test1', data));
-	
-	$('#test2').html(template('tpl-test2', data));
-	
-	template.helper('format', function(date, format){
-		if(date = parseInt(date)){
-			date = new Date(date)
-			var map = {
-				'M':date.getMonth()+1,
-				'd':date.getDate(),
-				'h':date.getHours(),
-				'm':date.getMinutes(),
-				's':date.getSeconds()
-			}
-			format = format.replace(/([yMdhms])+/g, function(all, single){
-				var value = map[single];
-				if(value !== undefined){
-					if(all.length > 1){
-					   value = '0' + value;
-					   value = value.substr(value.length-2);
-				   } 
-				   return value;
-				}
-				else if(single === 'y'){
-					return (date.getFullYear() + '').substr(4-all.length);
-				}
-				return all;
-			});
-			return format;
-		}
-		return '-';
-	});
-	
-	$.ajax({
-		url:'http://www.yinjiazeng.com/testdata/test/goodslist/list.php?callback=?',
-		data:{
-			pCount:5,
-			current:1
-		},
-		dataType:'json',
-		success:function(res){
-			$('#test3').html(template('tpl-test3', res));
-		}
-	});
-	</script>
+    <script type="text/javascript" src="../../script/syntax/shCore.js"></script>
+    <script type="text/javascript" src="../../script/syntax/shBrushCss.js"></script>
+    <script type="text/javascript" src="../../script/syntax/shBrushXml.js"></script>
+    <script type="text/javascript" src="../../script/syntax/shBrushJScript.js"></script>
+    <script type="text/javascript" src="../../script/page.js"></script>
+    <script type="text/javascript" src="../data.js"></script>
+    <script type="text/javascript" src="../menu.js"></script>
+    <script type="text/html" id="tpl-test1">
+    {{title}}
+    {{each list as val key}}
+        <p>{{val.name}}:{{val.post}}</p>
+    {{/each}}
+    </script>
+    <script type="text/html" id="tpl-test2">
+    {{include 'tpl-test1'}}
+    </script>
+    <script type="text/html" id="tpl-test3">
+    {{if aCount}}
+        {{each list as val key}}
+        <p>楼盘名：{{val.buname}}，更新时间：{{val.hits | format : 'yyyy-MM-dd'}}</p>
+        {{/each}}
+    {{else}}
+    <p>暂无数据。</p>
+    {{/if}}
+    </script>
+    <script type="text/javascript">
+    var data = {
+        title:'这是js模板引擎',
+        list:[{
+            name:'张三',
+            post:'前端开发'
+        }, {
+            name:'李四',
+            post:'设计师'
+        }, {
+            name:'王五',
+            post:'java工程师'
+        }]
+    }
+    $('#test1').html(template('tpl-test1', data));
+    
+    $('#test2').html(template('tpl-test2', data));
+    
+    template.helper('format', function(date, format){
+        if(date = parseInt(date)){
+            date = new Date(date)
+            var map = {
+                'M':date.getMonth()+1,
+                'd':date.getDate(),
+                'h':date.getHours(),
+                'm':date.getMinutes(),
+                's':date.getSeconds()
+            }
+            format = format.replace(/([yMdhms])+/g, function(all, single){
+                var value = map[single];
+                if(value !== undefined){
+                    if(all.length > 1){
+                       value = '0' + value;
+                       value = value.substr(value.length-2);
+                   } 
+                   return value;
+                }
+                else if(single === 'y'){
+                    return (date.getFullYear() + '').substr(4-all.length);
+                }
+                return all;
+            });
+            return format;
+        }
+        return '-';
+    });
+    
+    $.ajax({
+        url:'http://www.yinjiazeng.com/testdata/test/goodslist/list.php?callback=?',
+        data:{
+            pCount:5,
+            current:1
+        },
+        dataType:'json',
+        success:function(res){
+            $('#test3').html(template('tpl-test3', res));
+        }
+    });
+    </script>
 </body>
 </html>

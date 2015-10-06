@@ -12,265 +12,265 @@
     <link rel="stylesheet" type="text/css" href="../../style/common.css" />
     <link rel="stylesheet" type="text/css" href="../../style/page.css" />
     <link rel="stylesheet" type="text/css" href="superslide.css" />
-	<link type="text/css" rel="stylesheet" href="../../style/syntax/shCore.css"/>
-	<link type="text/css" rel="stylesheet" href="../../style/syntax/shThemeDefault.css"/>
-	<style type="text/css">
-	.m-demo1 { width:500px; height:281px;}
-	.m-demo2 { height:35px; line-height:35px;}
-	.m-demo2 li { background:none;}
-	.m-demo2 li a { display:inline;}
-	.m-demo3 { height:400px;}
-	.m-demo4 { margin-bottom:80px; width:500px; height:281px;}
-	.m-demo5 { width:500px; height:61px;}
-	</style>
+    <link type="text/css" rel="stylesheet" href="../../style/syntax/shCore.css"/>
+    <link type="text/css" rel="stylesheet" href="../../style/syntax/shThemeDefault.css"/>
+    <style type="text/css">
+    .m-demo1 { width:500px; height:281px;}
+    .m-demo2 { height:35px; line-height:35px;}
+    .m-demo2 li { background:none;}
+    .m-demo2 li a { display:inline;}
+    .m-demo3 { height:400px;}
+    .m-demo4 { margin-bottom:80px; width:500px; height:281px;}
+    .m-demo5 { width:500px; height:61px;}
+    </style>
 </head>
 
 <body class="g-body">
     <!-- header begin -->
     <div class="g-header">
-		<div class="m-htop g-wrap">
-			<i></i><i></i><i></i><i></i><i></i><i></i>
-			<h1 class="u-logo"><a href="../../index.html">浙江爱信诺前端规范</a></h1>
-		</div>
-		<div class="m-nav">
-			<ul class="g-wrap">
-				<li><a href="../../index.html">规范<i class="ui-icon ui-icon-tip"></i></a></li>
-				<li><a href="../../framework.html">框架<i class="ui-icon ui-icon-tip"></i></a></li>
-				<li class="s-crt"><a href="../../plugin.html">组件<i class="ui-icon ui-icon-tip"></i></a></li>
-			</ul>
-		</div>
-	</div>
+        <div class="m-htop g-wrap">
+            <i></i><i></i><i></i><i></i><i></i><i></i>
+            <h1 class="u-logo"><a href="../../index.html">浙江爱信诺前端规范</a></h1>
+        </div>
+        <div class="m-nav">
+            <ul class="g-wrap">
+                <li><a href="../../index.html">规范<i class="ui-icon ui-icon-tip"></i></a></li>
+                <li><a href="../../framework.html">框架<i class="ui-icon ui-icon-tip"></i></a></li>
+                <li class="s-crt"><a href="../../plugin.html">组件<i class="ui-icon ui-icon-tip"></i></a></li>
+            </ul>
+        </div>
+    </div>
     <!-- header end -->
-	
-	<!-- content begin -->
-	<div class="g-content f-clearfix">
-		<div class="g-side">
-			<div class="m-menu" id="menu"> 
-				<ul></ul> 
-			</div>
-		</div>
-		<div class="g-main">
-			<div class="g-con">
-				<div class="m-article m-plugin ui-animate ui-animate-fadeShow"> 
+    
+    <!-- content begin -->
+    <div class="g-content f-clearfix">
+        <div class="g-side">
+            <div class="m-menu" id="menu"> 
+                <ul></ul> 
+            </div>
+        </div>
+        <div class="g-main">
+            <div class="g-con">
+                <div class="m-article m-plugin ui-animate ui-animate-fadeShow"> 
                     <h2 class="u-ttb2">组件 - <em id="title">图片轮播</em></h2> 
                     <div class="u-line"><span class="linea"></span><span class="lineb"></span></div> 
                     <dl> 
                         <dt>使用说明</dt>
                         <dd>
-							<pre class="brush:xml;">
+                            <pre class="brush:xml;">
                             <!-- 引入组件样式 -->
                             &lt;link rel="stylesheet" type="text/css" href="superslide.css" /&gt;
                             
-							<!-- 创建骨架 -->
-							<div class="demo" style="position:relative;">
-								<ul class="ui-slide">
-									<li><img data-src="图片地址" width="500" height="250" /></li>
-									<li><img data-src="图片地址" width="500" height="250" /></li>
-									<li><img data-src="图片地址" width="500" height="250" /></li>
-								</ul>
-							</div>
-							
+                            <!-- 创建骨架 -->
+                            <div class="demo" style="position:relative;">
+                                <ul class="ui-slide">
+                                    <li><img data-src="图片地址" width="500" height="250" /></li>
+                                    <li><img data-src="图片地址" width="500" height="250" /></li>
+                                    <li><img data-src="图片地址" width="500" height="250" /></li>
+                                </ul>
+                            </div>
+                            
                             <!-- 引入jQuery和组件脚本 -->
                             &lt;script type="text/javascript" src="jquery.js"&gt;&lt;/script&gt;
                             &lt;script type="text/javascript" src="jquery.superslide.js"&gt;&lt;/script&gt;
-							
-							<!-- 调用 -->
-							$('.demo').superSlide(配置参数);
+                            
+                            <!-- 调用 -->
+                            $('.demo').superSlide(配置参数);
                             </pre>
                         </dd>
-						<dd>
-							<p>容器建议加上position:relative样式，因为内部定位元素是动态创建的，在网速慢时，js还没加载完成之前，布局会乱</p>
-							<p>子元素必须包含类名ui-slide</p>
-							<p>加载图片可用data-src属性懒加载</p>
-						</dd>
-						<dt>实例</dt>
-						<dd>
-							<h3 class="f-fwb">固定尺寸</h3>
-							<div class="m-demo1 f-pr e-mt10">
-								<ul class="ui-slide">
-									<li data-title="图片1"><img data-src="images/s1.jpg" width="500" /></li>
-									<li data-title="图片2"><img data-src="images/s2.jpg" width="500" /></li>
-									<li data-title="图片3"><img data-src="images/s3.jpg" width="500" /></li>
-								</ul>
-							</div>
-							<pre class="brush:css;">
-							.m-demo1 { width:500px; height:281px;}
-							</pre>
-							<pre class="brush:html;">
-							&lt;div class="m-demo1 f-pr e-mt10"&gt;
-								&lt;ul class="ui-slide"&gt;
-									&lt;li data-title="图片1"&gt;&lt;img data-src="images/s1.jpg" width="500" /&gt;&lt;/li&gt;
-									&lt;li data-title="图片2"&gt;&lt;img data-src="images/s2.jpg" width="500" /&gt;&lt;/li&gt;
-									&lt;li data-title="图片3"&gt;&lt;img data-src="images/s3.jpg" width="500" /&gt;&lt;/li&gt;
-								&lt;/ul&gt;
-							&lt;/div&gt;
-							</pre>
-							<pre class="brush:js;">
-							$('.m-demo1').superSlide({
-								isTitle:true,
-								button:{
-									isHide:true
-								}
-							});
-							</pre>
-							<h3 class="f-fwb">循环滚动切换</h3>
-							<div class="m-demo2 f-pr e-mt10">
-								<ul class="ui-slide">
-									<li><a href="#">媒体：全球买买买！中国人其实是穷嘚瑟</a></li>
-									<li><a href="#">2015年第22号台风彩虹路径图实时更新 最新路径卫星图</a></li>
-									<li><a href="#">国庆第二天北京接待游客飙升至207.4万</a></li>
-									<li><a href="#">台风彩虹最新消息：2015年第22号台风信息实时更新</a></li>
-									<li><a href="#">中国互联网企业出海扩张多靠砸钱投资入股 面临多重挑战</a></li>
-									<li><a href="#">格力在美媒上打整版广告 董明珠代言省巨额广告费</a></li>
-								</ul>
-							</div>
-							<pre class="brush:css;">
-							.m-demo2 { height:35px; line-height:35px;}
-							.m-demo2 li { background:none;}
-							.m-demo2 li a { display:inline;}
-							</pre>
-							<pre class="brush:html;">
-							&lt;div class="m-demo2 f-pr e-mt10"&gt;
-								&lt;ul class="ui-slide"&gt;
-									&lt;li&gt;&lt;a href="#"&gt;媒体：全球买买买！中国人其实是穷嘚瑟&lt;/a&gt;&lt;/li&gt;
-									&lt;li&gt;&lt;a href="#"&gt;2015年第22号台风彩虹路径图实时更新 最新路径卫星图&lt;/a&gt;&lt;/li&gt;
-									&lt;li&gt;&lt;a href="#"&gt;国庆第二天北京接待游客飙升至207.4万&lt;/a&gt;&lt;/li&gt;
-									&lt;li&gt;&lt;a href="#"&gt;台风彩虹最新消息：2015年第22号台风信息实时更新&lt;/a&gt;&lt;/li&gt;
-									&lt;li&gt;&lt;a href="#"&gt;中国互联网企业出海扩张多靠砸钱投资入股 面临多重挑战&lt;/a&gt;&lt;/li&gt;
-									&lt;li&gt;&lt;a href="#"&gt;格力在美媒上打整版广告 董明珠代言省巨额广告费&lt;/a&gt;&lt;/li&gt;
-								&lt;/ul&gt;
-							&lt;/div&gt;
-							</pre>
-							<pre class="brush:js;">
-							$('.m-demo2').superSlide({
-								isHorz:false,
-								delay:2000,
-								list:{
-									enable:false
-								}
-							});
-							</pre>
-							<h3 class="f-fwb">自适应</h3>
-							<div class="m-demo3 f-pr e-mt10">
-								<ul class="ui-slide">
-									<li data-src="images/1.jpg"></li>
-									<li data-src="images/2.jpg"></li>
-									<li data-src="images/3.jpg"></li>
-								</ul>
-							</div>
-							<pre class="brush:css;">
-							.m-demo3 { height:400px;}
-							</pre>
-							<pre class="brush:html;">
-							&lt;div class="m-demo3 e-mt10"&gt;
-								&lt;ul class="ui-slide"&gt;
-									&lt;li data-src="images/1.jpg"&gt;&lt;/li&gt;
-									&lt;li data-src="images/2.jpg"&gt;&lt;/li&gt;
-									&lt;li data-src="images/3.jpg"&gt;&lt;/li&gt;
-								&lt;/ul&gt;
-							&lt;/div&gt;
-							</pre>
-							<pre class="brush:js;">
-							$('.m-demo3').superSlide({
-								isBackdrop:true,
-								resize:{
-									enable:true,
-									target:$('.m-article')
-								},
-								button:{
-									isHide:true
-								}
-							});
-							</pre>
-							<h3 class="f-fwb">相册切换</h3>
-							<div class="m-demo4 f-pr e-mt10">
-								<ul class="ui-slide">
-									<li data-thumb="images/photo/1s.jpg"><img data-src="images/photo/1.jpg" width="500" /></li>
-									<li data-thumb="images/photo/2s.jpg"><img data-src="images/photo/2.jpg" width="500" /></li>
-									<li data-thumb="images/photo/3s.jpg"><img data-src="images/photo/3.jpg" width="500" /></li>
-									<li data-thumb="images/photo/4s.jpg"><img data-src="images/photo/4.jpg" width="500" /></li>
-									<li data-thumb="images/photo/5s.jpg"><img data-src="images/photo/5.jpg" width="500" /></li>
-									<li data-thumb="images/photo/6s.jpg"><img data-src="images/photo/6.jpg" width="500" /></li>
-									<li data-thumb="images/photo/7s.jpg"><img data-src="images/photo/7.jpg" width="500" /></li>
-									<li data-thumb="images/photo/8s.jpg"><img data-src="images/photo/8.jpg" width="500" /></li>
-									<li data-thumb="images/photo/9s.jpg"><img data-src="images/photo/9.jpg" width="500" /></li>
-								</ul>
-							</div>
-							<pre class="brush:css;">
-							.m-demo4 { margin-bottom:80px; width:500px; height:281px;}
-							</pre>
-							<pre class="brush:xml">
-							&lt;div class="m-demo4 e-mt10"&gt;
-								&lt;ul class="ui-slide"&gt;
-									&lt;li data-thumb="images/photo/1s.jpg"&gt;&lt;img data-src="images/photo/1.jpg" width="500" /&gt;&lt;/li&gt;
-									&lt;li data-thumb="images/photo/2s.jpg"&gt;&lt;img data-src="images/photo/2.jpg" width="500" /&gt;&lt;/li&gt;
-									&lt;li data-thumb="images/photo/3s.jpg"&gt;&lt;img data-src="images/photo/3.jpg" width="500" /&gt;&lt;/li&gt;
-									&lt;li data-thumb="images/photo/4s.jpg"&gt;&lt;img data-src="images/photo/4.jpg" width="500" /&gt;&lt;/li&gt;
-									&lt;li data-thumb="images/photo/5s.jpg"&gt;&lt;img data-src="images/photo/5.jpg" width="500" /&gt;&lt;/li&gt;
-									&lt;li data-thumb="images/photo/6s.jpg"&gt;&lt;img data-src="images/photo/6.jpg" width="500" /&gt;&lt;/li&gt;
-									&lt;li data-thumb="images/photo/7s.jpg"&gt;&lt;img data-src="images/photo/7.jpg" width="500" /&gt;&lt;/li&gt;
-									&lt;li data-thumb="images/photo/8s.jpg"&gt;&lt;img data-src="images/photo/8.jpg" width="500" /&gt;&lt;/li&gt;
-									&lt;li data-thumb="images/photo/9s.jpg"&gt;&lt;img data-src="images/photo/9.jpg" width="500" /&gt;&lt;/li&gt;
-								&lt;/ul&gt;
-							&lt;/div&gt;
-							</pre>
-							<pre class="brush:js;">
-							$('.m-demo4').superSlide({
-								thumb:{
-									enable:true
-								}, 
-								list:{
-									enable:false
-								},
-								isAuto:false, 
-								isFadein:true, 
-								speed:800
-							});
-							</pre>
-							<h3 class="f-fwb">非循环滚动切换</h3>
-							<div class="m-demo5 ui-slide-scroll f-pr e-mt10">
-								<ul class="ui-slide">
-									<li><img src="images/photo/1s.jpg" width="95" /></li>
-									<li><img src="images/photo/2s.jpg" width="95" /></li>
-									<li><img src="images/photo/3s.jpg" width="95" /></li>
-									<li><img src="images/photo/4s.jpg" width="95" /></li>
-									<li><img src="images/photo/5s.jpg" width="95" /></li>
-									<li><img src="images/photo/6s.jpg" width="95" /></li>
-									<li><img src="images/photo/7s.jpg" width="95" /></li>
-									<li><img src="images/photo/8s.jpg" width="95" /></li>
-									<li><img src="images/photo/9s.jpg" width="95" /></li>
-								</ul>
-							</div>
-							<pre class="brush:css;">
-							.m-demo5 { width:500px; height:61px;}
-							</pre>
-							<pre class="brush:xml">
-							&lt;div class="m-demo5 ui-slide-scroll f-pr e-mt10"&gt;
-								&lt;ul class="ui-slide"&gt;
-									&lt;li&gt;&lt;img src="images/photo/1s.jpg" width="95" /&gt;&lt;/li&gt;
-									&lt;li&gt;&lt;img src="images/photo/2s.jpg" width="95" /&gt;&lt;/li&gt;
-									&lt;li&gt;&lt;img src="images/photo/3s.jpg" width="95" /&gt;&lt;/li&gt;
-									&lt;li&gt;&lt;img src="images/photo/4s.jpg" width="95" /&gt;&lt;/li&gt;
-									&lt;li&gt;&lt;img src="images/photo/5s.jpg" width="95" /&gt;&lt;/li&gt;
-									&lt;li&gt;&lt;img src="images/photo/6s.jpg" width="95" /&gt;&lt;/li&gt;
-									&lt;li&gt;&lt;img src="images/photo/7s.jpg" width="95" /&gt;&lt;/li&gt;
-									&lt;li&gt;&lt;img src="images/photo/8s.jpg" width="95" /&gt;&lt;/li&gt;
-									&lt;li&gt;&lt;img src="images/photo/9s.jpg" width="95" /&gt;&lt;/li&gt;
-								&lt;/ul&gt;
-							&lt;/div&gt;
-							</pre>
-							<pre class="brush:js;">
-							$('.m-demo5').superSlide({
-								speed:450,
-								scroll:{
-									enable:true
-								},
-							});
-							</pre>
-						</dd>
-						<dt>API</dt>
                         <dd>
-							<table> 
+                            <p>容器建议加上position:relative样式，因为内部定位元素是动态创建的，在网速慢时，js还没加载完成之前，布局会乱</p>
+                            <p>子元素必须包含类名ui-slide</p>
+                            <p>加载图片可用data-src属性懒加载</p>
+                        </dd>
+                        <dt>实例</dt>
+                        <dd>
+                            <h3 class="f-fwb">固定尺寸</h3>
+                            <div class="m-demo1 f-pr e-mt10">
+                                <ul class="ui-slide">
+                                    <li data-title="图片1"><img data-src="images/s1.jpg" width="500" /></li>
+                                    <li data-title="图片2"><img data-src="images/s2.jpg" width="500" /></li>
+                                    <li data-title="图片3"><img data-src="images/s3.jpg" width="500" /></li>
+                                </ul>
+                            </div>
+                            <pre class="brush:css;">
+                            .m-demo1 { width:500px; height:281px;}
+                            </pre>
+                            <pre class="brush:html;">
+                            &lt;div class="m-demo1 f-pr e-mt10"&gt;
+                                &lt;ul class="ui-slide"&gt;
+                                    &lt;li data-title="图片1"&gt;&lt;img data-src="images/s1.jpg" width="500" /&gt;&lt;/li&gt;
+                                    &lt;li data-title="图片2"&gt;&lt;img data-src="images/s2.jpg" width="500" /&gt;&lt;/li&gt;
+                                    &lt;li data-title="图片3"&gt;&lt;img data-src="images/s3.jpg" width="500" /&gt;&lt;/li&gt;
+                                &lt;/ul&gt;
+                            &lt;/div&gt;
+                            </pre>
+                            <pre class="brush:js;">
+                            $('.m-demo1').superSlide({
+                                isTitle:true,
+                                button:{
+                                    isHide:true
+                                }
+                            });
+                            </pre>
+                            <h3 class="f-fwb">循环滚动切换</h3>
+                            <div class="m-demo2 f-pr e-mt10">
+                                <ul class="ui-slide">
+                                    <li><a href="#">媒体：全球买买买！中国人其实是穷嘚瑟</a></li>
+                                    <li><a href="#">2015年第22号台风彩虹路径图实时更新 最新路径卫星图</a></li>
+                                    <li><a href="#">国庆第二天北京接待游客飙升至207.4万</a></li>
+                                    <li><a href="#">台风彩虹最新消息：2015年第22号台风信息实时更新</a></li>
+                                    <li><a href="#">中国互联网企业出海扩张多靠砸钱投资入股 面临多重挑战</a></li>
+                                    <li><a href="#">格力在美媒上打整版广告 董明珠代言省巨额广告费</a></li>
+                                </ul>
+                            </div>
+                            <pre class="brush:css;">
+                            .m-demo2 { height:35px; line-height:35px;}
+                            .m-demo2 li { background:none;}
+                            .m-demo2 li a { display:inline;}
+                            </pre>
+                            <pre class="brush:html;">
+                            &lt;div class="m-demo2 f-pr e-mt10"&gt;
+                                &lt;ul class="ui-slide"&gt;
+                                    &lt;li&gt;&lt;a href="#"&gt;媒体：全球买买买！中国人其实是穷嘚瑟&lt;/a&gt;&lt;/li&gt;
+                                    &lt;li&gt;&lt;a href="#"&gt;2015年第22号台风彩虹路径图实时更新 最新路径卫星图&lt;/a&gt;&lt;/li&gt;
+                                    &lt;li&gt;&lt;a href="#"&gt;国庆第二天北京接待游客飙升至207.4万&lt;/a&gt;&lt;/li&gt;
+                                    &lt;li&gt;&lt;a href="#"&gt;台风彩虹最新消息：2015年第22号台风信息实时更新&lt;/a&gt;&lt;/li&gt;
+                                    &lt;li&gt;&lt;a href="#"&gt;中国互联网企业出海扩张多靠砸钱投资入股 面临多重挑战&lt;/a&gt;&lt;/li&gt;
+                                    &lt;li&gt;&lt;a href="#"&gt;格力在美媒上打整版广告 董明珠代言省巨额广告费&lt;/a&gt;&lt;/li&gt;
+                                &lt;/ul&gt;
+                            &lt;/div&gt;
+                            </pre>
+                            <pre class="brush:js;">
+                            $('.m-demo2').superSlide({
+                                isHorz:false,
+                                delay:2000,
+                                list:{
+                                    enable:false
+                                }
+                            });
+                            </pre>
+                            <h3 class="f-fwb">自适应</h3>
+                            <div class="m-demo3 f-pr e-mt10">
+                                <ul class="ui-slide">
+                                    <li data-src="images/1.jpg"></li>
+                                    <li data-src="images/2.jpg"></li>
+                                    <li data-src="images/3.jpg"></li>
+                                </ul>
+                            </div>
+                            <pre class="brush:css;">
+                            .m-demo3 { height:400px;}
+                            </pre>
+                            <pre class="brush:html;">
+                            &lt;div class="m-demo3 e-mt10"&gt;
+                                &lt;ul class="ui-slide"&gt;
+                                    &lt;li data-src="images/1.jpg"&gt;&lt;/li&gt;
+                                    &lt;li data-src="images/2.jpg"&gt;&lt;/li&gt;
+                                    &lt;li data-src="images/3.jpg"&gt;&lt;/li&gt;
+                                &lt;/ul&gt;
+                            &lt;/div&gt;
+                            </pre>
+                            <pre class="brush:js;">
+                            $('.m-demo3').superSlide({
+                                isBackdrop:true,
+                                resize:{
+                                    enable:true,
+                                    target:$('.m-article')
+                                },
+                                button:{
+                                    isHide:true
+                                }
+                            });
+                            </pre>
+                            <h3 class="f-fwb">相册切换</h3>
+                            <div class="m-demo4 f-pr e-mt10">
+                                <ul class="ui-slide">
+                                    <li data-thumb="images/photo/1s.jpg"><img data-src="images/photo/1.jpg" width="500" /></li>
+                                    <li data-thumb="images/photo/2s.jpg"><img data-src="images/photo/2.jpg" width="500" /></li>
+                                    <li data-thumb="images/photo/3s.jpg"><img data-src="images/photo/3.jpg" width="500" /></li>
+                                    <li data-thumb="images/photo/4s.jpg"><img data-src="images/photo/4.jpg" width="500" /></li>
+                                    <li data-thumb="images/photo/5s.jpg"><img data-src="images/photo/5.jpg" width="500" /></li>
+                                    <li data-thumb="images/photo/6s.jpg"><img data-src="images/photo/6.jpg" width="500" /></li>
+                                    <li data-thumb="images/photo/7s.jpg"><img data-src="images/photo/7.jpg" width="500" /></li>
+                                    <li data-thumb="images/photo/8s.jpg"><img data-src="images/photo/8.jpg" width="500" /></li>
+                                    <li data-thumb="images/photo/9s.jpg"><img data-src="images/photo/9.jpg" width="500" /></li>
+                                </ul>
+                            </div>
+                            <pre class="brush:css;">
+                            .m-demo4 { margin-bottom:80px; width:500px; height:281px;}
+                            </pre>
+                            <pre class="brush:xml">
+                            &lt;div class="m-demo4 e-mt10"&gt;
+                                &lt;ul class="ui-slide"&gt;
+                                    &lt;li data-thumb="images/photo/1s.jpg"&gt;&lt;img data-src="images/photo/1.jpg" width="500" /&gt;&lt;/li&gt;
+                                    &lt;li data-thumb="images/photo/2s.jpg"&gt;&lt;img data-src="images/photo/2.jpg" width="500" /&gt;&lt;/li&gt;
+                                    &lt;li data-thumb="images/photo/3s.jpg"&gt;&lt;img data-src="images/photo/3.jpg" width="500" /&gt;&lt;/li&gt;
+                                    &lt;li data-thumb="images/photo/4s.jpg"&gt;&lt;img data-src="images/photo/4.jpg" width="500" /&gt;&lt;/li&gt;
+                                    &lt;li data-thumb="images/photo/5s.jpg"&gt;&lt;img data-src="images/photo/5.jpg" width="500" /&gt;&lt;/li&gt;
+                                    &lt;li data-thumb="images/photo/6s.jpg"&gt;&lt;img data-src="images/photo/6.jpg" width="500" /&gt;&lt;/li&gt;
+                                    &lt;li data-thumb="images/photo/7s.jpg"&gt;&lt;img data-src="images/photo/7.jpg" width="500" /&gt;&lt;/li&gt;
+                                    &lt;li data-thumb="images/photo/8s.jpg"&gt;&lt;img data-src="images/photo/8.jpg" width="500" /&gt;&lt;/li&gt;
+                                    &lt;li data-thumb="images/photo/9s.jpg"&gt;&lt;img data-src="images/photo/9.jpg" width="500" /&gt;&lt;/li&gt;
+                                &lt;/ul&gt;
+                            &lt;/div&gt;
+                            </pre>
+                            <pre class="brush:js;">
+                            $('.m-demo4').superSlide({
+                                thumb:{
+                                    enable:true
+                                }, 
+                                list:{
+                                    enable:false
+                                },
+                                isAuto:false, 
+                                isFadein:true, 
+                                speed:800
+                            });
+                            </pre>
+                            <h3 class="f-fwb">非循环滚动切换</h3>
+                            <div class="m-demo5 ui-slide-scroll f-pr e-mt10">
+                                <ul class="ui-slide">
+                                    <li><img src="images/photo/1s.jpg" width="95" /></li>
+                                    <li><img src="images/photo/2s.jpg" width="95" /></li>
+                                    <li><img src="images/photo/3s.jpg" width="95" /></li>
+                                    <li><img src="images/photo/4s.jpg" width="95" /></li>
+                                    <li><img src="images/photo/5s.jpg" width="95" /></li>
+                                    <li><img src="images/photo/6s.jpg" width="95" /></li>
+                                    <li><img src="images/photo/7s.jpg" width="95" /></li>
+                                    <li><img src="images/photo/8s.jpg" width="95" /></li>
+                                    <li><img src="images/photo/9s.jpg" width="95" /></li>
+                                </ul>
+                            </div>
+                            <pre class="brush:css;">
+                            .m-demo5 { width:500px; height:61px;}
+                            </pre>
+                            <pre class="brush:xml">
+                            &lt;div class="m-demo5 ui-slide-scroll f-pr e-mt10"&gt;
+                                &lt;ul class="ui-slide"&gt;
+                                    &lt;li&gt;&lt;img src="images/photo/1s.jpg" width="95" /&gt;&lt;/li&gt;
+                                    &lt;li&gt;&lt;img src="images/photo/2s.jpg" width="95" /&gt;&lt;/li&gt;
+                                    &lt;li&gt;&lt;img src="images/photo/3s.jpg" width="95" /&gt;&lt;/li&gt;
+                                    &lt;li&gt;&lt;img src="images/photo/4s.jpg" width="95" /&gt;&lt;/li&gt;
+                                    &lt;li&gt;&lt;img src="images/photo/5s.jpg" width="95" /&gt;&lt;/li&gt;
+                                    &lt;li&gt;&lt;img src="images/photo/6s.jpg" width="95" /&gt;&lt;/li&gt;
+                                    &lt;li&gt;&lt;img src="images/photo/7s.jpg" width="95" /&gt;&lt;/li&gt;
+                                    &lt;li&gt;&lt;img src="images/photo/8s.jpg" width="95" /&gt;&lt;/li&gt;
+                                    &lt;li&gt;&lt;img src="images/photo/9s.jpg" width="95" /&gt;&lt;/li&gt;
+                                &lt;/ul&gt;
+                            &lt;/div&gt;
+                            </pre>
+                            <pre class="brush:js;">
+                            $('.m-demo5').superSlide({
+                                speed:450,
+                                scroll:{
+                                    enable:true
+                                },
+                            });
+                            </pre>
+                        </dd>
+                        <dt>API</dt>
+                        <dd>
+                            <table> 
                                 <thead> 
                                     <tr>
                                         <th width="120">普通属性</th>
@@ -281,77 +281,77 @@
                                     </tr> 
                                 </thead> 
                                 <tbody> 
-									<tr>
+                                    <tr>
                                         <td>delay</td>
                                         <td>Number</td>
                                         <td>4000</td>
                                         <td>正整数</td>
                                         <td>自动切换延迟时间，1000=1s</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td>speed</td>
                                         <td>Number</td>
                                         <td>450</td>
                                         <td>正整数</td>
                                         <td>切换速度</td>
                                     </tr>
-									<tr>    
+                                    <tr>    
                                         <td>event</td>
                                         <td>String</td>
                                         <td>click</td>
                                         <td>click/mouseover</td>
                                         <td>圆点按钮触发事件</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td>ease</td>
                                         <td>String</td>
                                         <td>null</td>
                                         <td>easing动画类型</td>
                                         <td>缓动效果，依赖jquery.easing.js</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td>itemNum</td>
                                         <td>Number</td>
                                         <td>0</td>
                                         <td>正整数</td>
                                         <td>一屏显示数量，&lt;ul class="ui-slide"&gt;&lt;/ul&gt;中不要使用li标签，会自动生成</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td>moveTo</td>
                                         <td>Number</td>
                                         <td>0</td>
                                         <td>正整数</td>
                                         <td>默认展示第几个</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td>isBackdrop</td>
                                         <td>Boolean</td>
                                         <td>false</td>
                                         <td>true|false</td>
                                         <td>切换图片为背景图片，&lt;li data-src="背景图片路径"&gt;&lt;/li&gt;</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td>isFadein</td>
                                         <td>Boolean</td>
                                         <td>false</td>
                                         <td>true|false</td>
                                         <td>是否以淡入淡出效果显示</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td>isAuto</td>
                                         <td>Boolean</td>
                                         <td>true</td>
                                         <td>true|false</td>
                                         <td>是否自动切换</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td>isHorz</td>
                                         <td>Boolean</td>
                                         <td>true</td>
                                         <td>true|false</td>
                                         <td>是否水平切换</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td>isTitle</td>
                                         <td>Boolean</td>
                                         <td>false</td>
@@ -360,11 +360,11 @@
                                     </tr>
                                 </tbody>
                             </table>
-							<table> 
+                            <table> 
                                 <thead> 
                                     <tr>
                                         <th width="120">对象属性</th>
-										<th width="120">属性名</th>
+                                        <th width="120">属性名</th>
                                         <th width="120">值类型</th>
                                         <th width="120">默认值</th>
                                         <th width="120">可填值</th>
@@ -372,7 +372,7 @@
                                     </tr> 
                                 </thead> 
                                 <tbody> 
-									<tr>
+                                    <tr>
                                         <td rowspan="2">list</td>
                                         <td>enable</td>
                                         <td>Boolean</td>
@@ -380,14 +380,14 @@
                                         <td>true|false</td>
                                         <td>是否展示圆点按钮</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td>isHide</td>
                                         <td>Boolean</td>
                                         <td>false</td>
                                         <td>true|false</td>
                                         <td>是否默认隐藏，鼠标悬停后显示</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td rowspan="2">button</td>
                                         <td>enable</td>
                                         <td>Boolean</td>
@@ -395,14 +395,14 @@
                                         <td>true|false</td>
                                         <td>是否展示左右切换按钮</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td>isHide</td>
                                         <td>Boolean</td>
                                         <td>false</td>
                                         <td>true|false</td>
                                         <td>是否默认隐藏，鼠标悬停后显示</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td rowspan="2">thumb</td>
                                         <td>enable</td>
                                         <td>Boolean</td>
@@ -410,14 +410,14 @@
                                         <td>true|false</td>
                                         <td>是否展示相册底部缩略图</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td>isHorz</td>
                                         <td>Boolean</td>
                                         <td>true</td>
                                         <td>true|false</td>
                                         <td>缩略图是否水平切换</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td rowspan="4">resize</td>
                                         <td>enable</td>
                                         <td>Boolean</td>
@@ -425,28 +425,28 @@
                                         <td>true|false</td>
                                         <td>是否自适应切换</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td>target</td>
                                         <td>Object</td>
                                         <td>$(window)</td>
                                         <td>jQuery Object</td>
                                         <td>自适应目标元素</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td>minSize</td>
                                         <td>Number</td>
                                         <td>0</td>
                                         <td>正整数</td>
                                         <td>水平切换表示最小宽度，垂直切换表示最小高度</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td>callback</td>
                                         <td>Function</td>
                                         <td>空函数</td>
                                         <td>function(){...}</td>
                                         <td>窗口大小改变后回调函数</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td rowspan="3">scroll</td>
                                         <td>enable</td>
                                         <td>Boolean</td>
@@ -454,14 +454,14 @@
                                         <td>true|false</td>
                                         <td>是否开启非循环滚动</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td>isEnd</td>
                                         <td>Boolean</td>
                                         <td>false</td>
                                         <td>true|false</td>
                                         <td>是否默认显示最后一屏</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td>isEvent</td>
                                         <td>Boolean</td>
                                         <td>false</td>
@@ -481,14 +481,14 @@
                                     </tr> 
                                 </thead> 
                                 <tbody> 
-									<tr>
+                                    <tr>
                                         <td>callback</td>
                                         <td>index</td>
                                         <td>目标元素索引</td>
                                         <td>Undefined</td>
                                         <td>切换过渡回调函数，若为非循环滚动，表示li标签触发event后的回调函数</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td>endCallback</td>
                                         <td>index</td>
                                         <td>目标元素索引</td>
@@ -497,7 +497,7 @@
                                     </tr>
                                 </tbody>
                             </table> 
-						</dd> 
+                        </dd> 
                         <dt>下载</dt>
                         <dd>
                             <a href="superslide.css">superslide.css</a>
@@ -507,91 +507,91 @@
                         <dd id="updatelog"></dd>
                     </dl> 
                 </div> 
-			</div>
-		</div>
-	</div>
-	<!-- content end -->
-	
-	<!-- footer begin -->
-	<div class="g-footer">
-		<div class="g-wrap">
-			<p>
-				<a href="http://wpa.qq.com/msgrd?v=3&uin=897102078&site=qq&menu=yes" target="_blank">技术支持</a>
-			</p>
-			<p>Copyright © 2013-2015 Aisino. All Rights Reserved.</p>
-		</div>
-	</div>
-	<!-- footer end -->
-	
-	<script type="text/javascript" src="../../script/jquery.js"></script>
-	<script type="text/javascript" src="jquery.superslide.js"></script>
+            </div>
+        </div>
+    </div>
+    <!-- content end -->
+    
+    <!-- footer begin -->
+    <div class="g-footer">
+        <div class="g-wrap">
+            <p>
+                <a href="http://wpa.qq.com/msgrd?v=3&uin=897102078&site=qq&menu=yes" target="_blank">技术支持</a>
+            </p>
+            <p>Copyright © 2013-2015 Aisino. All Rights Reserved.</p>
+        </div>
+    </div>
+    <!-- footer end -->
+    
+    <script type="text/javascript" src="../../script/jquery.js"></script>
+    <script type="text/javascript" src="jquery.superslide.js"></script>
     <script type="text/javascript" src="../layer/jquery.layer.js"></script>
-	<script type="text/javascript" src="../../script/syntax/shCore.js"></script>
-	<script type="text/javascript" src="../../script/syntax/shBrushCss.js"></script>
-	<script type="text/javascript" src="../../script/syntax/shBrushXml.js"></script>
-	<script type="text/javascript" src="../../script/syntax/shBrushJScript.js"></script>
-	<script type="text/javascript" src="../../script/page.js"></script>
-	<script type="text/javascript" src="../data.js"></script>
-	<script type="text/javascript" src="../menu.js"></script>
-	<script type="text/javascript" src="../arttemplate/template.js"></script>
-	<script type="text/javascript" src="./log.js"></script>
-	<script type="text/html" id="updatelog-tpl">
-	{{each list as val key}}
-		<p>Version:{{val.ver}}</p>
-		{{if val.date}}
-		<p>Date:{{val.date}}</p>	
-		{{/if}}
-		{{each val.desc as v k}}
-		<p>{{v}}</p>
-		{{/each}}
-		<br />
-	{{/each}}
-	</script>
-	<script type="text/javascript">
-	$('.m-demo1').superSlide({
-		isTitle:true,
-		button:{
-			isHide:true
-		}
-	});
-	
-	$('.m-demo2').superSlide({
-		isHorz:false,
-		delay:2000,
-		list:{
-			enable:false
-		}
-	});
-	
-	$('.m-demo3').superSlide({
-		isBackdrop:true,
-		resize:{
-			enable:true,
-			target:$('.m-article')
-		},
-		button:{
-			isHide:true
-		}
-	});
-	
-	$('.m-demo4').superSlide({
+    <script type="text/javascript" src="../../script/syntax/shCore.js"></script>
+    <script type="text/javascript" src="../../script/syntax/shBrushCss.js"></script>
+    <script type="text/javascript" src="../../script/syntax/shBrushXml.js"></script>
+    <script type="text/javascript" src="../../script/syntax/shBrushJScript.js"></script>
+    <script type="text/javascript" src="../../script/page.js"></script>
+    <script type="text/javascript" src="../data.js"></script>
+    <script type="text/javascript" src="../menu.js"></script>
+    <script type="text/javascript" src="../arttemplate/template.js"></script>
+    <script type="text/javascript" src="./log.js"></script>
+    <script type="text/html" id="updatelog-tpl">
+    {{each list as val key}}
+        <p>Version:{{val.ver}}</p>
+        {{if val.date}}
+        <p>Date:{{val.date}}</p>    
+        {{/if}}
+        {{each val.desc as v k}}
+        <p>{{v}}</p>
+        {{/each}}
+        <br />
+    {{/each}}
+    </script>
+    <script type="text/javascript">
+    $('.m-demo1').superSlide({
+        isTitle:true,
+        button:{
+            isHide:true
+        }
+    });
+    
+    $('.m-demo2').superSlide({
+        isHorz:false,
+        delay:2000,
+        list:{
+            enable:false
+        }
+    });
+    
+    $('.m-demo3').superSlide({
+        isBackdrop:true,
+        resize:{
+            enable:true,
+            target:$('.m-article')
+        },
+        button:{
+            isHide:true
+        }
+    });
+    
+    $('.m-demo4').superSlide({
         isAuto:false, 
         isFadein:true, 
         speed:800,
-		thumb:{
+        thumb:{
             enable:true
         },
-		list:{
-			enable:false
-		}
+        list:{
+            enable:false
+        }
     });
-	
-	$('.m-demo5').superSlide({
-		speed:450,
-		scroll:{
-			enable:true
-		}
-	});
-	</script>
+    
+    $('.m-demo5').superSlide({
+        speed:450,
+        scroll:{
+            enable:true
+        }
+    });
+    </script>
 </body>
 </html>

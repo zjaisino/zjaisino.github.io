@@ -36,10 +36,10 @@
             isTitle:false,
             //圆点按钮配置
             list:{
-				//是否启用
-				enable:true,
-            	//是否默认隐藏，鼠标悬停后显示
-                isHide:false 	
+                //是否启用
+                enable:true,
+                //是否默认隐藏，鼠标悬停后显示
+                isHide:false    
             },
             //左右切换按钮
             button:{
@@ -126,20 +126,20 @@
                 else{
                     that.createScroll();
                 }
-				
-				if(options.button.enable === true && that.button){
-					if(options.button.isHide === true){
-						target.hover(function(){
-							that.button.fadeIn();
-						}, function(){
-							that.button.stop(true, false).fadeOut();
-						});
-					}
-					else{
-						that.button.show();
-					}
-				}
-				
+                
+                if(options.button.enable === true && that.button){
+                    if(options.button.isHide === true){
+                        target.hover(function(){
+                            that.button.fadeIn();
+                        }, function(){
+                            that.button.stop(true, false).fadeOut();
+                        });
+                    }
+                    else{
+                        that.button.show();
+                    }
+                }
+                
                 if(options.list.enable === true && options.list.isHide === true && that.list){
                     target.hover(function(){
                         that.list.fadeIn();
@@ -160,12 +160,12 @@
             if(options.isTitle === true){
                 that.title = $('<div class="ui-slide-title"><span></span></div>').appendTo(target).find('span');
             }
-			
+            
             if(that.itemSize > 1){
                 that.list = $('<div class="ui-slide-list">'+ listItems +'</div>').appendTo(target);
-				if(options.button.enable === true){
-					that.button = $('<span class="ui-slide-btn ui-slide-prev"></span><span class="ui-slide-btn ui-slide-next"></span>').appendTo(target);
-				}
+                if(options.button.enable === true){
+                    that.button = $('<span class="ui-slide-btn ui-slide-prev"></span><span class="ui-slide-btn ui-slide-next"></span>').appendTo(target);
+                }
                 if(options.thumb.enable === true){
                     that.thumb = new SuperSlide({
                         target:$('<div class="ui-slide-scroll"><ul class="ui-slide">'+ thumbItems +'</ul></div>').appendTo(target),
@@ -184,10 +184,10 @@
                         }
                     });
                 }
-				
-				if(options.list.enable !== true){
-					that.list.hide();
-				}
+                
+                if(options.list.enable !== true){
+                    that.list.hide();
+                }
                 
                 if(options.isFadein !== true){
                     var oneItem = that.items.eq(0);
@@ -202,11 +202,11 @@
                     }
                     that.scroll.append(oneItem.clone())[that.size.type]((that.itemSize+1)*that[that.size.type]);
                     that.items = that.scroll.children();
-				}
-				else{
-					that.scroll.css({position:'relative'});
+                }
+                else{
+                    that.scroll.css({position:'relative'});
                     that.items.css({position:'absolute'}).hide();
-				}
+                }
 
                 that.slideEvent();
             }
@@ -223,14 +223,14 @@
                 that.thumbClick = false;
                 if($(this).hasClass('ui-slide-prev')){
                     if(options.thumb.enable === true && that.index == 0){
-	                    return false;
-	                }
+                        return false;
+                    }
                     that.slidePrev();
                 }
                 else{
                     if(options.thumb.enable === true && that.index == that.itemSize-1){
-	                    return false;
-	                }
+                        return false;
+                    }
                     that.slideNext();
                 }
             });
@@ -245,7 +245,7 @@
                         that.scroll.css(dir, -that.index*that[type])[type](that[type]*(that.itemSize+1));
                     }
                     typeof options.resize.callback === 'function' && options.resize.callback();
-	            });
+                });
             }
             if(options.isAuto === true){
                 that.autoplay();
@@ -284,13 +284,13 @@
                 var animate = {};
                 animate[that.size.dir] = -index*that[that.size.type];
                 that.scroll.stop(true, false).animate(animate, options.speed, options.ease, function(){
-                	typeof options.endCallback == 'function' && options.endCallback(index);
+                    typeof options.endCallback == 'function' && options.endCallback(index);
                 });
                 animate = null;
             }
             else{
                 item.fadeIn(options.speed).siblings().stop(true, false).fadeOut(options.speed, function(){
-                	typeof options.endCallback == 'function' && options.endCallback(index);
+                    typeof options.endCallback == 'function' && options.endCallback(index);
                 });
             }
             that.title && that.title.html(item.data('title'));
@@ -351,23 +351,23 @@
                     outer:'outerHeight'
                 }
             }
-			options.button = {
-				enable:true,
-				isHide:false
-			}
-			options.list.enable = false;
-			that.button = $('<span class="ui-slide-btn ui-slide-prev"></span><span class="ui-slide-btn ui-slide-next"></span>').appendTo(target);
+            options.button = {
+                enable:true,
+                isHide:false
+            }
+            options.list.enable = false;
+            that.button = $('<span class="ui-slide-btn ui-slide-prev"></span><span class="ui-slide-btn ui-slide-next"></span>').appendTo(target);
             that.outline  = that.items[that.setting.outer]() + parseInt(that.items.css(that.setting.margin));
-			that.count  = Math.ceil(that.wrap[that.setting.outline]()/that.outline);
-			that.cOutline = that.outline*that.count;
-			that.scrollVal = that.outline*that.itemSize - that.cOutline;
+            that.count  = Math.ceil(that.wrap[that.setting.outline]()/that.outline);
+            that.cOutline = that.outline*that.count;
+            that.scrollVal = that.outline*that.itemSize - that.cOutline;
             that.scroll[that.setting.outline](that.scrollVal + that.cOutline);
             that.button.removeClass('s-crt');
-			if(that.itemSize<=that.count){
-				that.button.addClass('s-dis');
-			}
+            if(that.itemSize<=that.count){
+                that.button.addClass('s-dis');
+            }
             if(!isReset){
-            	that.moveTo = 0;
+                that.moveTo = 0;
                 that.scrollEvent();
             }
             
@@ -378,41 +378,41 @@
             that.button.on('click', function(){
                 target = $(this);
                 if(!target.hasClass('s-dis')){
-					var dir = Math.abs(that.scroll.position()[that.setting.dir]);
-					if(target.hasClass('ui-slide-prev')){
-						if(dir > that.cOutline){
-							if(!that.moveTo){
-								that.index = -that.cOutline;
-							}
-							else{
-								that.index = -that.moveTo;
-								that.moveTo = 0;
-							}
+                    var dir = Math.abs(that.scroll.position()[that.setting.dir]);
+                    if(target.hasClass('ui-slide-prev')){
+                        if(dir > that.cOutline){
+                            if(!that.moveTo){
+                                that.index = -that.cOutline;
+                            }
+                            else{
+                                that.index = -that.moveTo;
+                                that.moveTo = 0;
+                            }
                             that.scrollMove(target, false);
-						}
-						else{
-							that.moveTo = that.index = -dir;	
-							that.scrollMove(target, true);
-						}
-					}
-					else{
-						var sval = that.scrollVal-dir;
-						that.moveTo = Math.abs(that.moveTo);
-						if(sval-that.cOutline>=0){
-							if(!that.moveTo){
-								that.index = that.cOutline;	
-							}
-							else{
-								that.index = that.moveTo;
-								that.moveTo = 0;
-							}
+                        }
+                        else{
+                            that.moveTo = that.index = -dir;    
+                            that.scrollMove(target, true);
+                        }
+                    }
+                    else{
+                        var sval = that.scrollVal-dir;
+                        that.moveTo = Math.abs(that.moveTo);
+                        if(sval-that.cOutline>=0){
+                            if(!that.moveTo){
+                                that.index = that.cOutline; 
+                            }
+                            else{
+                                that.index = that.moveTo;
+                                that.moveTo = 0;
+                            }
                             that.scrollMove(target, false);
-						}
-						else{
-							that.moveTo = that.index = sval;	
-							that.scrollMove(target, true);
-						}	
-					}
+                        }
+                        else{
+                            that.moveTo = that.index = sval;    
+                            that.scrollMove(target, true);
+                        }   
+                    }
                 }
             });
             
@@ -425,18 +425,18 @@
                 that.scrollMove(that.button.last(), true, 0);
             }
             else if(options.moveTo > 0){
-				var moveTo = options.moveTo + 1, step = Math.ceil(that.count/2), temp = moveTo-step;
-				if(temp <= 0){
-					that.scrollMove(that.button.first(), true, 0);
-				}
-				else if(temp+step*2 > that.itemSize){
-					that.index = that.itemSize*that.outline-that.cOutline;
+                var moveTo = options.moveTo + 1, step = Math.ceil(that.count/2), temp = moveTo-step;
+                if(temp <= 0){
+                    that.scrollMove(that.button.first(), true, 0);
+                }
+                else if(temp+step*2 > that.itemSize){
+                    that.index = that.itemSize*that.outline-that.cOutline;
                     that.scrollMove(that.button.last(), true, 0);
-				}
-				else{
-					that.index = temp*that.outline;
-					that.scrollMove(that.button.first(), false, 0);
-				}
+                }
+                else{
+                    that.index = temp*that.outline;
+                    that.scrollMove(that.button.first(), false, 0);
+                }
                 options.scroll.isEvent && that.items.eq(options.moveTo)[options.event]();
             }
             else{
@@ -448,20 +448,20 @@
             speed = speed === undefined ? options.speed : speed;
             if(!that.scroll.is(':animated')){
                 animate[that.setting.dir] = '-='+that.index+'px';
-				that.scroll.stop(true, false).animate(animate, speed, function(){
-					that.itemSize>that.count && target.siblings('.ui-slide-btn').removeClass('s-dis');
-					if(isDis === true){
-						target.addClass('s-dis');
-					} 
-				});
+                that.scroll.stop(true, false).animate(animate, speed, function(){
+                    that.itemSize>that.count && target.siblings('.ui-slide-btn').removeClass('s-dis');
+                    if(isDis === true){
+                        target.addClass('s-dis');
+                    } 
+                });
                 animate = null;
-			}
+            }
         },
         resetItem:function(){
-        	var that = this;
-        	that.items = that.scroll.children();
-        	that.itemSize = that.items.size();
-        	that.createScroll(true);
+            var that = this;
+            that.items = that.scroll.children();
+            that.itemSize = that.items.size();
+            that.createScroll(true);
         },
         autoplay:function(){
             var that = this, options = that.options;
@@ -472,10 +472,10 @@
     }
     
     $.fn.superSlide = function(options){
-    	options = options || {};
-    	return this.each(function(){
+        options = options || {};
+        return this.each(function(){
             options.target = $(this);
-    		this.set = new SuperSlide(options);
-    	});
+            this.set = new SuperSlide(options);
+        });
     }
 })(this, document, jQuery);

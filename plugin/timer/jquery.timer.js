@@ -11,7 +11,7 @@
  */
  
 $.fn.timer = function(o){
-	o = $.extend({
+    o = $.extend({
         /**
          * @func 创建倒计时html骨架
          * @type <Function>
@@ -61,14 +61,14 @@ $.fn.timer = function(o){
         /**
          * @func 结束前回调函数，搭配data-beforetime使用
          * @type <Function>
-		 * @return <Boolean> 返回false仅执行一次
+         * @return <Boolean> 返回false仅执行一次
          * @param target <jQuery Object> 调用组件的当前对象
          */
         beforeCallback:$.noop,
         /**
          * @func 准备阶段回调函数
          * @type <Function>
-		 * @return <Boolean> 返回false仅执行一次
+         * @return <Boolean> 返回false仅执行一次
          * @param target <jQuery Object> 调用组件的当前对象
          */
         readyCallback:$.noop,
@@ -80,20 +80,20 @@ $.fn.timer = function(o){
         endCallback:function(target){
             target.html('<span><em>活动已结束</em></span>');
         }
-	}, o||{});
+    }, o||{});
     var getTime = function(date){
         return new Date(date).getTime();
     }
-	return this.each(function(){
-		var _this = $(this), delay = 1000, timeout = null, data = _this.data(), status = 1, //1未开始 2进行中
+    return this.each(function(){
+        var _this = $(this), delay = 1000, timeout = null, data = _this.data(), status = 1, //1未开始 2进行中
             starttime = data.starttime ? getTime(data.starttime) : new Date().getTime(),
             readytime = data.readytime ? getTime(data.readytime) : null,
             begintime = getTime(data.begintime), _begintime = begintime, endtime = getTime(data.endtime),
             beforetime = data.beforetime ? getTime(data.beforetime) : null, system = [new Date().getTime()], 
-			ready = true, before = true, isStop = false, isAuto = false, //是否自动切换到进行中的倒计时，如果在进行中，用户刷新页面，将自动创建进行中的倒计时，之后必须设为true
+            ready = true, before = true, isStop = false, isAuto = false, //是否自动切换到进行中的倒计时，如果在进行中，用户刷新页面，将自动创建进行中的倒计时，之后必须设为true
             dateArray = [], dayArray = [], dateUnit = ['时', '分', '秒'],
-			running = function(isInit){
-				var day = hour = minute = second = 0, time = begintime - starttime, underway = starttime>=begintime && starttime<endtime && !isAuto;
+            running = function(isInit){
+                var day = hour = minute = second = 0, time = begintime - starttime, underway = starttime>=begintime && starttime<endtime && !isAuto;
                 if(underway || ((isAuto=true) && time>0 && !isStop)){
                     delay = 1000;
                     if(underway){
@@ -149,7 +149,7 @@ $.fn.timer = function(o){
                     return;
                 }
                 timeout = setTimeout(running, delay);
-			}
+            }
         running(true);
-	});
+    });
 }

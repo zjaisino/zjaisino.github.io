@@ -1,13 +1,13 @@
 var LOG = {
-	list:[{
-		ver:'v1.3',
-		date:'2015-03-23',
-		desc:[
-			'1.优化代码逻辑'
-		]
-	}]
+    list:[{
+        ver:'v1.3',
+        date:'2015-03-23',
+        desc:[
+            '1.优化代码逻辑'
+        ]
+    }]
 }
 
 $(function(){
-	$('#updatelog').html(template('updatelog-tpl', LOG));
+    $('#updatelog').html(template('updatelog-tpl', LOG));
 });

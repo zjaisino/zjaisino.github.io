@@ -13,252 +13,252 @@
     <link rel="stylesheet" type="text/css" href="../../style/page.css" />
     <link rel="stylesheet" type="text/css" href="../layer/layer.css" />
     <link rel="stylesheet" type="text/css" href="../tab/tab.css" />
-	<link type="text/css" rel="stylesheet" href="../../style/syntax/shCore.css"/>
-	<link type="text/css" rel="stylesheet" href="../../style/syntax/shThemeDefault.css"/>
-	<style type="text/css">
-	.m-timer { display:none;}
-	.m-tab .ui-tab li { margin-right:10px;}
-	.m-tab .ui-tab li.s-crt a { color:#E81F17;}
-	.m-list img { display:block; margin-bottom:5px; width:260px; border:1px solid #eee;}
-	.m-list li a { display:inline-block; width:80px; height:30px; line-height:30px; text-align:center; background-color:#59A6F5; color:#fff;}
-	.m-list li a.s-dis { background-color:#999;}
-	.m-list li a.s-crt { background-color:#E81F17;}
-	</style>
+    <link type="text/css" rel="stylesheet" href="../../style/syntax/shCore.css"/>
+    <link type="text/css" rel="stylesheet" href="../../style/syntax/shThemeDefault.css"/>
+    <style type="text/css">
+    .m-timer { display:none;}
+    .m-tab .ui-tab li { margin-right:10px;}
+    .m-tab .ui-tab li.s-crt a { color:#E81F17;}
+    .m-list img { display:block; margin-bottom:5px; width:260px; border:1px solid #eee;}
+    .m-list li a { display:inline-block; width:80px; height:30px; line-height:30px; text-align:center; background-color:#59A6F5; color:#fff;}
+    .m-list li a.s-dis { background-color:#999;}
+    .m-list li a.s-crt { background-color:#E81F17;}
+    </style>
 </head>
 
 <body class="g-body">
     <!-- header begin -->
     <div class="g-header">
-		<div class="m-htop g-wrap">
-			<i></i><i></i><i></i><i></i><i></i><i></i>
-			<h1 class="u-logo"><a href="../../index.html">浙江爱信诺前端规范</a></h1>
-		</div>
-		<div class="m-nav">
-			<ul class="g-wrap">
-				<li><a href="../../index.html">规范<i class="ui-icon ui-icon-tip"></i></a></li>
-				<li><a href="../../framework.html">框架<i class="ui-icon ui-icon-tip"></i></a></li>
-				<li class="s-crt"><a href="../../plugin.html">组件<i class="ui-icon ui-icon-tip"></i></a></li>
-			</ul>
-		</div>
-	</div>
+        <div class="m-htop g-wrap">
+            <i></i><i></i><i></i><i></i><i></i><i></i>
+            <h1 class="u-logo"><a href="../../index.html">浙江爱信诺前端规范</a></h1>
+        </div>
+        <div class="m-nav">
+            <ul class="g-wrap">
+                <li><a href="../../index.html">规范<i class="ui-icon ui-icon-tip"></i></a></li>
+                <li><a href="../../framework.html">框架<i class="ui-icon ui-icon-tip"></i></a></li>
+                <li class="s-crt"><a href="../../plugin.html">组件<i class="ui-icon ui-icon-tip"></i></a></li>
+            </ul>
+        </div>
+    </div>
     <!-- header end -->
-	
-	<!-- content begin -->
-	<div class="g-content f-clearfix">
-		<div class="g-side">
-			<div class="m-menu" id="menu"> 
-				<ul></ul> 
-			</div>
-		</div>
-		<div class="g-main">
-			<div class="g-con">
-				<div class="m-article m-plugin ui-animate ui-animate-fadeShow"> 
+    
+    <!-- content begin -->
+    <div class="g-content f-clearfix">
+        <div class="g-side">
+            <div class="m-menu" id="menu"> 
+                <ul></ul> 
+            </div>
+        </div>
+        <div class="g-main">
+            <div class="g-con">
+                <div class="m-article m-plugin ui-animate ui-animate-fadeShow"> 
                     <h2 class="u-ttb2">组件 - <em id="title">活动倒计时</em></h2> 
                     <div class="u-line"><span class="linea"></span><span class="lineb"></span></div> 
                     <dl> 
                         <dt>使用说明</dt>
                         <dd>
-							<pre class="brush:xml;">
-							<!-- 创建骨架，时间格式必须为yyyy/MM/dd hh:mm:ss -->
-							<div class="m-demo" data-begintime="2016/07/20 00:00:00" data-endtime="2016/08/20 00:00:00"></div>
-							
+                            <pre class="brush:xml;">
+                            <!-- 创建骨架，时间格式必须为yyyy/MM/dd hh:mm:ss -->
+                            <div class="m-demo" data-begintime="2016/07/20 00:00:00" data-endtime="2016/08/20 00:00:00"></div>
+                            
                             <!-- 引入jQuery和组件脚本 -->
                             &lt;script type="text/javascript" src="jquery.js"&gt;&lt;/script&gt;
                             &lt;script type="text/javascript" src="jquery.timer.js"&gt;&lt;/script&gt;
-							
-							<!-- 调用 -->
-							&lt;script type="text/javascript"&gt;
-							$('.m-demo').timer();
-							&lt;/script&gt;
+                            
+                            <!-- 调用 -->
+                            &lt;script type="text/javascript"&gt;
+                            $('.m-demo').timer();
+                            &lt;/script&gt;
                             </pre>
                         </dd>
-						<dt>实例</dt>
-						<dd>
-							<div class="m-timerbox e-mt10">
-								<div class="m-timer" id="timer"></div>
-								<div class="m-timer"></div>
-								<div class="m-timer"></div>
-							</div>
-							<div class="m-tab e-mt10">
-								<ul class="ui-tab">
-									<li>
-										<a href="javascript:void(0);">第1场活动</a>
-										<ul class="m-list">
-											<li>
-												<img src="images/1.jpg" />
-												<a href="http://www.axnsc.com/products/FF808081AA84FB7D8797.action" repert="2" target="_blank">立即购买</a>
-											</li>	
-										</ul>
-									</li>
-									<li>
-										<a href="javascript:void(0);">第2场活动</a>
-										<ul class="m-list">
-											<li>
-												<img src="images/2.jpg" />
-												<a href="http://www.axnsc.com/products/FF808081916E4F645603.action" repert="2" target="_blank">立即购买</a>
-											</li>	
-										</ul>
-									</li>
-									<li>
-										<a href="javascript:void(0);">第3场活动</a>
-										<ul class="m-list">
-											<li>
-												<img src="images/3.jpg" />
-												<a href="http://www.axnsc.com/products/FF808081DC22E0AD9731.action" repert="2" target="_blank">立即购买</a>
-											</li>	
-										</ul>
-									</li>
-								</ul>
-							</div>
-							<pre class="brush:html;">
-							&lt;div class="m-timerbox e-mt10"&gt;
-								&lt;div class="m-timer" id="timer"&gt;&lt;/div&gt;
-								&lt;div class="m-timer"&gt;&lt;/div&gt;
-								&lt;div class="m-timer"&gt;&lt;/div&gt;
-							&lt;/div>
-							&lt;div class="m-tab e-mt10"&gt;
-								&lt;ul class="ui-tab"&gt;
-									&lt;li&gt;
-										&lt;a href="javascript:void(0);"&gt;第1场活动&lt;/a&gt;
-										&lt;ul class="m-list"&gt;
-											&lt;li&gt;
-												&lt;img src="images/1.jpg" /&gt;
-												&lt;a href="http://www.axnsc.com/products/FF808081AA84FB7D8797.action" repert="2" target="_blank"&gt;立即购买&lt;/a&gt;
-											&lt;/li&gt;	
-										&lt;/ul&gt;
-									&lt;/li&gt;
-									&lt;li&gt;
-										&lt;a href="javascript:void(0);">第2场活动&lt;/a&gt;
-										&lt;ul class="m-list"&gt;
-											&lt;li>
-												&lt;img src="images/2.jpg" /&gt;
-												&lt;a href="http://www.axnsc.com/products/FF808081916E4F645603.action" repert="2" target="_blank"&gt;立即购买&lt;/a&gt;
-											&lt;/li&gt;	
-										&lt;/ul&gt;
-									&lt;/li&gt;
-									&lt;li&gt;
-										&lt;a href="javascript:void(0);">第3场活动&lt;/a&gt;
-										&lt;ul class="m-list"&gt;
-											&lt;li&gt;
-												&lt;img src="images/3.jpg" /&gt;
-												&lt;a href="http://www.axnsc.com/products/FF808081DC22E0AD9731.action" repert="2" target="_blank"&gt;立即购买&lt;/a&gt;
-											&lt;/li&gt;	
-										&lt;/ul&gt;
-									&lt;/li&gt;
-								&lt;/ul&gt;
-							&lt;/div&gt;
-                            </pre>
-							<pre class="brush:js;">
-							$('.m-tab').tab();
-	
-							function timer(target, inittime){
-								var time = new Date().getTime();
-								target.show().data({
-									starttime:inittime,
-									readytime:tools.formatDate(time+10000, 'yyyy/MM/dd hh:mm:ss'),
-									begintime:tools.formatDate(time+15000, 'yyyy/MM/dd hh:mm:ss'),
-									beforetime:tools.formatDate(time+30000, 'yyyy/MM/dd hh:mm:ss'),
-									endtime:tools.formatDate(time+35000, 'yyyy/MM/dd hh:mm:ss')
-								}).timer({
-									createHtml:function(target, dayArray, dateArray, dateUnit, txt){
-										var html = day = '', i, j, k, temp;
-										html = '<strong>距<b>'+ this.getText() +'</b>' + (txt||'开始还剩：') +'</strong>';
-										if(dayArray[0] != 0){
-											html += '<span>';
-											for(i in dayArray){
-												html += '<em>'+ dayArray[i] +'</em>';
-											}
-											html += '</span><b>天</b>';
-											dateArray = dateArray.slice(dayArray.length);
-										}
-										for(i in dateUnit){
-											html += '<span>';
-											temp = dateArray.slice(k=i*2, k+2);
-											for(j in temp){
-												html += '<em>'+ temp[j] +'</em>';
-											}
-											html += '</span><b>'+ dateUnit[i] +'</b>';
-										}
-										target.html(html);
-									},
-									runCallback:function(target, dayArray, dateArray, dateUnit, status){
-										var repert = 0;
-										this.getTarget(target).find('a').each(function(){
-											repert += parseInt($(this).attr('repert'));
-										});
-										if(repert <= 0){
-											return true;
-										}
-										this.createHtml(target, dayArray, dateArray, dateUnit, (status==2?'结束仅剩：':''));
-									},
-									runningCallback:function(target){
-										this.getTarget(target).find('a').attr({
-											href:'javascript:void(0);',
-											target:'_self'
-										}).removeClass().addClass('s-crt').text('立即抢购');
-									},
-									readyCallback:function(target){
-										this.getTarget(target).find('a').attr({
-											href:'javascript:void(0);',
-											target:'_self'
-										}).removeClass().addClass('s-dis').text('即将开抢');
-										return false;
-									},
-									beforeCallback:function(target){
-										target = this.getTarget(target).next();
-										if(target.size()){
-											$('.m-tab .ui-tab li:eq('+ target.index() +')').click();
-										}
-										return false;
-									},
-									endCallback:function(target, starttime){
-										this.getTarget(target).find('a').attr({
-											href:'javascript:void(0);',
-											target:'_self',
-											repert:0
-										}).removeClass().addClass('s-dis').text('已抢完');
-										this.beforeCallback(target);
-										var next = target.next();
-										if(next.hasClass('m-timer')){
-											target.hide();
-											timer(next, starttime);
-										}
-										else{
-											target.html('<span><em>本期活动已结束</em></span>');
-										}
-									},
-									getText:function(){
-										var index = $('.m-timerbox div:visible').index();
-										return $('.ui-tab li:eq('+ index +') a').text();
-									},
-									getTarget:function(target){
-										var index = target.index();
-										return $('.m-list:eq('+ index +')');
-									}
-								});
-							}
-							
-							timer($('#timer'), new Date().getTime());
-							
-							$('.m-list').on('click', 'li a.s-crt', function(){
-								var me = $(this), repert = parseInt(me.attr('repert'));
-								if(repert > 0){
-									me.attr({repert:--repert});
-									$.layer({
-										content:'<p style="padding:10px;">恭喜您，抢到了哦！</p>',
-										width:280,
-										cancel:{
-											enable:true,
-											text:'确定'
-										}
-									});
-								}
-							});
-							</pre>
-						</dd>
-						<dt>API</dt>
+                        <dt>实例</dt>
                         <dd>
-							<table>
+                            <div class="m-timerbox e-mt10">
+                                <div class="m-timer" id="timer"></div>
+                                <div class="m-timer"></div>
+                                <div class="m-timer"></div>
+                            </div>
+                            <div class="m-tab e-mt10">
+                                <ul class="ui-tab">
+                                    <li>
+                                        <a href="javascript:void(0);">第1场活动</a>
+                                        <ul class="m-list">
+                                            <li>
+                                                <img src="images/1.jpg" />
+                                                <a href="http://www.axnsc.com/products/FF808081AA84FB7D8797.action" repert="2" target="_blank">立即购买</a>
+                                            </li>   
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">第2场活动</a>
+                                        <ul class="m-list">
+                                            <li>
+                                                <img src="images/2.jpg" />
+                                                <a href="http://www.axnsc.com/products/FF808081916E4F645603.action" repert="2" target="_blank">立即购买</a>
+                                            </li>   
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">第3场活动</a>
+                                        <ul class="m-list">
+                                            <li>
+                                                <img src="images/3.jpg" />
+                                                <a href="http://www.axnsc.com/products/FF808081DC22E0AD9731.action" repert="2" target="_blank">立即购买</a>
+                                            </li>   
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                            <pre class="brush:html;">
+                            &lt;div class="m-timerbox e-mt10"&gt;
+                                &lt;div class="m-timer" id="timer"&gt;&lt;/div&gt;
+                                &lt;div class="m-timer"&gt;&lt;/div&gt;
+                                &lt;div class="m-timer"&gt;&lt;/div&gt;
+                            &lt;/div>
+                            &lt;div class="m-tab e-mt10"&gt;
+                                &lt;ul class="ui-tab"&gt;
+                                    &lt;li&gt;
+                                        &lt;a href="javascript:void(0);"&gt;第1场活动&lt;/a&gt;
+                                        &lt;ul class="m-list"&gt;
+                                            &lt;li&gt;
+                                                &lt;img src="images/1.jpg" /&gt;
+                                                &lt;a href="http://www.axnsc.com/products/FF808081AA84FB7D8797.action" repert="2" target="_blank"&gt;立即购买&lt;/a&gt;
+                                            &lt;/li&gt; 
+                                        &lt;/ul&gt;
+                                    &lt;/li&gt;
+                                    &lt;li&gt;
+                                        &lt;a href="javascript:void(0);">第2场活动&lt;/a&gt;
+                                        &lt;ul class="m-list"&gt;
+                                            &lt;li>
+                                                &lt;img src="images/2.jpg" /&gt;
+                                                &lt;a href="http://www.axnsc.com/products/FF808081916E4F645603.action" repert="2" target="_blank"&gt;立即购买&lt;/a&gt;
+                                            &lt;/li&gt; 
+                                        &lt;/ul&gt;
+                                    &lt;/li&gt;
+                                    &lt;li&gt;
+                                        &lt;a href="javascript:void(0);">第3场活动&lt;/a&gt;
+                                        &lt;ul class="m-list"&gt;
+                                            &lt;li&gt;
+                                                &lt;img src="images/3.jpg" /&gt;
+                                                &lt;a href="http://www.axnsc.com/products/FF808081DC22E0AD9731.action" repert="2" target="_blank"&gt;立即购买&lt;/a&gt;
+                                            &lt;/li&gt; 
+                                        &lt;/ul&gt;
+                                    &lt;/li&gt;
+                                &lt;/ul&gt;
+                            &lt;/div&gt;
+                            </pre>
+                            <pre class="brush:js;">
+                            $('.m-tab').tab();
+    
+                            function timer(target, inittime){
+                                var time = new Date().getTime();
+                                target.show().data({
+                                    starttime:inittime,
+                                    readytime:tools.formatDate(time+10000, 'yyyy/MM/dd hh:mm:ss'),
+                                    begintime:tools.formatDate(time+15000, 'yyyy/MM/dd hh:mm:ss'),
+                                    beforetime:tools.formatDate(time+30000, 'yyyy/MM/dd hh:mm:ss'),
+                                    endtime:tools.formatDate(time+35000, 'yyyy/MM/dd hh:mm:ss')
+                                }).timer({
+                                    createHtml:function(target, dayArray, dateArray, dateUnit, txt){
+                                        var html = day = '', i, j, k, temp;
+                                        html = '<strong>距<b>'+ this.getText() +'</b>' + (txt||'开始还剩：') +'</strong>';
+                                        if(dayArray[0] != 0){
+                                            html += '<span>';
+                                            for(i in dayArray){
+                                                html += '<em>'+ dayArray[i] +'</em>';
+                                            }
+                                            html += '</span><b>天</b>';
+                                            dateArray = dateArray.slice(dayArray.length);
+                                        }
+                                        for(i in dateUnit){
+                                            html += '<span>';
+                                            temp = dateArray.slice(k=i*2, k+2);
+                                            for(j in temp){
+                                                html += '<em>'+ temp[j] +'</em>';
+                                            }
+                                            html += '</span><b>'+ dateUnit[i] +'</b>';
+                                        }
+                                        target.html(html);
+                                    },
+                                    runCallback:function(target, dayArray, dateArray, dateUnit, status){
+                                        var repert = 0;
+                                        this.getTarget(target).find('a').each(function(){
+                                            repert += parseInt($(this).attr('repert'));
+                                        });
+                                        if(repert <= 0){
+                                            return true;
+                                        }
+                                        this.createHtml(target, dayArray, dateArray, dateUnit, (status==2?'结束仅剩：':''));
+                                    },
+                                    runningCallback:function(target){
+                                        this.getTarget(target).find('a').attr({
+                                            href:'javascript:void(0);',
+                                            target:'_self'
+                                        }).removeClass().addClass('s-crt').text('立即抢购');
+                                    },
+                                    readyCallback:function(target){
+                                        this.getTarget(target).find('a').attr({
+                                            href:'javascript:void(0);',
+                                            target:'_self'
+                                        }).removeClass().addClass('s-dis').text('即将开抢');
+                                        return false;
+                                    },
+                                    beforeCallback:function(target){
+                                        target = this.getTarget(target).next();
+                                        if(target.size()){
+                                            $('.m-tab .ui-tab li:eq('+ target.index() +')').click();
+                                        }
+                                        return false;
+                                    },
+                                    endCallback:function(target, starttime){
+                                        this.getTarget(target).find('a').attr({
+                                            href:'javascript:void(0);',
+                                            target:'_self',
+                                            repert:0
+                                        }).removeClass().addClass('s-dis').text('已抢完');
+                                        this.beforeCallback(target);
+                                        var next = target.next();
+                                        if(next.hasClass('m-timer')){
+                                            target.hide();
+                                            timer(next, starttime);
+                                        }
+                                        else{
+                                            target.html('<span><em>本期活动已结束</em></span>');
+                                        }
+                                    },
+                                    getText:function(){
+                                        var index = $('.m-timerbox div:visible').index();
+                                        return $('.ui-tab li:eq('+ index +') a').text();
+                                    },
+                                    getTarget:function(target){
+                                        var index = target.index();
+                                        return $('.m-list:eq('+ index +')');
+                                    }
+                                });
+                            }
+                            
+                            timer($('#timer'), new Date().getTime());
+                            
+                            $('.m-list').on('click', 'li a.s-crt', function(){
+                                var me = $(this), repert = parseInt(me.attr('repert'));
+                                if(repert > 0){
+                                    me.attr({repert:--repert});
+                                    $.layer({
+                                        content:'<p style="padding:10px;">恭喜您，抢到了哦！</p>',
+                                        width:280,
+                                        cancel:{
+                                            enable:true,
+                                            text:'确定'
+                                        }
+                                    });
+                                }
+                            });
+                            </pre>
+                        </dd>
+                        <dt>API</dt>
+                        <dd>
+                            <table>
                                 <thead> 
                                     <tr>
                                         <th width="120">data属性</th>
@@ -266,103 +266,103 @@
                                     </tr> 
                                 </thead> 
                                 <tbody> 
-									<tr>
-										<td>starttime</td>
-										<td>倒计时开始时间，默认为当前系统时间</td>
-									</tr> 
-									<tr>
-										<td>readytime</td>
-										<td>活动开始前准备时间，例如活动开始前几分钟需要改变一些状态，默认空</td>
-									</tr> 
-									<tr>
-										<td>begintime</td>
-										<td>活动开始时间</td>
-									</tr> 
-									<tr>
-										<td>endtime</td>
-										<td>活动结束时间</td>
-									</tr> 
-									<tr>
-										<td>beforetime</td>
-										<td>结束前某一时间，默认空，例如在一场活动结束前几分钟显示下一场活动的内容会用到</td>
-									</tr>
+                                    <tr>
+                                        <td>starttime</td>
+                                        <td>倒计时开始时间，默认为当前系统时间</td>
+                                    </tr> 
+                                    <tr>
+                                        <td>readytime</td>
+                                        <td>活动开始前准备时间，例如活动开始前几分钟需要改变一些状态，默认空</td>
+                                    </tr> 
+                                    <tr>
+                                        <td>begintime</td>
+                                        <td>活动开始时间</td>
+                                    </tr> 
+                                    <tr>
+                                        <td>endtime</td>
+                                        <td>活动结束时间</td>
+                                    </tr> 
+                                    <tr>
+                                        <td>beforetime</td>
+                                        <td>结束前某一时间，默认空，例如在一场活动结束前几分钟显示下一场活动的内容会用到</td>
+                                    </tr>
                                 </tbody>
                             </table> 
                             <table>
                                 <thead> 
                                     <tr>
                                         <th width="120">方法名</th>
-										<th width="120">返回值</th>
+                                        <th width="120">返回值</th>
                                         <th width="120">参数</th>
                                         <th width="210">参数说明</th>
                                         <th>功能说明</th>
                                     </tr> 
                                 </thead> 
                                 <tbody> 
-									<tr>
+                                    <tr>
                                         <td rowspan="4">createHtml</td>
                                         <td rowspan="4">-</td>
                                         <td>target</td>
                                         <td>调用组件的jQuery对象</td>
                                         <td rowspan="4">创建倒计时html骨架</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td>dayArray</td>
                                         <td>剩余天数数组 eg:[1,2,1]表示121天</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td>dateArray</td>
                                         <td>剩时间数组不包含天数</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td>dateUnit</td>
                                         <td>数组['时', '分', '秒']</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td rowspan="5">runCallback</td>
                                         <td rowspan="5">true/false</td>
                                         <td>target</td>
                                         <td>调用组件的jQuery对象</td>
                                         <td rowspan="5">倒计时运行回调函数，返回true则会立即终止当前倒计时</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td>dayArray</td>
                                         <td>剩余天数数组</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td>dateArray</td>
                                         <td>剩时间数组不包含天数</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td>dateUnit</td>
                                         <td>数组['时', '分', '秒']</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td>status</td>
                                         <td>倒计时状态，1未开始 2进行中 3已结束</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td>runningCallback</td>
                                         <td>-</td>
                                         <td>target</td>
                                         <td>调用组件的jQuery对象</td>
                                         <td>活动倒计时进行中时调用,用于初始化进行中倒计时，仅调用一次</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td>beforeCallback</td>
                                         <td>true/false</td>
                                         <td>target</td>
                                         <td>调用组件的jQuery对象</td>
                                         <td>结束前回调函数，搭配data-beforetime使用，返回false仅执行一次</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td>readyCallback</td>
                                         <td>true/false</td>
                                         <td>target</td>
                                         <td>调用组件的jQuery对象</td>
                                         <td>准备阶段回调函数，返回false仅执行一次</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td>endCallback</td>
                                         <td>-</td>
                                         <td>target</td>
@@ -371,7 +371,7 @@
                                     </tr>
                                 </tbody>
                             </table> 
-						</dd> 
+                        </dd> 
                         <dt>下载</dt>
                         <dd>
                             <a href="jquery.timer.js" class="e-ml10">jquery.timer.js</a>
@@ -380,154 +380,154 @@
                         <dd id="updatelog"></dd>
                     </dl> 
                 </div> 
-			</div>
-		</div>
-	</div>
-	<!-- content end -->
-	
-	<!-- footer begin -->
-	<div class="g-footer">
-		<div class="g-wrap">
-			<p>
-				<a href="http://wpa.qq.com/msgrd?v=3&uin=897102078&site=qq&menu=yes" target="_blank">技术支持</a>
-			</p>
-			<p>Copyright © 2013-2015 Aisino. All Rights Reserved.</p>
-		</div>
-	</div>
-	<!-- footer end -->
-	
-	<script type="text/javascript" src="../../script/jquery.js"></script>
-	<script type="text/javascript" src="jquery.timer.js"></script>
+            </div>
+        </div>
+    </div>
+    <!-- content end -->
+    
+    <!-- footer begin -->
+    <div class="g-footer">
+        <div class="g-wrap">
+            <p>
+                <a href="http://wpa.qq.com/msgrd?v=3&uin=897102078&site=qq&menu=yes" target="_blank">技术支持</a>
+            </p>
+            <p>Copyright © 2013-2015 Aisino. All Rights Reserved.</p>
+        </div>
+    </div>
+    <!-- footer end -->
+    
+    <script type="text/javascript" src="../../script/jquery.js"></script>
+    <script type="text/javascript" src="jquery.timer.js"></script>
     <script type="text/javascript" src="../layer/jquery.layer.js"></script>
     <script type="text/javascript" src="../tab/jquery.tab.js"></script>
-	<script type="text/javascript" src="../../script/syntax/shCore.js"></script>
-	<script type="text/javascript" src="../../script/syntax/shBrushCss.js"></script>
-	<script type="text/javascript" src="../../script/syntax/shBrushXml.js"></script>
-	<script type="text/javascript" src="../../script/syntax/shBrushJScript.js"></script>
-	<script type="text/javascript" src="../../script/page.js"></script>
-	<script type="text/javascript" src="../../script/tools.js"></script>
-	<script type="text/javascript" src="../data.js"></script>
-	<script type="text/javascript" src="../menu.js"></script>
-	<script type="text/javascript" src="../arttemplate/template.js"></script>
-	<script type="text/javascript" src="./log.js"></script>
-	<script type="text/html" id="updatelog-tpl">
-	{{each list as val key}}
-		<p>Version:{{val.ver}}</p>
-		{{if val.date}}
-		<p>Date:{{val.date}}</p>	
-		{{/if}}
-		{{each val.desc as v k}}
-		<p>{{v}}</p>
-		{{/each}}
-		<br />
-	{{/each}}
-	</script>
-	<script type="text/javascript">
-	$('.m-tab').tab();
-	
-	function timer(target, inittime){
-		var time = new Date().getTime();
-		target.show().data({
-			starttime:inittime,
-			readytime:tools.formatDate(time+10000, 'yyyy/MM/dd hh:mm:ss'),
-			begintime:tools.formatDate(time+15000, 'yyyy/MM/dd hh:mm:ss'),
-			beforetime:tools.formatDate(time+30000, 'yyyy/MM/dd hh:mm:ss'),
-			endtime:tools.formatDate(time+35000, 'yyyy/MM/dd hh:mm:ss')
-		}).timer({
-			createHtml:function(target, dayArray, dateArray, dateUnit, txt){
-				var html = day = '', i, j, k, temp;
-				html = '<strong>距<b>'+ this.getText() +'</b>' + (txt||'开始还剩：') +'</strong>';
-				if(dayArray[0] != 0){
-					html += '<span>';
-					for(i in dayArray){
-						html += '<em>'+ dayArray[i] +'</em>';
-					}
-					html += '</span><b>天</b>';
-					dateArray = dateArray.slice(dayArray.length);
-				}
-				for(i in dateUnit){
-					html += '<span>';
-					temp = dateArray.slice(k=i*2, k+2);
-					for(j in temp){
-						html += '<em>'+ temp[j] +'</em>';
-					}
-					html += '</span><b>'+ dateUnit[i] +'</b>';
-				}
-				target.html(html);
-			},
-			runCallback:function(target, dayArray, dateArray, dateUnit, status){
-				var repert = 0;
-				this.getTarget(target).find('a').each(function(){
-					repert += parseInt($(this).attr('repert'));
-				});
-				if(repert <= 0){
-					return true;
-				}
-				this.createHtml(target, dayArray, dateArray, dateUnit, (status==2?'结束仅剩：':''));
-			},
-			runningCallback:function(target){
-				this.getTarget(target).find('a').attr({
-					href:'javascript:void(0);',
-					target:'_self'
-				}).removeClass().addClass('s-crt').text('立即抢购');
-			},
-			readyCallback:function(target){
-				this.getTarget(target).find('a').attr({
-					href:'javascript:void(0);',
-					target:'_self'
-				}).removeClass().addClass('s-dis').text('即将开抢');
-				return false;
-			},
-			beforeCallback:function(target){
-				target = this.getTarget(target).next();
-				if(target.size()){
-					$('.m-tab .ui-tab li:eq('+ target.index() +')').click();
-				}
-				return false;
-			},
-			endCallback:function(target, starttime){
-				this.getTarget(target).find('a').attr({
-					href:'javascript:void(0);',
-					target:'_self',
-					repert:0
-				}).removeClass().addClass('s-dis').text('已抢完');
-				this.beforeCallback(target);
-				var next = target.next();
-				if(next.hasClass('m-timer')){
-					target.hide();
-					timer(next, starttime);
-				}
-				else{
-					target.html('<span><em>本期活动已结束</em></span>');
-				}
-			},
-			getText:function(){
-				var index = $('.m-timerbox div:visible').index();
-				return $('.ui-tab li:eq('+ index +') a').text();
-			},
-			getTarget:function(target){
-				var index = target.index();
-				return $('.m-list:eq('+ index +')');
-			}
-		});
-	}
-	
-	timer($('#timer'), new Date().getTime());
-	
-	$('.m-list').on('click', 'li a.s-crt', function(){
-		var me = $(this), repert = parseInt(me.attr('repert'));
-		if(repert > 0){
-			me.attr({repert:--repert});
-			$.layer({
-				content:'<p style="padding:10px;">恭喜您，抢到了哦！</p>',
-				width:280,
-				cancel:{
-					enable:true,
-					text:'确定'
-				}
-			});
-		}
-	});
-	</script>
+    <script type="text/javascript" src="../../script/syntax/shCore.js"></script>
+    <script type="text/javascript" src="../../script/syntax/shBrushCss.js"></script>
+    <script type="text/javascript" src="../../script/syntax/shBrushXml.js"></script>
+    <script type="text/javascript" src="../../script/syntax/shBrushJScript.js"></script>
+    <script type="text/javascript" src="../../script/page.js"></script>
+    <script type="text/javascript" src="../../script/tools.js"></script>
+    <script type="text/javascript" src="../data.js"></script>
+    <script type="text/javascript" src="../menu.js"></script>
+    <script type="text/javascript" src="../arttemplate/template.js"></script>
+    <script type="text/javascript" src="./log.js"></script>
+    <script type="text/html" id="updatelog-tpl">
+    {{each list as val key}}
+        <p>Version:{{val.ver}}</p>
+        {{if val.date}}
+        <p>Date:{{val.date}}</p>    
+        {{/if}}
+        {{each val.desc as v k}}
+        <p>{{v}}</p>
+        {{/each}}
+        <br />
+    {{/each}}
+    </script>
+    <script type="text/javascript">
+    $('.m-tab').tab();
+    
+    function timer(target, inittime){
+        var time = new Date().getTime();
+        target.show().data({
+            starttime:inittime,
+            readytime:tools.formatDate(time+10000, 'yyyy/MM/dd hh:mm:ss'),
+            begintime:tools.formatDate(time+15000, 'yyyy/MM/dd hh:mm:ss'),
+            beforetime:tools.formatDate(time+30000, 'yyyy/MM/dd hh:mm:ss'),
+            endtime:tools.formatDate(time+35000, 'yyyy/MM/dd hh:mm:ss')
+        }).timer({
+            createHtml:function(target, dayArray, dateArray, dateUnit, txt){
+                var html = day = '', i, j, k, temp;
+                html = '<strong>距<b>'+ this.getText() +'</b>' + (txt||'开始还剩：') +'</strong>';
+                if(dayArray[0] != 0){
+                    html += '<span>';
+                    for(i in dayArray){
+                        html += '<em>'+ dayArray[i] +'</em>';
+                    }
+                    html += '</span><b>天</b>';
+                    dateArray = dateArray.slice(dayArray.length);
+                }
+                for(i in dateUnit){
+                    html += '<span>';
+                    temp = dateArray.slice(k=i*2, k+2);
+                    for(j in temp){
+                        html += '<em>'+ temp[j] +'</em>';
+                    }
+                    html += '</span><b>'+ dateUnit[i] +'</b>';
+                }
+                target.html(html);
+            },
+            runCallback:function(target, dayArray, dateArray, dateUnit, status){
+                var repert = 0;
+                this.getTarget(target).find('a').each(function(){
+                    repert += parseInt($(this).attr('repert'));
+                });
+                if(repert <= 0){
+                    return true;
+                }
+                this.createHtml(target, dayArray, dateArray, dateUnit, (status==2?'结束仅剩：':''));
+            },
+            runningCallback:function(target){
+                this.getTarget(target).find('a').attr({
+                    href:'javascript:void(0);',
+                    target:'_self'
+                }).removeClass().addClass('s-crt').text('立即抢购');
+            },
+            readyCallback:function(target){
+                this.getTarget(target).find('a').attr({
+                    href:'javascript:void(0);',
+                    target:'_self'
+                }).removeClass().addClass('s-dis').text('即将开抢');
+                return false;
+            },
+            beforeCallback:function(target){
+                target = this.getTarget(target).next();
+                if(target.size()){
+                    $('.m-tab .ui-tab li:eq('+ target.index() +')').click();
+                }
+                return false;
+            },
+            endCallback:function(target, starttime){
+                this.getTarget(target).find('a').attr({
+                    href:'javascript:void(0);',
+                    target:'_self',
+                    repert:0
+                }).removeClass().addClass('s-dis').text('已抢完');
+                this.beforeCallback(target);
+                var next = target.next();
+                if(next.hasClass('m-timer')){
+                    target.hide();
+                    timer(next, starttime);
+                }
+                else{
+                    target.html('<span><em>本期活动已结束</em></span>');
+                }
+            },
+            getText:function(){
+                var index = $('.m-timerbox div:visible').index();
+                return $('.ui-tab li:eq('+ index +') a').text();
+            },
+            getTarget:function(target){
+                var index = target.index();
+                return $('.m-list:eq('+ index +')');
+            }
+        });
+    }
+    
+    timer($('#timer'), new Date().getTime());
+    
+    $('.m-list').on('click', 'li a.s-crt', function(){
+        var me = $(this), repert = parseInt(me.attr('repert'));
+        if(repert > 0){
+            me.attr({repert:--repert});
+            $.layer({
+                content:'<p style="padding:10px;">恭喜您，抢到了哦！</p>',
+                width:280,
+                cancel:{
+                    enable:true,
+                    text:'确定'
+                }
+            });
+        }
+    });
+    </script>
 </body>
 </html>

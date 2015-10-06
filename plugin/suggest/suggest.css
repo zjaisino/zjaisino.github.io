@@ -1,0 +1,13 @@
+@charset "utf-8";
+
+/**
+ * @filename suggest.css
+ * @author Aniu[2014-04-07 09:15]
+ * @update Aniu[2015-02-12 14:01]
+ * @version v1.4
+ * @description none
+ */
+ 
+.ui-suggest { position:absolute; display:none; z-index:9999; background-color:#fff; border:1px solid #999; overflow:hidden;}
+.ui-suggest li { padding-left:5px; height:24px; line-height:24px;}
+.ui-suggest li.s-crt { background-color:#ccc;}

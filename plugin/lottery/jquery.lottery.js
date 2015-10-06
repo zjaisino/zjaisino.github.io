@@ -12,7 +12,7 @@ $.fn.lottery = function(o){
         trans:2,   //最大速度过渡圈数
         turns:2,   //达到最大速度时圈数
         count:8,   //宫格数量
-		rotate:false, //是否旋转
+        rotate:false, //是否旋转
         /**
          * @func 前端不通过ajax交互返回随机数
          * @return <Number>
@@ -36,10 +36,10 @@ $.fn.lottery = function(o){
         url:'',
         /**
          * @func ajax传递参数
-		 * @type <Function>
+         * @type <Function>
          * @return <Object>
          */
-		getParam:$.noop,
+        getParam:$.noop,
         /**
          * @func ajax交互成功时回调函数
          * @return <Number>
@@ -52,14 +52,14 @@ $.fn.lottery = function(o){
          * @param data <Native Object, Undefined> 数据对象或不传参
          */
         errCallback:$.noop,
-		/**
+        /**
          * @func 改变元素选中状态
          * @param items <jQuery Object> 目标对象
          * @param index <Number> 当前选中索引
          */
-		statusCallback:function(items, index){
-			items.eq(index).addClass('s-crt').siblings().removeClass('s-crt');
-		},
+        statusCallback:function(items, index){
+            items.eq(index).addClass('s-crt').siblings().removeClass('s-crt');
+        },
         /**
          * @func 按钮点击时触发函数
          */
@@ -70,8 +70,8 @@ $.fn.lottery = function(o){
         var _this = this, self = $(this).css({position:'relative'}), 
             lottery = self.children('.ui-lottery').css({position:'relative'}),
             size = lottery.children('li').size(),
-			data = lottery.data();
-		o = $.extend(o, data);
+            data = lottery.data();
+        o = $.extend(o, data);
         if(o.count > size){
             var len = o.count-size, html = '';
             for(var i=0; i<len; i++){
@@ -84,14 +84,14 @@ $.fn.lottery = function(o){
         }
         
         var items = lottery.children('li');
-		if(o.rotate !== true){
-			var width = self.width(), //容器宽度
-				itemsWidth = items.innerWidth(), //宫格宽度
-				itemsHeight = items.innerHeight(), //宫格高度
-				lineNum = Math.floor(width/itemsWidth), //水平显示数量
-				verNum = Math.floor((o.count-lineNum*2)/2), //垂直显示数量，不包括水平相交的
-				loweRright = lineNum + verNum; //右下角宫格索引
-		}
+        if(o.rotate !== true){
+            var width = self.width(), //容器宽度
+                itemsWidth = items.innerWidth(), //宫格宽度
+                itemsHeight = items.innerHeight(), //宫格高度
+                lineNum = Math.floor(width/itemsWidth), //水平显示数量
+                verNum = Math.floor((o.count-lineNum*2)/2), //垂直显示数量，不包括水平相交的
+                loweRright = lineNum + verNum; //右下角宫格索引
+        }
         var button = self.find('.ui-lottery-btn'), //点击按钮
             timer = null, //定时器
             endIndex = 0, //结束索引
@@ -130,37 +130,37 @@ $.fn.lottery = function(o){
                 index = ++index%o.count;
                 timer = setTimeout(circle, speed);
             }
-			
-		if(o.rotate !== true){
-			items.each(function(){
-				var that = $(this), index = that.index();
-				if(index < lineNum){
-					that.css({top:0, left:(left = that.prevAll().size()*itemsWidth)}); 
-				}
-				else if(index <= loweRright){
-					that.css({top:that.prev().position().top + itemsHeight, left:that.prevAll().position().left});
-				}
-				else if(index > loweRright && index <= (loweRright+lineNum-1)){
-					that.css({top:that.prev().position().top, left:that.prev().position().left-itemsWidth});
-				}
-				else{
-					that.css({top:that.prev().position().top - itemsHeight, left:0});
-				}
-			});
-		}
+            
+        if(o.rotate !== true){
+            items.each(function(){
+                var that = $(this), index = that.index();
+                if(index < lineNum){
+                    that.css({top:0, left:(left = that.prevAll().size()*itemsWidth)}); 
+                }
+                else if(index <= loweRright){
+                    that.css({top:that.prev().position().top + itemsHeight, left:that.prevAll().position().left});
+                }
+                else if(index > loweRright && index <= (loweRright+lineNum-1)){
+                    that.css({top:that.prev().position().top, left:that.prev().position().left-itemsWidth});
+                }
+                else{
+                    that.css({top:that.prev().position().top - itemsHeight, left:0});
+                }
+            });
+        }
 
         button.click(function(){
             if(!button.hasClass('s-dis')){
                 button.addClass('s-dis');
                 if(o.bindClick() === false){
-            		return false;
-            	}
+                    return false;
+                }
                 if(o.url){
                     $.ajax({
                         url:typeof o.url === 'function' ? o.url(self) : o.url,
                         cache:false,
                         dataType:'json',
-						data:o.getParam()||{},
+                        data:o.getParam()||{},
                         success:function(res){
                             if(res.status == 'success'){
                                 if(!isNaN(endIndex = o.succCallback(res, items))){

@@ -169,17 +169,17 @@
         }
         else if(typeof index === 'string'){
             $.each(Layer.listArray, function(key, val){
-				if(val && val.options.theme == index){
+                if(val && val.options.theme == index){
                     val.layerResize();
-                }	
-			});
+                }   
+            });
         }
         else{
             $.each(Layer.listArray, function(key, val){
-				if(val && val.options.isCenter == true){
+                if(val && val.options.isCenter == true){
                     val.layerResize();
-                }	
-			});
+                }   
+            });
         }
     }
     /**
@@ -192,13 +192,13 @@
         }
         else if(typeof index === 'string'){
             $.each(Layer.listArray, function(key, val){
-				val && (val.options.theme == index && val.remove());	
-			});
+                val && (val.options.theme == index && val.remove());    
+            });
         }
         else{
             $.each(Layer.listArray, function(key, val){
-				val && (val.options.isClose == true && val.remove());	
-			});
+                val && (val.options.isClose == true && val.remove());   
+            });
         }
     }
     
@@ -404,8 +404,8 @@
         unbindEvent:function(){
             var that = this;
             $.each(that.eventArray, function(key, val){
-                val && val.target.unbind(val.eventType, val.callback);	
-			});
+                val && val.target.unbind(val.eventType, val.callback);  
+            });
             that.eventArray = null;
         },
         setzIndex:function(){
@@ -525,9 +525,9 @@
                 that.bindEvent(win, 'resize', function(){
                     that.layerResize();
                 });
-				if(Layer.bsie6){
-					that.layerResize();
-				}
+                if(Layer.bsie6){
+                    that.layerResize();
+                }
             }
             if(typeof options.onShowEvent === 'function'){
                 options.onShowEvent(main, that.index);
@@ -550,10 +550,10 @@
             Layer.index--;
             Layer.zIndex--;
             $.each(Layer.listArray, function(key, val){
-				if(val && val.options.isMask == true){
+                if(val && val.options.isMask == true){
                     return (xMask = false);
-                }	
-			});
+                }   
+            });
             if(xMask && Layer.mask){
                 Layer.mask.remove();
                 Layer.mask = null;

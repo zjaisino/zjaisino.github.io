@@ -12,43 +12,43 @@
     <link rel="stylesheet" type="text/css" href="../../style/common.css" />
     <link rel="stylesheet" type="text/css" href="../../style/page.css" />
     <link rel="stylesheet" type="text/css" href="layer.css" />
-	<link type="text/css" rel="stylesheet" href="../../style/syntax/shCore.css"/>
-	<link type="text/css" rel="stylesheet" href="../../style/syntax/shThemeDefault.css"/>
+    <link type="text/css" rel="stylesheet" href="../../style/syntax/shCore.css"/>
+    <link type="text/css" rel="stylesheet" href="../../style/syntax/shThemeDefault.css"/>
 </head>
 
 <body class="g-body">
     <!-- header begin -->
     <div class="g-header">
-		<div class="m-htop g-wrap">
-			<i></i><i></i><i></i><i></i><i></i><i></i>
-			<h1 class="u-logo"><a href="../../index.html">浙江爱信诺前端规范</a></h1>
-		</div>
-		<div class="m-nav">
-			<ul class="g-wrap">
-				<li><a href="../../index.html">规范<i class="ui-icon ui-icon-tip"></i></a></li>
-				<li><a href="../../framework.html">框架<i class="ui-icon ui-icon-tip"></i></a></li>
-				<li class="s-crt"><a href="../../plugin.html">组件<i class="ui-icon ui-icon-tip"></i></a></li>
-			</ul>
-		</div>
-	</div>
+        <div class="m-htop g-wrap">
+            <i></i><i></i><i></i><i></i><i></i><i></i>
+            <h1 class="u-logo"><a href="../../index.html">浙江爱信诺前端规范</a></h1>
+        </div>
+        <div class="m-nav">
+            <ul class="g-wrap">
+                <li><a href="../../index.html">规范<i class="ui-icon ui-icon-tip"></i></a></li>
+                <li><a href="../../framework.html">框架<i class="ui-icon ui-icon-tip"></i></a></li>
+                <li class="s-crt"><a href="../../plugin.html">组件<i class="ui-icon ui-icon-tip"></i></a></li>
+            </ul>
+        </div>
+    </div>
     <!-- header end -->
-	
-	<!-- content begin -->
-	<div class="g-content f-clearfix">
-		<div class="g-side">
-			<div class="m-menu" id="menu"> 
-				<ul></ul> 
-			</div>
-		</div>
-		<div class="g-main">
-			<div class="g-con">
-				<div class="m-article m-plugin ui-animate ui-animate-fadeShow"> 
+    
+    <!-- content begin -->
+    <div class="g-content f-clearfix">
+        <div class="g-side">
+            <div class="m-menu" id="menu"> 
+                <ul></ul> 
+            </div>
+        </div>
+        <div class="g-main">
+            <div class="g-con">
+                <div class="m-article m-plugin ui-animate ui-animate-fadeShow"> 
                     <h2 class="u-ttb2">组件 - <em id="title">弹出层</em></h2> 
                     <div class="u-line"><span class="linea"></span><span class="lineb"></span></div> 
                     <dl> 
                         <dt>使用说明</dt>
                         <dd>
-							<pre class="brush:xml;">
+                            <pre class="brush:xml;">
                             <!-- 引入组件样式 -->
                             &lt;link rel="stylesheet" type="text/css" href="layer.css" /&gt;
                             
@@ -69,7 +69,7 @@
                                 <option value="bottom">bottom</option>
                                 <option value="left">left</option>
                             </select>
-							<pre class="brush:js;">
+                            <pre class="brush:js;">
                             /**
                              * @func alert
                              * @param &lt;String, JQuery Object&gt; 内容
@@ -77,7 +77,7 @@
                              * @param &lt;String, Number&gt; 宽度
                              * @param &lt;String, Number&gt; 高度
                              */
-							$.layer.alert('<p style="padding:10px;">弹出层内容</p>', '标题', '280');
+                            $.layer.alert('<p style="padding:10px;">弹出层内容</p>', '标题', '280');
                             
                             /**
                              * @func confirm
@@ -102,7 +102,7 @@
                              * @desc 跨域无法正常使用
                              * @desc 谷歌浏览器在服务器环境下才能正常使用
                              */
-							$.layer.iframe('iframe/index.html', '标题', 1100);
+                            $.layer.iframe('iframe/index.html', '标题', 1100);
                             
                             /**
                              * @func tips
@@ -111,11 +111,11 @@
                              * @param &lt;Object&gt; 显示位置 {top:value, left:value}
                              * @param &lt;Function&gt; 显示回调函数，接收2个参数：$('.ui-layer-main')、弹出层索引
                              */
-							$.layer.tips('<p style="padding:10px;">这是一个弹出层！</p>', type, {}, function(main, index){
+                            $.layer.tips('<p style="padding:10px;">这是一个弹出层！</p>', type, {}, function(main, index){
                                 //code...
                             });
-							</pre>
-						</dd>
+                            </pre>
+                        </dd>
                         <dt>自定义</dt>
                         <dd>
                             <a href="javascript:void(0);" id="unmove">不可拖动</a>
@@ -167,9 +167,9 @@
                             .t-mask-white div { filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#4cffffff,endColorstr=#4cffffff); background:rgba(255,255,255,.3); background:transparent\;}
                             </pre>
                         </dd>
-						<dt>API</dt>
+                        <dt>API</dt>
                         <dd>
-							<table> 
+                            <table> 
                                 <thead> 
                                     <tr>
                                         <th width="120">普通属性</th>
@@ -180,105 +180,105 @@
                                     </tr> 
                                 </thead> 
                                 <tbody> 
-									<tr>
+                                    <tr>
                                         <td>width</td>
                                         <td>Number | String</td>
                                         <td>380</td>
                                         <td>正整数 | 'auto'</td>
                                         <td>宽度</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td>height</td>
                                         <td>Number | String</td>
                                         <td>220</td>
                                         <td>正整数 | 'auto'</td>
                                         <td>高度</td>
                                     </tr>
-									<tr>    
+                                    <tr>    
                                         <td>content</td>
                                         <td>String | Object</td>
                                         <td>空字符串</td>
                                         <td>任意字符串 | jQuery对象</td>
                                         <td>显示内容</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td>theme</td>
                                         <td>String</td>
                                         <td>空字符串</td>
                                         <td>任意字符串</td>
                                         <td>标识、主题</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td>isFadein</td>
                                         <td>Boolean</td>
                                         <td>false</td>
                                         <td>true | false</td>
                                         <td>是否淡入方式显示</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td>isMove</td>
                                         <td>Boolean</td>
                                         <td>true</td>
                                         <td>true | false</td>
                                         <td>是否可以拖动</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td>isMask</td>
                                         <td>Boolean</td>
                                         <td>true</td>
                                         <td>true | false</td>
                                         <td>是否有遮罩层</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td>isClickMask</td>
                                         <td>Boolean</td>
                                         <td>false</td>
                                         <td>true | false</td>
                                         <td>点击遮罩层是否关闭弹出层</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td>isMoveMask</td>
                                         <td>Boolean</td>
                                         <td>false</td>
                                         <td>true | false</td>
                                         <td>是否有移动遮罩层</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td>isClose</td>
                                         <td>Boolean</td>
                                         <td>true</td>
                                         <td>true | false</td>
                                         <td>是否能被layerHide()方法关闭</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td>isCenter</td>
                                         <td>Boolean</td>
                                         <td>false</td>
                                         <td>true | false</td>
                                         <td>是否居中</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td>isMaxSize</td>
                                         <td>Boolean</td>
                                         <td>false</td>
                                         <td>true | false</td>
                                         <td>是否自适应最大尺寸显示</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td>isTips</td>
                                         <td>Boolean</td>
                                         <td>false</td>
                                         <td>true | false</td>
                                         <td>是否以tips形式显示</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td>isSticky</td>
                                         <td>Boolean</td>
                                         <td>false</td>
                                         <td>true | false</td>
                                         <td>点击layer是否置顶</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td>isFixed</td>
                                         <td>Boolean</td>
                                         <td>false</td>
@@ -299,7 +299,7 @@
                                     </tr> 
                                 </thead>
                                 <tbody> 
-									<tr>
+                                    <tr>
                                         <td rowspan="2">title</td>
                                         <td>enable</td>
                                         <td>Boolean</td>
@@ -464,7 +464,7 @@
                                     </tr> 
                                 </thead> 
                                 <tbody> 
-									<tr>
+                                    <tr>
                                         <td rowspan="2">onShowEvent</td>
                                         <td>main</td>
                                         <td>$('.ui-layer-main')</td>
@@ -531,7 +531,7 @@
                                     </tr> 
                                 </thead> 
                                 <tbody> 
-									<tr>
+                                    <tr>
                                         <td rowspan="2">layerResize</td>
                                         <td>index | theme</td>
                                         <td>Number | String</td>
@@ -543,7 +543,7 @@
                                         <td>undefined | Object</td>
                                         <td>框架DOM对象</td>
                                     </tr>
-									<tr>
+                                    <tr>
                                         <td>layerHide</td>
                                         <td>index | theme</td>
                                         <td>Number | String</td>
@@ -552,7 +552,7 @@
                                     </tr>
                                 </tbody> 
                             </table>
-						</dd> 
+                        </dd> 
                         <dt>下载</dt>
                         <dd>
                             <a href="layer.css">layer.css</a>
@@ -562,51 +562,51 @@
                         <dd id="updatelog"></dd>
                     </dl> 
                 </div> 
-			</div>
-		</div>
-	</div>
-	<!-- content end -->
-	
-	<!-- footer begin -->
-	<div class="g-footer">
-		<div class="g-wrap">
-			<p>
-				<a href="http://wpa.qq.com/msgrd?v=3&uin=897102078&site=qq&menu=yes" target="_blank">技术支持</a>
-			</p>
-			<p>Copyright © 2013-2015 Aisino. All Rights Reserved.</p>
-		</div>
-	</div>
-	<!-- footer end -->
-	
-	<script type="text/javascript" src="../../script/jquery.js"></script>
+            </div>
+        </div>
+    </div>
+    <!-- content end -->
+    
+    <!-- footer begin -->
+    <div class="g-footer">
+        <div class="g-wrap">
+            <p>
+                <a href="http://wpa.qq.com/msgrd?v=3&uin=897102078&site=qq&menu=yes" target="_blank">技术支持</a>
+            </p>
+            <p>Copyright © 2013-2015 Aisino. All Rights Reserved.</p>
+        </div>
+    </div>
+    <!-- footer end -->
+    
+    <script type="text/javascript" src="../../script/jquery.js"></script>
     <script type="text/javascript" src="./jquery.layer.js"></script>
-	<script type="text/javascript" src="../../script/syntax/shCore.js"></script>
-	<script type="text/javascript" src="../../script/syntax/shBrushCss.js"></script>
-	<script type="text/javascript" src="../../script/syntax/shBrushXml.js"></script>
-	<script type="text/javascript" src="../../script/syntax/shBrushJScript.js"></script>
-	<script type="text/javascript" src="../../script/page.js"></script>
-	<script type="text/javascript" src="../data.js"></script>
-	<script type="text/javascript" src="../menu.js"></script>
-	<script type="text/javascript" src="../arttemplate/template.js"></script>
-	<script type="text/javascript" src="./log.js"></script>
-	<script type="text/html" id="updatelog-tpl">
-	{{each list as val key}}
-		<p>Version:{{val.ver}}</p>
-		{{if val.date}}
-		<p>Date:{{val.date}}</p>	
-		{{/if}}
-		{{each val.desc as v k}}
-		<p>{{v}}</p>
-		{{/each}}
-		<br />
-	{{/each}}
-	</script>
-	<script type="text/javascript">
-	$('#alert').click(function(){
+    <script type="text/javascript" src="../../script/syntax/shCore.js"></script>
+    <script type="text/javascript" src="../../script/syntax/shBrushCss.js"></script>
+    <script type="text/javascript" src="../../script/syntax/shBrushXml.js"></script>
+    <script type="text/javascript" src="../../script/syntax/shBrushJScript.js"></script>
+    <script type="text/javascript" src="../../script/page.js"></script>
+    <script type="text/javascript" src="../data.js"></script>
+    <script type="text/javascript" src="../menu.js"></script>
+    <script type="text/javascript" src="../arttemplate/template.js"></script>
+    <script type="text/javascript" src="./log.js"></script>
+    <script type="text/html" id="updatelog-tpl">
+    {{each list as val key}}
+        <p>Version:{{val.ver}}</p>
+        {{if val.date}}
+        <p>Date:{{val.date}}</p>    
+        {{/if}}
+        {{each val.desc as v k}}
+        <p>{{v}}</p>
+        {{/each}}
+        <br />
+    {{/each}}
+    </script>
+    <script type="text/javascript">
+    $('#alert').click(function(){
         $.layer.alert('<p style="padding:10px;">弹出层内容</p>', '标题', '280');
     });
     
-	$('#confirm').click(function(){
+    $('#confirm').click(function(){
         $.layer.confirm('<p style="padding:10px;">10 * 10 = <input type="text" style="border:1px solid #ccc; width:40px;" /> ？</p>', function(main, index, button){
             if(main.find(':text').val() == '100'){
                 return true;
@@ -672,6 +672,6 @@
             }
         });
     });
-	</script>
+    </script>
 </body>
 </html>

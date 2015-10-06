@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="renderer" content="webkit" />
+    <meta name="keywords" content="浙江爱信诺前端规范,爱信诺规范,爱信诺前端,爱信诺组件" />
+    <meta name="description" content="本站包括了规范、框架、代码库等内容，致力于为前端开发人员提供高效率高质量的前端页面开发解决方案，提高多人协作效率，也为非专业人员提供快速制作网页的解决方案。" />
+    <meta name="copyright" content="浙江爱信诺航天信息有限公司" />
+    <title>搜索提示-组件-浙江爱信诺前端规范</title>
+    <link rel="stylesheet" type="text/css" href="../../style/base.css" />
+    <link rel="stylesheet" type="text/css" href="../../style/common.css" />
+    <link rel="stylesheet" type="text/css" href="../../style/page.css" />
+    <link rel="stylesheet" type="text/css" href="suggest.css" />
+    <link type="text/css" rel="stylesheet" href="../../style/syntax/shCore.css"/>
+    <link type="text/css" rel="stylesheet" href="../../style/syntax/shThemeDefault.css"/>
+    <style type="text/css">
+    .u-input { padding-left:5px; width:250px; height:30px; line-height:30px\9; border:1px solid #999;}
+    </style>
+</head>
+
+<body class="g-body">
+    <!-- header begin -->
+    <div class="g-header">
+        <div class="m-htop g-wrap">
+            <i></i><i></i><i></i><i></i><i></i><i></i>
+            <h1 class="u-logo"><a href="../../index.html">浙江爱信诺前端规范</a></h1>
+        </div>
+        <div class="m-nav">
+            <ul class="g-wrap">
+                <li><a href="../../index.html">规范<i class="ui-icon ui-icon-tip"></i></a></li>
+                <li><a href="../../framework.html">框架<i class="ui-icon ui-icon-tip"></i></a></li>
+                <li class="s-crt"><a href="../../plugin.html">组件<i class="ui-icon ui-icon-tip"></i></a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- header end -->
+    
+    <!-- content begin -->
+    <div class="g-content f-clearfix">
+        <div class="g-side">
+            <div class="m-menu" id="menu"> 
+                <ul></ul> 
+            </div>
+        </div>
+        <div class="g-main">
+            <div class="g-con">
+                <div class="m-article m-plugin ui-animate ui-animate-fadeShow"> 
+                    <h2 class="u-ttb2">组件 - <em id="title">搜索提示</em></h2> 
+                    <div class="u-line"><span class="linea"></span><span class="lineb"></span></div> 
+                    <dl> 
+                        <dt>使用说明</dt>
+                        <dd>
+                            <pre class="brush:xml;">
+                            <!-- 引入组件样式 -->
+                            &lt;link rel="stylesheet" type="text/css" href="suggest.css" /&gt;
+                            
+                            <!-- 创建骨架 -->
+                            &lt;input type="text" name="search" /&gt;
+                            
+                            <!-- 引入jQuery和组件脚本 -->
+                            &lt;script type="text/javascript" src="jquery.js"&gt;&lt;/script&gt;
+                            &lt;script type="text/javascript" src="jquery.suggest.js"&gt;&lt;/script&gt;
+                            
+                            <!-- 调用 -->
+                            $('[name="search"]').suggest(配置参数);
+                            </pre>
+                        </dd>
+                        <dd>
+                            <p>接口返回结果格式必须为['结果1', '结果2', ...] 或者 [{结果1}, {结果2}, ...]</p>
+                            <p>支持键盘方向键上下操作</p>
+                        </dd>
+                        <dt>实例</dt>
+                        <dd>
+                            <input type="text" name="search" class="u-input" />
+                            <pre class="brush:html;">
+                            &lt;input type="text" name="search" class="u-input" /&gt;
+                            </pre>
+                            <pre class="brush:js;">
+                            $('[name="search"]').suggest({
+                                url:'http://www.yinjiazeng.com/testdata/test/suggest/index.php?callback=?',
+                                returnData:function(item){
+                                    return '<li>'+ item.name +'</li>';
+                                }
+                            });
+                            </pre>
+                        </dd>
+                        <dt>API</dt>
+                        <dd>
+                            <table> 
+                                <thead> 
+                                    <tr>
+                                        <th width="120">普通属性</th>
+                                        <th width="120">值类型</th>
+                                        <th width="150">默认值</th>
+                                        <th width="120">可填值</th>
+                                        <th>功能说明</th>
+                                    </tr> 
+                                </thead> 
+                                <tbody> 
+                                    <tr>
+                                        <td>url</td>
+                                        <td>String</td>
+                                        <td>''</td>
+                                        <td>url地址</td>
+                                        <td>ajax请求url</td>
+                                    </tr>
+                                    <tr>
+                                        <td>param</td>
+                                        <td>String</td>
+                                        <td>keywords</td>
+                                        <td>英文字符串</td>
+                                        <td>url接口接收参数</td>
+                                    </tr>
+                                    <tr>    
+                                        <td>theme</td>
+                                        <td>String</td>
+                                        <td>''</td>
+                                        <td>英文字符串</td>
+                                        <td>自定义组件主题</td>
+                                    </tr>
+                                    <tr>
+                                        <td>getDom</td>
+                                        <td>String</td>
+                                        <td>''</td>
+                                        <td>英文字符串</td>
+                                        <td>指定下拉列表文本，将列表指定元素内容赋值到输入框中</td>
+                                    </tr>
+                                    <tr>
+                                        <td>limit</td>
+                                        <td>Number</td>
+                                        <td>10</td>
+                                        <td>正整数</td>
+                                        <td>下拉数据展示数量，多出则滚动显示</td>
+                                    </tr>
+                                    <tr>
+                                        <td>select</td>
+                                        <td>Boolean</td>
+                                        <td>false</td>
+                                        <td>true/false</td>
+                                        <td>是否默认选中第一行列表</td>
+                                    </tr>
+                                    <tr>
+                                        <td>cache</td>
+                                        <td>Boolean</td>
+                                        <td>true</td>
+                                        <td>true/false</td>
+                                        <td>将对应关键词查询到的数据保存到js中，下次再搜索该词将不调用接口</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table>
+                                <thead> 
+                                    <tr>
+                                        <th width="120">普通方法</th>
+                                        <th width="120">参数</th>
+                                        <th width="150">参数说明</th>
+                                        <th width="120">返回值</th>
+                                        <th>功能说明</th>
+                                    </tr> 
+                                </thead> 
+                                <tbody> 
+                                    <tr>
+                                        <td>getData</td>
+                                        <td>keywords</td>
+                                        <td>关键字</td>
+                                        <td>列表数据</td>
+                                        <td>若没有设置url参数，将启用该方法</td>
+                                    </tr>
+                                    <tr>
+                                        <td>returnData</td>
+                                        <td>item</td>
+                                        <td>单行源数据</td>
+                                        <td>处理后的列表li元素</td>
+                                        <td>单行源数据</td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="2">eventEnd</td>
+                                        <td>item</td>
+                                        <td>触发事件行jQuery对象</td>
+                                        <td rowspan="2">-</td>
+                                        <td rowspan="2">选择列表行触发函数</td>
+                                    </tr>
+                                    <tr>
+                                        <td>target</td>
+                                        <td>目标输入框jQuery对象</td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="2">callback</td>
+                                        <td>target</td>
+                                        <td>目标输入框jQuery对象</td>
+                                        <td rowspan="2">-</td>
+                                        <td rowspan="2">初始化组件完成回调函数</td>
+                                    </tr>
+                                    <tr>
+                                        <td>suggest</td>
+                                        <td>下拉框jQuery对象</td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="2">hideEvent</td>
+                                        <td>target</td>
+                                        <td>目标输入框jQuery对象</td>
+                                        <td rowspan="2">-</td>
+                                        <td rowspan="2">隐藏下拉框回调函数</td>
+                                    </tr>
+                                    <tr>
+                                        <td>suggest</td>
+                                        <td>下拉框jQuery对象</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </dd> 
+                        <dt>下载</dt>
+                        <dd>
+                            <a href="suggest.css">suggest.css</a>
+                            <a href="jquery.suggest.js" class="e-ml10">jquery.suggest.js</a>
+                        </dd>
+                        <dt>版本更新</dt>
+                        <dd id="updatelog"></dd>
+                    </dl> 
+                </div> 
+            </div>
+        </div>
+    </div>
+    <!-- content end -->
+    
+    <!-- footer begin -->
+    <div class="g-footer">
+        <div class="g-wrap">
+            <p>
+                <a href="http://wpa.qq.com/msgrd?v=3&uin=897102078&site=qq&menu=yes" target="_blank">技术支持</a>
+            </p>
+            <p>Copyright © 2013-2015 Aisino. All Rights Reserved.</p>
+        </div>
+    </div>
+    <!-- footer end -->
+    
+    <script type="text/javascript" src="../../script/jquery.js"></script>
+    <script type="text/javascript" src="../../script/tools.js"></script>
+    <script type="text/javascript" src="jquery.suggest.js"></script>
+    <script type="text/javascript" src="../../script/syntax/shCore.js"></script>
+    <script type="text/javascript" src="../../script/syntax/shBrushCss.js"></script>
+    <script type="text/javascript" src="../../script/syntax/shBrushXml.js"></script>
+    <script type="text/javascript" src="../../script/syntax/shBrushJScript.js"></script>
+    <script type="text/javascript" src="../../script/page.js"></script>
+    <script type="text/javascript" src="../data.js"></script>
+    <script type="text/javascript" src="../menu.js"></script>
+    <script type="text/javascript" src="../arttemplate/template.js"></script>
+    <script type="text/javascript" src="./log.js"></script>
+    <script type="text/html" id="updatelog-tpl">
+    {{each list as val key}}
+        <p>Version:{{val.ver}}</p>
+        {{if val.date}}
+        <p>Date:{{val.date}}</p>    
+        {{/if}}
+        {{each val.desc as v k}}
+        <p>{{v}}</p>
+        {{/each}}
+        <br />
+    {{/each}}
+    </script>
+    <script type="text/javascript">
+    $('[name="search"]').suggest({
+        url:'http://www.yinjiazeng.com/testdata/test/suggest/index.php?callback=?',
+        returnData:function(item){
+            return '<li>'+ item.name +'</li>';
+        }
+    });
+    </script>
+</body>
+</html>
