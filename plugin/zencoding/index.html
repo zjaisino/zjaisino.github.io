@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="renderer" content="webkit" />
+    <meta name="keywords" content="浙江爱信诺前端规范,爱信诺规范,爱信诺前端,爱信诺组件" />
+    <meta name="description" content="本站包括了规范、框架、代码库等内容，致力于为前端开发人员提供高效率高质量的前端页面开发解决方案，提高多人协作效率，也为非专业人员提供快速制作网页的解决方案。" />
+    <meta name="copyright" content="浙江爱信诺航天信息有限公司" />
+    <title>zencoding-组件-浙江爱信诺前端规范</title>
+    <link rel="stylesheet" type="text/css" href="../../style/base.css" />
+    <link rel="stylesheet" type="text/css" href="../../style/common.css" />
+    <link rel="stylesheet" type="text/css" href="../../style/page.css" />
+    <link type="text/css" rel="stylesheet" href="../../style/syntax/shCore.css"/>
+    <link type="text/css" rel="stylesheet" href="../../style/syntax/shThemeDefault.css"/>
+    <style type="text/css">
+    .syntaxhighlighter  { margin:0; background:none;}
+    </style>
+</head>
+
+<body class="g-body">
+    <!-- header begin -->
+    <div class="g-header">
+        <div class="m-htop g-wrap">
+            <i></i><i></i><i></i><i></i><i></i><i></i>
+            <h1 class="u-logo"><a href="../../index.html">浙江爱信诺前端规范</a></h1>
+        </div>
+        <div class="m-nav">
+            <ul class="g-wrap">
+                <li><a href="../../index.html">规范<i class="ui-icon ui-icon-tip"></i></a></li>
+                <li><a href="../../framework.html">框架<i class="ui-icon ui-icon-tip"></i></a></li>
+                <li class="s-crt"><a href="../../plugin.html">组件<i class="ui-icon ui-icon-tip"></i></a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- header end -->
+    
+    <!-- content begin -->
+    <div class="g-content f-clearfix">
+        <div class="g-side">
+            <div class="m-menu" id="menu"> 
+                <ul></ul> 
+            </div>
+        </div>
+        <div class="g-main">
+            <div class="g-con">
+                <div class="m-article m-plugin ui-animate ui-animate-fadeShow"> 
+                    <h2 class="u-ttb2">组件 - <em id="title">zencoding</em></h2> 
+                    <div class="u-line"><span class="linea"></span><span class="lineb"></span></div> 
+                    <dl> 
+                        <dt>使用说明</dt>
+                        <dd>在html、css、js文件中任意位置输入相应语法，执行快捷键后会显示执行结果</dd>
+                        <dt>快捷键说明</dt>
+                        <dd>
+                            <table> 
+                                <thead> 
+                                    <tr>
+                                        <th width="120">快捷键</th>
+                                        <th>功能说明</th>
+                                    </tr> 
+                                </thead> 
+                                <tbody> 
+                                    <tr>
+                                        <td>Ctrl E</td>
+                                        <td>执行语法</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </dd>
+                        <dt>语法以及执行结果</dt>
+                        <dd>注意：* 表示任意字符</dd>
+                        <dd>
+                            <h3 class="f-fwb">html</h3>
+                            <table>
+                                <thead> 
+                                    <tr>
+                                        <th width="120">语法</th>
+                                        <th>执行结果</th>
+                                    </tr> 
+                                </thead> 
+                                <tbody> 
+                                    <tr>
+                                        <td class="f-fs14">ie</td>
+                                        <td>
+                                            <pre class="brush:html;">
+                                            &lt;!--[if IE -]&gt;
+
+                                            &lt;![endif]--&gt;
+                                            </pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="f-fs14">ie:_*</td>
+                                        <td>
+                                            <pre class="brush:html;">
+                                            &lt;!--[if IE *]&gt;
+
+                                            &lt;![endif]--&gt;
+                                            </pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="f-fs14">html:5</td>
+                                        <td>
+                                            <pre class="brush:html;">
+                                            &lt;!DOCTYPE html&gt;
+                                            &lt;html&gt;
+                                            &lt;head&gt;
+                                                &lt;meta charset="utf-8" /&gt;
+                                                &lt;meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" /&gt;
+                                                &lt;meta name="format-detection" content="telephone=no" /&gt;
+                                                &lt;meta name="apple-mobile-web-app-capable" content="yes" /&gt;
+                                                &lt;meta name="renderer" content="webkit" /&gt;
+                                                &lt;meta name="keywords" content="" /&gt;
+                                                &lt;meta name="description" content="" /&gt;
+                                                &lt;meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /&gt;
+                                                &lt;base href="" target="_self" /&gt;
+                                                &lt;title&gt;&lt;/title&gt;
+                                                &lt;link rel="stylesheet" type="text/css" href="" /&gt;
+                                            &lt;/head&gt;
+
+                                            &lt;body class="g-box"&gt;
+                                                &lt;!-- header --&gt;
+                                                &lt;div class="g-header"&gt;&lt;/div&gt;
+                                                &lt;!-- /header --&gt;
+
+                                                &lt;!-- content --&gt;
+                                                &lt;div class="g-content"&gt;&lt;/div&gt;
+                                                &lt;!-- /content --&gt;
+
+                                                &lt;!-- footer --&gt;
+                                                &lt;div class="g-footer"&gt;&lt;/div&gt;
+                                                &lt;!-- /footer --&gt;
+                                                &lt;script type="text/javascript" src=""&gt;&lt;/script&gt;
+                                            &lt;/body&gt;
+                                            &lt;/html&gt;
+                                            </pre>
+                                        </td>
+                                    </tr>
+                                </tbody> 
+                            </table> 
+                            <h3 class="f-fwb">css</h3>
+                            <table> 
+                                <thead> 
+                                    <tr>
+                                        <th width="120">语法</th>
+                                        <th>执行结果</th>
+                                    </tr> 
+                                </thead> 
+                                <tbody> 
+                                    <tr>
+                                        <td class="f-fs14">css:_*</td>
+                                        <td>
+                                            <pre class="brush:css;">
+                                            /**
+                                             * @filename *.css
+                                             * @author Aniu[yyyy-MM-dd hh:mm]
+                                             * @update Aniu[yyyy-MM-dd hh:mm]
+                                             * @version v1.1
+                                             * @description none
+                                             */
+                                            </pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="f-fs14">@i</td>
+                                        <td>
+                                            <pre class="brush:css;">
+                                            @import url();
+                                            </pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="f-fs14">fixed</td>
+                                        <td>
+                                            <pre class="brush:css;">
+                                            position:fixed; _position:absolute; right:10px; bottom:10px; _top:expression(eval(document.documentElement.scrollTop+document.documentElement.clientHeight-this.offsetHeight-(parseInt(this.currentStyle.marginTop,10)10)-(parseInt(this.currentStyle.marginBottom,10)0)));
+                                            </pre>
+                                        </td>
+                                    </tr>
+                                </tbody> 
+                            </table> 
+                            <h3 class="f-fwb">javascript（仅nodepad++支持）</h3>
+                            <table> 
+                                <thead> 
+                                    <tr>
+                                        <th width="120">语法</th>
+                                        <th>执行结果</th>
+                                    </tr> 
+                                </thead> 
+                                <tbody> 
+                                    <tr>
+                                        <td class="f-fs14">js:_*</td>
+                                        <td>
+                                            <pre class="brush:js;">
+                                            /**
+                                             * @filename *.js
+                                             * @author Aniu[yyyy-MM-dd hh:mm]
+                                             * @update Aniu[yyyy-MM-dd hh:mm]
+                                             * @version v1.1
+                                             * @description none
+                                             */
+                                            </pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="f-fs14">note</td>
+                                        <td>
+                                            <pre class="brush:js;">
+                                            /**
+                                             * @func 
+                                             * @type &lt;&gt;
+                                             * @return &lt;&gt;
+                                             * @param param &lt;&gt;
+                                             * @desc 
+                                             */
+                                           </pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="f-fs14">jq</td>
+                                        <td>
+                                            <pre class="brush:js;">
+                                            $(function(){
+                                                
+                                            });
+                                           </pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="f-fs14">jq:ready</td>
+                                        <td>
+                                            <pre class="brush:js;">
+                                            $(document).ready(function(){
+	
+                                            });
+                                           </pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="f-fs14">jq:fn_*</td>
+                                        <td>
+                                            <pre class="brush:js;">
+                                            $.fn.* = function(o){
+                                                o = $.extend({}, o||{});
+                                                return this.each(function(){
+                                                    
+                                                });
+                                            }
+                                           </pre>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </dd>
+                        <dt>下载</dt>
+                        <dd>
+                            <a href="zencoding_notepad++.rar">zencoding_notepad++.rar</a>
+                            <a href="zencoding_dreamweaver.rar" class="e-ml10">zencoding_dreamweaver.rar</a>
+                        </dd>
+                    </dl> 
+                </div> 
+            </div>
+        </div>
+    </div>
+    <!-- content end -->
+    
+    <!-- footer begin -->
+    <div class="g-footer">
+        <div class="g-wrap">
+            <p>
+                <a href="http://wpa.qq.com/msgrd?v=3&uin=897102078&site=qq&menu=yes" target="_blank">技术支持</a>
+            </p>
+            <p>Copyright © 2013-2015 Aisino. All Rights Reserved.</p>
+        </div>
+    </div>
+    <!-- footer end -->
+    
+    <script type="text/javascript" src="../../script/jquery.js"></script>
+    <script type="text/javascript" src="../../script/syntax/shCore.js"></script>
+    <script type="text/javascript" src="../../script/syntax/shBrushCss.js"></script>
+    <script type="text/javascript" src="../../script/syntax/shBrushXml.js"></script>
+    <script type="text/javascript" src="../../script/syntax/shBrushJScript.js"></script>
+    <script type="text/javascript">
+    SyntaxHighlighter.defaults['toolbar'] = false;
+    SyntaxHighlighter.defaults['gutter'] = false;
+    </script>
+    <script type="text/javascript" src="../../script/page.js"></script>
+    <script type="text/javascript" src="../data.js"></script>
+    <script type="text/javascript" src="../menu.js"></script>
+</body>
+</html>

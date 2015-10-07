@@ -70,4 +70,8 @@ var MENUDATA = [{
     title:'图片放大器', 
     name:'jqzoom',
     desc:'支持标准模式、反转模式、无镜头、无标题的放大'
+}, {
+    title:'zencoding', 
+    name:'zencoding',
+    desc:'高效开发html、css、js'
 }]

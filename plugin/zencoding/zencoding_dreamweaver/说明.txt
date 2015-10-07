@@ -1,0 +1,6 @@
+该Zen Coding.mxp文件已经是打包好的，可以直接安装！
+如果需要更改里面的语法规则，打开\Commands\ZenCoding\zen_settings.js，在里面进行修改！
+如果需要更改快捷键，用编辑器打开Zen Coding.mxi文件，在里面进行修改
+更改过后用Adobe Extension Manager将Zen Coding.mxi文件封装成Zen Coding.mxp文件后重新进行安装！
+
+注：如果安装插件报错“无法更新菜单，将不会安装该扩展”。请删除C:\Users\yinjiazeng\AppData\Roaming\Adobe\Dreamweaver CS5\zh_CN\Configuration\Menus/下的Menus.xbk以及Menus.xml

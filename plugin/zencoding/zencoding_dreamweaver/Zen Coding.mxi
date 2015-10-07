@@ -1,0 +1,83 @@
+﻿<macromedia-extension
+	 name="Zen Coding"
+	 version="0.6.0"
+	 type="suite">
+
+	<author name="GreLI" />
+
+	<products>
+		<product name="Dreamweaver" version="8" primary="true" />
+	</products>
+
+	<description
+	 href="http://code.google.com/p/zen-coding/">
+	<![CDATA[
+	Zen Coding implementation for Dreamweaver CS4+ for HTML and CSS hi-speed coding
+	]]>
+	</description>
+
+	<ui-access>
+	<![CDATA[
+	Access the Zen Coding commands in Commands > Zen Coding or via shortcuts:<br>
+Ctrl+Q Expand Abbreviation<br>
+Ctrl+W Wrap with Abbreviation<br>
+Ctrl+/ Merge Lines<br>
+Alt+Left Previous Edit Point<br>
+Alt+Right Next Edit Point<br>
+Alt+Up Match pair<br>
+Ctrl+Alt+; Toggle Comment<br>
+Ctrl+Alt+\ Split/Join Tag<br>
+Ctrl+\ Remove Tag
+	]]>
+	</ui-access>
+
+	<license-agreement>
+	<![CDATA[
+	GNU GPL v3
+	]]>
+	</license-agreement>
+
+	<files>
+		<file source="Commands/ZenCoding/zen_settings.js" destination="$Dreamweaver/configuration/Commands/ZenCoding" />
+		<file source="Commands/ZenCoding/zen_coding.js" destination="$Dreamweaver/configuration/Commands/ZenCoding" />
+		<file source="Commands/ZenCoding/html_matcher.js" destination="$Dreamweaver/configuration/Commands/ZenCoding" />
+		<file source="Commands/ZenCoding/zen_editor.js" destination="$Dreamweaver/configuration/Commands/ZenCoding" />
+		<file source="Commands/ZenCoding/zen_actions.js" destination="$Dreamweaver/configuration/Commands/ZenCoding" />
+		<file source="Commands/ZenCoding/filters/comment.js" destination="$Dreamweaver/configuration/Commands/ZenCoding/filters" />
+		<file source="Commands/ZenCoding/filters/escape.js" destination="$Dreamweaver/configuration/Commands/ZenCoding/filters" />
+		<file source="Commands/ZenCoding/filters/format-css.js" destination="$Dreamweaver/configuration/Commands/ZenCoding/filters" />
+		<file source="Commands/ZenCoding/filters/format.js" destination="$Dreamweaver/configuration/Commands/ZenCoding/filters" />
+		<file source="Commands/ZenCoding/filters/haml.js" destination="$Dreamweaver/configuration/Commands/ZenCoding/filters" />
+		<file source="Commands/ZenCoding/filters/html.js" destination="$Dreamweaver/configuration/Commands/ZenCoding/filters" />
+		<file source="Commands/ZenCoding/filters/xsl.js" destination="$Dreamweaver/configuration/Commands/ZenCoding/filters" />
+		<file source="Commands/ZenCoding/zen_controller.js" destination="$Dreamweaver/configuration/Commands/ZenCoding" />
+		<file source="Commands/ZenCoding.html" destination="$Dreamweaver/configuration/Commands" />
+	</files>
+
+	<configuration-changes>
+		<menu-insert prependTo="DWMenu_Commands">
+			<menu id="DWMenu_ZenCoding" name="Zen Coding">
+			</menu>
+		</menu-insert>
+		<menu-insert insertAfter="DWMenu_ZenCoding">
+			<separator id="DWMenu_ZenCoding_separator" />
+		</menu-insert>
+		<menu-insert appendTo="DWMenu_ZenCoding">
+			<menuitem id="DWMenu_Commands_ZenCoding_expandAbbreviation" name="Expand Abbreviation" key="Ctrl+Q" enabled="dw.getFocus(true) === 'textView' || dw.getFocus(true) === 'html'" command="dw.runCommand('ZenCoding.html', 'expand_abbreviation')" />
+			<menuitem id="DWMenu_Commands_ZenCoding_expandAbbreviationWithTab" name="Expand Abbreviation With Tab" enabled="dw.getFocus(true) === 'textView' || dw.getFocus(true) === 'html'" command="dw.runCommand('ZenCoding.html', 'expand_abbreviation_with_tab')" />
+			<menuitem id="DWMenu_Commands_ZenCoding_matchPair" name="Match Pair" enabled="dw.getFocus(true) === 'textView' || dw.getFocus(true) === 'html'" command="dw.runCommand('ZenCoding.html', 'match_pair')" />
+			<menuitem id="DWMenu_Commands_ZenCoding_matchPairInward" name="Match Pair Inward" enabled="dw.getFocus(true) === 'textView' || dw.getFocus(true) === 'html'" command="dw.runCommand('ZenCoding.html', 'match_pair_inward')" />
+			<menuitem id="DWMenu_Commands_ZenCoding_matchPairOutward" name="Match Pair Outward" enabled="dw.getFocus(true) === 'textView' || dw.getFocus(true) === 'html'" command="dw.runCommand('ZenCoding.html', 'match_pair_outward')" />
+			<menuitem id="DWMenu_Commands_ZenCoding_wrapWithAbbreviation" name="Wrap with Abbreviation" key="Ctrl+W" enabled="dw.getFocus(true) === 'textView' || dw.getFocus(true) === 'html'" command="dw.runCommand('ZenCoding.html', 'wrap_with_abbreviation')" />
+			<menuitem id="DWMenu_Commands_ZenCoding_prevEditPoint" name="Previous Edit Point" key="Alt+Left" enabled="dw.getFocus(true) === 'textView' || dw.getFocus(true) === 'html'" command="dw.runCommand('ZenCoding.html', 'prev_edit_point')" />
+			<menuitem id="DWMenu_Commands_ZenCoding_nextEditPoint" name="Next Edit Point" key="Alt+Right" enabled="dw.getFocus(true) === 'textView' || dw.getFocus(true) === 'html'" command="dw.runCommand('ZenCoding.html', 'next_edit_point')" />
+			<menuitem id="DWMenu_Commands_ZenCoding_insertFormattedNewline" name="Insert Formatted Line Break" enabled="dw.getFocus(true) === 'textView' || dw.getFocus(true) === 'html'" command="dw.runCommand('ZenCoding.html', 'insert_formatted_line_break')" />
+			<menuitem id="DWMenu_Commands_ZenCoding_selectLine" name="Select Line" enabled="dw.getFocus(true) === 'textView' || dw.getFocus(true) === 'html'" command="dw.runCommand('ZenCoding.html', 'select_line')" />
+			<menuitem id="DWMenu_Commands_ZenCoding_goToMatchingPair" name="Matching Pair" key="Alt+Up" enabled="dw.getFocus(true) === 'textView' || dw.getFocus(true) === 'html'" command="dw.runCommand('ZenCoding.html', 'matching_pair')" />
+			<menuitem id="DWMenu_Commands_ZenCoding_mergeLines" name="Merge Lines" key="Ctrl+/" enabled="dw.getFocus(true) === 'textView' || dw.getFocus(true) === 'html'" command="dw.runCommand('ZenCoding.html', 'merge_lines')" />
+			<menuitem id="DWMenu_Commands_ZenCoding_toggleComment" name="Toggle Comment" key="Ctrl+Alt+;" enabled="dw.getFocus(true) === 'textView' || dw.getFocus(true) === 'html'" command="dw.runCommand('ZenCoding.html', 'toggle_comment')" />
+			<menuitem id="DWMenu_Commands_ZenCoding_splitJoinTag" name="Split/Join Tag" key="Ctrl+Alt+\" enabled="dw.getFocus(true) === 'textView' || dw.getFocus(true) === 'html'" command="dw.runCommand('ZenCoding.html', 'split_join_tag')" />
+			<menuitem id="DWMenu_Commands_ZenCoding_removeTag" name="Remove Tag" key="Ctrl+\" enabled="dw.getFocus(true) === 'textView' || dw.getFocus(true) === 'html'" command="dw.runCommand('ZenCoding.html', 'remove_tag')" />
+		</menu-insert>
+	</configuration-changes>
+</macromedia-extension>
