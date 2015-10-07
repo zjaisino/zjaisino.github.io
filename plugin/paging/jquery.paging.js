@@ -138,11 +138,11 @@
     Paging.prototype = {
         constructor:Paging,
         //页面跳转
-        jump:function(n){
+        jump:function(page){
             var that = this, count = Math.ceil(that.aCount/that.pCount), current;
             if(that.aCount > 0){
-                if(typeof(n) === 'object'){
-                    var val = $(n).prevAll('input').val();
+                if(typeof(page) === 'object'){
+                    var val = $(page).prevAll('input').val();
                     if(val <= count && val != that.current){
                         current = parseInt(val);
                     }
@@ -150,18 +150,18 @@
                         current = that.current;
                     }
                 }
-                else if(n > 0 && n <= count){
-                    current = n;
+                else if(page > 0 && page <= count){
+                    current = page;
                 }
-                else if(n < 0){
-                    current = count + n + 1;
+                else if(page < 0){
+                    current = count + page + 1;
                 }
                 else{
                     current = count;
                 }
             }
             else{
-                current = n;
+                current = page;
             }
             that.current = that.condition.current = current;
             if(typeof that.refreshCallback === 'function'){
