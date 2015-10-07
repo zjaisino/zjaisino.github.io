@@ -62,15 +62,21 @@
 	<!-- footer end -->
 	
 	<script type="text/javascript" src="script/jquery.js"></script>
-	<script type="text/javascript" src="plugin/data.js"></script>
     <script type="text/javascript">
-    $('.m-typelist').prepend((function(res){
-        var arr = [];
-        $.each(res, function(key, val){
-            arr.push('<li><a href="plugin/'+ val.name +'/index.html"><strong>'+ val.title +'</strong><span>'+ val.desc +'</span></a></li>');
-        });
-        return arr.join('');
-    })(MENUDATA));
+    $.ajax({
+        url:'./plugin/data.json',
+        dataType:'json',
+        cache:false,
+        success:function(data){
+            $('.m-typelist').prepend((function(res){
+                var arr = [];
+                $.each(res, function(key, val){
+                    arr.push('<li><a href="plugin/'+ val.name +'/index.html"><strong>'+ val.title +'</strong><span>'+ val.desc +'</span></a></li>');
+                });
+                return arr.join('');
+            })(data));
+        }
+    });
     </script>
 </body>
 </html>

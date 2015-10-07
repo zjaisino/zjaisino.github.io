@@ -13,5 +13,5 @@
 		} 
 	} 
 })();
-SyntaxHighlighter.config.clipboardSwf = 'syntax/clipboard.swf';
+//SyntaxHighlighter.config.clipboardSwf = 'syntax/clipboard.swf';
 SyntaxHighlighter.all();
