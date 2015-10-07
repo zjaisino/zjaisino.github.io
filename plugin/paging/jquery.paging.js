@@ -18,7 +18,7 @@
                 }
             }
         }
-        that.options = $.extend(true, {
+        $.extend(that, $.extend(true, {
             /**
              * @function ajax请求url
              * @type <String>
@@ -40,6 +40,16 @@
              * @type <Number>
              */
             pCount:10,
+            /**
+             * @function 当前页码
+             * @type <Number>
+             */
+            current:1,
+            /**
+             * @function 列表数据总数
+             * @type <Number>
+             */
+            aCount:0,
             /**
              * @function 是否初始化展示最后一页
              * @type <Boolean>
@@ -122,123 +132,116 @@
              * @param data <JSON Object> 响应数据
              */
             echoData:$.noop
-        }, options||{});
+        }, options||{}));
     }
 
     Paging.prototype = {
         constructor:Paging,
-        aCount:0,
-        isJump:false,
         //页面跳转
-        jump:function(n, isinit){
-            var that = this, opts = that.options, count = Math.ceil(that.aCount/opts.pCount), current;
-            that.isJump = true;
-            if(typeof(n) === 'object'){
-                var val = $(n).prevAll('input').val();
-                if(val <= count && val != that.current){
-                    current = parseInt(val);
+        jump:function(n){
+            var that = this, count = Math.ceil(that.aCount/that.pCount), current;
+            if(that.aCount > 0){
+                if(typeof(n) === 'object'){
+                    var val = $(n).prevAll('input').val();
+                    if(val <= count && val != that.current){
+                        current = parseInt(val);
+                    }
+                    else{
+                        current = that.current;
+                    }
+                }
+                else if(n > 0 && n <= count){
+                    current = n;
+                }
+                else if(n < 0){
+                    current = count + n + 1;
                 }
                 else{
-                    current = this.current;
+                    current = count;
                 }
             }
-            else if(n > 0 && n <= count){
-                current = n;
-            }
-            else if(n < 0){
-                current = count + n + 1;
-            }
             else{
-                current = count;
-            }
-            if(isinit){
                 current = n;
             }
-            that.current = opts.condition.current = current;
-            if(typeof opts.refreshCallback === 'function'){
-                opts.refreshCallback(current);
+            that.current = that.condition.current = current;
+            if(typeof that.refreshCallback === 'function'){
+                that.refreshCallback(current);
                 that.create();
                 return;
             }
             that.getData();
         },
         query:function(condition){
-            var that = this, opts = that.options;
-            if(condition !== 'refresh'){
-                that.current = 1;
-                that.isJump = false;
-                if(condition === true){
+            var that = this;
+            if(typeof that.refreshCallback !== 'function' || condition !== 'refresh'){
+                if(condition){
+                    if(condition !== 'reload'){
+                        that.current = 1;
+                    }
                     that.filter();
-                    opts.condition.current = that.current;
+                    that.condition.current = that.current;
                 }
                 else{
-                    opts.condition = {current:that.current};
+                    that.condition = {current:that.current = 1};
                 }
+                that.getData();
             }
             else{
-                if(typeof opts.refreshCallback !== 'function'){
-                    opts.refreshCallback = $.noop;
-                }
+                that.create();
             }
-            that.getData();
+            
         },
         filter:function(){
-            var that = this, opts = that.options;
-            for(var i in opts.condition){
-                if(!opts.condition[i]){
-                    delete opts.condition[i];
+            var that = this;
+            for(var i in that.condition){
+                if(!that.condition[i]){
+                    delete that.condition[i];
                 }
             }
         },
         //ajax请求数据
         getData:function(){
-            var that = this, opts = that.options;
-            if(typeof opts.refreshCallback !== 'function'){
-                opts.loading.show();
-                opts.condition.pCount = opts.pCount;
-                if(opts.allData === true){
-                    delete opts.condition.pCount;
-                    delete opts.condition.current;
-                }
-                var param = opts.condition;
-                if(opts.paramJSON){
-                    param = [];
-                    $.each(opts.condition, function(key, val){
-                        param.push(key+':'+val);
-                    });
-                    var temp = param.length ? '{'+param.join(',')+'}' : '';
-                    param = {};
-                    param[opts.paramJSON] = temp;
-                }
-                delete opts.ajax.data;
-                delete opts.ajax.success;
-                $.ajax($.extend(true, {
-                    url:opts.url,
-                    async:true,
-                    cache:false,
-                    dataType:'json',
-                    data:param,
-                    success:function(data){
-                        opts.loading.hide();
-                        data.current = that.current;
-                        opts.echoData(data);
-                        that.aCount = data.aCount;
-                        if(opts.last === true){
-                            opts.last = false;
-                            that.jump(-1);
-                            return;
-                        }
-                        that.create();
-                        opts.endCallback(data);
-                    },
-                    error:function(){
-                        opts.loading.hide();
+            var that = this;
+            that.loading.show();
+            that.condition.pCount = that.pCount;
+            if(that.allData === true){
+                delete that.condition.pCount;
+                delete that.condition.current;
+            }
+            var param = that.condition;
+            if(that.paramJSON){
+                param = [];
+                $.each(that.condition, function(key, val){
+                    param.push(key+':'+val);
+                });
+                var temp = param.length ? '{'+param.join(',')+'}' : '';
+                param = {};
+                param[that.paramJSON] = temp;
+            }
+            delete that.ajax.data;
+            delete that.ajax.success;
+            $.ajax($.extend(true, {
+                url:that.url,
+                cache:false,
+                dataType:'json',
+                data:param,
+                success:function(data){
+                    that.loading.hide();
+                    data.current = that.current;
+                    that.echoData(data);
+                    that.aCount = data.aCount;
+                    if(that.last === true){
+                        that.last = false;
+                        that.jump(-1);
+                        return;
                     }
-                }, opts.ajax||{}));
-            }
-            else{
-                that.create();
-            }
+                    that.create();
+                    that.endCallback(data);
+                },
+                error:function(){
+                    that.loading.hide();
+                }
+            }, that.ajax||{}));
         },
         //过滤分页中input值
         trim:function(o){
@@ -258,10 +261,10 @@
         },
         //创建分页骨架
         create:function(){
-            var that = this, opts = that.options, button = opts.button,
-                count = Math.ceil(that.aCount/opts.pCount), current = that.current,
+            var that = this, button = that.button,
+                count = Math.ceil(that.aCount/that.pCount), current = that.current,
                 html = '', next = count == current ? 1 : current+1,
-                instance = that.instance(), extPage = opts.extPage;
+                instance = that.instance(), extPage = that.extPage;
 
             if(extPage.wrap){
                 var page = '<div>';
@@ -273,12 +276,12 @@
                 extPage.wrap.html(page);
             }
             
-            if(!opts.wrap){
+            if(!that.wrap){
                 return;
             }
             
             if(!count){
-                opts.wrap.empty();
+                that.wrap.empty();
                 return;
             }
 
@@ -314,11 +317,11 @@
                 }
             }
             html += current == count ? '<li><span>'+ button.next +'</span></li>' : '<li><a href="javascript:'+ instance +'.jump('+ (current+1) +');" target="_self">'+ button.next +'</a></li>';
-            if(opts.isFull){
+            if(that.isFull){
                 html += '<li><em>跳转到第</em><input type="text" onblur="'+ instance +'.trim(this);" value="'+ next +'" /><em>页</em><button type="button" onclick="'+ instance +'.jump(this);">确定</button></li>';
             }
             html = '<ul class="ui-paging">' + html + '</ul>';
-            opts.wrap.html(html);
+            that.wrap.html(html);
         }
     }
     
@@ -329,7 +332,11 @@
                 name = 'paging';
             }
             window[name] = new Paging(options);
-            window[name].query(true);
+            if(typeof window[name].refreshCallback !== 'function'){
+                window[name].query(true);
+                return;
+            }
+            window[name].query('refresh');
         }
     });
     

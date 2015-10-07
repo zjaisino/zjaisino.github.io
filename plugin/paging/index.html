@@ -128,16 +128,16 @@
                             });
                             $('#data2').html(arr.join(''));
                             window['pages'] = new Paging({
-                                pCount:3,
+                                pCount:4,
+                                aCount:MENUDATA.length,
+                                current:page,
                                 wrap:$('#paging2'),
                                 isFull:false,
                                 refreshCallback:function(current){
                                     tools.jumpUrl(tools.setParam('page', current));
                                 }
                             });
-                            window['pages'].aCount = MENUDATA.length;
-                            window['pages'].current = page;
-                            window['pages'].query('refresh');
+                            pages.query('refresh');
                             </pre>
                         </dd>
                         <dt>API</dt>
@@ -179,7 +179,21 @@
                                         <td>Number</td>
                                         <td>10</td>
                                         <td>正整数</td>
-                                        <td>当页显示数量</td>
+                                        <td>当页显示数量，请求接口会传递该参数</td>
+                                    </tr>
+                                    <tr>
+                                        <td>current</td>
+                                        <td>Number</td>
+                                        <td>10</td>
+                                        <td>正整数</td>
+                                        <td>当前页码，请求接口会传递该参数</td>
+                                    </tr>
+                                    <tr>
+                                        <td>aCount</td>
+                                        <td>Number</td>
+                                        <td>10</td>
+                                        <td>正整数</td>
+                                        <td>列表数据总数</td>
                                     </tr>
                                     <tr>
                                         <td>last</td>
@@ -337,20 +351,35 @@
                                     <tr>
                                         <th width="120">实例对象方法</th>
                                         <th width="120">参数</th>
-                                        <th width="120">参数类型</th>
-                                        <th width="150">参数说明</th>
-                                        <th width="120">返回值</th>
+                                        <th width="120">参数值</th>
+                                        <th width="120">类型</th>
+                                        <th>参数说明</th>
                                         <th>功能说明</th>
                                     </tr> 
                                 </thead> 
                                 <tbody> 
                                     <tr>
-                                        <td>query</td>
-                                        <td>condition</td>
-                                        <td>String, Boolean</td>
-                                        <td>是否保留查询参数</td>
-                                        <td>-</td>
-                                        <td>查询数据，若参数值为refresh，则表示为页面刷新分页，搭配refreshCallback使用，若值为false或者不传参，则会清空所有condition参数，只保留current=1</td>
+                                        <td rowspan="4">query</td>
+                                        <td rowspan="4">condition</td>
+                                        <td>true</td>
+                                        <td>Boolean</td>
+                                        <td>重新加载数据，保留查询条件</td>
+                                        <td rowspan="4">查询数据</td>
+                                    </tr>
+                                    <tr>
+                                        <td>false/不传参/空字符串</td>
+                                        <td>Boolean/undefined/String</td>
+                                        <td>重新加载数据，清空查询条件</td>
+                                    </tr>
+                                    <tr>
+                                        <td>reload</td>
+                                        <td>String</td>
+                                        <td>刷新分页数据</td>
+                                    </tr>
+                                    <tr>
+                                        <td>refresh</td>
+                                        <td>String</td>
+                                        <td>传统页面刷新，搭配refreshCallback使用</td>
                                     </tr>
                                 </tbody>
                             </table> 
@@ -440,15 +469,15 @@
     $('#data2').html(arr.join(''));
     window['pages'] = new Paging({
         pCount:4,
+        aCount:MENUDATA.length,
+        current:page,
         wrap:$('#paging2'),
         isFull:false,
         refreshCallback:function(current){
             tools.jumpUrl(tools.setParam('page', current));
         }
     });
-    window['pages'].aCount = MENUDATA.length;
-    window['pages'].current = page;
-    window['pages'].query('refresh');
+    pages.query('refresh');
     </script>
 </body>
 </html>
