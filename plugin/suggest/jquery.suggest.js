@@ -1,8 +1,8 @@
 /**
  * @filename jquery.suggest.js
  * @author Aniu[2014-04-07 09:15]
- * @update Aniu[2015-02-12 14:01]
- * @version v1.4
+ * @update Aniu[2015-10-08 13:06]
+ * @version v1.5
  * @description 搜索提示
  */
 
@@ -133,10 +133,11 @@
             }
         },
         hide:function(){
-            var that = this;
+            var that = this, sets = that.setting;
             that.suggest.remove();
             that.isbind = true;
             that.unbindEvent();
+            sets.hideEvent.call(that, that.target, that.suggest.children('li'));
         },
         filterData:function(res){
             var that = this, sets = that.setting, target = that.target, style;
@@ -178,7 +179,6 @@
         bindMouse:function(){
             var that = this, sets = that.setting;
             that.bindEvent(doc, 'click', function(){
-                sets.hideEvent.call(that, that.target, that.suggest.children('li'));
                 that.ishide = true;
                 that.hide();
             });
@@ -228,8 +228,15 @@
                     sets.getDom ? that.target.val(current.find(sets.getDom).text()) : that.target.val(current.text());
                 }
                 else if(e.keyCode == 13){
-                    //that.target.blur();
-                    that.hide();
+                    if(sets.select === true){
+                        if($.trim(that.target.val())){
+                            that.suggest.children('li.s-crt').click();
+                            that.hide();
+                        }
+                    }
+                    else{
+                        that.hide();
+                    }
                 }
             });
         },
@@ -255,8 +262,9 @@
     
     $.fn.suggest = function(setting){
         return this.each(function(){
-            var sug = new Suggest($(this).attr('autocomplete', 'off'), setting);
-            $(this).on('keyup', function(e){
+            var target = $(this).attr('autocomplete', 'off');
+            var sug = new Suggest(target, setting);
+            target.on('keyup', function(e){
                 switch(e.keyCode){
                     case 38:
                     case 40:
@@ -278,6 +286,8 @@
                         }
                     }
                 }   
+            }).on('click', function(){
+                return false;
             });
         });
     }
