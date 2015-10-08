@@ -56,8 +56,8 @@
     "desc":"悬浮元素随着鼠标在屏幕上移动而移动"
 }, {
     "title":"输入框占位符", 
-    "name":"tips",
-    "desc":"模拟原生placeholder效果"
+    "name":"placeholder",
+    "desc":"模拟html5的placeholder效果"
 }, {
     "title":"文件上传", 
     "name":"upload",

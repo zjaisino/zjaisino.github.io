@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="renderer" content="webkit" />
+    <meta name="keywords" content="浙江爱信诺前端规范,爱信诺规范,爱信诺前端,爱信诺组件" />
+    <meta name="description" content="本站包括了规范、框架、代码库等内容，致力于为前端开发人员提供高效率高质量的前端页面开发解决方案，提高多人协作效率，也为非专业人员提供快速制作网页的解决方案。" />
+    <meta name="copyright" content="浙江爱信诺航天信息有限公司" />
+    <title>输入框占位符-组件-浙江爱信诺前端规范</title>
+    <link rel="stylesheet" type="text/css" href="../../style/base.css" />
+    <link rel="stylesheet" type="text/css" href="../../style/common.css" />
+    <link rel="stylesheet" type="text/css" href="../../style/page.css" />
+    <link type="text/css" rel="stylesheet" href="../../style/syntax/shCore.css"/>
+    <link type="text/css" rel="stylesheet" href="../../style/syntax/shThemeDefault.css"/>
+    <style type="text/css">
+    .ui-input { padding-left:5px; width:280px; height:30px; line-height:30px\9; border:1px solid #ccc;}
+    .m-demo { height:32px;}
+    .m-demo strong, .m-demo input { float:left;}
+    </style>
+</head>
+
+<body class="g-body">
+    <!-- header begin -->
+    <div class="g-header">
+        <div class="m-htop g-wrap">
+            <i></i><i></i><i></i><i></i><i></i><i></i>
+            <h1 class="u-logo"><a href="../../index.html">浙江爱信诺前端规范</a></h1>
+        </div>
+        <div class="m-nav">
+            <ul class="g-wrap">
+                <li><a href="../../index.html">规范<i class="ui-icon ui-icon-tip"></i></a></li>
+                <li><a href="../../framework.html">框架<i class="ui-icon ui-icon-tip"></i></a></li>
+                <li class="s-crt"><a href="../../plugin.html">组件<i class="ui-icon ui-icon-tip"></i></a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- header end -->
+    
+    <!-- content begin -->
+    <div class="g-content f-clearfix">
+        <div class="g-side">
+            <div class="m-menu" id="menu"> 
+                <ul></ul> 
+            </div>
+        </div>
+        <div class="g-main">
+            <div class="g-con">
+                <div class="m-article m-plugin ui-animate ui-animate-fadeShow"> 
+                    <h2 class="u-ttb2">组件 - <em id="title">输入框占位符</em></h2> 
+                    <div class="u-line"><span class="linea"></span><span class="lineb"></span></div> 
+                    <dl> 
+                        <dt>使用说明</dt>
+                        <dd>
+                            <pre class="brush:xml;">
+                            <!-- 创建骨架 -->
+                            &lt;input type="text" name="demo" placeholder="占位符内容" /&gt;
+                            
+                            <!-- 引入jQuery和组件脚本 -->
+                            &lt;script type="text/javascript" src="jquery.js"&gt;&lt;/script&gt;
+                            &lt;script type="text/javascript" src="jquery.placeholder.js"&gt;&lt;/script&gt;
+                            
+                            <!-- 调用 -->
+                            $('[name="demo"]').placeholder(配置参数);
+                            </pre>
+                        </dd>
+                        <dd>为了兼容IE6，建议在输入框外面加一层块状元素并设置高度，并将input和strong元素左浮动</dd>
+                        <dt>实例</dt>
+                        <dd>
+                            <h3 class="f-fwb">动画版</h3>
+                            <div class="m-demo">
+                                <input type="text" name="demo1" class="ui-input" placeholder="请输入用户名" />
+                            </div>
+                            <pre class="brush:css;">
+                            .ui-input { padding-left:5px; width:280px; height:30px; line-height:30px\9; border:1px solid #ccc;}
+                            .m-demo { height:32px;}
+                            .m-demo strong, .m-demo input { float:left;}
+                            </pre>
+                            <pre class="brush:html;">
+                            &lt;div class="m-demo"&gt;
+                                &lt;input type="text" name="demo1" class="ui-input" placeholder="请输入用户名" /&gt;
+                            &lt;/div&gt;
+                            </pre>
+                            <pre class="brush:js;">
+                            $('[name="demo1"]').placeholder({equal:true});
+                            </pre>
+                            <h3 class="f-fwb">传统版</h3>
+                            <div class="m-demo">
+                                <input type="password" name="demo2" class="ui-input" placeholder="请输入密码" />
+                            </div>
+                            <pre class="brush:html;">
+                            &lt;div class="m-demo"&gt;
+                                &lt;input type="password" name="demo2" class="ui-input" placeholder="请输入密码" /&gt;
+                            &lt;/div&gt;
+                            </pre>
+                            <pre class="brush:js;">
+                            $('[name="demo2"]').placeholder({animate:false});
+                            </pre>
+                        </dd>
+                        <dt>API</dt>
+                        <dd>
+                            <table> 
+                                <thead> 
+                                    <tr>
+                                        <th width="120">普通属性</th>
+                                        <th width="120">值类型</th>
+                                        <th width="150">默认值</th>
+                                        <th width="120">可填值</th>
+                                        <th>功能说明</th>
+                                    </tr> 
+                                </thead> 
+                                <tbody> 
+                                    <tr>
+                                        <td>animate</td>
+                                        <td>Boolean</td>
+                                        <td>true</td>
+                                        <td>true/false</td>
+                                        <td>是否启用动画版</td>
+                                    </tr>
+                                    <tr>
+                                        <td>equal</td>
+                                        <td>Boolean</td>
+                                        <td>false</td>
+                                        <td>true/false</td>
+                                        <td>输入框值是否可以和占位符相同，如果为false，当两者相同时，值会清空</td>
+                                    </tr>
+                                    <tr>
+                                        <td>color</td>
+                                        <td>String</td>
+                                        <td>#ccc</td>
+                                        <td>十六进制颜色值</td>
+                                        <td>占位符文本颜色</td>
+                                    </tr>
+                                    <tr>
+                                        <td>theme</td>
+                                        <td>String</td>
+                                        <td>''</td>
+                                        <td>英文字符串</td>
+                                        <td>类选择器值，可对占位符设置样式</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </dd> 
+                        <dt>下载</dt>
+                        <dd>
+                            <a href="jquery.placeholder.js" class="e-ml10">jquery.placeholder.js</a>
+                        </dd>
+                        <dt>版本更新</dt>
+                        <dd id="updatelog"></dd>
+                    </dl> 
+                </div> 
+            </div>
+        </div>
+    </div>
+    <!-- content end -->
+    
+    <!-- footer begin -->
+    <div class="g-footer">
+        <div class="g-wrap">
+            <p>
+                <a href="http://wpa.qq.com/msgrd?v=3&uin=897102078&site=qq&menu=yes" target="_blank">技术支持</a>
+            </p>
+            <p>Copyright © 2013-2015 Aisino. All Rights Reserved.</p>
+        </div>
+    </div>
+    <!-- footer end -->
+    
+    <script type="text/javascript" src="../../script/jquery.js"></script>
+    <script type="text/javascript" src="jquery.placeholder.js"></script>
+    <script type="text/javascript" src="../../script/syntax/shCore.js"></script>
+    <script type="text/javascript" src="../../script/syntax/shBrushCss.js"></script>
+    <script type="text/javascript" src="../../script/syntax/shBrushXml.js"></script>
+    <script type="text/javascript" src="../../script/syntax/shBrushJScript.js"></script>
+    <script type="text/javascript" src="../../script/page.js"></script>
+    <script type="text/javascript" src="../menu.js"></script>
+    <script type="text/javascript" src="../arttemplate/template.js"></script>
+    <script type="text/javascript" src="./log.js"></script>
+    <script type="text/html" id="updatelog-tpl">
+    {{each list as val key}}
+        <p>Version:{{val.ver}}</p>
+        {{if val.date}}
+        <p>Date:{{val.date}}</p>    
+        {{/if}}
+        {{each val.desc as v k}}
+        <p>{{v}}</p>
+        {{/each}}
+        <br />
+    {{/each}}
+    </script>
+    <script type="text/javascript">
+    $('[name="demo1"]').placeholder({equal:true});
+    $('[name="demo2"]').placeholder({animate:false});
+    </script>
+</body>
+</html>
