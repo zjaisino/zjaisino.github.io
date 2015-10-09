@@ -37,7 +37,7 @@ body, textarea, input, button, select, keygen, legend { font:12px/1.14 arial,\5b
 html { _background-image:url(about:blank); _background-attachment:fixed;}
 body, html { background-color:#fff;}
 a { color:#666; -webkit-tap-highlight-color:rgba(0,0,0,0);}
-a:hover { color:#666; text-decoration:underline;}
+a:hover { color:#448aca; text-decoration:underline;}
 
 /* function */
 .f-dn { display:none;}
