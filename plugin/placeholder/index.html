@@ -14,9 +14,8 @@
     <link type="text/css" rel="stylesheet" href="../../style/syntax/shCore.css"/>
     <link type="text/css" rel="stylesheet" href="../../style/syntax/shThemeDefault.css"/>
     <style type="text/css">
+    .m-menu-fixed { position:static;}
     .ui-input { padding-left:5px; width:280px; height:30px; line-height:30px\9; border:1px solid #ccc;}
-    .m-demo { height:32px;}
-    .m-demo strong, .m-demo input { float:left;}
     </style>
 </head>
 
@@ -64,18 +63,13 @@
                             $('[name="demo"]').placeholder(配置参数);
                             </pre>
                         </dd>
-                        <dd>为了兼容IE6，建议在输入框外面加一层块状元素并设置高度，并将input和strong元素左浮动</dd>
+                        <dd>该组件会增加输入框的父元素strong标签，以及兄弟元素b标签</dd>
                         <dt>实例</dt>
                         <dd>
                             <h3 class="f-fwb">动画版</h3>
                             <div class="m-demo">
                                 <input type="text" name="demo1" class="ui-input" placeholder="请输入用户名" />
                             </div>
-                            <pre class="brush:css;">
-                            .ui-input { padding-left:5px; width:280px; height:30px; line-height:30px\9; border:1px solid #ccc;}
-                            .m-demo { height:32px;}
-                            .m-demo strong, .m-demo input { float:left;}
-                            </pre>
                             <pre class="brush:html;">
                             &lt;div class="m-demo"&gt;
                                 &lt;input type="text" name="demo1" class="ui-input" placeholder="请输入用户名" /&gt;

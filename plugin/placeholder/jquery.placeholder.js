@@ -44,29 +44,20 @@ $.fn.placeholder = function(o){
                 height:that.outerHeight()
             };
             
-            var style = {
+            var txt = $('<b>'+ ph +'</b>').appendTo(that.wrap('<strong />').parent().css({
+                position:'relative',
+                display:'inline-block',
+                width:that.outerWidth(),
+                overflow:'hidden',
+                cursor:'text'
+            }).addClass(o.theme)).css($.extend({
                 position:'absolute',
                 left:data.pleft+1,
                 top:data.ptop,
                 height:data.height,
                 lineHeight:data.height+'px',
                 color:o.color
-            };
-            
-            var txt = that.wrap('<strong />').after('<b>'+ ph +'</b>').parent().css({
-                position:'relative',
-                display:'inline-block',
-                width:that.outerWidth(),
-                overflow:'hidden',
-                textAlign:'left',
-                cursor:'text'
-            }).addClass(o.theme).children('b');
-            
-            if(that.is('textarea')){
-                style = $.extend(style, {lineHeight:'normal', height:'auto'});
-            }
-            
-            txt.css(style).on('click', function(){
+            }, that.is('textarea') ? {lineHeight:'normal', height:'auto'} : {})).on('click', function(){
                 that.focus();
             });
             
