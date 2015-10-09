@@ -63,7 +63,7 @@ $.fn.placeholder = function(o){
             
             that.on('focus', function(){
                 o.animate === true && txt.stop(false, true).animate({left:data.pleft+10, opacity:'0.5'});
-            }).on('blur', function(){
+            }).on('blur change', function(){
                 var val = $.trim(that.val());
                 if((o.equal === false && val == ph) || !val){
                     that.val('');
