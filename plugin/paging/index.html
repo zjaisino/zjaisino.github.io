@@ -119,25 +119,32 @@
                             &lt;div class="m-paging" id="paging2"&gt;&lt;/div&gt;
                             </pre>
                             <pre class="brush:js;">
-                            var page = parseInt(tools.getParam('page')||1);
-                            var crt = (page-1)*3;
-                            var data = MENUDATA.slice(crt, crt+3);
-                            var arr = [];
-                            $.each(data, function(k, v){
-                                arr.push('<li>'+ v.title +'</li>');
-                            });
-                            $('#data2').html(arr.join(''));
-                            window['pages'] = new Paging({
-                                pCount:4,
-                                aCount:MENUDATA.length,
-                                current:page,
-                                wrap:$('#paging2'),
-                                isFull:false,
-                                refreshCallback:function(current){
-                                    tools.jumpUrl(tools.setParam('page', current));
+                            $.ajax({
+                                url:'../data.json',
+                                dataType:'json',
+                                cache:false,
+                                success:function(res){
+                                    var page = parseInt(tools.getParam('page')||1);
+                                    var crt = (page-1)*4;
+                                    var data = res.slice(crt, crt+4);
+                                    var arr = [];
+                                    $.each(data, function(k, v){
+                                        arr.push('<li>'+ v.title +'</li>');
+                                    });
+                                    $('#data2').html(arr.join(''));
+                                    window['pages'] = new Paging({
+                                        pCount:4,
+                                        aCount:res.length,
+                                        current:page,
+                                        wrap:$('#paging2'),
+                                        isFull:false,
+                                        refreshCallback:function(current){
+                                            tools.jumpUrl(tools.setParam('page', current));
+                                        }
+                                    });
+                                    pages.query('refresh');
                                 }
                             });
-                            pages.query('refresh');
                             </pre>
                         </dd>
                         <dt>API</dt>
@@ -465,25 +472,32 @@
         }
     });
     
-    var page = parseInt(tools.getParam('page')||1);
-    var crt = (page-1)*4;
-    var data = MENUDATA.slice(crt, crt+4);
-    var arr = [];
-    $.each(data, function(k, v){
-        arr.push('<li>'+ v.title +'</li>');
-    });
-    $('#data2').html(arr.join(''));
-    window['pages'] = new Paging({
-        pCount:4,
-        aCount:MENUDATA.length,
-        current:page,
-        wrap:$('#paging2'),
-        isFull:false,
-        refreshCallback:function(current){
-            tools.jumpUrl(tools.setParam('page', current));
+    $.ajax({
+        url:'../data.json',
+        dataType:'json',
+        cache:false,
+        success:function(res){
+            var page = parseInt(tools.getParam('page')||1);
+            var crt = (page-1)*4;
+            var data = res.slice(crt, crt+4);
+            var arr = [];
+            $.each(data, function(k, v){
+                arr.push('<li>'+ v.title +'</li>');
+            });
+            $('#data2').html(arr.join(''));
+            window['pages'] = new Paging({
+                pCount:4,
+                aCount:res.length,
+                current:page,
+                wrap:$('#paging2'),
+                isFull:false,
+                refreshCallback:function(current){
+                    tools.jumpUrl(tools.setParam('page', current));
+                }
+            });
+            pages.query('refresh');
         }
     });
-    pages.query('refresh');
     </script>
 </body>
 </html>
