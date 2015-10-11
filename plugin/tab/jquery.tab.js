@@ -1,8 +1,8 @@
 ﻿/**
  * @fileName jquery.tab.js
  * @author Aniu[date:2014-04-21 09:46]
- * @update Aniu[date:2015-06-07 15:21]
- * @version v1.3
+ * @update Aniu[date:2015-10-11 14:10]
+ * @version v1.4
  * @description 选项卡
  */
 
@@ -121,7 +121,11 @@ $.fn.tab = function(o){
             (!!img.data('src') && (img.attr('src') !== img.data('src'))) && img.attr('src', img.data('src'));
             that.children('li:eq(' + index + ')').addClass('s-crt').siblings().removeClass('s-crt');
             item.show().siblings().hide();
-            o.endCallback(index, item);
+            if(!item.attr('once')){
+                if(o.endCallback(index, item) === false){
+                    item.attr('once', 'true');
+                }
+            }
         } 
 
         if(o.auto == true){
