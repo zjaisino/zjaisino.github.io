@@ -37,11 +37,31 @@
 				</li>
 				<li>
 					<a class="f-df f-aic">
-						<span class="f-f1 f-df s-rdy">
-							<label for="username">所在区域</label>
-							<em class="f-f1"><input type="text" id="area" name="area" class="ui-input" readonly="readonly" value="杭州" placeholder="请输入所在区域" /></em>
+                        <label>所在区域</label>
+						<span class="f-f1 f-df f-aic">
+                            <em class="f-f1">
+                                <select name="prov" id="prov" class="ui-input" data-name="省" areacode="">
+                                    <option value="">请选择省</option>
+                                </select>
+                            </em>
+                            <i class="iconfont">&#xe656;</i>
 						</span>
-						<i class="iconfont j-edit">&#xe653;</i>
+                        <span class="f-f1 f-df f-aic">
+                            <em class="f-f1">
+                                <select name="city" id="city" class="ui-input" data-name="市" areacode="">
+                                    <option value="">请选择市</option>
+                                </select>
+                            </em>
+                            <i class="iconfont">&#xe656;</i>
+						</span>
+                        <span class="f-f1 f-df f-aic">
+                            <em class="f-f1">
+                                <select name="area" id="area" class="ui-input" data-name="区" areacode="">
+                                    <option value="">请选择区</option>
+                                </select>
+                            </em>
+                            <i class="iconfont">&#xe656;</i>
+						</span>
 					</a>
 				</li>
 				<li>
@@ -83,8 +103,7 @@
 				mobile:true
 			},
 			area:{
-				required:true,
-				lengths:true
+				required:true
 			},
 			address:{
 				required:true,
@@ -101,8 +120,7 @@
 				mobile:'手机号码格式有误'
 			},
 			area:{
-				required:'请输入所在区域',
-				vcode:'所在区域至少2个字符串'
+				required:'请输入所在区域'
 			},
 			address:{
 				required:'请输入详细地址',
@@ -116,6 +134,52 @@
 			}
 		}
 	});
+    
+    //城市联动下拉
+    var prov = $('#prov'), city = $('#city'), area = $('#area');
+    if($('#prov').attr('areacode')){
+        getData(prov, 'portal/mine/profile/getProvince.action', prov.attr('areacode'));
+        getData(city, 'portal/mine/profile/getCity.action', {creceiveprovince:prov.attr('areacode')}, city.attr('areacode'));
+        getData(area, 'portal/mine/profile/getArea.action', {creceivecity:city.attr('areacode')}, area.attr('areacode'));
+    }
+    else{
+        getData(prov, 'portal/mine/profile/getProvince.action');
+    }
+    
+    prov.on('change', function(){
+        getData(city, 'portal/mine/profile/getCity.action', {creceiveprovince:$(this).val()});
+    });
+    
+    city.on('change', function(){
+        getData(area, 'portal/mine/profile/getArea.action', {creceivecity:$(this).val()});
+    });
+    
+    function getData(target, url, data, seled){
+        target.html('<option value="">请选择'+ target.data('name') +'</option>');
+        $.ajax({
+            url:url,
+            cache:false,
+            dataType:'json',
+            data:data||{},
+            success:function(data){
+                if(data.result){
+                    target.html(getHtml(data.result, seled));
+                }
+            }
+        });
+    }
+    
+    function getHtml(str, seled){
+        var option = '';
+        str = str.replace(/<li[^<]+value=\'([\d]+)\'>([\u4e00-\u9fa5]+)<\/li>/g, '{key:"$1", val:"$2"},');
+        eval('var arr = ['+str+']');
+        var selected;
+        for(var i in arr){
+            selected = (seled && seled == arr[i].key) ? ' selected="selected"' : '';
+            option += '<option'+ selected +' value="'+ arr[i].key +'">'+ arr[i].val +'</option>';
+        }
+        return option;
+    }
 	</script>
 </body>
 </html>

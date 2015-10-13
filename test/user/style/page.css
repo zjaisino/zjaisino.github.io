@@ -23,13 +23,14 @@ header dd span { margin-right:5px;}
 .g-content { padding-top:10px;}
 .m-listview li { margin-top:10px; background-color:#fff;}
 .m-listview li a { padding:0 20px;}
-.m-listview li a > span:not(.f-df), .m-listview li a > i, .m-listview li label, .m-listview li em { display:block;}
+.m-listview li a > span:not(.f-df), .m-listview li a > i, .m-listview li label, .m-listview li em, .m-listview li b { display:block;}
 .m-listview li a { height:45px;}
 .m-listview li label { width:75px;}
 .m-listview li a.j-active.s-crt { background-color:#E5E5E5;}
 .m-listview li a i, .m-listview li a span.s-rdy, .m-listview li a span.s-rdy input { color:#A0A0A0;}
 .m-listview li a span, .m-listview li a > i { font-size:14px;}
 .m-listview li a span i { margin-right:5px;}
+.m-listview li b { margin:0 3px 0 0;}
 .m-listview li .ui-input { width:100%; height:45px; line-height:45px;}
 .m-listview li label { line-height:45px;}
 .m-listview li a span.f-df { height:100%;}
