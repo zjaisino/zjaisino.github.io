@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="renderer" content="webkit" />
+	<meta name="keywords" content="" />
+	<meta name="description" content="" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<title>我是李浩，我只是个沙雕！</title>
+	<link rel="stylesheet" type="text/css" href="../../style/base.css" />
+	<style type="text/css">
+	body { padding-top:150px; font-family:\5fae\8f6f\96c5\9ed1; font-size:13px;}
+	.m-box { width:550px; margin:0 auto;}
+	.m-dial { width:322px; line-height:20px;}
+	.u-comment { color:#3f7f5f;}
+	.f-ti { text-indent:6px;}
+	</style>
+</head>
+
+<body class="g-box">
+	<div class="m-box f-clearfix">
+		<img src="images/fuyuan.jpg" class="f-fl" />
+		<div class="f-fr m-dial"></div>
+	</div>
+	<script type="text/javascript" src="../../script/jquery.js"></script>
+	<script type="text/javascript" src="jquery.write.js"></script>
+	<script type="text/javascript" src="../../script/tools.js"></script>
+	<script type="text/javascript">
+	$('.m-dial').write({
+		data:[{
+			html:'<p class="u-comment"></p>',
+			text:'/**'
+		}, {
+			html:'<p class="u-comment f-ti"></p>',
+			text:'* '+tools.formatDate(new Date().getTime(), 'yyyy-MM-dd')
+		}, {
+			html:'<p class="u-comment f-ti"></p>',
+			text:'*/'
+		}, {
+			html:'<p></p>',
+			text:'大家好，我的名字叫王富元。'
+		}, {
+			html:'<p></p>',
+			text:'毕业传智播客大学前端攻城系。'
+		}, {
+			html:'<p></p>',
+			text:'在学期间勤工俭学，曾在浩记猪肉馆打工并担任副总裁。'
+		}, {
+			html:'<p></p>',
+			text:'我的理想是改变前端界的行业格局，此理想万年不变。'
+		}, {
+			html:'<p></p>',
+			text:'我时刻铭记一句话，就是：'
+		}, {
+			html:'<p></p>',
+			text:'就是：'
+		}, {
+			html:'<p></p>',
+			text:'我是福元，我只是个沙雕！'
+		}]
+	});
+	</script>
+</body>
+</html>
