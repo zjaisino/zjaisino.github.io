@@ -13,7 +13,7 @@
 }, {
     "title":"定时器", 
     "name":"timer",
-    "desc":"可满足各类活动倒计时，自定义显示方式"
+    "desc":"可用于活动的定时效果"
 }, {
     "title":"倒计时", 
     "name":"countdown",
