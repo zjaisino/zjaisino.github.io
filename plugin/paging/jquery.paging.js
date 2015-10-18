@@ -1,8 +1,8 @@
 /**
  * @fileName jquery.paging.js
  * @author Aniu[date:2014-03-29 10:07]
- * @update Aniu[date:2015-10-05 17:18]
- * @version v2.3
+ * @update Aniu[date:2015-10-18 15:38]
+ * @version v2.4
  * @description 分页组件
  */
 
@@ -101,7 +101,9 @@
              */
             button:{
                 prev:'«',
-                next:'»'
+                next:'»',
+                first:'',
+                last:''
             },
             /**
              * @function 拓展分页部分
@@ -285,7 +287,22 @@
                 return;
             }
 
-            html += current == 1 ? '<li><span>'+ button.prev +'</span></li>' : '<li><a href="javascript:'+ instance +'.jump('+ (current-1) +');" target="_self">'+ button.prev +'</a></li>';
+            html += (function(){
+                var tpl = '';
+                if(current == 1){
+                    if(button.first){
+                        tpl += '<li><span>'+ button.first +'</span></li>';
+                    }
+                    tpl += '<li><span>'+ button.prev +'</span></li>';
+                }
+                else{
+                    if(that.button.first){
+                        tpl += '<li><a href="javascript:'+ instance +'.jump(1);" target="_self">'+ button.first +'</a></li>';
+                    }
+                    tpl += '<li><a href="javascript:'+ instance +'.jump('+ (current-1) +');" target="_self">'+ button.prev +'</a></li>';
+                }
+                return tpl;
+            })();
             if(count <= 7){
                 for(var i = 1; i <= count; i++){
                     html += that.echoList(html, i, instance);
@@ -316,7 +333,22 @@
                     }
                 }
             }
-            html += current == count ? '<li><span>'+ button.next +'</span></li>' : '<li><a href="javascript:'+ instance +'.jump('+ (current+1) +');" target="_self">'+ button.next +'</a></li>';
+            html += (function(){
+                var tpl = '';
+                if(current == count){
+                    tpl += '<li><span>'+ button.next +'</span></li>';
+                    if(button.last){
+                        tpl += '<li><span>'+ button.last +'</span></li>';
+                    }
+                }
+                else{
+                    tpl += '<li><a href="javascript:'+ instance +'.jump('+ (current+1) +');" target="_self">'+ button.next +'</a></li>';
+                    if(button.last){
+                        tpl += '<li><a href="javascript:'+ instance +'.jump('+ count +');" target="_self">'+ button.last +'</a></li>';
+                    }
+                }
+                return tpl;
+            })();
             if(that.isFull){
                 html += '<li><em>跳转到第</em><input type="text" onblur="'+ instance +'.trim(this);" value="'+ next +'" /><em>页</em><button type="button" onclick="'+ instance +'.jump(this);">确定</button></li>';
             }

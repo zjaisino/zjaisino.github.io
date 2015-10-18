@@ -11,10 +11,14 @@
     "name":"arttemplate",
     "desc":"性能卓越的javascript模板引擎"
 }, {
-    "title":"活动倒计时", 
+    "title":"定时器", 
     "name":"timer",
     "desc":"可满足各类活动倒计时，自定义显示方式"
 }, {
+    "title":"倒计时", 
+    "name":"countdown",
+    "desc":"可实现发送验证码倒计时、n秒后跳转"
+}, {    
     "title":"选项卡", 
     "name":"tab",
     "desc":"选项卡菜单"
