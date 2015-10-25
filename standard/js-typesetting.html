@@ -8,6 +8,7 @@
     <meta name="description" content="本站包括了规范、框架、代码库等内容，致力于为前端开发人员提供高效率高质量的前端页面开发解决方案，提高多人协作效率，也为非专业人员提供快速制作网页的解决方案。" />
     <meta name="copyright" content="浙江爱信诺航天信息有限公司" />
     <title>代码排版-JS规范-浙江爱信诺前端规范</title>
+    <link rel="shortcut icon" type="image/x-icon" href="../images/favicon.ico" />
     <link rel="stylesheet" type="text/css" href="../style/base.css" />
     <link rel="stylesheet" type="text/css" href="../style/common.css" />
     <link rel="stylesheet" type="text/css" href="../style/page.css" />
@@ -75,14 +76,13 @@
                     		<p>代码中的注释很重要，自然也是毋庸置疑的。通常我们会强调代码中注释数量的多少，而轻视了对注释质量的提高。编码是及时添加注释，会给后续代码的维护人员带来很大的便利。但是如果注释不注意更新，或者由于拷贝、粘贴引起的错误的注释，则会误导阅读人员，反而给阅读带来障碍。</p>
                     		<p>文档开头注释</p>
 							<pre class="brush:js">
-							/**
-							 * Copyright(C), 2013-2014 ZheJiang Aisino Spaceflight Technology Co., Ltd.
-							 * FileName: 文件名.js
-							 * Author: 创建人姓名[日期] 例如：Aniu[date:2014-04-25 10:25]
-							 * Update: 更新人姓名[日期]
-							 * Version: 版本号  例如：v1.0.7
-							 * Description: 文档说明
-							 */
+                            /**
+                             * @filename jquery.layer.js
+                             * @author Aniu[2015/10/25 22:09]
+                             * @update liumengmei[2015/10/25 23:10]
+                             * @version v1.2
+                             * @description 弹出层组件
+                             */
 							</pre>
 							<p>单行注释和多行注释</p>
 							<pre class="brush:js">
@@ -96,16 +96,36 @@
 							</pre>
 							<p>函数注释</p>
 							<pre class="brush:js">
-							/**
-							 *@func 功能
-							 *@param name:姓名
-							 *@param age:年龄
-							 *@desc 说明
-							 * ......
-							 */
-							function person(name, age){
-								alert(name+':'+age);
+                            /**
+                             * @func 是否匹配手机号码
+                             * @return &lt;Boolean&gt; true匹配/false不匹配
+                             * @param mibile &lt;String&gt; 传递手机号码
+                             * @desc 验证值是否匹配手机号码格式
+                             */
+							function matchMobile(mibile){
+								return /^0?(13|14|15|17|18)[0-9]{9}$/.test(mibile);
 							}
+							</pre>
+                            <p>对象参数注释</p>
+                            <pre class="brush:js">
+							var ajax = {
+                                /**
+                                 * @func 请求接口url
+                                 * @type &lt;String, Function&gt; 当为函数时，返回url字符串
+                                 * @desc 想说就说点什么吧o(∩_∩)o 
+                                 */
+                                url:'',
+                                /**
+                                 * @func 响应成功回调函数
+                                 * @type &lt;Function&gt;
+                                 * @return &lt;undefined&gt; 不返回值
+                                 * @param data &lt;Object, String&gt;
+                                 * @desc 想说就说点什么吧o(∩_∩)o 
+                                 */
+                                success:function(data){
+                                    //do something
+                                }
+                            }
 							</pre>
 						</dd>
                     </dl>

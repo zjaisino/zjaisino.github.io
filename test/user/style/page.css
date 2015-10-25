@@ -100,3 +100,13 @@ header dd span { margin-right:5px;}
 .m-newlist li.u-li span.f-f3{ padding-top:10px; padding-left:6px; font-size: 12px; color: #a0a0a0;}
 .m-newlist li.u-li span.f-f3 label.e-money{ position: absolute; right: 20px; color: #d71312;  z-index: 2;}
 .m-newlist li.u-li-used span.f-f3 label.e-money{ color: #a0a0a0;}
+.m-address li { position:relative; margin-bottom:10px; overflow:hidden; font-size:12px;}
+.m-address li > div { position:relative; background-color:#fff; z-index:1;}
+.m-address li dl { padding:12px 10px;}
+.m-address li dd { margin-top:8px; line-height:16px; color:#666;}
+.m-address li dt em { margin-right:10px; font-size:14px;}
+.m-address li dt span { font-size:13px;}
+.m-address li div > div { width:54px; background-color:#A0A0A0; color:#fff;}
+.m-address li.s-crt div > div { background-color:#D81212;}
+.m-address li div > div p { display:inline-block; width:24px; line-height:16px;}
+.m-address li > span { position:absolute; top:0; right:0; height:100%; width:54px; color:#fff; background-color:#565656; font-size:14px;}

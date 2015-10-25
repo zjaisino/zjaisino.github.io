@@ -7,7 +7,7 @@
 	<meta name="apple-mobile-web-app-capable" content="yes" />
 	<meta name="keywords" content="" />
 	<meta name="description" content="" />
-	<title>收货地址</title>
+	<title>发票</title>
 	<link rel="stylesheet" type="text/css" href="style/base-mobile.css" />
     <link rel="stylesheet" type="text/css" href="style/page.css">
 </head>
@@ -15,7 +15,7 @@
 <body>
 	<!-- header -->
 	<div class="g-header m-box e-mt20">
-		<a href="addaddress.html"><i class="iconfont e-mr5">&#xe65d;</i>新增收货地址</a>
+		<a href="invoiceinfo.html"><i class="iconfont e-mr5">&#xe65d;</i>新增发票</a>
 	</div>
 	<!-- /header -->
 	
@@ -26,12 +26,11 @@
                 <div class="f-df">
                     <dl class="f-f1 f-df f-fdc f-jcc j-edit">
                         <dt>
-                            <em>收件人</em>
-                            <span>18258429962</span>
+                            <em>增值税普通发票</em>
                         </dt>
-                        <dd>杭州市西湖区杭州市西湖区万塘路30号杭州市西湖区万塘路30号万塘路30号</dd>
+                        <dd>发票抬头</dd>
                     </dl>
-                    <div class="f-df f-fdc f-jcc f-aic j-set"><p>默认地址</p></div>
+                    <div class="f-df f-fdc f-jcc f-aic j-set"><p>默认发票</p></div>
                 </div>
                 <span class="f-df f-fdc f-jcc f-aic j-del"><em>删除</em></span>
             </li>
@@ -39,10 +38,9 @@
                 <div class="f-df">
                     <dl class="f-f1 f-df f-fdc f-jcc j-edit">
                         <dt>
-                            <em>收件人</em>
-                            <span>18258429962</span>
+                            <em>增值税专用发票</em>
                         </dt>
-                        <dd>杭州市西湖区杭州市西湖区万塘路30号杭州市西湖区万塘路30号万塘路30号</dd>
+                        <dd>发票抬头</dd>
                     </dl>
                     <div class="f-df f-fdc f-jcc f-aic j-set"><p>设为默认</p></div>
                 </div>
@@ -51,7 +49,7 @@
 		</ul>
 	</div>
 	<div class="g-content g-content-temp">
-		<p>您还没有收货地址哦</p>
+		<p>您还没有发票哦</p>
 	</div>
 	<!-- /content -->
 	<script type="text/javascript" src="script/jquery-1.8.3.min.js"></script>
@@ -83,7 +81,7 @@
         }
     //编辑地址
     }).on('click', '.j-edit', function(){
-        location.href = 'addaddress.html';
+        location.href = 'invoiceinfo.html';
     //设为默认
     }).on('click', 'li:not(.s-crt) .j-set', function(){
         var me = $(this);
@@ -91,7 +89,7 @@
         if(!me.hasClass('s-dis')){
             me.addClass('s-dis');
             $.getJSON('http://www.yinjiazeng.com/testdata/test/goodslist/list.php?callback=?', function(res){
-                me.removeClass('s-dis').closest('li').addClass('s-crt').find('p').text('默认地址')
+                me.removeClass('s-dis').closest('li').addClass('s-crt').find('p').text('默认发票')
                     .end().siblings('li.s-crt').removeClass('s-crt').find('.j-set p').text('设为默认');
                 $.showmsg({
                     message:'设置成功'
