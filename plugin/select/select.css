@@ -1,0 +1,38 @@
+@charset "utf-8";
+
+/**
+ * @filename select.css
+ * @author Aniu[2015-11-07 20:13]
+ * @update Aniu[2015-11-07 20:13]
+ * @version v1.1
+ * @description none
+ */
+
+.ui-imitselect { height:21px; cursor:pointer; background-color:#fff; -webkit-user-select:none; -moz-user-select:none; -o-user-select:none;}
+.ui-imitselect, .ui-imitselect dd { border:1px solid #ddd;}
+.ui-imitselect dt i { -webkit-transition:all .3s ease-in; -ms-transition:all .3s ease-in; transition:all .3s ease-in;}
+.ui-imitselect dt { height:100%; padding-right:22px; padding-left:5px; position:relative;}
+.ui-imitselect dt strong, .ui-imitselect dt input { display:block; border:none; font-weight:normal; width:100%; text-align:left; height:100%; line-height:21px; overflow:hidden;}
+.ui-imitselect dt input { height:21px; line-height:normal; line-height:21px\9;}
+.ui-imitselect dt b { position:absolute; width:15px; height:15px; top:2px; right:2px; background:url(./select.png) no-repeat; border:1px solid #707070;}
+.ui-imitselect dt i { float:left; margin:6px 0 0 4px; line-height:0; font-size:0; border:4px dashed transparent; border-top-color:#333; border-top-style:solid;}
+.ui-imitselect.s-dis { cursor:default;}
+.ui-imitselect.s-dis dt, .ui-imitselect.s-dis dt input { background-color:#E2E2E2; color:#ABABAB;}
+.ui-imitselect.s-dis { border-color:#ACACAC;}
+.ui-imitselect.s-dis dt i { border-top-color:#ABABAB;}
+.ui-imitselect dd { width:100%; display:none; text-align:left; border-radius:0 0 3px 3px; position:absolute; top:21px; left:-1px; z-index:1; background-color:#fff;}
+.ui-imitselect.s-show dd { display:block;}
+.ui-imitselect.s-show dt i { 
+    -webkit-transform:rotate(180deg);
+    -webkit-transform-origin:50% 2px;
+    -ms-transform:rotate(180deg);
+    -ms-transform-origin:50% 2px;
+    transform:rotate(180deg);
+    transform-origin:50% 2px;	
+}
+.ui-imitselect dd li { padding-left:5px; font-style:normal; height:21px; line-height:21px;}
+.ui-imitselect dd li.s-crt { background-color:#F8F8F8;}
+.ui-imitselect-search { padding:0 5px; height:20px; border-bottom:1px solid #ddd; cursor:default; zoom:1;}
+.ui-imitselect-search input { width:100%; height:20px; line-height:20px\9;}
+.ui-imitselect-search strong { float:left; color:#999;}
+.ui-imitselect-search strong b { line-height:20px;}

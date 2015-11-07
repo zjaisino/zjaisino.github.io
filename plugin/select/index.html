@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="renderer" content="webkit" />
+    <meta name="keywords" content="浙江爱信诺前端规范,爱信诺规范,爱信诺前端,爱信诺组件" />
+    <meta name="description" content="本站包括了规范、框架、代码库等内容，致力于为前端开发人员提供高效率高质量的前端页面开发解决方案，提高多人协作效率，也为非专业人员提供快速制作网页的解决方案。" />
+    <meta name="copyright" content="浙江爱信诺航天信息有限公司" />
+    <title>下拉菜单-组件-浙江爱信诺前端规范</title>
+    <link rel="shortcut icon" type="image/x-icon" href="../../images/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="../../style/base.css" />
+    <link rel="stylesheet" type="text/css" href="../../style/common.css" />
+    <link rel="stylesheet" type="text/css" href="../../style/page.css" />
+    <link rel="stylesheet" type="text/css" href="./select.css" />
+    <link type="text/css" rel="stylesheet" href="../../style/syntax/shCore.css"/>
+    <link type="text/css" rel="stylesheet" href="../../style/syntax/shThemeDefault.css"/>
+    <style type="text/css">
+    .ui-imitselect dt { margin:0; font-size:12px; font-weight:normal;}
+    .ui-imitselect dd { margin:0;}
+    .m-demo .ui-imitselect { float:left; margin-left:10px;}
+    </style>
+</head>
+
+<body class="g-body">
+    <!-- header begin -->
+    <div class="g-header">
+        <div class="m-htop g-wrap">
+            <i></i><i></i><i></i><i></i><i></i><i></i>
+            <h1 class="u-logo"><a href="../../index.html">浙江爱信诺前端规范</a></h1>
+        </div>
+        <div class="m-nav">
+            <ul class="g-wrap">
+                <li><a href="../../index.html">规范<i class="ui-icon ui-icon-tip"></i></a></li>
+                <li><a href="../../framework.html">框架<i class="ui-icon ui-icon-tip"></i></a></li>
+                <li class="s-crt"><a href="../../plugin.html">组件<i class="ui-icon ui-icon-tip"></i></a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- header end -->
+    
+    <!-- content begin -->
+    <div class="g-content f-clearfix">
+        <div class="g-side">
+            <div class="m-menu" id="menu"> 
+                <ul></ul> 
+            </div>
+        </div>
+        <div class="g-main">
+            <div class="g-con">
+                <div class="m-article m-plugin ui-animate ui-animate-fadeShow"> 
+                    <h2 class="u-ttb2">组件 - <em id="title">下拉菜单</em></h2> 
+                    <div class="u-line"><span class="linea"></span><span class="lineb"></span></div> 
+                    <dl> 
+                        <dt>使用说明</dt>
+                        <dd>
+                            <pre class="brush:xml;">
+                            <!-- 创建骨架 -->
+                            &lt;select name="demo" data-init="函数名" data-func="函数名" data-value="默认值" data-css="样式"&gt;&lt;/select&gt;
+                            
+                            <!-- 引入jQuery和组件脚本 -->
+                            &lt;script type="text/javascript" src="jquery.js"&gt;&lt;/script&gt;
+                            &lt;script type="text/javascript" src="jquery.select.js"&gt;&lt;/script&gt;
+                            
+                            <!-- 调用 -->
+                            $('[name="demo"]').imitSelect(配置参数);
+                            </pre>
+                        </dd>
+                        <dd>select元素上的data属性为可选项</dd>
+                        <dd>若使用ajax加载数据，请设置为同步请求</dd>
+                        <dd>data-init：当组件第一次点击后触发</dd>
+                        <dd>data-func：组件每次选择后触发</dd>
+                        <dd>data-value：设置默认选中值，可配置参数中value属性功能相同</dd>
+                        <dd>data-css：定义组件样式，通常为设置宽度</dd>
+                        <dt>实例</dt>
+                        <dd>
+                            <h3 class="f-fwb">普通下拉框</h3>
+                            <select name="demo1">
+                                <option value="">请选择</option>
+                                <option value="1">普通发票</option>
+                                <option value="2">增值税发票</option>
+                            </select>
+                            <pre class="brush:html;">
+                            &lt;select name="demo1"&gt;
+                                &lt;option value=""&gt;请选择&lt;/option&gt;
+                                &lt;option value="1"&gt;普通发票&lt;/option&gt;
+                                &lt;option value="2"&gt;增值税发票&lt;/option&gt;
+                            &lt;/select&gt;
+                            </pre>
+                            <pre class="brush:js;">
+                            $('[name="demo1"]').imitSelect();
+                            </pre>
+                            <h3 class="f-fwb">可搜索下拉框</h3>
+                            <select name="demo2" data-css="width:150px;">
+                                <option value="yinjiazeng">尹嘉曾</option>
+                                <option value="wangchong">王冲</option>
+                                <option value="lvyongbao">吕永宝</option>
+                                <option value="liumengmei">刘梦梅</option>
+                            </select>
+                            <pre class="brush:html;">
+                            &lt;select name="demo2" data-css="width:150px;"&gt;
+                                &lt;option value="yinjiazeng"&gt;尹嘉曾&lt;/option&gt;
+                                &lt;option value="wangchong"&gt;王冲&lt;/option&gt;
+                                &lt;option value="lvyongbao"&gt;吕永宝&lt;/option&gt;
+                                &lt;option value="liumengmei"&gt;刘梦梅&lt;/option&gt;
+                            &lt;/select&gt;
+                            </pre>
+                            <pre class="brush:js;">
+                            $('[name="demo2"]').imitSelect({
+                                search:{
+                                    enable:true,
+                                    tips:'请输入姓名或者字母..',
+                                    text:'暂无结果'
+                                }
+                            });
+                            </pre>
+                            <h3 class="f-fwb">多级联动</h3>
+                            <div class="m-demo f-clearfix">
+                                <select class="demo3" name="prov" data-css="width:100px" data-init="getProv" data-value="1">
+                                    <option value="0">请选择</option>
+                                </select>
+                                <select class="demo3" name="city" data-css="width:100px" data-func="getCity" disabled="disabled">
+                                    <option value="0">请选择</option>
+                                </select>
+                                <select class="demo3" name="area" data-css="width:100px" data-func="getArea" disabled="disabled">
+                                    <option value="0">请选择</option>
+                                </select>
+                            </div>
+                            <pre class="brush:html;">
+                            &lt;select class="demo3" name="prov" data-css="width:100px" data-init="getProv" data-value="1"&gt;
+                                &lt;option value="0">请选择&lt;/option&gt;
+                            &lt;/select>
+                            &lt;select class="demo3" name="city" data-css="width:100px" data-func="getCity" disabled="disabled"&gt;
+                                &lt;option value="0">请选择&lt;/option&gt;
+                            &lt;/select>
+                            &lt;select class="demo3" name="area" data-css="width:100px" data-func="getArea" disabled="disabled"&gt;
+                                &lt;option value="0">请选择&lt;/option&gt;
+                            &lt;/select&gt;
+                            </pre>
+                            <pre class="brush:js;">
+                            function getProv(value){
+                                if(value !== undefined){
+                                    if(value != '0'){
+                                        $('select[name="city"]').imitSelect({isInit:false, disabled:false, value:value});
+                                    }
+                                    else{
+                                        $('select[name="city"]').imitSelect({isInit:false, disabled:true, isNull:true});
+                                    }
+                                    $('select[name="area"]').imitSelect({isInit:false, disabled:true, isNull:true});
+                                }
+                                else{
+                                    var option = '&lt;option value="0"&gt;请选择&lt;/option&gt;';
+                                    for(var k in GP){
+                                        option += '&lt;option value="'+ (parseInt(k)+1) +'"&gt;'+ GP[k] +'&lt;/option&gt;';
+                                    }
+                                    return option;
+                                }
+                            }
+                            
+                            function getCity(value){
+                                if(value !== undefined){
+                                    if(value != '0'){
+                                        $('select[name="area"]').imitSelect({isInit:false, disabled:false, value:value});
+                                    }
+                                    else{
+                                        $('select[name="area"]').imitSelect({isInit:false, disabled:true, isNull:true});
+                                    }
+                                }
+                                else{
+                                    var option = '&lt;option value="0"&gt;请选择&lt;/option&gt;';
+                                    var data = GT[$('select[name="prov"]').val()-1];
+                                    for(var k in data){
+                                        option += '&lt;option value="'+ (parseInt(k)+1) +'"&gt;'+ data[k] +'&lt;/option&gt;';
+                                    }
+                                    return option;
+                                }
+                            }
+                            
+                            function getArea(value){
+                                if(value === undefined){
+                                    var option = '&lt;option value="0"&gt;请选择&lt;/option&gt;';
+                                    var data = GC[$('select[name="prov"]').val()-1][$('select[name="city"]').val()-1];
+                                    for(var k in data){
+                                        option += '&lt;option value="'+ (parseInt(k)+1) +'"&gt;'+ data[k] +'&lt;/option&gt;';
+                                    }
+                                    return option;
+                                }
+                            }
+                            </pre>
+                        </dd>
+                        <dt>API</dt>
+                        <dd>
+                            <table> 
+                                <thead> 
+                                    <tr>
+                                        <th width="120">普通属性</th>
+                                        <th width="120">值类型</th>
+                                        <th width="150">默认值</th>
+                                        <th width="120">可填值</th>
+                                        <th>功能说明</th>
+                                    </tr> 
+                                </thead> 
+                                <tbody> 
+                                    <tr>
+                                        <td>animate</td>
+                                        <td>Boolean</td>
+                                        <td>true</td>
+                                        <td>true/false</td>
+                                        <td>是否启用动画版</td>
+                                    </tr>
+                                    <tr>
+                                        <td>equal</td>
+                                        <td>Boolean</td>
+                                        <td>false</td>
+                                        <td>true/false</td>
+                                        <td>输入框值是否可以和占位符相同，如果为false，当两者相同时，值会清空</td>
+                                    </tr>
+                                    <tr>
+                                        <td>color</td>
+                                        <td>String</td>
+                                        <td>#ccc</td>
+                                        <td>十六进制颜色值</td>
+                                        <td>占位符文本颜色</td>
+                                    </tr>
+                                    <tr>
+                                        <td>theme</td>
+                                        <td>String</td>
+                                        <td>''</td>
+                                        <td>英文字符串</td>
+                                        <td>类选择器值，可对占位符设置样式</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </dd> 
+                        <dt>下载</dt>
+                        <dd>
+                            <a href="jquery.placeholder.js" class="e-ml10">jquery.placeholder.js</a>
+                        </dd>
+                        <dt>版本更新</dt>
+                        <dd id="updatelog"></dd>
+                    </dl> 
+                </div> 
+            </div>
+        </div>
+    </div>
+    <!-- content end -->
+    
+    <!-- footer begin -->
+    <div class="g-footer">
+        <div class="g-wrap">
+            <p>
+                <a href="http://wpa.qq.com/msgrd?v=3&uin=897102078&site=qq&menu=yes" target="_blank">技术支持</a>
+            </p>
+            <p>Copyright © 2013-2015 Aisino. All Rights Reserved.</p>
+        </div>
+    </div>
+    <!-- footer end -->
+    
+    <script type="text/javascript" src="../../script/jquery.js"></script>
+    <script type="text/javascript" src="jquery.select.js"></script>
+    <script type="text/javascript" src="../placeholder/jquery.placeholder.js"></script>
+    <script type="text/javascript" src="../../script/syntax/shCore.js"></script>
+    <script type="text/javascript" src="../../script/syntax/shBrushCss.js"></script>
+    <script type="text/javascript" src="../../script/syntax/shBrushXml.js"></script>
+    <script type="text/javascript" src="../../script/syntax/shBrushJScript.js"></script>
+    <script type="text/javascript" src="../../script/page.js"></script>
+    <script type="text/javascript" src="../menu.js"></script>
+    <script type="text/javascript" src="../arttemplate/template.js"></script>
+    <script type="text/javascript" src="./log.js"></script>
+    <script type="text/javascript" src="./data.js"></script>
+    <script type="text/html" id="updatelog-tpl">
+    {{each list as val key}}
+        <p>Version:{{val.ver}}</p>
+        {{if val.date}}
+        <p>Date:{{val.date}}</p>    
+        {{/if}}
+        {{each val.desc as v k}}
+        <p>{{v}}</p>
+        {{/each}}
+        <br />
+    {{/each}}
+    </script>
+    <script type="text/javascript">
+    $('[name="demo1"]').imitSelect();
+    
+    $('[name="demo2"]').imitSelect({
+        search:{
+            enable:true,
+            tips:'请输入姓名或者字母..',
+            text:'暂无结果'
+        }
+    });
+    
+    function getProv(value){
+        if(value !== undefined){
+            if(value != '0'){
+                $('select[name="city"]').imitSelect({isInit:false, disabled:false, value:value});
+            }
+            else{
+                $('select[name="city"]').imitSelect({isInit:false, disabled:true, isNull:true});
+            }
+            $('select[name="area"]').imitSelect({isInit:false, disabled:true, isNull:true});
+        }
+        else{
+            var option = '<option value="0">请选择</option>';
+            for(var k in GP){
+                option += '<option value="'+ (parseInt(k)+1) +'">'+ GP[k] +'</option>';
+            }
+            return option;
+        }
+    }
+    
+    function getCity(value){
+        if(value !== undefined){
+            if(value != '0'){
+                $('select[name="area"]').imitSelect({isInit:false, disabled:false, value:value});
+            }
+            else{
+                $('select[name="area"]').imitSelect({isInit:false, disabled:true, isNull:true});
+            }
+        }
+        else{
+            var option = '<option value="0">请选择</option>';
+            var data = GT[$('select[name="prov"]').val()-1];
+            for(var k in data){
+                option += '<option value="'+ (parseInt(k)+1) +'">'+ data[k] +'</option>';
+            }
+            return option;
+        }
+    }
+    
+    function getArea(value){
+        if(value === undefined){
+            var option = '<option value="0">请选择</option>';
+            var data = GC[$('select[name="prov"]').val()-1][$('select[name="city"]').val()-1];
+            for(var k in data){
+                option += '<option value="'+ (parseInt(k)+1) +'">'+ data[k] +'</option>';
+            }
+            return option;
+        }
+    }
+    
+    $('.demo3').imitSelect();
+    </script>
+</body>
+</html>
