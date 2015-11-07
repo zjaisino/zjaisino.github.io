@@ -1,29 +1,96 @@
 /**
- * FileName: jquery.select.js
- * Author: Aniu[date:2014-03-24 10:05]
- * Update: Aniu[date:2015-08-01 19:15]
- * Version: v2.5
+ * @filename jquery.select.js
+ * @author Aniu[2014-03-24 20:13]
+ * @update Aniu[2015-08-01 20:13]
+ * @version v2.5
+ * @description none
  */
  
 $.fn.imitSelect = function(o){
     o = $.extend(true, {
-        count:8, //下拉显示个数
-        isInit:true, //初次加载为true，多级联动使用
-        isNull:false, //是否清空下拉，将数据设置为默认
-        isEdit:false, //下拉框选中值是否可编辑
-        hide:false, //是否隐藏下拉
+        /**
+         * @func 下拉显示个数
+         * @type <Number>
+         */
+        count:8,
+        /**
+         * @func 添加css3动画类
+         * @type <String>
+         */
+        animate:'',
+        /**
+         * @func 添加自定义结构
+         * @type <String>
+         */
+        selext:'',
+        /**
+         * @func 设置下拉框默认值
+         * @type <String, Number>
+         */
+        value:null,
+        /**
+         * @func 是否禁用下拉框
+         * @type <Boolean>
+         */
+        disabled:false,
+        /**
+         * @func 是否初始化默认值，配合value属性使用
+         * @type <Boolean>
+         */
+        isInit:true,
+        /**
+         * @func 将value值清空
+         * @type <Boolean>
+         */
+        isNull:false,
+        /**
+         * @func 下拉框是否可编辑
+         * @type <Boolean>
+         */
+        isEdit:false,
+        /**
+         * @func 是否隐藏下拉框
+         * @type <Boolean>
+         */
+        hide:false,
+        /**
+         * @func 下拉框列表是否有title提示
+         * @type <Boolean>
+         */
         isTitle:false,
+        /**
+         * @func 下拉框搜索
+         * @type <Object>
+         */
         search:{
+            /**
+             * @func 是否开启
+             * @type <Boolean>
+             */
             enable:false,
+            /**
+             * @func 搜索默认占位符文本，配合jqyery.placeholder组件使用
+             * @type <String>
+             */
             tips:'',
+            /**
+             * @func 未搜索到结果提示文本
+             * @type <String>
+             */
             text:''
         },
-        value:null, //设置下拉框默认值
-        disabled:null, //是否禁用下拉框
+        /**
+         * @func 点击列表回调函数，初始化时会调用一次
+         * @type <Function>
+         * @param target <jQuery Obeject> 调用组件的select JQ对象
+         */
         callback:null,
+        /**
+         * @func 过滤文本函数
+         * @type <Function>
+         * @param text <String> 下拉框选中文本
+         */
         filter:null,
-        animate:'',
-        selext:''
     }, o||{});
     
     return this.each(function(){

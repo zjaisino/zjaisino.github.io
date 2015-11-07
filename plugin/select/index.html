@@ -202,35 +202,140 @@
                                 </thead> 
                                 <tbody> 
                                     <tr>
+                                        <td>count</td>
+                                        <td>Number</td>
+                                        <td>8</td>
+                                        <td>任意正整数</td>
+                                        <td>下拉显示个数</td>
+                                    </tr>
+                                    <tr>
                                         <td>animate</td>
-                                        <td>Boolean</td>
-                                        <td>true</td>
-                                        <td>true/false</td>
-                                        <td>是否启用动画版</td>
-                                    </tr>
-                                    <tr>
-                                        <td>equal</td>
-                                        <td>Boolean</td>
-                                        <td>false</td>
-                                        <td>true/false</td>
-                                        <td>输入框值是否可以和占位符相同，如果为false，当两者相同时，值会清空</td>
-                                    </tr>
-                                    <tr>
-                                        <td>color</td>
-                                        <td>String</td>
-                                        <td>#ccc</td>
-                                        <td>十六进制颜色值</td>
-                                        <td>占位符文本颜色</td>
-                                    </tr>
-                                    <tr>
-                                        <td>theme</td>
                                         <td>String</td>
                                         <td>''</td>
-                                        <td>英文字符串</td>
-                                        <td>类选择器值，可对占位符设置样式</td>
+                                        <td>css类选择器值</td>
+                                        <td>添加css3动画类</td>
+                                    </tr>
+                                    <tr>
+                                        <td>selext</td>
+                                        <td>String</td>
+                                        <td>''</td>
+                                        <td>html字符串</td>
+                                        <td>添加自定义结构</td>
+                                    </tr>
+                                    <tr>
+                                        <td>value</td>
+                                        <td>String/Number/Null</td>
+                                        <td>null</td>
+                                        <td>-</td>
+                                        <td>设置下拉框默认值</td>
+                                    </tr>
+                                    <tr>
+                                        <td>disabled</td>
+                                        <td>Boolean</td>
+                                        <td>false</td>
+                                        <td>false/true</td>
+                                        <td>是否禁用下拉框</td>
+                                    </tr>
+                                    <tr>
+                                        <td>isInit</td>
+                                        <td>String/Number/Null</td>
+                                        <td>null</td>
+                                        <td>-</td>
+                                        <td>是否初始化默认值，配合value属性使用</td>
+                                    </tr>
+                                    <tr>
+                                        <td>isNull</td>
+                                        <td>Boolean</td>
+                                        <td>false</td>
+                                        <td>false/true</td>
+                                        <td>将value值清空</td>
+                                    </tr>
+                                    <tr>
+                                        <td>isEdit</td>
+                                        <td>Boolean</td>
+                                        <td>false</td>
+                                        <td>false/true</td>
+                                        <td>下拉框是否可编辑</td>
+                                    </tr>
+                                    <tr>
+                                        <td>hide</td>
+                                        <td>Boolean</td>
+                                        <td>false</td>
+                                        <td>false/true</td>
+                                        <td>是否隐藏下拉框</td>
+                                    </tr>
+                                    <tr>
+                                        <td>isTitle</td>
+                                        <td>Boolean</td>
+                                        <td>false</td>
+                                        <td>false/true</td>
+                                        <td>下拉框列表是否有title提示</td>
                                     </tr>
                                 </tbody>
                             </table>
+                            <table> 
+                                <thead> 
+                                    <tr>
+                                        <th width="120">对象属性</th>
+                                        <th width="120">属性名</th>
+                                        <th width="120">值类型</th>
+                                        <th width="120">默认值</th>
+                                        <th width="120">可填值</th>
+                                        <th>功能说明</th>
+                                    </tr>
+                                </thead> 
+                                <tbody> 
+                                    <tr>
+                                        <td rowspan="3">search</td>
+                                        <td>enable</td>
+                                        <td>Boolean</td>
+                                        <td>false</td>
+                                        <td>false/true</td>
+                                        <td>是否开启搜索功能</td>
+                                    </tr>
+                                    <tt>
+                                        <td>tips</td>
+                                        <td>String</td>
+                                        <td>''</td>
+                                        <td>任意字符串</td>
+                                        <td>搜索默认占位符文本，配合jqyery.placeholder组件使用</td>
+                                    <tr>
+                                    <tt>
+                                        <td>text</td>
+                                        <td>String</td>
+                                        <td>''</td>
+                                        <td>任意字符串</td>
+                                        <td>未搜索到结果提示文本</td>
+                                    <tr>
+                                </tbody>
+                            </table>
+                            <table>
+                                <thead> 
+                                    <tr>
+                                        <th width="120">普通方法</th>
+                                        <th width="120">参数</th>
+                                        <th width="150">参数说明</th>
+                                        <th width="120">返回值</th>
+                                        <th>功能说明</th>
+                                    </tr> 
+                                </thead> 
+                                <tbody> 
+                                    <tr>
+                                        <td>callback</td>
+                                        <td>target</td>
+                                        <td>调用组件的select JQ对象</td>
+                                        <td>-</td>
+                                        <td>点击列表回调函数，初始化时会调用一次</td>
+                                    </tr>
+                                    <tr>
+                                        <td>filter</td>
+                                        <td>text</td>
+                                        <td>下拉框选中文本</td>
+                                        <td>-</td>
+                                        <td>过滤文本函数</td>
+                                    </tr>
+                                </tbody>
+                            </table> 
                         </dd> 
                         <dt>下载</dt>
                         <dd>
