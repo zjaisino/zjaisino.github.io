@@ -1,8 +1,8 @@
 /**
  * FileName: jquery.layer.js
  * Author: Aniu[date:2014-07-11 14:01]
- * Update: Aniu[date:2015-09-30 13:37]
- * Version: v2.8.8 beta
+ * Update: Aniu[date:2015-11-04 14:27]
+ * Version: v2.8.9
  */
 
 ;!(function(window, document, $, undefined){
@@ -370,15 +370,14 @@
                     that.hide();
                 }
                 else if($(this).hasClass('ui-layer-confirm')){
-                    if(typeof options.confirm.callback === 'function'){
-                        options.confirm.callback(main, that.index, $(this)) && that.remove();
+                    if(typeof options.confirm.callback === 'function' && options.confirm.callback(main, that.index, $(this)) === true){
+                        that.hide();
                     }
                 }
                 else{
-                    if(typeof options.cancel.callback === 'function'){
-                        options.cancel.callback(main, that.index);
+                    if(typeof options.cancel.callback === 'function' && options.cancel.callback(main, that.index) !== false){
+                        that.hide();
                     }
-                    that.hide();
                 }
                 return false;
             });
