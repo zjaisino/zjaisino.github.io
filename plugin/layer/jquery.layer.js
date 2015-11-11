@@ -1,8 +1,8 @@
 /**
- * FileName: jquery.layer.js
- * Author: Aniu[date:2014-07-11 14:01]
- * Update: Aniu[date:2015-11-04 14:27]
- * Version: v2.8.9
+ * @filename jquery.layer.js
+ * @author Aniu[2014-07-11 14:01]
+ * @update Aniu[2015-11-11 09:52]
+ * @version v2.9
  */
 
 ;!(function(window, document, $, undefined){
@@ -375,7 +375,7 @@
                     }
                 }
                 else{
-                    if(typeof options.cancel.callback === 'function' && options.cancel.callback(main, that.index) !== false){
+                    if(typeof options.cancel.callback !== 'function' || (typeof options.cancel.callback === 'function' && options.cancel.callback(main, that.index) !== false)){
                         that.hide();
                     }
                 }
