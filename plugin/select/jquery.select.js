@@ -32,7 +32,7 @@ $.fn.imitSelect = function(o){
          * @func 是否禁用下拉框
          * @type <Boolean>
          */
-        disabled:false,
+        disabled:null,
         /**
          * @func 是否初始化默认值，配合value属性使用
          * @type <Boolean>
