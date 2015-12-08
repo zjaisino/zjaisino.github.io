@@ -1,9 +1,9 @@
 /**
- * FileName: jquery.superslide.js
- * Author: Aniu[date:2014-12-15 08:07]
- * Update: Aniu[date:2015-03-23 16:33]
- * Version: v1.3
- * Description: 超级幻灯片
+ * @filename jquery.superslide.js
+ * @author Aniu[2014-12-15 08:07]
+ * @update Aniu[2015-12-08 13:12]
+ * @version v1.4
+ * @description 超级幻灯片
  */
 
 ;!(function(window, document, $, undefined){
@@ -68,16 +68,28 @@
                 enable:false,
                 //是否默认显示最后一屏
                 isEnd:false,
-                isEvent:true
+                //列表是否触发点击事件
+                isEvent:true,
+                /**
+                 * @func 点击事件回调
+                 * @param items <jQuery Obejct> 列表集合
+                 * @param count <Number> 一屏展示数量
+                 * @param index <Number> 一屏中第一个item索引
+                 */
+                callback:$.noop
             },
             /**
              * @func 切换中的回调函数，若非循环滚动，表示li标签触发event后的回调函数
-             * @param index <Number> 触发目标元素索引
+             * @param index <Number> 当前展示item索引
+             * @param item <jQuery Obejct> 当前展示item
+             * @param dot <jQuery Obejct> 当前展示选中点控制器
              */
             callback:$.noop,
             /**
              * @func 切换后的回调函数
-             * @param index <Number> 触发目标元素索引
+             * @param index <Number> 当前展示item索引
+             * @param item <jQuery Obejct> 当前展示item jquery对象
+             * @param dot <jQuery Obejct> 当前展示选中点控制器
              */
             endCallback:$.noop
         }, options);
@@ -258,7 +270,7 @@
             return that;
         },
         slideMove:function(isPrev){
-            var that = this, options = that.options, index = that.index, item = that.items.eq(index), crt;
+            var that = this, options = that.options, index = that.index, item = that.items.eq(index), dot = that.list.children('span:eq('+ index +')'), crt;
             if(!that.thumbClick && options.thumb.enable === true){
                 var thumb = that.thumb, thumbLeft = Math.abs(thumb.scroll.position()[thumb.setting.dir]),
                     thumbNum = (thumbLeft+(thumb.cOutline))/thumb.outline;
@@ -284,19 +296,19 @@
                 var animate = {};
                 animate[that.size.dir] = -index*that[that.size.type];
                 that.scroll.stop(true, false).animate(animate, options.speed, options.ease, function(){
-                    typeof options.endCallback == 'function' && options.endCallback(index);
+                    typeof options.endCallback == 'function' && options.endCallback(index, item, dot);
                 });
                 animate = null;
             }
             else{
                 item.fadeIn(options.speed).siblings().stop(true, false).fadeOut(options.speed, function(){
-                    typeof options.endCallback == 'function' && options.endCallback(index);
+                    typeof options.endCallback == 'function' && options.endCallback(index, item, dot);
                 });
             }
             that.title && that.title.html(item.data('title'));
             index = index < that.itemSize ? index : 0;
-            typeof options.callback == 'function' && options.callback(index);
-            that.list && that.list.children('span:eq('+ index +')').addClass('s-crt').siblings().removeClass('s-crt');
+            typeof options.callback == 'function' && options.callback(index, item, dot);
+            that.list && dot.addClass('s-crt').siblings().removeClass('s-crt');
         },
         slidePrev:function(){
             var that = this, options = that.options;
@@ -339,14 +351,16 @@
             var that = this, options = that.options, target = options.target;
             that.setting = {
                 dir:'left',
-                margin:'marginRight', 
+                m1:'marginRight', 
+                m2:'marginLeft', 
                 outline:'width',
                 outer:'outerWidth'
             }
             if(options.isHorz !== true){
                 that.setting = {
                     dir:'top',
-                    margin:'marginBottom',
+                    m1:'marginTop',
+                    m2:'marginBottom',
                     outline:'height',
                     outer:'outerHeight'
                 }
@@ -357,7 +371,7 @@
             }
             options.list.enable = false;
             that.button = $('<span class="ui-slide-btn ui-slide-prev"></span><span class="ui-slide-btn ui-slide-next"></span>').appendTo(target);
-            that.outline  = that.items[that.setting.outer]() + parseInt(that.items.css(that.setting.margin));
+            that.outline  = that.items[that.setting.outer]() + parseInt(that.items.css(that.setting.m1)) + parseInt(that.items.css(that.setting.m2));
             that.count  = Math.ceil(that.wrap[that.setting.outline]()/that.outline);
             that.cOutline = that.outline*that.count;
             that.scrollVal = that.outline*that.itemSize - that.cOutline;
@@ -398,7 +412,7 @@
                     else{
                         var sval = that.scrollVal-dir;
                         that.moveTo = Math.abs(that.moveTo);
-                        if(sval-that.cOutline>=0){
+                        if(sval-that.cOutline>0){
                             if(!that.moveTo){
                                 that.index = that.cOutline; 
                             }
@@ -417,7 +431,8 @@
             });
             
             options.scroll.isEvent && that.items.on(options.event, function(){
-                 typeof options.callback == 'function' && options.callback($(this).index());
+                var me = $(this);
+                 typeof options.callback == 'function' && options.callback(me.index(), me);
                  $(this).addClass('s-crt').siblings().removeClass('s-crt');
             });
             if(options.scroll.isEnd === true){
@@ -453,6 +468,7 @@
                     if(isDis === true){
                         target.addClass('s-dis');
                     } 
+                    options.scroll.callback(that.items, that.count, Math.abs($(this).position()[that.setting.dir]/that.outline));
                 });
                 animate = null;
             }

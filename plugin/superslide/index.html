@@ -483,18 +483,38 @@
                                 </thead> 
                                 <tbody> 
                                     <tr>
-                                        <td>callback</td>
+                                        <td rowspan="3">callback</td>
                                         <td>index</td>
-                                        <td>目标元素索引</td>
-                                        <td>Undefined</td>
-                                        <td>切换过渡回调函数，若为非循环滚动，表示li标签触发event后的回调函数</td>
+                                        <td>当前展示item索引</td>
+                                        <td>-</td>
+                                        <td rowspan="3">切换过渡回调函数，若为非循环滚动，表示li标签触发event后的回调函数</td>
                                     </tr>
                                     <tr>
-                                        <td>endCallback</td>
+                                        <td>item</td>
+                                        <td>当前展示item</td>
+                                        <td>-</td>
+                                    </tr>
+                                    <tr>
+                                        <td>dot</td>
+                                        <td>当前展示选中点控制器</td>
+                                        <td>-</td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="3">endCallback</td>
                                         <td>index</td>
                                         <td>目标元素索引</td>
-                                        <td>Undefined</td>
-                                        <td>切换完成回调函数</td>
+                                        <td>-</td>
+                                        <td rowspan="3">切换完成回调函数</td>
+                                    </tr>
+                                    <tr>
+                                        <td>item</td>
+                                        <td>当前展示item</td>
+                                        <td>-</td>
+                                    </tr>
+                                    <tr>
+                                        <td>dot</td>
+                                        <td>当前展示选中点控制器</td>
+                                        <td>-</td>
                                     </tr>
                                 </tbody>
                             </table> 
@@ -589,7 +609,11 @@
     $('.m-demo5').superSlide({
         speed:450,
         scroll:{
-            enable:true
+            enable:true,
+            isEvent:true,
+            callback:function(items, count, index){
+                console.log(count, index);
+            }
         }
     });
     </script>

@@ -90,7 +90,7 @@ $.fn.imitSelect = function(o){
          * @type <Function>
          * @param text <String> 下拉框选中文本
          */
-        filter:null,
+        filter:null
     }, o||{});
     
     return this.each(function(){
