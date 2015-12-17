@@ -433,6 +433,7 @@
             begintime:tools.formatDate(time+15000, 'yyyy/MM/dd hh:mm:ss'),
             beforetime:tools.formatDate(time+30000, 'yyyy/MM/dd hh:mm:ss'),
             endtime:tools.formatDate(time+35000, 'yyyy/MM/dd hh:mm:ss')
+            
         }).timer({
             createHtml:function(target, dayArray, dateArray, dateUnit, txt){
                 var html = day = '', i, j, k, temp;
@@ -466,6 +467,7 @@
                 this.createHtml(target, dayArray, dateArray, dateUnit, (status==2?'结束仅剩：':''));
             },
             runningCallback:function(target){
+                alert()
                 this.getTarget(target).find('a').attr({
                     href:'javascript:void(0);',
                     target:'_self'

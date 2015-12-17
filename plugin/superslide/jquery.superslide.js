@@ -270,7 +270,7 @@
             return that;
         },
         slideMove:function(isPrev){
-            var that = this, options = that.options, index = that.index, item = that.items.eq(index), dot = that.list.children('span:eq('+ index +')'), crt;
+            var that = this, options = that.options, index = that.index, item = that.items.eq(index), crt;
             if(!that.thumbClick && options.thumb.enable === true){
                 var thumb = that.thumb, thumbLeft = Math.abs(thumb.scroll.position()[thumb.setting.dir]),
                     thumbNum = (thumbLeft+(thumb.cOutline))/thumb.outline;
@@ -307,6 +307,7 @@
             }
             that.title && that.title.html(item.data('title'));
             index = index < that.itemSize ? index : 0;
+            dot = that.list.children('span:eq('+ index +')');
             typeof options.callback == 'function' && options.callback(index, item, dot);
             that.list && dot.addClass('s-crt').siblings().removeClass('s-crt');
         },

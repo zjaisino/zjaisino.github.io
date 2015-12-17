@@ -101,6 +101,7 @@ $.fn.timer = function(o){
                         time = begintime - starttime;
                         status = 2;
                         delay = 0;
+                        o.runningCallback(_this);
                     }
                     day = Math.floor(time/86400000);
                     time -= day*86400000;
@@ -119,7 +120,7 @@ $.fn.timer = function(o){
                     }
                     else{
                         dayArray[0] == 0 && dateArray.shift();
-                        isStop = o.runCallback(_this, dayArray, dateArray, dateUnit, status);
+                        isStop = o.runCallback(_this.data('starttime', starttime), dayArray, dateArray, dateUnit, status);
                         if(isStop){
                             delay = 0;
                         }
@@ -136,12 +137,6 @@ $.fn.timer = function(o){
                     system.length > 2 && system.shift();
                     starttime += (system[1] - system[0]);
                     isAuto = true;
-                }
-                else if(starttime >= begintime && starttime < endtime && !isStop && isAuto){
-                    begintime = endtime;
-                    delay = 0;
-                    status = 2;
-                    o.runningCallback(_this);
                 }
                 else{
                     o.endCallback(_this, starttime);
