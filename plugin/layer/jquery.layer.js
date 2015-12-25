@@ -1,8 +1,8 @@
 /**
  * @filename jquery.layer.js
  * @author Aniu[2014-07-11 14:01]
- * @update Aniu[2015-11-11 09:52]
- * @version v2.9
+ * @update Aniu[2015-12-24 10:30]
+ * @version v3.0
  */
 
 ;!(function(window, document, $, undefined){
@@ -643,9 +643,10 @@
             offset.left = offset.left + target.width() + ofs.left
         }
         else{
-            offset.top = offset.top + target.height() - $(window).scrollTop() + ofs.top;
+            offset.top = offset.top + target.height() + ofs.top;
             offset.left += ofs.left;
         }
+        offset.top -= $(window).scrollTop();
         layerHide('showmsg');
         $.layer({
             content:'<p style="padding:6px;">'+ msg +'</p>',

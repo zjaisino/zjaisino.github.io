@@ -36,3 +36,7 @@
 .ui-imitselect-search input { width:100%; height:20px; line-height:20px\9;}
 .ui-imitselect-search strong { float:left; color:#999;}
 .ui-imitselect-search strong b { line-height:20px;}
+.ui-imitselect-btn { position:absolute; width:21px; height:21px; top:0; right:0; background-color:#fff;}
+.ui-imitselect-btn em { position:absolute; left:4px; line-height:0; font-size:0; border:6px dashed transparent; }
+.ui-imitselect-btn .prev { top:-3px; border-bottom-color:#ccc; border-bottom-style:solid;}
+.ui-imitselect-btn .next { bottom:-3px; border-top-color:#ccc; border-top-style:solid;}

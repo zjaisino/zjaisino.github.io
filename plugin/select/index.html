@@ -389,7 +389,11 @@
     {{/each}}
     </script>
     <script type="text/javascript">
-    $('[name="demo1"]').imitSelect();
+    $('[name="demo1"]').imitSelect({
+        button:{
+            enable:true
+        }
+    });
     
     $('[name="demo2"]').imitSelect({
         search:{

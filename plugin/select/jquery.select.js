@@ -1,8 +1,8 @@
 /**
  * @filename jquery.select.js
  * @author Aniu[2014-03-24 20:13]
- * @update Aniu[2015-08-01 20:13]
- * @version v2.5
+ * @update Aniu[2015-12-18 13:56]
+ * @version v2.6
  * @description none
  */
  
@@ -80,6 +80,19 @@ $.fn.imitSelect = function(o){
             text:''
         },
         /**
+         * @func 上下点击选择按钮
+         * @type <Object>
+         */
+        button:{
+            /**
+             * @func 是否开启
+             * @type <Boolean>
+             */
+            enable:false,
+            prev:'',
+            next:''
+        },
+        /**
          * @func 点击列表回调函数，初始化时会调用一次
          * @type <Function>
          * @param target <jQuery Obeject> 调用组件的select JQ对象
@@ -129,6 +142,10 @@ $.fn.imitSelect = function(o){
             text = '请选择',
             css = 'width:'+(that.outerWidth()+20)+'px; ' + (that.data('css') ? that.data('css') : ''),
             style = 'style="'+ css +'; position:relative;"';
+        var button = '';
+        if(o.button.enable === true){
+            button = '<div class="ui-imitselect-btn"><em class="prev">'+ o.button.prev +'</em><em class="next">'+ o.button.next +'</em></div>';
+        }
         if(size > 0 && !that.data('init')){
             that.children('option').each(function(){
                 var me = $(this), crt = '', dis = '';
@@ -154,12 +171,12 @@ $.fn.imitSelect = function(o){
                 text = o.filter(text);
             }
             html += '<dl class="ui-imitselect'+ (disabled ? ' s-dis' : '') +'" '+ style +'>';
-            html += '<dt><span><strong>'+ text +'</strong></span><b><i></i></b>'+ o.selext +'</dt>';
+            html += '<dt><span><strong>'+ text +'</strong></span><b><i></i></b>'+ button + o.selext +'</dt>';
             html += '<dd class="ui-animate">'+ (o.search.enable ? '<div class="ui-imitselect-search"><input type="text" placeholder="'+ o.search.tips +'" /></div>' : '') +'<ul>'+ list +'</ul></dd></dl>';
         }
         else{
             html += '<dl class="ui-imitselect" '+ style +'>';
-            html += '<dt><span><strong>'+ text +'</strong></span><b><i></i></b>'+ o.selext +'</dt><dd class="ui-animate"><ul></ul></dd></dl>';
+            html += '<dt><span><strong>'+ text +'</strong></span><b><i></i></b>'+ button + o.selext +'</dt><dd class="ui-animate"><ul></ul></dd></dl>';
         }
         
         if(o.isEdit === true){
@@ -195,6 +212,42 @@ $.fn.imitSelect = function(o){
                 size > o.count && selectbox.css({height:itemHeight*o.count, overflowY:'scroll'});
             }
             $(this).addClass('s-show').children('dd').removeClass(o.animate).addClass(o.animate);
+            return false;
+        }).on('click', '.ui-imitselect-btn', function(){
+            return false;
+        }).on('click', '.ui-imitselect-btn em', function(){
+            var index = _this.selectedIndex;
+            if($(this).hasClass('prev')){
+                if(index > 0){
+                    index--;
+                }
+            }
+            else{
+                if(index < size-1){
+                    index++;
+                }
+            }
+            
+            var target = selectbox.children('li').eq(index);
+            if(!target.hasClass('s-nodata')){
+                target.addClass('s-crt');
+                _this.selectedIndex = index;
+                var txt = target.text();
+                if(typeof o.filter == 'function'){
+                    txt = o.filter(txt);
+                }
+                if(o.isEdit !== true){
+                    select.find('dt strong').text(txt);
+                }
+                else{
+                    select.find('dt input').val(txt);
+                }
+                target.siblings().removeClass('s-crt');
+                if(typeof o.callback == 'function'){
+                    o.callback(that, target);
+                }
+            }
+            
             return false;
         }).on('mouseleave', function(){
             var index = $(this).next('select')[0].selectedIndex;
