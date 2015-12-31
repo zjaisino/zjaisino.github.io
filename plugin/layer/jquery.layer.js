@@ -1,8 +1,8 @@
 /**
  * @filename jquery.layer.js
  * @author Aniu[2014-07-11 14:01]
- * @update Aniu[2015-12-24 10:30]
- * @version v3.0
+ * @update Aniu[2015-12-30 10:38]
+ * @version v3.0.1
  */
 
 ;!(function(window, document, $, undefined){
@@ -96,6 +96,8 @@
                  */
                 callback:null
             },
+            //按钮配置，会覆盖confirm和cancel
+            button:null,
             /**
              * @func 弹出层显示时执行
              * @param main:$('.ui-layer-main')
@@ -137,10 +139,7 @@
         that.eventArray = [];
         Layer.zIndex++;
         return Layer.listArray[that.index] = that.init();
-    }, win = $(window), doc = $(document), 
-        isObject = function(object){
-            return $.isArray(object)||$.isPlainObject(object);
-        }
+    }, win = $(window), doc = $(document);
     Layer.index = 0;
     Layer.zIndex = 10000;
     Layer.bsie6 = !-[1,] && !window.XMLHttpRequest;
@@ -239,7 +238,7 @@
                 title = oHeight = oWidth = '';
                 html += '<div class="ui-layer-box">';
             if(options.close.enable === true){
-                html += '<span class="ui-layer-button ui-layer-close">'+ options.close.text +'</span>';
+                html += '<span class="ui-layer-button ui-layer-close" btnid="close">'+ options.close.text +'</span>';
             }
             if(options.arrow.enable === true){
                 html += '<span class="ui-layer-arrow ui-layer-arrow-'+ options.arrow.dir +'"><b></b><i></i></span>';
@@ -258,13 +257,33 @@
                 }
             }
             html += '</div></div>';
-            if(options.confirm.enable === true || options.cancel.enable === true){
+            if($.isPlainObject(options.button) || options.confirm.enable === true || options.cancel.enable === true){
                 html += '<div class="ui-layer-foot">';
-                if(options.confirm.enable === true){
-                    html += '<span class="ui-layer-button ui-layer-confirm">'+ options.confirm.text +'</span>';
+                if($.isPlainObject(options.button)){
+                    $.each(options.button, function(key, val){
+                        if(key === 'close'){
+                            return true;
+                        }
+                        var text = '自定义按钮';
+                        if(key==='confirm' || key==='cancel'){
+                            text = val.text||options[key].text;
+                            if(val.callback){
+                                options[key].callback = val.callback;
+                            }
+                        }
+                        else{
+                            text = val.text||text;
+                        }
+                        html += '<span class="ui-layer-button ui-layer-'+ key +'" btnid="'+ key +'">'+ text +'</span>';
+                    });
                 }
-                if(options.cancel.enable === true){
-                    html += '<span class="ui-layer-button ui-layer-cancel">'+ options.cancel.text +'</span>';
+                else{
+                    if(options.confirm.enable === true){
+                        html += '<span class="ui-layer-button ui-layer-confirm" btnid="confirm">'+ options.confirm.text +'</span>';
+                    }
+                    if(options.cancel.enable === true){
+                        html += '<span class="ui-layer-button ui-layer-cancel" btnid="cancel">'+ options.cancel.text +'</span>';
+                    }
                 }
                 html += '</div>';
             }
@@ -361,23 +380,27 @@
             var that = this, layer = that.layer, 
                 options = that.options,
                 main = layer.find('.ui-layer-main'),
-                button = layer.find('.ui-layer-close, .ui-layer-confirm, .ui-layer-cancel');
+                button = layer.find('.ui-layer-button');
             layer.on('click', function(){
                options.isSticky === true && that.setzIndex();
             });
             button.on('click', function(){
-                if($(this).hasClass('ui-layer-close')){
+                var me = $(this), btnid = me.attr('btnid');
+                if(btnid === 'close'){
                     that.hide();
                 }
-                else if($(this).hasClass('ui-layer-confirm')){
-                    if(typeof options.confirm.callback === 'function' && options.confirm.callback(main, that.index, $(this)) === true){
+                else if(btnid === 'confirm'){
+                    if(typeof options.confirm.callback === 'function' && options.confirm.callback(main, that.index, me) === true){
+                        that.hide();
+                    }
+                }
+                else if(btnid === 'cancel'){
+                    if(typeof options.cancel.callback !== 'function' || (typeof options.cancel.callback === 'function' && options.cancel.callback(main, that.index, me) !== false)){
                         that.hide();
                     }
                 }
                 else{
-                    if(typeof options.cancel.callback !== 'function' || (typeof options.cancel.callback === 'function' && options.cancel.callback(main, that.index) !== false)){
-                        that.hide();
-                    }
+                    options.button[btnid].callback(main, that.index, me);
                 }
                 return false;
             });

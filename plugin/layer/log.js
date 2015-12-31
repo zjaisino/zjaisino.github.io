@@ -1,5 +1,11 @@
 var LOG = {
     list:[{
+        ver:'v3.0.1',
+        date:'2015-12-30',
+        desc:[
+            '1.增加button属性，可自定义配置底部按钮，配置后将覆盖cancel和confirm'
+        ]
+    }, {
         ver:'v3.0',
         date:'2015-12-24',
         desc:[
