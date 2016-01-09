@@ -1,8 +1,8 @@
 /**
  * @fileName jquery.paging.js
  * @author Aniu[date:2014-03-29 10:07]
- * @update Aniu[date:2015-10-18 15:38]
- * @version v2.4
+ * @update liumm[date:2015-12-24 19:35]
+ * @version v2.6
  * @description 分页组件
  */
 
@@ -50,6 +50,11 @@
              * @type <Number>
              */
             aCount:0,
+            /**
+             * @function 筛选条件可以为空
+             * @type <Boolean>
+             */
+            isNull:false,
             /**
              * @function 是否初始化展示最后一页
              * @type <Boolean>
@@ -180,7 +185,9 @@
                     if(condition !== 'reload'){
                         that.current = 1;
                     }
-                    that.filter();
+                    if(!that.isNull){
+                    	that.filter();
+                    }
                     that.condition.current = that.current;
                 }
                 else{
@@ -274,8 +281,7 @@
                      '<span>'+ extPage.next +'</span>' : '<a href="javascript:'+ instance +'.jump('+ (current+1) +');" target="_self">'+ extPage.next +'</a>';
                 page += current == 1 ?
                      '<span>'+ extPage.prev +'</span>' : '<a href="javascript:'+ instance +'.jump('+ (current-1) +');" target="_self">'+ extPage.prev +'</a>';
-                page += '</div><em>'+ (count !== 0 ? current : 0) +'/'+ count +'</em><strong>共'+ that.aCount + extPage.desc +'</strong>';
-                extPage.wrap.html(page);
+                page += '</div><em>'+'<b class="current">'+ (count !== 0 ? current : 0)+'</b>' +'/'+ count +'</em><strong>共<b class="total">'+ that.aCount +'</b>'+ extPage.desc +'</strong>';                extPage.wrap.html(page);
             }
             
             if(!that.wrap){
