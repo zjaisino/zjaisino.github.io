@@ -400,7 +400,12 @@
                     }
                 }
                 else{
-                    options.button[btnid].callback(main, that.index, me);
+                    if(typeof options.button[btnid].callback !== 'undefined'){
+                        options.button[btnid].callback(main, that.index, me);
+                    }
+                    else{
+                        that.hide();
+                    }
                 }
                 return false;
             });
