@@ -25,6 +25,12 @@
     .m-demo .ui-tabody ul { padding:5px 10px 0;}
     .m-demo .ui-tabody ul li { overflow:hidden; height:30px; line-height:30px;}
     .m-demo .ui-tabody ul li strong { float:right; color:#ed7612;}
+    .m-demo3 { width:100%;}
+    .m-demo3 .ui-tab li { float:left; margin-right:5px;}
+    .m-demo3 .ui-tabwrap { height:31px; top:1px;}
+    .m-demo3 .ui-tabbtn { top:0; width:15px; height:30px; background-color:#f60;}
+    .m-demo3 .ui-tabbtn-prev { left:0;}
+    .m-demo3 .ui-tabbtn-next { right:0;}
     </style>
 </head>
 
@@ -211,6 +217,34 @@
                                 }
                             });
                             </pre>
+                            <h3 class="f-fwb">普通选项卡</h3>
+                            <div class="m-demo m-demo3 e-mt10" id="demo3">
+                                <ul class="ui-tab f-tar">
+                                    <li>
+                                        <a href="javascript:void(0);">选项卡1</a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">选项卡2</a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">选项卡3</a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">选项卡4</a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">选项卡5</a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">选项卡6</a>
+                                    </li><li>
+                                        <a href="javascript:void(0);">选项卡7</a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">选项卡8</a>
+                                    </li>
+                                </ul>
+                            </div>
                         </dd>
                         <dt>API</dt>
                         <dd>
@@ -417,6 +451,12 @@
                     }
                 }
             });
+        }
+    });
+    
+    $('#demo3').tab({
+        scroll:{
+            enable:true
         }
     });
     </script>

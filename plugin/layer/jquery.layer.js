@@ -1,8 +1,8 @@
 /**
  * @filename jquery.layer.js
  * @author Aniu[2014-07-11 14:01]
- * @update Aniu[2015-12-30 10:38]
- * @version v3.0.1
+ * @update Aniu[2016-01-18 17:29]
+ * @version v3.1.1
  */
 
 ;!(function(window, document, $, undefined){
@@ -17,6 +17,8 @@
             content:'',
             //1.自定义皮肤主题；2.layer标识，隐藏特定的layer：layerHide(theme);
             theme:'',
+            //最大尺寸距离窗口边界边距
+            padding:50,
             //是否淡入方式显示
             isFadein:true,
             //是否可以移动
@@ -204,7 +206,7 @@
     Layer.prototype = {
         width:380,
         height:220,
-        title:'系统提示',
+        title:'温馨提示',
         init:function(){
             var that = this, options = that.options;
             that.createHtml().show().bindClick();
@@ -300,8 +302,8 @@
             }
             else{
                 options.isCenter = true;
-                height = win.height() - 50 - oHeight;
-                width = win.width() - 50 - oWidth;
+                height = win.height() - options.padding - oHeight;
+                width = win.width() - options.padding - oWidth;
                 options.height = 'auto';
             }
             that.layer.css({width:width, height:height});
@@ -449,10 +451,10 @@
                 foot = box.children('.ui-layer-foot'), headHeight = head.outerHeight(), footHeight = foot.outerHeight(), pt = parseInt(layer.css('paddingTop')), 
                 pb = parseInt(layer.css('paddingBottom')), bbd = Layer.getBorderSize(body), bl = Layer.getBorderSize(layer), bb = Layer.getBorderSize(box),
                 pl = parseInt(layer.css('paddingLeft')), pr = parseInt(layer.css('paddingRight')), blt = Layer.getBorderSize(layer, true), extd = {}, speed = 400,
-                wheight = win.height() - 50, wwidth = win.width() - 50, isiframe = typeof that.iframe === 'object';
+                wheight = win.height() - options.padding, wwidth = win.width() - options.padding, isiframe = typeof that.iframe === 'object';
             if(isiframe){
                 var iframeDoc = that.iframe.contents(), 
-                    iframeHtml = iframeDoc.find('html').css({overflow:'hidden'});
+                    iframeHtml = iframeDoc.find('html').css({overflow:'auto'});
                 iframeDoc[0].layer = {index:that.index, target:that.layer}; //iframe没有加载完获取不到
                 contentHeight = iframeHtml.children('body').outerHeight();
             }
@@ -463,11 +465,9 @@
                 contentHeight += headHeight + footHeight + pt + pb + bbd + bl + bb;
                 if(contentHeight > wheight){
                     that.size.height = wheight;
-                    !isiframe ? body.css({overflow:'hidden', overflowY:'scroll'}) : iframeHtml.css({overflowY:'scroll'});
                 }
                 else{
                     that.size.height = contentHeight;
-                    !isiframe && body.css({overflow:'', overflowY:''});
                 }
                 if(options.isMaxSize === true){
                     that.size.width = wwidth - blt;
@@ -489,14 +489,6 @@
                     typeof options.onResizeEvent === 'function' && options.onResizeEvent(main, that.index);
                 });
             }
-            else{
-                if(contentHeight > body.height()){
-                    !isiframe ? body.css({overflow:'hidden', overflowY:'scroll'}) : iframeHtml.css({overflowY:'scroll'});
-                }
-                else{
-                    !isiframe && body.css({overflow:'', overflowY:''});
-                }
-            }
         },
         show:function(){
             var that = this, options = that.options, layer = that.layer, bodyHeight, winStop = win.scrollTop(),
@@ -508,7 +500,7 @@
                 layer.css('position', 'fixed');
             }
             that.size.width = layer.outerWidth();
-            that.size.height = layer.outerHeight() > win.height() ? layer.height(win.height()-50).outerHeight() : layer.outerHeight();
+            that.size.height = layer.outerHeight() > win.height() ? layer.height(win.height()-options.padding).outerHeight() : layer.outerHeight();
             options.offset.top = (options.offset.top || ((win.height() - that.size.height) / 2)) + winStop;
             options.offset.left = options.offset.left || ((win.width() - that.size.width) / 2);
             if(!!that.index && options.offset.isBasedPrev === true){
@@ -544,9 +536,10 @@
             layer.css({margin:0, top:options.offset.top, left:options.offset.left})[showType]();
             bodyHeight = layer.height() - Layer.getBorderSize(box) - head.outerHeight() - foot.outerHeight() - Layer.getBorderSize(body);
             body.css({height:bodyHeight});
-            if(main.height() > bodyHeight){
-                body.css({overflow:'hidden', overflowY:'scroll'});
+            if(options.iframe.enable === true){
+                body.css({overflow:'hidden'});
             }
+            layer.css({overflow:'visible'});
             that.bindBtnClick();
             if(options.isCenter === true){
                 that.bindEvent(win, 'resize', function(){

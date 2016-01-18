@@ -5,3 +5,7 @@
 .ui-tab li a { display:inline-block; text-align:center;}
 .ui-tab li a:hover { text-decoration:none;}
 .ui-tab li { position:relative; cursor:pointer;}
+.ui-tabbox { padding:0 20px; position:relative;}
+.ui-tabbtn { position:absolute;}
+.ui-tabwrap { position:relative; overflow:hidden;}
+.ui-tabwrap .ui-tab { position:absolute; top:0; left:0;}
