@@ -1,8 +1,8 @@
 /**
  * @filename jquery.layer.js
  * @author Aniu[2014-07-11 14:01]
- * @update Aniu[2016-01-18 17:29]
- * @version v3.1.1
+ * @update Aniu[2016-01-26 15:06]
+ * @version v3.1.2
  */
 
 ;!(function(window, document, $, undefined){
@@ -21,6 +21,8 @@
             padding:50,
             //是否淡入方式显示
             isFadein:true,
+            //是否开启弹出层动画
+            isAnimate:true,
             //是否可以移动
             isMove:true,
             //是否有遮罩层
@@ -371,7 +373,7 @@
                     mx = mx || options.offset.left;
                     my = my || options.offset.top;
                     if(options.isMoveMask === true){
-                        !that.layer.is(':animated') && that.layer.animate({top:my, left:mx}, 450);  
+                        !that.layer.is(':animated') && that.layer.animate({top:my, left:mx}, options.isAnimate === true ? 450 : 0);  
                         layer.remove();
                     }
                     that.offsetWinTop = my - win.scrollTop();
@@ -482,9 +484,9 @@
                 options.offset.left = (win.width() - that.size.width) / 2;
                 height = that.size.height - pt - pb - bl;
                 bodyHeight = height - bb - headHeight - footHeight - bbd;
-                body.stop(true, false).animate({height:bodyHeight}, speed);
-                isiframe && that.iframe.stop(true, false).animate({height:bodyHeight}, speed);
-                layer.stop(true, false).animate($.extend({top:options.offset.top, left:options.offset.left, height:height}, extd), speed, function(){
+                body.stop(true, false).animate({height:bodyHeight}, options.isAnimate === true ? speed : 0);
+                isiframe && that.iframe.stop(true, false).animate({height:bodyHeight}, options.isAnimate === true ? speed : 0);
+                layer.stop(true, false).animate($.extend({top:options.offset.top, left:options.offset.left, height:height}, extd), options.isAnimate === true ? speed : 0, function(){
                     that.offsetWinTop = options.offset.top - winStop;
                     typeof options.onResizeEvent === 'function' && options.onResizeEvent(main, that.index);
                 });

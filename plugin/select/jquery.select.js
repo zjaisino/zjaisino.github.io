@@ -175,7 +175,7 @@ $.fn.imitSelect = function(o){
             html += '<dd class="ui-animate">'+ (o.search.enable ? '<div class="ui-imitselect-search"><input type="text" placeholder="'+ o.search.tips +'" /></div>' : '') +'<ul>'+ list +'</ul></dd></dl>';
         }
         else{
-            html += '<dl class="ui-imitselect" '+ style +'>';
+            html += '<dl class="ui-imitselect'+ (disabled ? ' s-dis' : '') +'" '+ style +'>';
             html += '<dt><span><strong>'+ text +'</strong></span><b><i></i></b>'+ button + o.selext +'</dt><dd class="ui-animate"><ul></ul></dd></dl>';
         }
         

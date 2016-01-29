@@ -1,8 +1,8 @@
 /**
  * @filename jquery.suggest.js
  * @author Aniu[2014-04-07 09:15]
- * @update Aniu[2015-10-08 13:06]
- * @version v1.5
+ * @update Aniu[2016-01-19 18:27]
+ * @version v1.7
  * @description 搜索提示
  */
 
@@ -55,9 +55,16 @@
              * @type <Function>
              * @return <Obejct, Array> 列表数据
              * @param keywords <String> 关键字
+             * @param target <Object> 目标输入框jQuery对象
              * @desc 若没有设置url参数，将启用该方法
              */
             getData:null,
+            /**
+             * @func 下拉框定位垂直偏移
+             * @type <Number, Function>
+             * @return <Number>
+             */
+            offsetTop:0,
             /**
              * @func 处理列表数据
              * @type <Function>
@@ -70,13 +77,14 @@
              * @type <Function>
              * @param item <Object> 触发事件行jQuery对象
              * @param target <Object> 目标输入框jQuery对象
+             * @param keyevent <Boolean> 是否上下键盘时间选择下拉
              */
             eventEnd:$.noop,
             /**
              * @func 初始化组件完成回调函数
              * @type <Function>
              * @param target <Object> 目标输入框jQuery对象
-             * @param suggest <Object> 下拉框jQuery对象
+             * @param suggestlist <Object> 下拉框jQuery对象
              */
             callback:$.noop,
             /**
@@ -85,7 +93,12 @@
              * @param target <Object> 目标输入框jQuery对象
              * @param items <Object> 下拉框列表jQuery对象
              */
-            hideEvent:$.noop
+            hideEvent:$.noop,
+            /**
+             * @func 自定义下拉框显示内容
+             * @type <Function>
+             */
+            diyCallback:$.noop
         }, setting||{});
     }, doc = $(document);
     
@@ -100,11 +113,16 @@
             that.keywords = keywords;
             that.suggest = $('.ui-suggest');
             if(!that.suggest.size()){
-                that.suggest = $('<ul class="ui-suggest"></ul>').appendTo('body').addClass(sets.theme);
+                var diy = sets.diyCallback()||'';
+                that.suggest = $('<div class="ui-suggest"><ul class="ui-suggest-list"></ul>'+ diy +'</div>').appendTo('body').addClass(sets.theme);
             }
+            that.suggestlist = that.suggest.children('.ui-suggest-list');
             that.request && that.request.abort();
             that.show();
-            sets.callback && sets.callback.call(this, that.target, that.suggest.animate({scrollTop:0}, 0));
+            if(sets.select !== true){
+                that.suggestlist.scrollTop(0);
+            }
+            sets.callback && sets.callback.call(this, that.target, that.suggestlist);
         },
         show:function(){
             var that = this, sets = that.setting;
@@ -129,15 +147,15 @@
                 });
             }
             else if(typeof sets.getData === 'function'){
-                that.filterData(sets.getData(that.keywords)||null);
+                that.filterData(sets.getData(that.keywords, that.target)||null);
             }
         },
         hide:function(){
             var that = this, sets = that.setting;
-            that.suggest.remove();
             that.isbind = true;
             that.unbindEvent();
-            sets.hideEvent.call(that, that.target, that.suggest.children('li'));
+            sets.hideEvent.call(that, that.target, that.suggestlist.children('li'));
+            that.suggest.remove();
         },
         filterData:function(res){
             var that = this, sets = that.setting, target = that.target, style;
@@ -155,17 +173,38 @@
                     that.liSize = num;
                     return arr.join('');
                 })(res);
-                var style = {
-                    top:target.offset().top+target.outerHeight()-1,
-                    left:target.offset().left,
-                    width:target.outerWidth()-2
+                var top = parseFloat(typeof sets.offsetTop === 'function' ? sets.offsetTop() : sets.offsetTop);
+                if(!top){
+                    top = 0;
                 }
-                var item = that.suggest.html(html).css(style).show();
-
+                var style = {
+                    top:target.offset().top+target.outerHeight() - 1 + top,
+                    left:target.offset().left,
+                    width:target.outerWidth()
+                }
+                that.suggest.css(style).show();
+                var item = that.suggestlist.html(html);
                 that.itemHeight = item.children('li').outerHeight()||0;
-                style = that.liSize > sets.limit ? {overflowY:'scroll', height:that.itemHeight*sets.limit} : {overflowY:'visible', height:'auto'};
-                item.css(style);
-                sets.select && item.children('li').eq(0).addClass('s-crt');
+                var _style = that.liSize > sets.limit ? {overflowY:'scroll', height:that.itemHeight*sets.limit} : {overflowY:'visible', height:'auto'};
+                item.css(_style);
+                if(sets.select === true){
+                    var val = $.trim(target.val());
+                    var i = 0;
+                    item.children('li').each(function(index, item){
+                        var me = $(this);
+                        var text = $.trim(me.text());
+                        if(val == text){
+                            i = index;
+                            return false;
+                        }
+                    });
+                    item.children('li').eq(i).addClass('s-crt');
+                    that.suggestlist.scrollTop(that.itemHeight*i);
+                }
+                var height = that.suggest.height();
+                if($(window).height() - style.top < height){
+                    that.suggest.css({top:style.top - height - target.outerHeight() + 1 - ext});
+                }
                 if(that.isbind){
                     that.bindMouse();
                     that.bindKeyboard();
@@ -178,11 +217,14 @@
         },
         bindMouse:function(){
             var that = this, sets = that.setting;
-            that.bindEvent(doc, 'click', function(){
+            that.bindEvent(doc, 'click', function(e){
                 that.ishide = true;
                 that.hide();
             });
-            that.suggest.on('click', 'li', function(){
+            that.suggest.on('mouseover', function(){
+                that.suggest.addClass('s-evt');
+            });
+            that.suggestlist.on('click', 'li', function(){
                 var me = $(this);
                 sets.getDom ? that.target.val(me.find(sets.getDom).text()) : that.target.val(me.text());
                 sets.eventEnd.call(this, me, that.target);
@@ -202,35 +244,35 @@
                         if(index > 0){
                             index-=1;
                             if((index+1) % sets.limit === 0){
-                                that.suggest.animate({scrollTop:(index-sets.limit)*that.itemHeight});
+                                that.suggestlist.animate({scrollTop:(index-sets.limit)*that.itemHeight});
                             }
                         }
                         else{
                             index=that.liSize-1;
-                            that.suggest.animate({scrollTop:that.itemHeight*index});
+                            that.suggestlist.animate({scrollTop:that.itemHeight*index});
                         }
                     }
                     else{
                         if(index >= that.liSize-1){
                             index=0;
-                            that.suggest.animate({scrollTop:0});
+                            that.suggestlist.animate({scrollTop:0});
                         }
                         else{
                             index+=1;
                             if(index % sets.limit === 0){
-                                that.suggest.animate({scrollTop:that.itemHeight*index});
+                                that.suggestlist.animate({scrollTop:that.itemHeight*index});
                             }
                         }
                     }
-                    current = that.suggest.children('li:eq('+ index +')');
+                    current = that.suggestlist.children('li:eq('+ index +')');
                     current.addClass('s-crt').siblings().removeClass('s-crt');
-                    sets.eventEnd.call(this, current, that.target);
+                    sets.eventEnd.call(this, current, that.target, true);
                     sets.getDom ? that.target.val(current.find(sets.getDom).text()) : that.target.val(current.text());
                 }
                 else if(e.keyCode == 13){
                     if(sets.select === true){
                         if($.trim(that.target.val())){
-                            that.suggest.children('li.s-crt').click();
+                            that.suggestlist.children('li.s-crt').click();
                             that.hide();
                         }
                     }
@@ -272,6 +314,9 @@
                         return false;
                         break;
                 }
+                if(e.ctrlKey && e.keyCode === 83){
+                    return false;
+                }
                 var keywords = $.trim($(this).val());
                 if(keywords){
                     sug.init(keywords);
@@ -288,6 +333,12 @@
                 }   
             }).on('click', function(){
                 return false;
+            }).on('blur', function(){
+                setTimeout(function(){
+                    if(sug.suggest && !sug.suggest.hasClass('s-evt')){
+                        sug.hide();
+                    }
+                }, 250);
             });
         });
     }
