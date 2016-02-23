@@ -272,9 +272,11 @@ $.fn.imitSelect = function(o){
             select.data('value', select.val());
             target.removeClass('s-show');
             if(func){
+                window[func].ele = parent;
                 eval(func+'("'+ me.data('value') +'")');
             }
             else if(init){
+                window[init].ele = parent;
                 eval(init+'("'+ me.data('value') +'")');
             }
             if(typeof o.callback == 'function'){

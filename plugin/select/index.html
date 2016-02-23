@@ -406,12 +406,12 @@
     function getProv(value){
         if(value !== undefined){
             if(value != '0'){
-                $('select[name="city"]').imitSelect({isInit:false, disabled:false, value:value});
+                getProv.ele.nextAll('select[name="city"]').imitSelect({isInit:false, disabled:false, value:value});
             }
             else{
-                $('select[name="city"]').imitSelect({isInit:false, disabled:true, isNull:true});
+                getProv.ele.nextAll('select[name="city"]').imitSelect({isInit:false, disabled:true, isNull:true});
             }
-            $('select[name="area"]').imitSelect({isInit:false, disabled:true, isNull:true});
+            getProv.ele.nextAll('select[name="area"]').imitSelect({isInit:false, disabled:true, isNull:true});
         }
         else{
             var option = '<option value="0">请选择</option>';
@@ -425,10 +425,10 @@
     function getCity(value){
         if(value !== undefined){
             if(value != '0'){
-                $('select[name="area"]').imitSelect({isInit:false, disabled:false, value:value});
+                getCity.ele.nextAll('select[name="area"]').imitSelect({isInit:false, disabled:false, value:value});
             }
             else{
-                $('select[name="area"]').imitSelect({isInit:false, disabled:true, isNull:true});
+                getCity.ele.nextAll('select[name="area"]').imitSelect({isInit:false, disabled:true, isNull:true});
             }
         }
         else{
@@ -452,7 +452,13 @@
         }
     }
     
-    $('.demo3').imitSelect();
+    $('.demo3').imitSelect({
+        callback:function(that, me){
+            if(me){
+                
+            }
+        }
+    });
     </script>
 </body>
 </html>
