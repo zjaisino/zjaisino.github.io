@@ -193,7 +193,7 @@
                 else{
                     that.condition = {current:that.current = 1};
                 }
-                that.getData();
+                that.getData(type||'');
             }
             else{
                 that.create();

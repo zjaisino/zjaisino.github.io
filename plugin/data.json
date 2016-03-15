@@ -29,11 +29,15 @@
 }, {
     "title":"分页", 
     "name":"paging",
-    "desc":"支持异步分页，传统的整页刷新翻页"
+    "desc":"支持异步分页，传统的整页刷新翻页，瀑布流"
 }, {
     "title":"搜索提示", 
     "name":"suggest",
     "desc":"异步、非异步加载数据，自定义下拉"
+}, {
+    "title":"打印", 
+    "name":"print",
+    "desc":"全屏、局部、分栏打印"
 }, {
     "title":"日期选择", 
     "name":"laydate",

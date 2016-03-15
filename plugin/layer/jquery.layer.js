@@ -395,12 +395,12 @@
                 }
                 else if(btnid === 'confirm'){
                     if(typeof options.confirm.callback === 'function' && options.confirm.callback(main, that.index, me) === true){
-                        that.hide();
+                        that.remove();
                     }
                 }
                 else if(btnid === 'cancel'){
                     if(typeof options.cancel.callback !== 'function' || (typeof options.cancel.callback === 'function' && options.cancel.callback(main, that.index, me) !== false)){
-                        that.hide();
+                        that.remove();
                     }
                 }
                 else{
@@ -408,7 +408,7 @@
                         options.button[btnid].callback(main, that.index, me);
                     }
                     else{
-                        that.hide();
+                        that.remove();
                     }
                 }
                 return false;
