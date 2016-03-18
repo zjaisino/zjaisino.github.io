@@ -18,6 +18,7 @@
 .m-article table { width:100%;}
 .m-article dt { margin-top:2em; font-size:1.167em; font-weight:bold; color:#444;}
 .m-article th { background:#f7f7f7;}
+.m-article tr:hover, .m-article tr.s-crt { background-color:#fafafa;}
 .m-article dt a { font-size:12px; font-weight:normal;}
 .m-plugin ul, .m-plugin li, .m-plugin p { margin:0;}
 .m-article th, .m-article td { padding:0.3em 1em; border:1px solid #e1e1e8; vertical-align:middle; empty-cells:show;}

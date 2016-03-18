@@ -1,8 +1,8 @@
 /**
  * @filename jquery.select.js
  * @author Aniu[2014-03-24 20:13]
- * @update Aniu[2015-12-18 13:56]
- * @version v2.6
+ * @update Aniu[2016-03-18 13:22]
+ * @version v2.7
  * @description none
  */
  
@@ -250,8 +250,7 @@ $.fn.imitSelect = function(o){
             
             return false;
         }).on('mouseleave', function(){
-            var index = $(this).next('select')[0].selectedIndex;
-            $(this).find('dd li:eq('+ index +')').addClass('s-crt').siblings().removeClass('s-crt');
+            $(this).find('dd li[data-value="'+ $(this).next('select').val() +'"]').addClass('s-crt').siblings().removeClass('s-crt');
         }).find('dt input').on('click', function(){
             return false;
         }).end().find('ul').on('click', 'li:not(.s-nodata)', function(){
@@ -268,8 +267,7 @@ $.fn.imitSelect = function(o){
             }
             var parent = me.closest('.ui-imitselect'), select = parent.next('select'), 
                 target = (o.isEdit !== true ? parent.find('dt strong').text(txt) : parent.find('dt input').val(txt)).end();
-            select[0].selectedIndex = me.index();
-            select.data('value', select.val());
+            select.data('value', select.val(me.data('value')).val());
             target.removeClass('s-show');
             if(func){
                 window[func].ele = parent;

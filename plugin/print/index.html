@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<meta name="format-detection" content="telephone=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="renderer" content="webkit" />
+	<meta name="keywords" content="" />
+	<meta name="description" content="" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<base href="" target="_self" />
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="" />
+</head>
+
+<body class="g-bddy">
+	<!-- header -->
+	<div class="g-headers">
+        <a href="javascript:void(0);" id="print">点击我打印</a>
+        <p>嘿嘿嘿嘿嘿</p>
+        <p>嘿嘿嘿嘿嘿</p>
+        <p>嘿嘿嘿嘿嘿</p>
+        <p>嘿嘿嘿嘿嘿</p>
+    </div>
+	<!-- /header -->
+
+	<!-- content -->
+	<div class="g-content">
+        <p>哈哈哈哈</p>
+        <p>哈哈哈哈</p>
+        <p>哈哈哈哈</p>
+        <p>哈哈哈哈</p>
+    </div>
+	<!-- /content -->
+
+	<!-- footer -->
+	<div class="g-footer">
+        <p>嘎嘎嘎嘎嘎嘎</p>
+        <p>嘎嘎嘎嘎嘎嘎</p>
+        <p>嘎嘎嘎嘎嘎嘎</p>
+        <p>嘎嘎嘎嘎嘎嘎</p>
+        <p>嘎嘎嘎嘎嘎嘎</p>
+    </div>
+	<!-- /footer -->
+	<script type="text/javascript" src="../../script/jquery.js"></script>
+	<script type="text/javascript" src="jquery.print.js"></script>
+    <script type="text/javascript">
+    
+    
+    $('#print').print({
+        element:'.g-content'/*,
+        callback:function(element, css){
+            element.find('p').each(function(i, item){
+                if((i+1) % 2 == 0){
+                    $(item).css(css);
+                }
+            });
+        }*/
+    });
+    </script>
+</body>
+</html>

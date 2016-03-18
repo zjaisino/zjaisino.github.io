@@ -1,8 +1,8 @@
 /**
  * @fileName jquery.paging.js
  * @author Aniu[date:2014-03-29 10:07]
- * @update liumm[date:2015-12-24 19:35]
- * @version v2.6
+ * @update Aniu[date:2016-03-15 15:13]
+ * @version v2.7
  * @description 分页组件
  */
 
@@ -10,6 +10,7 @@
 
     function Paging(options){
         var that = this;
+        that.load = false;
         //获取实例对象的名称
         that.instance = function(){
             for(var attr in window){
@@ -51,11 +52,6 @@
              */
             aCount:0,
             /**
-             * @function 筛选条件可以为空
-             * @type <Boolean>
-             */
-            isNull:false,
-            /**
              * @function 是否初始化展示最后一页
              * @type <Boolean>
              */
@@ -73,7 +69,7 @@
             isFull:true,
             /**
              * @function ajax配置信息
-             * @type <JSON Obejct>
+             * @type <JSON Obejct, Function>
              */
             ajax:{},
             /**
@@ -134,6 +130,12 @@
              */
             endCallback:$.noop,
             /**
+             * @function 点击分页按钮回调函数
+             * @type <Function>
+             * @param current <Number> 目标页码
+             */
+            jumpCallback:$.noop,
+            /**
              * @function 分页数据处理
              * @type <Function>
              * @param data <JSON Object> 响应数据
@@ -147,6 +149,7 @@
         //页面跳转
         jump:function(page){
             var that = this, count = Math.ceil(that.aCount/that.pCount), current;
+            that.showload = true;
             if(that.aCount > 0){
                 if(typeof(page) === 'object'){
                     var val = $(page).prevAll('input').val();
@@ -171,6 +174,7 @@
                 current = page;
             }
             that.current = that.condition.current = current;
+            that.jumpCallback(current);
             if(typeof that.refreshCallback === 'function'){
                 that.refreshCallback(current);
                 that.create();
@@ -178,16 +182,18 @@
             }
             that.getData();
         },
-        query:function(condition){
+        query:function(type){
             var that = this;
-            if(typeof that.refreshCallback !== 'function' || condition !== 'refresh'){
-                if(condition){
-                    if(condition !== 'reload'){
+            that.showload = true;
+            if(typeof that.refreshCallback !== 'function' || type !== 'refresh'){
+                if(type){
+                    if(type === 'noloading'){
+                        that.showload = false;
+                    }
+                    else if(type !== 'reload'){
                         that.current = 1;
                     }
-                    if(!that.isNull){
-                    	that.filter();
-                    }
+                    that.filter();
                     that.condition.current = that.current;
                 }
                 else{
@@ -209,9 +215,9 @@
             }
         },
         //ajax请求数据
-        getData:function(){
+        getData:function(type){
             var that = this;
-            that.loading.show();
+            that.showload && that.loading.show(type);
             that.condition.pCount = that.pCount;
             if(that.allData === true){
                 delete that.condition.pCount;
@@ -227,30 +233,41 @@
                 param = {};
                 param[that.paramJSON] = temp;
             }
-            delete that.ajax.data;
-            delete that.ajax.success;
-            $.ajax($.extend(true, {
-                url:that.url,
-                cache:false,
-                dataType:'json',
-                data:param,
-                success:function(data){
-                    that.loading.hide();
-                    data.current = that.current;
-                    that.echoData(data);
-                    that.aCount = data.aCount;
-                    if(that.last === true){
-                        that.last = false;
-                        that.jump(-1);
-                        return;
+            
+            var ajax = typeof that.ajax === 'function' ? that.ajax() : that.ajax;
+            delete ajax.success;
+
+            if(!that.load){
+            	that.load = true;
+            	$.ajax($.extend(true, {
+                    url:that.url,
+                    cache:false,
+                    dataType:'json',
+                    data:param,
+                    success:function(data){
+                        that.showload && that.loading.hide();
+                        try{
+                            data.current = that.current;
+                        }
+                        catch(e){}
+                        that.echoData(data, type);
+                        that.aCount = data.aCount;
+                        that.load = false;
+                        
+                        if(that.last === true){
+                            that.last = false;
+                            that.jump(-1);
+                            return;
+                        }
+                        that.create();
+                        that.endCallback(data);
+                    },
+                    error:function(){
+                        that.showload && that.loading.hide();
+                        that.load = false;
                     }
-                    that.create();
-                    that.endCallback(data);
-                },
-                error:function(){
-                    that.loading.hide();
-                }
-            }, that.ajax||{}));
+                }, ajax||{}));
+            }
         },
         //过滤分页中input值
         trim:function(o){
@@ -281,7 +298,8 @@
                      '<span>'+ extPage.next +'</span>' : '<a href="javascript:'+ instance +'.jump('+ (current+1) +');" target="_self">'+ extPage.next +'</a>';
                 page += current == 1 ?
                      '<span>'+ extPage.prev +'</span>' : '<a href="javascript:'+ instance +'.jump('+ (current-1) +');" target="_self">'+ extPage.prev +'</a>';
-                page += '</div><em>'+'<b class="current">'+ (count !== 0 ? current : 0)+'</b>' +'/'+ count +'</em><strong>共<b class="total">'+ that.aCount +'</b>'+ extPage.desc +'</strong>';                extPage.wrap.html(page);
+                page += '</div><em>'+ (count !== 0 ? current : 0) +'/'+ count +'</em><strong>共'+ that.aCount + extPage.desc +'</strong>';
+                extPage.wrap.html(page);
             }
             
             if(!that.wrap){

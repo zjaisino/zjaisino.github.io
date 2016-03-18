@@ -230,10 +230,10 @@
                                     </tr>
                                     <tr>
                                         <td>ajax</td>
-                                        <td>Object</td>
+                                        <td>Object, Function</td>
                                         <td>{}</td>
                                         <td>{key:value,...}</td>
-                                        <td>ajax配置信息</td>
+                                        <td>ajax配置信息，若为为函数，则需要返回对象</td>
                                     </tr>
                                     <tr>
                                         <td>condition</td>
@@ -372,7 +372,7 @@
                                 <tbody> 
                                     <tr>
                                         <td rowspan="4">query</td>
-                                        <td rowspan="4">condition</td>
+                                        <td rowspan="4">type</td>
                                         <td>true</td>
                                         <td>Boolean</td>
                                         <td>重新加载数据，保留查询条件</td>
@@ -423,7 +423,7 @@
             <p>
                 <a href="http://wpa.qq.com/msgrd?v=3&uin=897102078&site=qq&menu=yes" target="_blank">技术支持</a>
             </p>
-            <p>Copyright © 2013-2015 Aisino. All Rights Reserved.</p>
+            <p>Copyright © 2013-2016 Aisino. All Rights Reserved.</p>
         </div>
     </div>
     <!-- footer end -->
@@ -466,6 +466,15 @@
         button:{
             first:'首页',
             last:'尾页'
+        },
+        ajax:function(){
+            var that = this;
+            return ({
+                data:{
+                    pp:that.current,
+                    aa:that.pCount
+                }
+            })
         },
         echoData:function(data){
             if(data.result == 'success'){

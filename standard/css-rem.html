@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="renderer" content="webkit" />
+    <meta name="keywords" content="浙江爱信诺前端规范,爱信诺规范,爱信诺前端,爱信诺组件" />
+    <meta name="description" content="本站包括了规范、框架、代码库等内容，致力于为前端开发人员提供高效率高质量的前端页面开发解决方案，提高多人协作效率，也为非专业人员提供快速制作网页的解决方案。" />
+    <meta name="copyright" content="浙江爱信诺航天信息有限公司" />
+    <title>rem参考表-CSS规范-浙江爱信诺前端规范</title>
+    <link rel="shortcut icon" type="image/x-icon" href="../images/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="../style/base.css" />
+    <link rel="stylesheet" type="text/css" href="../style/common.css" />
+    <link rel="stylesheet" type="text/css" href="../style/page.css" />
+	<link type="text/css" rel="stylesheet" href="../style/syntax/shCore.css"/>
+	<link type="text/css" rel="stylesheet" href="../style/syntax/shThemeDefault.css"/>
+</head>
+
+<body class="g-body">
+    <!-- header begin -->
+    <div class="g-header">
+		<div class="m-htop g-wrap">
+			<i></i><i></i><i></i><i></i><i></i><i></i>
+			<h1 class="u-logo"><a href="../index.html">浙江爱信诺前端规范</a></h1>
+		</div>
+		<div class="m-nav">
+			<ul class="g-wrap">
+				<li class="s-crt"><a href="../index.html">规范<i class="ui-icon ui-icon-tip"></i></a></li>
+				<li><a href="../framework.html">框架<i class="ui-icon ui-icon-tip"></i></a></li>
+				<li><a href="../plugin.html">组件<i class="ui-icon ui-icon-tip"></i></a></li>
+			</ul>
+		</div>
+	</div>
+    <!-- header end -->
+	
+	<!-- content begin -->
+	<div class="g-content f-clearfix">
+		<div class="g-side">
+			<div class="m-menu" id="menu"> 
+				<ul> 
+					<li><a href="css-sort.html" title="分类方法">分类方法</a></li>
+					<li><a href="css-name.html" title="命名规则">命名规则</a></li>
+					<li><a href="css-format.html" title="代码格式">代码格式</a></li>
+					<li><a href="css-optimize.html" title="优化方案">优化方案</a></li> 
+					<li><a href="css-practice.html" title="最佳实践">最佳实践</a></li> 
+					<li><a href="css-error.html" title="典型错误">典型错误</a></li> 
+					<li><a href="css-bug.html" title="常见IEbug">常见IEbug</a></li> 
+                    <li class="l-last s-crt"><a href="css-rem.html">rem参考表</a></li> 
+				</ul> 
+			</div>
+		</div>
+		<div class="g-main">
+			<div class="g-con">
+				<div class="m-article ui-animate ui-animate-fadeShow"> 
+                    <h2 class="u-ttb2">CSS规范 - rem参考表</h2> 
+                    <div class="u-line"><span class="linea"></span><span class="lineb"></span></div> 
+                    <dl> 
+                        <dt>简介</dt> 
+                        <dd>rem和em单位一样，都是一个相对单位。不同的是em是相对于元素的父元素的font-size进行计算，rem是相对于根元素html的font-size进行计算。这样一来rem就绕开了复杂的层级关系，实现了类似于em单位的功能。IE9+、Firefox、Chrome、Safari、Opera 的主流版本都支持。</dd>
+                        <dd>该单位在移动端运用较为广泛，尤其实在做弹性布局时，只要通过媒体查询或者javascript（屏幕尺寸/320*100）控制html字体百分比，一套代码就可以适配多种终端。</dd>
+                        <dd>如果将html的font-size设置为100%，那么1rem就相当于16px，由此可以计算出各个像素对应的rem值（比如一个元素上边距是20px，那么rem值=20/16）。</dd>
+                        <dt>参考表</dt>
+                        <dd> 
+                            <table> 
+                                <thead> 
+                                    <tr>
+										<th width="30%">html字体百分比</th>
+										<th width="30%">rem值</th>
+										<th>对应像素值</th>
+									</tr> 
+                                </thead> 
+                                <tbody> 
+                                    <tr>
+										<td>37.5%</td>
+										<td>0.375rem</td>
+										<td>6px</td>
+									</tr>
+                                    <tr>
+										<td>43.8%</td>
+										<td>0.438rem</td>
+										<td>7px</td>
+									</tr>
+                                    <tr>
+										<td>50%</td>
+										<td>0.5rem</td>
+										<td>8px</td>
+									</tr>
+                                    <tr>
+										<td>56.3%</td>
+										<td>0.563rem</td>
+										<td>9px</td>
+									</tr>
+                                    <tr>
+										<td>62.5%</td>
+										<td>0.625rem</td>
+										<td>10px</td>
+									</tr>
+                                    <tr>
+										<td>68.8%</td>
+										<td>0.688rem</td>
+										<td>11px</td>
+									</tr>
+                                    <tr>
+										<td>75%</td>
+										<td>0.75rem</td>
+										<td>12px</td>
+									</tr>
+                                    <tr>
+										<td>81.3%</td>
+										<td>0.813rem</td>
+										<td>13px</td>
+									</tr>
+                                    <tr>
+										<td>87.5%</td>
+										<td>0.875rem</td>
+										<td>14px</td>
+									</tr>
+                                    <tr>
+										<td>93.8%</td>
+										<td>0.938rem</td>
+										<td>15px</td>
+									</tr>
+                                    <tr class="s-crt">
+										<td>100%</td>
+										<td>1rem</td>
+										<td>16px</td>
+									</tr>
+                                    <tr>
+										<td>106.3%</td>
+										<td>1.063rem</td>
+										<td>17px</td>
+									</tr>
+                                    <tr>
+										<td>112.5%</td>
+										<td>1.125rem</td>
+										<td>18px</td>
+									</tr>
+                                    <tr>
+										<td>118.8%</td>
+										<td>1.188rem</td>
+										<td>19px</td>
+									</tr>
+                                    <tr>
+										<td>125%</td>
+										<td>1.25rem</td>
+										<td>20px</td>
+									</tr>
+                                    <tr>
+										<td>131.3%</td>
+										<td>1.313rem</td>
+										<td>21px</td>
+									</tr>
+                                    <tr>
+										<td>137.5%</td>
+										<td>1.375rem</td>
+										<td>22px</td>
+									</tr>
+                                    <tr>
+										<td>143.8%</td>
+										<td>1.438rem</td>
+										<td>23px</td>
+									</tr>
+                                    <tr>
+										<td>150%</td>
+										<td>1.5rem</td>
+										<td>24px</td>
+									</tr>
+                                </tbody> 
+                            </table> 
+                        </dd> 
+                    </dl> 
+                </div> 
+			</div>
+		</div>
+	</div>
+	<!-- content end -->
+	
+	<!-- footer begin -->
+	<div class="g-footer">
+		<div class="g-wrap">
+			<p>
+				<a href="http://wpa.qq.com/msgrd?v=3&uin=897102078&site=qq&menu=yes" target="_blank">技术支持</a>
+			</p>
+			<p>Copyright © 2013-2016 Aisino. All Rights Reserved.</p>
+		</div>
+	</div>
+	<!-- footer end -->
+	
+	<script type="text/javascript" src="../script/jquery.js"></script>
+	<script type="text/javascript" src="../script/syntax/shCore.js"></script>
+	<script type="text/javascript" src="../script/syntax/shBrushCss.js"></script>
+	<script type="text/javascript" src="../script/syntax/shBrushXml.js"></script>
+	<script type="text/javascript" src="../script/page.js"></script>
+</body>
+</html>
