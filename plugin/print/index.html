@@ -9,9 +9,8 @@
 	<meta name="keywords" content="" />
 	<meta name="description" content="" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-	<base href="" target="_self" />
 	<title></title>
-	<link rel="stylesheet" type="text/css" href="" />
+	<link rel="stylesheet" type="text/css" href="../../style/base.css" />
 </head>
 
 <body class="g-bddy">
@@ -46,18 +45,19 @@
 	<script type="text/javascript" src="../../script/jquery.js"></script>
 	<script type="text/javascript" src="jquery.print.js"></script>
     <script type="text/javascript">
-    
-    
     $('#print').print({
-        element:'.g-content'/*,
-        callback:function(element, css){
-            element.find('p').each(function(i, item){
+        element:'.g-content',
+        callback:function(ele, page){
+            ele.children().each(function(i, item){
                 if((i+1) % 2 == 0){
-                    $(item).css(css);
+                    $(item).css(page);
                 }
             });
-        }*/
+        }
     });
+    /*$('#print').click(function(){
+        $('.g-content').jqprint();
+    });*/
     </script>
 </body>
 </html>
