@@ -495,7 +495,7 @@
         dataType:'json',
         cache:false,
         success:function(res){
-            /*var page = parseInt(tools.getParam('page')||1);
+            var page = parseInt(tools.getParam('page')||1);
             var crt = (page-1)*4;
             var data = res.slice(crt, crt+4);
             var arr = [];
@@ -513,23 +513,7 @@
                     tools.jumpUrl(tools.setParam('page', current));
                 }
             });
-            pages.query('refresh');*/
-            window['pages'] = new Paging({
-                pCount:4,
-                aCount:res.length,
-                wrap:$('#paging2'),
-                isFull:false,
-                refreshCallback:function(page){
-                    var crt = (page-1)*4;
-                    var data = res.slice(crt, crt+4);
-                    var arr = [];
-                    $.each(data, function(k, v){
-                        arr.push('<li>'+ v.title +'</li>');
-                    });
-                    $('#data2').html(arr.join(''));
-                }
-            });
-            pages.jump(1);
+            pages.query('refresh');
         }
     });
     </script>
