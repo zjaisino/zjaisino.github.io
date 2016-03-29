@@ -1,9 +1,9 @@
 /**
- * FileName: jquery.upload.js
- * Author: Aniu[date:2014-12-17 12:14]
- * Update: Aniu[date:2015-04-28 14:34]
- * Version: v1.3 beta
- * Description: 文件上传，后台响应的content-type值必须为text/html
+ * @filename jquery.upload.js
+ * @author Aniu[2014-12-17 12:14]
+ * @update Aniu[2015-04-28 14:34]
+ * @version v1.3
+ * @description 文件上传，后台响应的content-type值必须为text/html
  */
 
 ;!(function(window, document, $, undefined){

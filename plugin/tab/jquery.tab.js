@@ -1,13 +1,14 @@
 ﻿/**
- * @filename jquery.tab.js
- * @author Aniu[2015-06-07 11:06]
- * @update Aniu[2016-01-15 11:06]
- * @version v1.4
+ * @fileName jquery.tab.js
+ * @author Aniu[date:2014-04-21 09:46]
+ * @update Aniu[date:2016-03-24 16:28]
+ * @version v1.5
+ * @description 选项卡
  */
 
 ;!(function(window, document, $, undefined){
     $.fn.tab = function(o){
-        o = $.extend(true, {
+        o = $.extend({
             /**
              * @function 触发事件 click/mouseover
              * @type <String>
@@ -18,14 +19,6 @@
              * @type <Boolean>
              */
             auto:false,
-            /**
-             * @func 选项卡是否可滚动
-             * @type <Boolean>
-             */
-            scroll:{
-                enable:false,
-                horz:true
-            },
             /**
              * @function 自动切换延迟时间
              * @type <Number>
@@ -70,81 +63,14 @@
         
         return this.each(function(){
             var _this = this, me = $(_this);
-            me.append('<div class="ui-tabody"></div>');
+            if(!me.children('.ui-tabody').length){
+                me.append('<div class="ui-tabody"></div>');
+            }
             var index = 0, timer1 = timer2 = null,
                 that = me.children('.ui-tab').show(),
-                items = that.children('li'),
-                size = items.size(),
+                size = that.children('li').size(),
                 body = me.children('.ui-tabody');
-            
-            if(o.scroll.enable === true){
-                var stes = {
-                    outer:'outerWidth',
-                    size:'width',
-                    m1:'marginLeft',
-                    m2:'marginRight',
-                    dir:'left'
-                }
-                if(o.scroll.horz !== true){
-                    stes = {
-                        outer:'outerHeight',
-                        size:'height',
-                        m1:'marginTop',
-                        m2:'marginBottom',
-                        dir:'top'
-                    }
-                }
-                o.scroll = $.extend(o.scroll, stes);
-                o.auto = false;
-                var tabbox = that.wrap('<div class="ui-tabbox"><div class="ui-tabwrap"></div></div>').closest('.ui-tabbox');
-                var tabbtn = $('<span class="ui-tabbtn ui-tabbtn-prev" /><span class="ui-tabbtn ui-tabbtn-next" />').appendTo(tabbox);
-                that[o.scroll.size](getRize(items) * size);
-                tabbtn.click(function(){
-                    var me = $(this), dir = that.position()[o.scroll.dir];
-                    var move = Math.abs(dir);
-                    var size = 0, temp = 0;
-                    var opts = {};
-                    if(me.hasClass('ui-tabbtn-prev')){
-                        if(move > 0){
-                            that.children().each(function(){
-                                var me = $(this), mesize = getRize(me);
-                                size += mesize;
-                                if((temp = move - size) <= 0){
-                                    if(temp < 0){
-                                        temp = move - (size - mesize);
-                                    }
-                                    else{
-                                        temp = mesize;
-                                    }
-                                    return false;
-                                }
-                            });
-                            
-                            opts[o.scroll.dir] = dir + temp;
-                            !that.is(':animated') && that.animate(opts);
-                        }
-                    }
-                    else{
-                        that.children().each(function(){
-                            var me = $(this);
-                            size += getRize(me);
-                            if((temp = size - (move + tabbox[o.scroll.size]())) > 0){
-                                return false;
-                            }
-                        });
-                        if(temp){
-                           opts[o.scroll.dir] = dir - temp;
-                           !that.is(':animated') && that.animate(opts);
-                        }
-                    }
-                });
                 
-                $(window).resize(function(){
-                    resize(that);
-                }).resize();
-                
-            }
-            
             _this.addItem = function(data){
                 if($.isArray(data)){
                     var i = 0, len = data.length, temp, btn;
@@ -167,8 +93,8 @@
                     body.children().eq(index).nextAll().remove();
                 }
             }
-            
-            that.children('li').children('a').siblings().appendTo(body).hide();
+
+            that.children('li').children('a').siblings().appendTo(body).not(':eq(0)').hide();
             
             that.on(o.event, 'li', function(){
                 var i = $(this).index();
@@ -221,39 +147,5 @@
                 });
             }
         });
-        
-        function getRize(items){
-            return items[o.scroll.outer]() + parseFloat(items.css(o.scroll.m1)) + parseFloat(items.css(o.scroll.m2));
-        }
-        
-        function resize(tablist){
-            if(o.scroll.enable !== true){
-                return;
-            }
-            var list = tablist.children(), size = 0, move = 0;
-            var tabbox = tablist.closest('.ui-tabbox');
-            list.each(function(){
-                var me = $(this);
-                size += getRize(me);
-                if(me.hasClass('s-crt')){
-                    move = size;
-                }
-            });
-            tablist[o.scroll.size](size);
-            if(size > tabbox.children('.ui-tabwrap')[o.scroll.size]()){
-                tabbox.children('.ui-tabbtn').show();
-            }
-            else{
-                tabbox.children('.ui-tabbtn').hide();
-            }
-            var temp = 0;
-            if(move > tabbox[o.scroll.size]()){
-                temp = tabbox[o.scroll.size]() - move;
-            }
-            var opts = {};
-            opts[o.scroll.dir] = temp;
-            !tablist.is(':animated') && tablist.animate(opts);
-        } 
-        
     }
 })(this, document, jQuery);

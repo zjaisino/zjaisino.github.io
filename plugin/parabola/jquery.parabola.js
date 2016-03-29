@@ -1,9 +1,9 @@
 /**
- * Copyright(C), 2013-2014 ZheJiang Aisino Spaceflight Technology Co., Ltd.
- * FileName: jquery.parabola.js
- * Author: Aniu[date:2014-07-16 11:22]
- * Update: Aniu[date:2014-07-16 13:07]
- * Version: v1.1 beta
+ * @filename jquery.parabola.js
+ * @author Aniu[2014-07-16 11:22]
+ * @update Aniu[2014-07-16 13:07]
+ * @version v1.1
+ * @description none
  */
  
 ;!(function(window, document, $, undefined){

@@ -3,7 +3,7 @@
  * @author Aniu[2014-03-24 20:13]
  * @update Aniu[2016-03-18 13:22]
  * @version v2.7
- * @description none
+ * @description 下拉框组件
  */
  
 ;!(function(window, document, $, undefined){

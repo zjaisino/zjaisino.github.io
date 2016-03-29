@@ -1,10 +1,11 @@
 /**
- * FileName: jquery.flotage.js
- * Author: Aniu[date:2014-12-08 08:46]
- * Update: Aniu[date:2014-12-08 08:46]
- * Version: v1.1 beta
- * Description: 漂浮物组件
+ * @filename jquery.flotage.js
+ * @author Aniu[2014-12-08 08:46]
+ * @update Aniu[2014-12-08 08:46]
+ * @version v1.1
+ * @description 漂浮物组件
  */
+ 
 ;!(function(window, document, $, undefined){ 
     $.fn.flotage = function(o){
         o = $.extend({

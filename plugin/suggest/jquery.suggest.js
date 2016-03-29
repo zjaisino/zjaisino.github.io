@@ -203,7 +203,7 @@
                 }
                 var height = that.suggest.height();
                 if($(window).height() - style.top < height){
-                    that.suggest.css({top:style.top - height - target.outerHeight() + 1 - ext});
+                    that.suggest.css({top:style.top - height - target.outerHeight() + 1 - top});
                 }
                 if(that.isbind){
                     that.bindMouse();

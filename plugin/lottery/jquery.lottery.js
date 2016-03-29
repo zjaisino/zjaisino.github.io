@@ -1,9 +1,9 @@
 /**
- * FileName: jquery.lottery.js
- * Author: Aniu[date:2014-12-02 15:27]
- * Update: Aniu[date:2014-08-26 14:10]
- * Version: v2.2 beta
- * Description: 抽奖
+ * @filename jquery.lottery.js
+ * @author Aniu[2014-12-02 15:27]
+ * @update Aniu[2014-08-26 14:10]
+ * @version v2.2
+ * @description 抽奖
  */
 
 ;!(function(window, document, $, undefined){ 

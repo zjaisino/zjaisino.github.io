@@ -3,6 +3,7 @@
  * @author Aniu[2014-07-11 14:01]
  * @update Aniu[2016-01-26 15:06]
  * @version v3.1.2
+ * @description 弹出层组件
  */
 
 ;!(function(window, document, $, undefined){
@@ -206,7 +207,7 @@
     }
     
     Layer.prototype = {
-        width:380,
+        width:410,
         height:220,
         title:'温馨提示',
         init:function(){

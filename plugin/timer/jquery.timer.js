@@ -1,9 +1,9 @@
 /**
- * FileName: jqyery.timer.js
- * Author: Aniu[date:2015-01-04 09:48]
- * Update: Aniu[date:2015-07-24 19:29]
- * Version: v1.3
- * Description: data-starttime  倒计时开始时间，默认为当前系统时间
+ * @filename jquery.timer.js
+ * @author Aniu[2015-01-04 09:48]
+ * @update Aniu[2015-07-24 19:29]
+ * @version v1.3
+ * @description data-starttime  倒计时开始时间，默认为当前系统时间
  *              data-readytime  活动开始前准备时间，例如活动开始前几分钟需要改变一些状态，默认空
  *              data-begintime  活动开始时间，必须值
  *              data-endtime    活动结束时间，必须值

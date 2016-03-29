@@ -1,7 +1,7 @@
 /**
- * @fileName jquery.paging.js
- * @author Aniu[date:2014-03-29 10:07]
- * @update Aniu[date:2016-03-15 15:13]
+ * @filename jquery.paging.js
+ * @author Aniu[2014-03-29 10:07]
+ * @update Aniu[2016-03-15 15:13]
  * @version v2.7
  * @description 分页组件
  */
