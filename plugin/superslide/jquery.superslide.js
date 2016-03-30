@@ -271,6 +271,7 @@
         },
         slideMove:function(isPrev){
             var that = this, options = that.options, index = that.index, item = that.items.eq(index), crt;
+            var dot = that.list.children('span:eq('+ index +')');
             if(!that.thumbClick && options.thumb.enable === true){
                 var thumb = that.thumb, thumbLeft = Math.abs(thumb.scroll.position()[thumb.setting.dir]),
                     thumbNum = (thumbLeft+(thumb.cOutline))/thumb.outline;

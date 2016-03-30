@@ -1,5 +1,5 @@
 ﻿/**
- * @fileName jquery.tab.js
+ * @filename jquery.tab.js
  * @author Aniu[date:2014-04-21 09:46]
  * @update Aniu[date:2016-03-24 16:28]
  * @version v1.5
