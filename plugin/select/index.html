@@ -116,24 +116,13 @@
                             </pre>
                             <h3 class="f-fwb">多级联动</h3>
                             <div class="m-demo f-clearfix">
-                                <select class="demo3" name="prov" data-css="width:100px" data-init="getProv" data-value="1">
+                                <select class="demo3" name="prov" data-css="width:100px" data-func="getProv" data-value="1">
                                     <option value="0">请选择</option>
                                 </select>
-                                <select class="demo3" name="city" data-css="width:100px" data-func="getCity" disabled="disabled">
+                                <select class="demo3" name="city" data-css="width:100px" data-func="getCity" disabled="disabled" data-value="1">
                                     <option value="0">请选择</option>
                                 </select>
-                                <select class="demo3" name="area" data-css="width:100px" data-func="getArea" disabled="disabled">
-                                    <option value="0">请选择</option>
-                                </select>
-                            </div>
-                            <div class="m-demo f-clearfix">
-                                <select class="demo3" name="prov" data-css="width:100px" data-init="getProv" data-value="1">
-                                    <option value="0">请选择</option>
-                                </select>
-                                <select class="demo3" name="city" data-css="width:100px" data-func="getCity" disabled="disabled">
-                                    <option value="0">请选择</option>
-                                </select>
-                                <select class="demo3" name="area" data-css="width:100px" data-func="getArea" disabled="disabled">
+                                <select class="demo3" name="area" data-css="width:100px" data-func="getArea" disabled="disabled" data-value="2">
                                     <option value="0">请选择</option>
                                 </select>
                             </div>
@@ -417,12 +406,12 @@
     function getProv(value){
         if(value !== undefined){
             if(value != '0'){
-                getProv.ele.nextAll('select[name="city"]').imitSelect({isInit:false, disabled:false, value:value});
+                $('select[name="city"]').imitSelect({isInit:false, disabled:false, value:value});
             }
             else{
-                getProv.ele.nextAll('select[name="city"]').imitSelect({isInit:false, disabled:true, isNull:true});
+                $('select[name="city"]').imitSelect({isInit:false, disabled:true, isNull:true});
             }
-            getProv.ele.nextAll('select[name="area"]').imitSelect({isInit:false, disabled:true, isNull:true});
+            $('select[name="area"]').imitSelect({isInit:false, disabled:true, isNull:true});
         }
         else{
             var option = '<option value="0">请选择</option>';
@@ -436,15 +425,15 @@
     function getCity(value){
         if(value !== undefined){
             if(value != '0'){
-                getCity.ele.nextAll('select[name="area"]').imitSelect({isInit:false, disabled:false, value:value});
+                $('select[name="area"]').imitSelect({isInit:false, disabled:false, value:value});
             }
             else{
-                getCity.ele.nextAll('select[name="area"]').imitSelect({isInit:false, disabled:true, isNull:true});
+                $('select[name="area"]').imitSelect({isInit:false, disabled:true, isNull:true});
             }
         }
         else{
             var option = '<option value="0">请选择</option>';
-            var data = GT[getProv.ele.next('select[name="prov"]').val()-1];
+            var data = GT[$('select[name="prov"]').val()-1];
             for(var k in data){
                 option += '<option value="'+ (parseInt(k)+1) +'">'+ data[k] +'</option>';
             }
@@ -455,7 +444,7 @@
     function getArea(value){
         if(value === undefined){
             var option = '<option value="0">请选择</option>';
-            var data = GC[getCity.ele.prev('select[name="prov"]').val()-1][getCity.ele.next('select[name="city"]').val()-1];
+            var data = GC[$('select[name="prov"]').val()-1][$('select[name="city"]').val()-1];
             for(var k in data){
                 option += '<option value="'+ (parseInt(k)+1) +'">'+ data[k] +'</option>';
             }

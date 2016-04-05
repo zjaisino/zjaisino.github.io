@@ -694,6 +694,24 @@
             }
         });
     });
+    
+    $('#resize').click(function(){
+        $.layer({
+            content:'<p style="padding:10px;">阿牛真帅！</p><p style="padding:10px;">阿牛真帅！</p><p style="padding:10px;">阿牛真帅！</p><p style="padding:10px;">阿牛真帅！</p>',
+            width:400,
+            title:{
+                text:'标题'
+            },
+            confirm:{
+                enable:true,
+                text:'添加内容',
+                callback:function(main, index){
+                    main.append('<p style="padding:10px;">阿牛真帅！</p><p style="padding:10px;">阿牛真帅！</p><p style="padding:10px;">阿牛真帅！</p>');
+                    layerResize(index);
+                }
+            }
+        });
+    });
     </script>
 </body>
 </html>

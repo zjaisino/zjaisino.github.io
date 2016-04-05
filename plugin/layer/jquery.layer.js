@@ -1,8 +1,8 @@
 /**
  * @filename jquery.layer.js
  * @author Aniu[2014-07-11 14:01]
- * @update Aniu[2016-01-26 15:06]
- * @version v3.1.2
+ * @update Aniu[2016-04-04 19:21]
+ * @version v3.1.3
  * @description 弹出层组件
  */
 
@@ -468,6 +468,7 @@
                 contentHeight += headHeight + footHeight + pt + pb + bbd + bl + bb;
                 if(contentHeight > wheight){
                     that.size.height = wheight;
+                    !isiframe && body.css({'overflow':'auto'});
                 }
                 else{
                     that.size.height = contentHeight;
@@ -503,7 +504,11 @@
                 layer.css('position', 'fixed');
             }
             that.size.width = layer.outerWidth();
-            that.size.height = layer.outerHeight() > win.height() ? layer.height(win.height()-options.padding).outerHeight() : layer.outerHeight();
+            that.size.height = layer.outerHeight();
+            if(layer.outerHeight() > win.height()){
+                that.size.height = layer.height(win.height()-options.padding).outerHeight();
+                body.css({overflow:'auto'});
+            }
             options.offset.top = (options.offset.top || ((win.height() - that.size.height) / 2)) + winStop;
             options.offset.left = options.offset.left || ((win.width() - that.size.width) / 2);
             if(!!that.index && options.offset.isBasedPrev === true){
