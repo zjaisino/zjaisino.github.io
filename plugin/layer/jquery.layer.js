@@ -147,7 +147,7 @@
     }, win = $(window), doc = $(document);
     Layer.index = 0;
     Layer.zIndex = 10000;
-    Layer.bsie6 = !-[1,] && !window.XMLHttpRequest;
+    Layer.bsie6 = !!window.ActiveXObject && !window.XMLHttpRequest;
     Layer.listArray = [];
     Layer.mask = null;
     Layer.getBorderSize = function(object, isHorz){
@@ -468,10 +468,11 @@
                 contentHeight += headHeight + footHeight + pt + pb + bbd + bl + bb;
                 if(contentHeight > wheight){
                     that.size.height = wheight;
-                    !isiframe && body.css({'overflow':'auto'});
+                    !isiframe && body.css({'overflow-y':'auto', 'overflow-x':'auto'});
                 }
                 else{
                     that.size.height = contentHeight;
+                    !isiframe && body.css({'overflow':'visible'});
                 }
                 if(options.isMaxSize === true){
                     that.size.width = wwidth - blt;
@@ -507,7 +508,10 @@
             that.size.height = layer.outerHeight();
             if(layer.outerHeight() > win.height()){
                 that.size.height = layer.height(win.height()-options.padding).outerHeight();
-                body.css({overflow:'auto'});
+                body.css({'overflow-y':'auto', 'overflow-x':'auto'});
+            }
+            else{
+                body.css({'overflow':'visible'});
             }
             options.offset.top = (options.offset.top || ((win.height() - that.size.height) / 2)) + winStop;
             options.offset.left = options.offset.left || ((win.width() - that.size.width) / 2);
