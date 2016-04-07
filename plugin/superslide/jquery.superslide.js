@@ -1,8 +1,8 @@
 /**
  * @filename jquery.superslide.js
  * @author Aniu[2014-12-15 08:07]
- * @update Aniu[2015-12-08 13:12]
- * @version v1.4
+ * @update Aniu[2016-04-07 16:25]
+ * @version v1.4.1
  * @description 超级幻灯片
  */
 
@@ -173,8 +173,10 @@
                 that.title = $('<div class="ui-slide-title"><span></span></div>').appendTo(target).find('span');
             }
             
+            that.list = $('<div class="ui-slide-list">'+ listItems +'</div>').appendTo(target);
+            
             if(that.itemSize > 1){
-                that.list = $('<div class="ui-slide-list">'+ listItems +'</div>').appendTo(target);
+                
                 if(options.button.enable === true){
                     that.button = $('<span class="ui-slide-btn ui-slide-prev"></span><span class="ui-slide-btn ui-slide-next"></span>').appendTo(target);
                 }
@@ -195,10 +197,6 @@
                             that.slideMove();
                         }
                     });
-                }
-                
-                if(options.list.enable !== true){
-                    that.list.hide();
                 }
                 
                 if(options.isFadein !== true){
@@ -222,11 +220,19 @@
 
                 that.slideEvent();
             }
+            else{
+                options.list.enable = false;
+            }
+            
+            if(options.list.enable !== true){
+                that.list.hide();
+            }
+            
             return that;
         },
         slideEvent:function(){
             var that = this, options = that.options, target = options.target;
-            that.list && that.list.on(options.event || 'click', 'span', function(){
+            that.list.on(options.event || 'click', 'span', function(){
                 that.thumbClick = false;
                 that.index = $(this).index();
                 that.slideMove();
@@ -310,7 +316,7 @@
             index = index < that.itemSize ? index : 0;
             dot = that.list.children('span:eq('+ index +')');
             typeof options.callback == 'function' && options.callback(index, item, dot);
-            that.list && dot.addClass('s-crt').siblings().removeClass('s-crt');
+            dot.addClass('s-crt').siblings().removeClass('s-crt');
         },
         slidePrev:function(){
             var that = this, options = that.options;
