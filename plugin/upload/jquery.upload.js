@@ -11,6 +11,7 @@
         o = $.extend({
             url:'',
             timeout:25000,
+            button:null,
             dataType:'json', //json html text
             /**
              * @func 文件选择后执行回调函数，可做类型验证
@@ -71,16 +72,29 @@
                                 <form method="post" action="'+ o.url +'" target="uploadfile" enctype="multipart/form-data"></form>').appendTo('body').hide().first();
                 }
                 form = iframe.next('form');
-                that.change(function(){
-                    clearTimeout(timer);
-                    timeout = o.timeout;
-                    if((typeof o.start === 'function' && !o.start(that)) || !that.val()){
-                        return;
-                    }
-                    clone = that.before(that.clone()).prev().upload(o);
-                    form.children().remove().end().html(that).submit();
-                    request();
-                });
+                if(o.button !== null){
+                    o.button.click(function(){
+                        clearTimeout(timer);
+                        timeout = o.timeout;
+                        if(typeof o.start === 'function' && !o.start(that)){
+                            return;
+                        }
+                        form.submit();
+                        request();
+                    });
+                }
+                else{
+                    that.change(function(){
+                        clearTimeout(timer);
+                        timeout = o.timeout;
+                        if((typeof o.start === 'function' && !o.start(that)) || !that.val()){
+                            return;
+                        }
+                        clone = that.before(that.clone()).prev().upload(o);
+                        form.children().remove().end().html(that).submit();
+                        request();
+                    });
+                }
             }
         });
     }
