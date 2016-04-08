@@ -1,8 +1,8 @@
 /**
  * @filename jquery.layer.js
  * @author Aniu[2014-07-11 14:01]
- * @update Aniu[2016-04-04 19:21]
- * @version v3.1.3
+ * @update Aniu[2016-04-08 19:03]
+ * @version v3.2.1
  * @description 弹出层组件
  */
 
@@ -14,6 +14,8 @@
             width:0,
             //高度，整数或者auto
             height:'auto',
+            //最大高度，height设置为auto时可以使用
+            maxHeight:0,
             //内容，字符串或者jQuery对象
             content:'',
             //1.自定义皮肤主题；2.layer标识，隐藏特定的layer：layerHide(theme);
@@ -294,6 +296,9 @@
             }
             html += '</div></div>';
             that.layer = $(html).appendTo('body');
+            if(typeof options.content === 'object'){
+                that.layer.find('.ui-layer-main').html(options.content);
+            }
             if(options.iframe.enable === true){
                 that.iframe = that.layer.find('iframe[name="layer-iframe-'+ that.index +'"]');
             }
@@ -309,10 +314,11 @@
                 width = win.width() - options.padding - oWidth;
                 options.height = 'auto';
             }
-            that.layer.css({width:width, height:height});
-            if(typeof options.content === 'object'){
-                that.layer.find('.ui-layer-main').html(options.content);
+            if(options.height === 'auto' && options.maxHeight > 0 && that.layer.outerHeight() > options.maxHeight){
+                options.height = options.maxHeight;
+                height = options.height - oHeight;
             }
+            that.layer.css({width:width, height:height});
             return that;
         },
         createIframe:function(){
@@ -454,7 +460,9 @@
                 foot = box.children('.ui-layer-foot'), headHeight = head.outerHeight(), footHeight = foot.outerHeight(), pt = parseInt(layer.css('paddingTop')), 
                 pb = parseInt(layer.css('paddingBottom')), bbd = Layer.getBorderSize(body), bl = Layer.getBorderSize(layer), bb = Layer.getBorderSize(box),
                 pl = parseInt(layer.css('paddingLeft')), pr = parseInt(layer.css('paddingRight')), blt = Layer.getBorderSize(layer, true), extd = {}, speed = 400,
-                wheight = win.height() - options.padding, wwidth = win.width() - options.padding, isiframe = typeof that.iframe === 'object';
+                wheight = win.height() - options.padding, wwidth = win.width() - options.padding, isiframe = typeof that.iframe === 'object', 
+                outerHeight = headHeight + footHeight + pt + pb + bbd + bl + bb;
+            
             if(isiframe){
                 var iframeDoc = that.iframe.contents(), 
                     iframeHtml = iframeDoc.find('html').css({overflow:'auto'});
@@ -464,36 +472,68 @@
             else{
                 contentHeight = main.outerHeight();
             }
-            if(options.height === 'auto'){
-                contentHeight += headHeight + footHeight + pt + pb + bbd + bl + bb;
-                if(contentHeight > wheight){
-                    that.size.height = wheight;
-                    !isiframe && body.css({'overflow-y':'auto', 'overflow-x':'auto'});
+            
+            if(options.height === 'auto' && options.maxHeight > 0 && that.maxBodyHeight !== undefined && contentHeight > that.maxBodyHeight){
+                that.size.height = options.height = options.maxHeight;
+                body.height(that.maxBodyHeight);
+            }
+            
+            if(isiframe){
+                if(options.height === 'auto'){
+                    contentHeight += outerHeight;
+                    if(contentHeight > wheight){
+                        that.size.height = wheight;
+                    }
+                    else{
+                        that.size.height = contentHeight;
+                    }
+                }
+            }
+            else{
+                if(options.height === 'auto'){
+                    contentHeight += outerHeight;
+                    if(contentHeight > wheight){
+                        that.size.height = wheight;
+                        body.css({'overflow-y':'auto', 'overflow-x':'auto'});
+                    }
+                    else{
+                        that.size.height = contentHeight;
+                        body.css({'overflow':'visible'});
+                    }
                 }
                 else{
-                    that.size.height = contentHeight;
-                    !isiframe && body.css({'overflow':'visible'});
+                    if(contentHeight > body.height()){
+                        body.css({'overflow-y':'auto', 'overflow-x':'auto'});
+                    }
+                    else{
+                        body.css({'overflow':'visible'});
+                    }
                 }
-                if(options.isMaxSize === true){
-                    that.size.width = wwidth - blt;
-                    that.size.height = wheight;
-                    extd.width = that.size.width - pl - pr;
-                    speed = 0;
-                }
-                if(options.isFixed === true && !Layer.bsie6){
-                    winStop = 0;
-                }
-                options.offset.top = (win.height() - that.size.height) / 2 + winStop;
-                options.offset.left = (win.width() - that.size.width) / 2;
-                height = that.size.height - pt - pb - bl;
-                bodyHeight = height - bb - headHeight - footHeight - bbd;
-                body.stop(true, false).animate({height:bodyHeight}, options.isAnimate === true ? speed : 0);
-                isiframe && that.iframe.stop(true, false).animate({height:bodyHeight}, options.isAnimate === true ? speed : 0);
-                layer.stop(true, false).animate($.extend({top:options.offset.top, left:options.offset.left, height:height}, extd), options.isAnimate === true ? speed : 0, function(){
-                    that.offsetWinTop = options.offset.top - winStop;
-                    typeof options.onResizeEvent === 'function' && options.onResizeEvent(main, that.index);
-                });
             }
+            
+            if(options.isMaxSize === true){
+                that.size.width = wwidth - blt;
+                that.size.height = wheight;
+                extd.width = that.size.width - pl - pr;
+                speed = 0;
+            }
+            
+            if(options.isFixed === true && !Layer.bsie6){
+                winStop = 0;
+            }
+            
+            options.offset.top = (win.height() - that.size.height) / 2 + winStop;
+            if(options.isCenter === true){
+                options.offset.left = (win.width() - that.size.width) / 2;
+            }
+            height = that.size.height - pt - pb - bl;
+            bodyHeight = height - bb - headHeight - footHeight - bbd;
+            body.stop(true, false).animate({height:bodyHeight}, options.isAnimate === true ? speed : 0);
+            isiframe && that.iframe.stop(true, false).animate({height:bodyHeight}, options.isAnimate === true ? speed : 0);
+            layer.stop(true, false).animate($.extend({top:options.offset.top, left:options.offset.left, height:height}, extd), options.isAnimate === true ? speed : 0, function(){
+                that.offsetWinTop = options.offset.top - winStop;
+                typeof options.onResizeEvent === 'function' && options.onResizeEvent(main, that.index);
+            });
         },
         show:function(){
             var that = this, options = that.options, layer = that.layer, bodyHeight, winStop = win.scrollTop(),
@@ -504,8 +544,10 @@
                 winStop = 0;
                 layer.css('position', 'fixed');
             }
+            
             that.size.width = layer.outerWidth();
             that.size.height = layer.outerHeight();
+            
             if(layer.outerHeight() > win.height()){
                 that.size.height = layer.height(win.height()-options.padding).outerHeight();
                 body.css({'overflow-y':'auto', 'overflow-x':'auto'});
@@ -546,8 +588,21 @@
                 });
             }
             layer.css({margin:0, top:options.offset.top, left:options.offset.left})[showType]();
-            bodyHeight = layer.height() - Layer.getBorderSize(box) - head.outerHeight() - foot.outerHeight() - Layer.getBorderSize(body);
+            var innerHeight = Layer.getBorderSize(box) + 
+                              parseInt(box.css('paddingTop')) + 
+                              parseInt(box.css('paddingBottom')) + 
+                              head.outerHeight() + foot.outerHeight() + 
+                              Layer.getBorderSize(body) + 
+                              parseInt(body.css('paddingTop')) + 
+                              parseInt(body.css('paddingBottom'));
+            bodyHeight = layer.height() - innerHeight;
+            if(options.maxHeight > 0){
+                that.maxBodyHeight = options.maxHeight - parseInt(layer.css('paddingTop')) - parseInt(layer.css('paddingBottom')) - Layer.getBorderSize(layer) - innerHeight;
+            }
             body.css({height:bodyHeight});
+            if(options.height > 0 && main.outerHeight() > body.height()){
+                body.css({'overflow-y':'auto', 'overflow-x':'auto'});
+            }
             if(options.iframe.enable === true){
                 body.css({overflow:'hidden'});
             }

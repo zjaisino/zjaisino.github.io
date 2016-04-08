@@ -1,5 +1,12 @@
 var LOG = {
     list:[{
+        ver:'v3.2.1',
+        date:'2016-04-08',
+        desc:[
+            '1.修复一些bug',
+            '2.增加maxHeight属性'
+        ]
+    }, {
         ver:'v3.1.3',
         date:'2016-04-04',
         desc:[
