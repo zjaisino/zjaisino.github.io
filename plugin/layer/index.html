@@ -480,7 +480,7 @@
                                         <td>Obejct</td>
                                         <td>-</td>
                                         <td>-</td>
-                                        <td>可自定义配置底部按钮，配置后将覆盖cancel和confirm，包含text和callback属性，功能和cancel或confirm中的相同</td>
+                                        <td>可自定义配置底部按钮，配置后将覆盖cancel和confirm，包含text属性和callback方法，不用配置enable属性</td>
                                     </tr>
                                 </tbody> 
                             </table>
@@ -580,6 +580,13 @@
                                         <td>弹出层索引或者标识</td>
                                         <td>删除弹出层</td>
                                     </tr>
+                                    <tr>
+                                        <td>layerConfig</td>
+                                        <td>options</td>
+                                        <td>JSON Object</td>
+                                        <td>配置属性</td>
+                                        <td>弹出层全局配置</td>
+                                    </tr>
                                 </tbody> 
                             </table>
                         </dd> 
@@ -631,6 +638,7 @@
     {{/each}}
     </script>
     <script type="text/javascript">
+    
     $('#alert').click(function(){
         $.layer.alert('<p style="padding:10px;">弹出层内容</p>', '标题', '280');
     });
@@ -707,6 +715,7 @@
             content:'<p style="padding:10px;">阿牛真帅！</p><p style="padding:10px;">阿牛真帅！</p><p style="padding:10px;">阿牛真帅！</p>',
             width:400,
             maxHeight:300,
+            isMoveMask:true,
             title:{
                 text:'标题'
             },

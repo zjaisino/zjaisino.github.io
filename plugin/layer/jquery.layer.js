@@ -1,8 +1,8 @@
 /**
  * @filename jquery.layer.js
  * @author Aniu[2014-07-11 14:01]
- * @update Aniu[2016-04-08 19:03]
- * @version v3.2.1
+ * @update Aniu[2016-04-09 08:46]
+ * @version v3.2.2
  * @description 弹出层组件
  */
 
@@ -137,7 +137,8 @@
              */
             onWinScrollEvent:null
         }
-        that.options = $.extend(true, that.options, options||{});
+        console.log(Layer.config);
+        that.options = $.extend(true, that.options, Layer.config, options||{});
         that.size = {
             width:0,
             height:0
@@ -152,6 +153,7 @@
     Layer.bsie6 = !!window.ActiveXObject && !window.XMLHttpRequest;
     Layer.listArray = [];
     Layer.mask = null;
+    Layer.config = {};
     Layer.getBorderSize = function(object, isHorz){
         var result = 0;
         if(isHorz){
@@ -206,6 +208,13 @@
                 val && (val.options.isClose == true && val.remove());   
             });
         }
+    }
+    /**
+     * @func 弹出层全局配置
+     * @param options <JSON Object> 配置属性
+     */
+    window.layerConfig = function(options){
+        Layer.config = $.isPlainObject(options) ? options : {};
     }
     
     Layer.prototype = {

@@ -1,5 +1,11 @@
 var LOG = {
     list:[{
+        ver:'v3.2.2',
+        date:'2016-04-09',
+        desc:[
+            '1.增加layerConfig全局配置方法'
+        ]
+    }, {
         ver:'v3.2.1',
         date:'2016-04-08',
         desc:[
