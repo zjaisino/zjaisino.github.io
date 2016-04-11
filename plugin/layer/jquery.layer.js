@@ -137,7 +137,6 @@
              */
             onWinScrollEvent:null
         }
-        console.log(Layer.config);
         that.options = $.extend(true, that.options, Layer.config, options||{});
         that.size = {
             width:0,
