@@ -65,9 +65,7 @@
                 //是否基于前一个层进行偏移
                 isBasedPrev:false,
                 top:null,
-                left:null,
-                bottom:null,
-                right:null
+                left:null
             },
             //小箭头，方向：top right bottom left
             arrow:{
