@@ -118,7 +118,7 @@
                             </pre>
                         </dd>
                         <dt>自定义</dt>
-                        <dd>
+                        <dd id="box">
                             <a href="javascript:void(0);" id="unmove">不可拖动</a>
                             <a href="javascript:void(0);" id="theme" class="e-ml10">自定义皮肤</a>
                             <a href="javascript:void(0);" id="right" class="e-ml10">右下角滑出</a>
@@ -222,6 +222,13 @@
                                         <td>50</td>
                                         <td>整数</td>
                                         <td>弹出层最大尺寸距离window边界距离</td>
+                                    </tr>
+                                    <tr>
+                                        <td>container</td>
+                                        <td>String | Selector</td>
+                                        <td>body</td>
+                                        <td>任意字符串 | jQuery选择器</td>
+                                        <td>设置弹出层(背景遮罩)显示在指定的容器内</td>
                                     </tr>
                                     <tr>
                                         <td>isFadein</td>
@@ -714,8 +721,10 @@
         $.layer({
             content:'<p style="padding:10px;">阿牛真帅！</p><p style="padding:10px;">阿牛真帅！</p><p style="padding:10px;">阿牛真帅！</p>',
             width:400,
-            maxHeight:300,
+            //maxHeight:300,
             isMoveMask:true,
+            isAnimate:false,
+            container:$('#box'),
             title:{
                 text:'标题'
             },

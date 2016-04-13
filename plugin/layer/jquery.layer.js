@@ -1,8 +1,8 @@
 /**
  * @filename jquery.layer.js
  * @author Aniu[2014-07-11 14:01]
- * @update Aniu[2016-04-09 08:46]
- * @version v3.2.2
+ * @update Aniu[2016-04-12 03:10]
+ * @version v3.3.1
  * @description 弹出层组件
  */
 
@@ -22,6 +22,8 @@
             theme:'',
             //最大尺寸距离窗口边界边距
             padding:50,
+            //弹出层容器，默认为body
+            container:'body',
             //是否淡入方式显示
             isFadein:true,
             //是否开启弹出层动画
@@ -222,13 +224,23 @@
         title:'温馨提示',
         init:function(){
             var that = this, options = that.options;
+            that.wrap = win;
+            if(typeof options.container === 'string'){
+                options.container = $(options.container||'body');
+            }
+            if(options.container.get(0) === undefined){
+                options.container = $('body');
+            }
+            if(options.container.get(0).tagName !== 'BODY'){
+                that.wrap = options.container.css({position:'relative'});
+            }
             that.createHtml().show().bindClick();
             if(options.isMove === true && options.title.enable === true){
                 that.bindMove();
             }
             if(typeof options.onWinRisizeEvent === 'function'){
                 that.bindEvent(win, 'resize', function(){
-                    options.onWinRisizeEvent(that.layer, win.width(), win.height());
+                    options.onWinRisizeEvent(that.layer, that.wrap.width(), that.wrap.height());
                 });
             }
             if(typeof options.onWinScrollEvent === 'function'){
@@ -303,7 +315,7 @@
                 html += '</div>';
             }
             html += '</div></div>';
-            that.layer = $(html).appendTo('body');
+            that.layer = $(html).appendTo(options.container);
             if(typeof options.content === 'object'){
                 that.layer.find('.ui-layer-main').html(options.content);
             }
@@ -318,8 +330,8 @@
             }
             else{
                 options.isCenter = true;
-                height = win.height() - options.padding - oHeight;
-                width = win.width() - options.padding - oWidth;
+                height = that.wrap.outerHeight() - options.padding - oHeight;
+                width = that.wrap.outerWidth() - options.padding - oWidth;
                 options.height = 'auto';
             }
             if(options.height === 'auto' && options.maxHeight > 0 && that.layer.outerHeight() > options.maxHeight){
@@ -342,7 +354,7 @@
         },
         createMoveMask:function(){
             var that = this, options = that.options, zIndex = Layer.zIndex + 1, theme = options.theme ? ' t-movemask-'+options.theme : '';
-            return $('<div class="ui-layer-movemask'+ theme +'" style="z-index:'+ zIndex +';"></div>').appendTo('body');
+            return $('<div class="ui-layer-movemask'+ theme +'" style="z-index:'+ zIndex +';"></div>').appendTo(options.container);
         },
         bindMove:function(){
             var that = this, options = that.options, layer = that.layer, title = that.layer.find('.ui-layer-title'), isMove = false, x, y, mx, my;
@@ -464,11 +476,11 @@
         },
         layerResize:function(){
             var that = this, options = that.options, layer = that.layer, bodyHeight, contentHeight, height, box = layer.children('.ui-layer-box'), 
-                head = box.children('.ui-layer-title'), body = box.children('.ui-layer-body'), main = body.children('.ui-layer-main'), winStop = win.scrollTop(),
+                head = box.children('.ui-layer-title'), body = box.children('.ui-layer-body'), main = body.children('.ui-layer-main'), winStop = that.wrap.scrollTop(),
                 foot = box.children('.ui-layer-foot'), headHeight = head.outerHeight(), footHeight = foot.outerHeight(), pt = parseInt(layer.css('paddingTop')), 
                 pb = parseInt(layer.css('paddingBottom')), bbd = Layer.getBorderSize(body), bl = Layer.getBorderSize(layer), bb = Layer.getBorderSize(box),
                 pl = parseInt(layer.css('paddingLeft')), pr = parseInt(layer.css('paddingRight')), blt = Layer.getBorderSize(layer, true), extd = {}, speed = 400,
-                wheight = win.height() - options.padding, wwidth = win.width() - options.padding, isiframe = typeof that.iframe === 'object', 
+                wheight = that.wrap.outerHeight() - options.padding, wwidth = that.wrap.outerWidth() - options.padding, isiframe = typeof that.iframe === 'object', 
                 outerHeight = headHeight + footHeight + pt + pb + bbd + bl + bb;
             
             if(isiframe){
@@ -530,9 +542,9 @@
                 winStop = 0;
             }
             
-            options.offset.top = (win.height() - that.size.height) / 2 + winStop;
+            options.offset.top = (that.wrap.outerHeight() - that.size.height) / 2 + winStop;
             if(options.isCenter === true){
-                options.offset.left = (win.width() - that.size.width) / 2;
+                options.offset.left = (that.wrap.outerWidth() - that.size.width) / 2;
             }
             height = that.size.height - pt - pb - bl;
             bodyHeight = height - bb - headHeight - footHeight - bbd;
@@ -544,8 +556,8 @@
             });
         },
         show:function(){
-            var that = this, options = that.options, layer = that.layer, bodyHeight, winStop = win.scrollTop(),
-                theme = options.theme ? ' t-mask-'+options.theme : '', showType = options.isFadein === true ? 'fadeIn' : 'show';
+            var that = this, options = that.options, layer = that.layer, bodyHeight, winStop = that.wrap.scrollTop(),
+                theme = options.theme ? ' t-mask-'+options.theme : '', showType = options.isFadein === true ? 'fadeIn' : 'show',
                 box = layer.children('.ui-layer-box'), head = box.children('.ui-layer-title'), body = box.children('.ui-layer-body'),
                 main = body.children('.ui-layer-main'), foot = box.children('.ui-layer-foot');
             if(options.isFixed === true && !Layer.bsie6){
@@ -556,40 +568,46 @@
             that.size.width = layer.outerWidth();
             that.size.height = layer.outerHeight();
             
-            if(layer.outerHeight() > win.height()){
-                that.size.height = layer.height(win.height()-options.padding).outerHeight();
+            if(layer.outerHeight() > that.wrap.outerHeight()){
+                that.size.height = layer.height(that.wrap.outerHeight()-options.padding).outerHeight();
                 body.css({'overflow-y':'auto', 'overflow-x':'auto'});
             }
             else{
                 body.css({'overflow':'visible'});
             }
-            options.offset.top = (options.offset.top || ((win.height() - that.size.height) / 2)) + winStop;
-            options.offset.left = options.offset.left || ((win.width() - that.size.width) / 2);
+            options.offset.top = (options.offset.top || ((that.wrap.outerHeight() - that.size.height) / 2)) + winStop;
+            options.offset.left = options.offset.left || ((that.wrap.outerWidth() - that.size.width) / 2);
             if(!!that.index && options.offset.isBasedPrev === true){
                 var index = that.index - 1, prevOptions = Layer.listArray[index].options;
                 options.offset.top = prevOptions.offset.top + 10;
                 options.offset.left = prevOptions.offset.left + 10;
             }
             if(options.isMask === true){
-                if(!Layer.mask){
-                    Layer.mask = $('<div class="ui-layer-mask'+ theme +'"><div></div></div>').appendTo('body');
+                if(!Layer.mask || (that.wrap !== win && !that.mask)){
+                    if(that.wrap !== win){
+                        that.mask = $('<div class="ui-layer-mask'+ theme +'"><div></div></div>').appendTo(options.container);
+                        that.mask.css({position:'absolute'});
+                    }
+                    else{
+                        Layer.mask = $('<div class="ui-layer-mask'+ theme +'"><div></div></div>').appendTo(options.container);
+                    }
                     if(options.isClickMask === true){
-                        that.bindEvent(Layer.mask, 'click', function(){
+                        that.bindEvent(that.mask||Layer.mask, 'click', function(){
                             that.hide();
                         });
                     }
                     if(Layer.bsie6){
                         that.bindEvent(win, 'resize', function(){
-                            Layer.mask.css({position:'absolute', width:$(this).width(), height:doc.height()});
+                            (that.mask||Layer.mask).css({position:'absolute', width:that.wrap.outerWidth(), height:that.wrap === win ? doc.height() : that.wrap.outerHeight()});
                         }, true);
                     }
-                    Layer.mask[showType]();
+                    (that.mask||Layer.mask)[showType]();
                 }
             }
             that.offsetWinTop = options.offset.top - winStop;
             if(Layer.bsie6 && options.isFixed === true){
                 that.bindEvent(win, 'scroll', function(){
-                    var css = {top:that.offsetWinTop + $(this).scrollTop()};
+                    var css = {top:that.offsetWinTop + win.scrollTop()};
                     options.offset.top = css.top;
                     that.moveMask && that.moveMask.css(css);
                     that.layer.css(css);
@@ -645,7 +663,7 @@
             Layer.index--;
             Layer.zIndex--;
             $.each(Layer.listArray, function(key, val){
-                if(val && val.options.isMask == true){
+                if(val && val.options.isMask == true && val.wrap === win){
                     return (xMask = false);
                 }   
             });
@@ -653,7 +671,9 @@
                 Layer.mask.remove();
                 Layer.mask = null;
             }
-            
+            if(that.mask){
+                that.mask.remove();
+            }
             if(typeof options.onHideEvent === 'function'){
                 options.onHideEvent(main, that.index);
                 main.remove();
