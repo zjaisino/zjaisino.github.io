@@ -1,8 +1,8 @@
 /**
  * @filename jquery.placeholder.js
  * @author Aniu[2014-3-16 19:40]
- * @update Aniu[2015-06-21 15:33]
- * @version v1.3
+ * @update Aniu[2016-04-13 10:10]
+ * @version v1.4
  * @description 模拟html5的placeholder效果
  */
 
@@ -10,10 +10,15 @@
     $.fn.placeholder = function(o){
         o = $.extend({
             /**
-             * @func 是否启用动画版
+             * @func 是否启用动画显示展示
              * @type <Boolean>
              */
             animate:true,
+            /**
+             * @func 是否使用原生placeholder
+             * @type <Boolean>
+             */
+            proto:true,
             /**
              * @func 输入框值是否可以和占位符相同
              * @type <Boolean>
@@ -33,6 +38,9 @@
         return this.each(function(){
             var that = $(this), ph = $.trim(that.attr('placeholder'));
             if(!!ph){
+                if(!o.animate && o.proto === true && (supportPlaceholder('input') || supportPlaceholder('textarea'))){
+                    return;
+                }
                 that.removeAttr('placeholder');
                 
                 if(!$.trim(that.val())){
@@ -80,4 +88,9 @@
             }
         });
     }
+    
+    function supportPlaceholder(element){
+        return 'placeholder' in document.createElement(element);  
+    }
+    
 })(this, document, jQuery);

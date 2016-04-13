@@ -79,9 +79,9 @@
                             </pre>
                             <pre class="brush:js;">
                             $('[name="search"]').suggest({
-                                url:'http://www.yinjiazeng.com/testdata/test/suggest/index.php?callback=?',
+                                url:'../data.json',
                                 returnData:function(item){
-                                    return '<li>'+ item.name +'</li>';
+                                    return '<li>'+ item.title +'</li>';
                                 }
                             });
                             </pre>
@@ -261,9 +261,9 @@
     </script>
     <script type="text/javascript">
     $('[name="search"]').suggest({
-        url:'http://www.yinjiazeng.com/testdata/test/suggest/index.php?callback=?',
+        url:'../data.json',
         returnData:function(item){
-            return '<li>'+ item.name +'</li>';
+            return '<li>'+ item.title +'</li>';
         }
     });
     </script>
