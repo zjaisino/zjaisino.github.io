@@ -1,8 +1,8 @@
 /**
  * @filename jquery.layer.js
  * @author Aniu[2014-07-11 14:01]
- * @update Aniu[2016-04-12 03:10]
- * @version v3.3.1
+ * @update Aniu[2016-04-13 20:42]
+ * @version v3.2.2
  * @description 弹出层组件
  */
 
@@ -64,8 +64,10 @@
             offset:{
                 //是否基于前一个层进行偏移
                 isBasedPrev:false,
-                top:0,
-                left:0
+                top:null,
+                left:null,
+                bottom:null,
+                right:null
             },
             //小箭头，方向：top right bottom left
             arrow:{
@@ -155,15 +157,33 @@
     Layer.listArray = [];
     Layer.mask = null;
     Layer.config = {};
-    Layer.getBorderSize = function(object, isHorz){
-        var result = 0;
-        if(isHorz){
-            result = parseInt(object.css('borderLeftWidth')) + parseInt(object.css('borderRightWidth'));
+    Layer.getSize = function(selector, dir, attr){
+        var size = 0;
+        attr = attr || 'border';
+        dir = dir || 'tb';
+        if(attr === 'all'){
+            return Layer.getSize(selector, dir) + Layer.getSize(selector, dir, 'padding');
         }
-        else{
-            result = parseInt(object.css('borderTopWidth')) + parseInt(object.css('borderBottomWidth'));
-        }
-        return isNaN(result) ? 0 : result;
+        var arr = [{
+            border:{
+                lr:['LeftWidth', 'RightWidth'],
+                tb:['TopWidth', 'BottomWidth']
+            }
+        }, {
+            padding:{
+                lr:['Left', 'Right'],
+                tb:['Top', 'Bottom']
+            }
+        }];
+        $.each(arr, function(key, val){
+            if(val[attr]){
+                $.each(val[attr][dir], function(k, v){
+                    var value = parseInt(selector.css(attr+v));
+                    size += isNaN(value) ? 0 : value;
+                });
+            }
+        });
+        return size;
     }
     /**
      * @func 弹出层居中、高度改变
@@ -215,12 +235,18 @@
      * @param options <JSON Object> 配置属性
      */
     window.layerConfig = function(options){
-        Layer.config = $.isPlainObject(options) ? options : {};
+        $.extend(true, Layer.config, $.isPlainObject(options) ? options : {});
     }
     
     Layer.prototype = {
+        constructor:Layer,
+        version:'3.3.2',
         width:410,
         height:220,
+        offset:{
+            top:0,
+            left:0
+        },
         title:'温馨提示',
         init:function(){
             var that = this, options = that.options;
@@ -232,6 +258,7 @@
                 options.container = $('body');
             }
             if(options.container.get(0).tagName !== 'BODY'){
+                options.isFixed = false;
                 that.wrap = options.container.css({position:'relative'});
             }
             that.createHtml().show().bindClick();
@@ -322,8 +349,8 @@
             if(options.iframe.enable === true){
                 that.iframe = that.layer.find('iframe[name="layer-iframe-'+ that.index +'"]');
             }
-            oHeight = parseInt(that.layer.css('paddingTop')) + parseInt(that.layer.css('paddingBottom')) + Layer.getBorderSize(that.layer);
-            oWidth = parseInt(that.layer.css('paddingLeft')) + parseInt(that.layer.css('paddingRight')) + Layer.getBorderSize(that.layer, true);
+            oHeight = Layer.getSize(that.layer, 'tb', 'all');
+            oWidth = Layer.getSize(that.layer, 'lr', 'all');
             if(options.isMaxSize !== true){
                 height = height - oHeight;
                 width = width - oWidth;
@@ -367,15 +394,15 @@
                         layer.css('position', 'fixed');
                     }
                     layer.css({
-                        width:that.size.width - Layer.getBorderSize(layer, true),
-                        height:that.size.height - Layer.getBorderSize(layer),
-                        top:options.offset.top,
-                        left:options.offset.left
+                        width:that.size.width - Layer.getSize(layer, 'lr'),
+                        height:that.size.height - Layer.getSize(layer),
+                        top:that.offset.top,
+                        left:that.offset.left
                     });
                 }
                 $(this).css({cursor:'move'});
-                x = e.pageX - options.offset.left;
-                y = e.pageY - options.offset.top;
+                x = e.pageX - that.offset.left;
+                y = e.pageY - that.offset.top;
                 return false;
             });
             that.bindEvent(doc, 'mousemove', function(e){
@@ -387,8 +414,8 @@
                     my < 0 && (my = 0);
                     mx + that.size.width > width && (mx = width - that.size.width);
                     my + that.size.height > height && (my = height - that.size.height);
-                    options.offset.top = my;
-                    options.offset.left = mx;
+                    that.offset.top = my;
+                    that.offset.left = mx;
                     layer.css({top:my, left:mx});
                     return !isMove;
                 }
@@ -397,13 +424,16 @@
                 if(isMove){
                     isMove = false;
                     title.css({cursor:'default'});
-                    mx = mx || options.offset.left;
-                    my = my || options.offset.top;
+                    mx = mx || that.offset.left;
+                    my = my || that.offset.top;
                     if(options.isMoveMask === true){
                         !that.layer.is(':animated') && that.layer.animate({top:my, left:mx}, options.isAnimate === true ? 450 : 0);  
                         layer.remove();
                     }
-                    that.offsetWinTop = my - win.scrollTop();
+                    if(Layer.bsie6 && options.isFixed === true){
+                        that.offset.winTop = my - win.scrollTop();
+                        that.offset.winLeft = my - win.scrollLeft();
+                    }
                 }
             });
         },
@@ -476,12 +506,11 @@
         },
         layerResize:function(){
             var that = this, options = that.options, layer = that.layer, bodyHeight, contentHeight, height, box = layer.children('.ui-layer-box'), 
-                head = box.children('.ui-layer-title'), body = box.children('.ui-layer-body'), main = body.children('.ui-layer-main'), winStop = that.wrap.scrollTop(),
-                foot = box.children('.ui-layer-foot'), headHeight = head.outerHeight(), footHeight = foot.outerHeight(), pt = parseInt(layer.css('paddingTop')), 
-                pb = parseInt(layer.css('paddingBottom')), bbd = Layer.getBorderSize(body), bl = Layer.getBorderSize(layer), bb = Layer.getBorderSize(box),
-                pl = parseInt(layer.css('paddingLeft')), pr = parseInt(layer.css('paddingRight')), blt = Layer.getBorderSize(layer, true), extd = {}, speed = 400,
-                wheight = that.wrap.outerHeight() - options.padding, wwidth = that.wrap.outerWidth() - options.padding, isiframe = typeof that.iframe === 'object', 
-                outerHeight = headHeight + footHeight + pt + pb + bbd + bl + bb;
+                head = box.children('.ui-layer-title'), body = box.children('.ui-layer-body'), main = body.children('.ui-layer-main'), 
+                winStop = that.wrap.scrollTop(), winSleft = that.wrap.scrollLeft(), foot = box.children('.ui-layer-foot'), headHeight = head.outerHeight(), 
+                footHeight = foot.outerHeight(), ptb = Layer.getSize(layer, 'tb', 'padding'), bbd = Layer.getSize(body), bl = Layer.getSize(layer), 
+                bb = Layer.getSize(box), blt = Layer.getSize(layer, 'lr'), extd = {}, speed = 400, wheight = that.wrap.outerHeight() - options.padding, 
+                wwidth = that.wrap.outerWidth() - options.padding, isiframe = typeof that.iframe === 'object', outerHeight = headHeight + footHeight + ptb + bbd + bl + bb;
             
             if(isiframe){
                 var iframeDoc = that.iframe.contents(), 
@@ -534,7 +563,7 @@
             if(options.isMaxSize === true){
                 that.size.width = wwidth - blt;
                 that.size.height = wheight;
-                extd.width = that.size.width - pl - pr;
+                extd.width = that.size.width - Layer.getSize(layer, 'lr', 'padding');
                 speed = 0;
             }
             
@@ -542,45 +571,50 @@
                 winStop = 0;
             }
             
-            options.offset.top = (that.wrap.outerHeight() - that.size.height) / 2 + winStop;
+            that.offset.top = (that.wrap.outerHeight() - that.size.height) / 2 + winStop;
             if(options.isCenter === true){
-                options.offset.left = (that.wrap.outerWidth() - that.size.width) / 2;
+                that.offset.left = (that.wrap.outerWidth() - that.size.width) / 2 + winSleft;
             }
-            height = that.size.height - pt - pb - bl;
+            height = that.size.height - ptb - bl;
             bodyHeight = height - bb - headHeight - footHeight - bbd;
             body.stop(true, false).animate({height:bodyHeight}, options.isAnimate === true ? speed : 0);
             isiframe && that.iframe.stop(true, false).animate({height:bodyHeight}, options.isAnimate === true ? speed : 0);
-            layer.stop(true, false).animate($.extend({top:options.offset.top, left:options.offset.left, height:height}, extd), options.isAnimate === true ? speed : 0, function(){
-                that.offsetWinTop = options.offset.top - winStop;
+            layer.stop(true, false).animate($.extend({top:that.offset.top, left:that.offset.left, height:height}, extd), options.isAnimate === true ? speed : 0, function(){
+                if(Layer.bsie6 && options.isFixed === true){
+                    that.offset.winTop = that.offset.top - winStop;
+                    that.offset.winLeft = that.offset.left - winSleft;
+                }
                 typeof options.onResizeEvent === 'function' && options.onResizeEvent(main, that.index);
             });
         },
         show:function(){
-            var that = this, options = that.options, layer = that.layer, bodyHeight, winStop = that.wrap.scrollTop(),
+            var that = this, options = that.options, layer = that.layer, bodyHeight, winStop = that.wrap.scrollTop(), winSleft = that.wrap.scrollLeft(),
                 theme = options.theme ? ' t-mask-'+options.theme : '', showType = options.isFadein === true ? 'fadeIn' : 'show',
                 box = layer.children('.ui-layer-box'), head = box.children('.ui-layer-title'), body = box.children('.ui-layer-body'),
                 main = body.children('.ui-layer-main'), foot = box.children('.ui-layer-foot');
             if(options.isFixed === true && !Layer.bsie6){
                 winStop = 0;
+                winSleft = 0;
                 layer.css('position', 'fixed');
             }
             
             that.size.width = layer.outerWidth();
             that.size.height = layer.outerHeight();
-            
-            if(layer.outerHeight() > that.wrap.outerHeight()){
-                that.size.height = layer.height(that.wrap.outerHeight()-options.padding).outerHeight();
+            if(layer.outerHeight() > that.wrap.outerHeight() - options.padding){
+                that.size.height = layer.height(that.wrap.outerHeight() - options.padding - Layer.getSize(layer, 'tb', 'all')).outerHeight();
                 body.css({'overflow-y':'auto', 'overflow-x':'auto'});
             }
             else{
                 body.css({'overflow':'visible'});
             }
-            options.offset.top = (options.offset.top || ((that.wrap.outerHeight() - that.size.height) / 2)) + winStop;
-            options.offset.left = options.offset.left || ((that.wrap.outerWidth() - that.size.width) / 2);
+            that.offset.top = parseInt(options.offset.top);
+            that.offset.left = parseInt(options.offset.left);
+            that.offset.top = (isNaN(that.offset.top) ? ((that.wrap.outerHeight() - that.size.height) / 2) : that.offset.top) + winStop;
+            that.offset.left = (isNaN(that.offset.left) ? ((that.wrap.outerWidth() - that.size.width) / 2) : that.offset.left) + winSleft;
             if(!!that.index && options.offset.isBasedPrev === true){
-                var index = that.index - 1, prevOptions = Layer.listArray[index].options;
-                options.offset.top = prevOptions.offset.top + 10;
-                options.offset.left = prevOptions.offset.left + 10;
+                var index = that.index - 1, prevLayer = Layer.listArray[index];
+                that.offset.top = prevLayer.offset.top + 10;
+                that.offset.left = prevLayer.offset.left + 10;
             }
             if(options.isMask === true){
                 if(!Layer.mask || (that.wrap !== win && !that.mask)){
@@ -604,26 +638,27 @@
                     (that.mask||Layer.mask)[showType]();
                 }
             }
-            that.offsetWinTop = options.offset.top - winStop;
             if(Layer.bsie6 && options.isFixed === true){
+                that.offset.winTop = that.offset.top - winStop;
+                that.offset.winLeft = that.offset.left - winSleft;
                 that.bindEvent(win, 'scroll', function(){
-                    var css = {top:that.offsetWinTop + win.scrollTop()};
-                    options.offset.top = css.top;
+                    var css = {
+                        top:that.offset.winTop + win.scrollTop(),
+                        left:that.offset.winLeft + win.scrollLeft()
+                    }
+                    that.offset.top = css.top;
+                    that.offset.left = css.left;
                     that.moveMask && that.moveMask.css(css);
                     that.layer.css(css);
                 });
             }
-            layer.css({margin:0, top:options.offset.top, left:options.offset.left})[showType]();
-            var innerHeight = Layer.getBorderSize(box) + 
-                              parseInt(box.css('paddingTop')) + 
-                              parseInt(box.css('paddingBottom')) + 
+            layer.css({margin:0, top:that.offset.top, left:that.offset.left})[showType]();
+            var innerHeight = Layer.getSize(box, 'tb', 'all') +
                               head.outerHeight() + foot.outerHeight() + 
-                              Layer.getBorderSize(body) + 
-                              parseInt(body.css('paddingTop')) + 
-                              parseInt(body.css('paddingBottom'));
+                              Layer.getSize(body, 'tb', 'all');
             bodyHeight = layer.height() - innerHeight;
-            if(options.maxHeight > 0){
-                that.maxBodyHeight = options.maxHeight - parseInt(layer.css('paddingTop')) - parseInt(layer.css('paddingBottom')) - Layer.getBorderSize(layer) - innerHeight;
+            if(options.maxHeight > 0 && options.maxHeight < that.wrap.outerHeight() - options.padding){
+                that.maxBodyHeight = options.maxHeight - Layer.getSize(layer, 'tb', 'all') - innerHeight;
             }
             body.css({height:bodyHeight});
             if(options.height > 0 && main.outerHeight() > body.height()){
