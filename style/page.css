@@ -52,4 +52,5 @@
 .m-animate-list li div { border-top:1px solid #E7E7E7; height:22px; padding:5px;}
 .m-animate-list li select { float:left; border:1px solid #E7E7E7; width:110px; padding:2px 0;}
 .m-animate-list li span { float:right;}
-.m-animate-list li button { border:1px solid #E7E7E7; background:url(../images/bg/btn.png) repeat-x; border-radius:1px; height:22px; _height:20px; width:36px; _width:34px; margin-left:3px;}*/
+.m-animate-list li button { border:1px solid #E7E7E7; background:url(../images/bg/btn.png) repeat-x; border-radius:1px; height:22px; _height:20px; width:36px; _width:34px; margin-left:3px;}
+#updatelog { max-height:550px; overflow:auto;}
