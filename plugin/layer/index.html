@@ -396,7 +396,7 @@
                                         <td>小箭头方向</td>
                                     </tr>
                                     <tr>
-                                        <td rowspan="5">close</td>
+                                        <td rowspan="6">close</td>
                                         <td>enable</td>
                                         <td>Boolean</td>
                                         <td>true</td>
@@ -411,11 +411,11 @@
                                         <td>按钮文本内容</td>
                                     </tr>
                                     <tr>
-                                        <td rowspan="3">callback</td>
-                                        <td rowspan="3">Function</td>
+                                        <td rowspan="4">callback</td>
+                                        <td rowspan="4">Function</td>
                                         <td>main</td>
                                         <td>$('.ui-layer-main')</td>
-                                        <td rowspan="3">点击触发回调函数</td>
+                                        <td rowspan="4">点击触发回调函数</td>
                                     </tr>
                                     <tr>
                                         <td>index</td>
@@ -426,7 +426,11 @@
                                         <td>$('.ui-layer-close')</td>
                                     </tr>
                                     <tr>
-                                        <td rowspan="5">confirm</td>
+                                        <td>event</td>
+                                        <td>事件对象</td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="6">confirm</td>
                                         <td>enable</td>
                                         <td>Boolean</td>
                                         <td>false</td>
@@ -441,11 +445,11 @@
                                         <td>按钮文本内容</td>
                                     </tr>
                                     <tr>
-                                        <td rowspan="3">callback</td>
-                                        <td rowspan="3">Function</td>
+                                        <td rowspan="4">callback</td>
+                                        <td rowspan="4">Function</td>
                                         <td>main</td>
                                         <td>$('.ui-layer-main')</td>
-                                        <td rowspan="3">点击触发回调函数，当返回值为true时关闭弹出层</td>
+                                        <td rowspan="4">点击触发回调函数，当返回值为true时关闭弹出层</td>
                                     </tr>
                                     <tr>
                                         <td>index</td>
@@ -456,7 +460,11 @@
                                         <td>$('.ui-layer-confirm')</td>
                                     </tr>
                                     <tr>
-                                        <td rowspan="4">cancel</td>
+                                        <td>event</td>
+                                        <td>事件对象</td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="6">cancel</td>
                                         <td>enable</td>
                                         <td>Boolean</td>
                                         <td>false</td>
@@ -471,15 +479,23 @@
                                         <td>按钮文本内容</td>
                                     </tr>
                                     <tr>
-                                        <td rowspan="2">callback</td>
-                                        <td rowspan="2">Function</td>
+                                        <td rowspan="4">callback</td>
+                                        <td rowspan="4">Function</td>
                                         <td>main</td>
                                         <td>$('.ui-layer-main')</td>
-                                        <td rowspan="2">点击触发回调函数</td>
+                                        <td rowspan="4">点击触发回调函数</td>
                                     </tr>
                                     <tr>
                                         <td>index</td>
                                         <td>弹出层索引</td>
+                                    </tr>
+                                    <tr>
+                                        <td>button</td>
+                                        <td>$('.ui-layer-cancel')</td>
+                                    </tr>
+                                    <tr>
+                                        <td>event</td>
+                                        <td>事件对象</td>
                                     </tr>
                                     <tr>
                                         <td>button</td>
@@ -532,10 +548,10 @@
                                         <td>弹出层索引</td>
                                     </tr>
                                     <tr>
-                                        <td rowspan="3">onWinRisizeEvent</td>
+                                        <td rowspan="4">onWinRisizeEvent</td>
                                         <td>layer</td>
                                         <td>$('.ui-layer')</td>
-                                        <td rowspan="3">window窗口改变大小时执行</td>
+                                        <td rowspan="4">window窗口改变大小时执行</td>
                                     </tr>
                                     <tr>
                                         <td>width</td>
@@ -546,14 +562,36 @@
                                         <td>window窗口高度</td>
                                     </tr>
                                     <tr>
-                                        <td rowspan="2">onWinScrollEvent</td>
+                                        <td>event</td>
+                                        <td>事件对象</td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="3">onWinScrollEvent</td>
                                         <td>layer</td>
                                         <td>$('.ui-layer')</td>
-                                        <td rowspan="2">window窗口滚动时执行</td>
+                                        <td rowspan="3">window窗口滚动时执行</td>
                                     </tr>
                                     <tr>
                                         <td>scrollTop</td>
                                         <td>window窗口滚动高度</td>
+                                    </tr>
+                                    <tr>
+                                        <td>event</td>
+                                        <td>事件对象</td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="3">isClickMask</td>
+                                        <td>layer</td>
+                                        <td>$('.ui-layer')</td>
+                                        <td rowspan="3">遮罩层点击回调函数</td>
+                                    </tr>
+                                    <tr>
+                                        <td>mask</td>
+                                        <td>遮罩层选择器</td>
+                                    </tr>
+                                    <tr>
+                                        <td>event</td>
+                                        <td>事件对象</td>
                                     </tr>
                                 </tbody>
                             </table> 
@@ -737,6 +775,24 @@
                     main.append('<p style="padding:10px;">阿牛真帅！</p><p style="padding:10px;">阿牛真帅！</p><p style="padding:10px;">阿牛真帅！</p>');
                     layerResize(index);
                 }
+            },
+            close:{
+                enable:false
+            },
+            button:{
+                enable:{
+                    callback:function(){
+                        return false;
+                    }
+                },
+                cancel:{
+                    callback:function(){
+                        return false;
+                    }
+                }
+            },
+            onMaskClick:function(layer, mask, event){
+                event.stopPropagation();
             }
         });
     });

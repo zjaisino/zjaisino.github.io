@@ -1,8 +1,8 @@
 /**
  * @filename jquery.layer.js
  * @author Aniu[2014-07-11 14:01]
- * @update Aniu[2016-04-13 20:42]
- * @version v3.2.2
+ * @update Aniu[2016-04-15 14:05]
+ * @version v3.3.3
  * @description 弹出层组件
  */
 
@@ -79,6 +79,7 @@
                  * @func 弹出层关闭前执行函数，
                  * @param main:$('.ui-layer-main')
                  * @param index:弹出层索引
+                 * @param event 事件对象
                  */
                 callback:null
             },
@@ -91,6 +92,7 @@
                  * @param main:$('.ui-layer-main')
                  * @param index:弹出层索引
                  * @param button:当前触发按钮
+                 * @param event:事件对象
                  */
                 callback:null
             },
@@ -102,6 +104,7 @@
                  * @func 回调函数
                  * @param main:$('.ui-layer-main')
                  * @param index:弹出层索引
+                 * @param event 事件对象
                  */
                 callback:null
             },
@@ -130,14 +133,23 @@
              * @param layer:$('.ui-layer')
              * @param width:窗口宽度
              * @param height:窗口高度
+             * @param event 事件对象
              */
             onWinRisizeEvent:null,
             /**
              * @func window窗口滚动时执行函数
              * @param layer:$('.ui-layer')
              * @param scrollTop:窗口滚动高度
+             * @param event 事件对象
              */
-            onWinScrollEvent:null
+            onWinScrollEvent:null,
+            /**
+             * @func 遮罩层点击回调函数
+             * @param layer:$('.ui-layer')
+             * @param mask 遮罩层选择器
+             * @param event 事件对象
+             */
+            onMaskClick:null
         }
         that.options = $.extend(true, that.options, Layer.config, options||{});
         that.size = {
@@ -215,16 +227,16 @@
      */
     window.layerHide = function(index){
         if(typeof index === 'number'){
-            Layer.listArray[index] && Layer.listArray[index].remove();
+            Layer.listArray[index] && Layer.listArray[index].hide();
         }
         else if(typeof index === 'string'){
             $.each(Layer.listArray, function(key, val){
-                val && (val.options.theme == index && val.remove());    
+                val && (val.options.theme == index && val.hide());    
             });
         }
         else{
             $.each(Layer.listArray, function(key, val){
-                val && (val.options.isClose == true && val.remove());   
+                val && (val.options.isClose == true && val.hide());   
             });
         }
     }
@@ -238,7 +250,7 @@
     
     Layer.prototype = {
         constructor:Layer,
-        version:'3.3.2',
+        version:'3.3.3',
         width:410,
         height:220,
         offset:{
@@ -264,13 +276,13 @@
                 that.bindMove();
             }
             if(typeof options.onWinRisizeEvent === 'function'){
-                that.bindEvent(win, 'resize', function(){
-                    options.onWinRisizeEvent(that.layer, that.wrap.width(), that.wrap.height());
+                that.bindEvent(win, 'resize', function(e){
+                    options.onWinRisizeEvent(that.layer, that.wrap.width(), that.wrap.height(), e);
                 });
             }
             if(typeof options.onWinScrollEvent === 'function'){
                 that.bindEvent(win, 'scroll', function(){
-                    options.onWinScrollEvent(that.layer, win.scrollTop());
+                    options.onWinScrollEvent(that.layer, win.scrollTop(), e);
                 });
             }
             return that;
@@ -309,34 +321,36 @@
                 }
             }
             html += '</div></div>';
-            if($.isPlainObject(options.button) || options.confirm.enable === true || options.cancel.enable === true){
+            if(!$.isPlainObject(options.button)){
+                options.button = {};
+            }
+            var btns = ['confirm', 'cancel', 'close'];
+            $.each(btns, function(key, btnid){
+                var optsBtn = options[btnid], btnsBtn = options.button[btnid];
+                if(optsBtn.enable === true){
+                    if(typeof btnsBtn !== 'undefined'){
+                        options.button[btnid] = $.extend(optsBtn, btnsBtn);
+                    }
+                    else{
+                        options.button[btnid] = optsBtn;
+                    }
+                }
+            });
+            if(!$.isEmptyObject(options.button)){
                 html += '<div class="ui-layer-foot">';
-                if($.isPlainObject(options.button)){
-                    $.each(options.button, function(key, val){
-                        if(key === 'close'){
-                            return true;
-                        }
-                        var text = '自定义按钮';
-                        if(key==='confirm' || key==='cancel'){
-                            text = val.text||options[key].text;
-                            if(val.callback){
-                                options[key].callback = val.callback;
-                            }
-                        }
-                        else{
-                            text = val.text||text;
-                        }
-                        html += '<span class="ui-layer-button ui-layer-'+ key +'" btnid="'+ key +'">'+ text +'</span>';
-                    });
-                }
-                else{
-                    if(options.confirm.enable === true){
-                        html += '<span class="ui-layer-button ui-layer-confirm" btnid="confirm">'+ options.confirm.text +'</span>';
+                $.each(options.button, function(btnid, opts){
+                    if(btnid === 'close'){
+                        return true;
                     }
-                    if(options.cancel.enable === true){
-                        html += '<span class="ui-layer-button ui-layer-cancel" btnid="cancel">'+ options.cancel.text +'</span>';
+                    if(btnid ==='confirm' || btnid ==='cancel'){
+                        opts.text = opts.text || (btnid === 'confirm' ? '确定' : '取消');
                     }
-                }
+                    else{
+                        opts.text = opts.text || btnid;
+                    }
+                    options.button[btnid].text = opts.text;
+                    html += '<span class="ui-layer-button ui-layer-'+ btnid +'" btnid="'+ btnid +'">'+ opts.text +'</span>';
+                });
                 html += '</div>';
             }
             html += '</div></div>';
@@ -443,27 +457,16 @@
             layer.on('click', function(){
                options.isSticky === true && that.setzIndex();
             });
-            button.on('click', function(){
-                var me = $(this), btnid = me.attr('btnid');
-                if(btnid === 'close'){
-                    that.hide();
-                }
-                else if(btnid === 'confirm'){
-                    if(typeof options.confirm.callback === 'function' && options.confirm.callback(main, that.index, me) === true){
-                        that.remove();
-                    }
-                }
-                else if(btnid === 'cancel'){
-                    if(typeof options.cancel.callback !== 'function' || (typeof options.cancel.callback === 'function' && options.cancel.callback(main, that.index, me) !== false)){
-                        that.remove();
+            button.on('click', function(e){
+                var me = $(this), btnid = me.attr('btnid'), callback = options.button[btnid].callback;
+                if(btnid === 'confirm'){
+                    if(typeof callback === 'function' && callback(main, that.index, me, e) === true){
+                        that.hide();
                     }
                 }
                 else{
-                    if(typeof options.button[btnid].callback !== 'undefined'){
-                        options.button[btnid].callback(main, that.index, me);
-                    }
-                    else{
-                        that.remove();
+                    if(typeof callback !== 'function' || (typeof callback === 'function' && callback(main, that.index, me, e) !== false)){
+                        that.hide();
                     }
                 }
                 return false;
@@ -623,11 +626,10 @@
                     else{
                         Layer.mask = $('<div class="ui-layer-mask'+ theme +'"><div></div></div>').appendTo(options.container);
                     }
-                    if(options.isClickMask === true){
-                        that.bindEvent(that.mask||Layer.mask, 'click', function(){
-                            that.hide();
-                        });
-                    }
+                    that.bindEvent(that.mask||Layer.mask, 'click', function(e){
+                        typeof options.onMaskClick === 'function' && options.onMaskClick(layer, $(this), e);
+                        options.isClickMask === true && that.hide();
+                    });
                     if(Layer.bsie6){
                         that.bindEvent(win, 'resize', function(){
                             (that.mask||Layer.mask).css({position:'absolute', width:that.wrap.outerWidth(), height:that.wrap === win ? doc.height() : that.wrap.outerHeight()});
@@ -681,14 +683,6 @@
             return that;
         },
         hide:function(){
-            var that = this, options = that.options, main = that.layer.find('.ui-layer-main');
-            if(typeof options.close.callback === 'function'){
-                options.close.callback(main, that.index);
-                return;
-            }
-            that.remove();
-        },
-        remove:function(){
             var that = this, options = that.options, layer = that.layer, main = layer.find('.ui-layer-main'), xMask = true;
             layer.remove();
             that.unbindEvent();
