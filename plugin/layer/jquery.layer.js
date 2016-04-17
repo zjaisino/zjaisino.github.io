@@ -337,7 +337,7 @@
                 }
             });
             if(!$.isEmptyObject(options.button)){
-                html += '<div class="ui-layer-foot">';
+            	var foot = '';
                 $.each(options.button, function(btnid, opts){
                     if(btnid === 'close'){
                         return true;
@@ -349,9 +349,11 @@
                         opts.text = opts.text || btnid;
                     }
                     options.button[btnid].text = opts.text;
-                    html += '<span class="ui-layer-button ui-layer-'+ btnid +'" btnid="'+ btnid +'">'+ opts.text +'</span>';
+                    foot += '<span class="ui-layer-button ui-layer-'+ btnid +'" btnid="'+ btnid +'">'+ opts.text +'</span>';
                 });
-                html += '</div>';
+                if(foot){
+                	html += '<div class="ui-layer-foot">' + foot +'</div>';
+                }
             }
             html += '</div></div>';
             that.layer = $(html).appendTo(options.container);
