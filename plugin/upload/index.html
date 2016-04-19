@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="renderer" content="webkit" />
+    <meta name="keywords" content="浙江爱信诺前端规范,爱信诺规范,爱信诺前端,爱信诺组件" />
+    <meta name="description" content="本站包括了规范、框架、代码库等内容，致力于为前端开发人员提供高效率高质量的前端页面开发解决方案，提高多人协作效率，也为非专业人员提供快速制作网页的解决方案。" />
+    <meta name="copyright" content="浙江爱信诺航天信息有限公司" />
+    <title>文件上传-组件-浙江爱信诺前端规范</title>
+    <link rel="shortcut icon" type="image/x-icon" href="../../images/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="../../style/base.css" />
+    <link rel="stylesheet" type="text/css" href="../../style/common.css" />
+    <link rel="stylesheet" type="text/css" href="../../style/page.css" />
+    <link rel="stylesheet" type="text/css" href="../layer/layer.css" />
+    <link type="text/css" rel="stylesheet" href="../../style/syntax/shCore.css"/>
+    <link type="text/css" rel="stylesheet" href="../../style/syntax/shThemeDefault.css"/>
+    <style type="text/css">
+    .m-upload span { position:relative; display:inline-block; width:100px; height:35px; border-radius:4px; border:1px solid #397483; background-color:#7CB4C2; overflow:hidden; color:#fff; text-align:center; line-height:35px;}
+    .m-upload input { position:absolute; top:0; right:0; font-size:60px; opacity:0; filter:alpha(opacity=0); cursor:pointer;}
+    .m-upload em { font-size:14px;}
+    </style>
+</head>
+
+<body class="g-body">
+    <!-- header begin -->
+    <div class="g-header">
+        <div class="m-htop g-wrap">
+            <i></i><i></i><i></i><i></i><i></i><i></i>
+            <h1 class="u-logo"><a href="../../index.html">浙江爱信诺前端规范</a></h1>
+        </div>
+        <div class="m-nav">
+            <ul class="g-wrap">
+                <li><a href="../../index.html">规范<i class="ui-icon ui-icon-tip"></i></a></li>
+                <li><a href="../../framework.html">框架<i class="ui-icon ui-icon-tip"></i></a></li>
+                <li class="s-crt"><a href="../../plugin.html">组件<i class="ui-icon ui-icon-tip"></i></a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- header end -->
+    
+    <!-- content begin -->
+    <div class="g-content f-clearfix">
+        <div class="g-side">
+            <div class="m-menu" id="menu"> 
+                <ul></ul> 
+            </div>
+        </div>
+        <div class="g-main">
+            <div class="g-con">
+                <div class="m-article m-plugin ui-animate ui-animate-fadeShow"> 
+                    <h2 class="u-ttb2">组件 - <em id="title">文件上传</em></h2> 
+                    <div class="u-line"><span class="linea"></span><span class="lineb"></span></div> 
+                    <dl> 
+                        <dt>使用说明</dt>
+                        <dd>
+                            <pre class="brush:xml;">
+                            <!-- 编写html结构 -->
+                            &lt;input type="file" name="file" /&gt;
+                            
+                            <!-- 引入jQuery和组件脚本 -->
+                            &lt;script type="text/javascript" src="jquery.js"&gt;&lt;/script&gt;
+                            &lt;script type="text/javascript" src="jquery.upload.js"&gt;&lt;/script&gt;
+                            
+                            <!-- 调用组件 -->
+                            &lt;script type="text/javascript"&gt;
+                            $('[name="file"]').upload({配置参数});
+                            &lt;/script&gt;
+                            </pre>
+                        </dd>
+                        <dd class="f-fs14">后台响应的Content-type值必须为text/html，若果为application/json则在IE下面返回的json会作为文件下载</dd>
+                        <dt>使用实例</dt>
+                        <dd>
+                            <div class="m-upload">
+                                <span>
+                                    <input type="file" name="file" />
+                                    <em>上传图片</em>
+                                </span>
+                                <p></p>
+                            </div>
+                            <pre class="brush:xml;">
+                            &lt;div class="m-upload"&gt;
+                                &lt;span&gt;
+                                    &lt;input type="file" name="file" /&gt;
+                                    &lt;em&gt;上传文件&lt;/em&gt;
+                                &lt;/span&gt;
+                                &lt;p&gt;&lt;/p&gt;
+                            &lt;/div&gt;
+                            </pre>
+                            <pre class="brush:js;">
+                            $('[name="file"]').upload({
+                                url:'http://192.168.1.106/haoju/test/upload.php',
+                                start:function(file){
+                                    var val = file.val().toLowerCase();
+                                    if(!/\.(gif|jpg|jpeg|png|pdf)$/.test(val)){
+                                        $.layer.alert('&lt;p style="padding:10px;"&gt;上传文件格式仅支持gif/jpg/jpeg/png/pdf，并且文件大小不超过8M&lt;/p&gt;', '', 280);
+                                        return false;
+                                    }
+                                    else if(/\.pdf$/.test(val) && !tools.isPDFInstalled()){
+                                        $.layer.alert('&lt;p style="padding:10px;">查看PDF文件需要安装PDF阅读器，请先&lt;a href="http://rj.baidu.com/soft/detail/12612.html?ald" target="_blank"&gt;下载&lt;/a&gt;！&lt;/p&gt;', '', 280);
+                                        return false;
+                                    }
+                                    return true;
+                                },
+                                success:function(res, file){
+                                    if(res.result === 'success'){
+                                        var html = '';
+                                        var url = 'http://192.168.1.106/haoju/data/images/xhupfiles/'+ res.url;
+                                        if(/\.pdf$/.test(res.url)){
+                                            html = '&lt;iframe frameborder="0" scroll="hidden" src="'+ url +'" width="300" height="300"&gt;&lt;/iframe&gt;';
+                                        }
+                                        else{
+                                            html = '&lt;img src="'+ url +'" width="300" height="300" /&gt;';
+                                        }
+                                        $('.m-upload p').append(html);
+                                    }
+                                    else{
+                                        $.layer.alert('&lt;p style="padding:10px;"&gt;'+ res.message +'&lt;/p&gt;', '', 280);
+                                    }
+                                },
+                                error:function(file){
+                                    $.layer.alert('&lt;p style="padding:10px;"&gt;超时或者返回值有误！&lt;/p&gt;', '', 280);
+                                }
+                            });
+                            </pre>
+                        </dd>
+                        <dt>API</dt>
+                        <dd>
+                            <table> 
+                                <thead> 
+                                    <tr>
+                                        <th width="120">普通属性</th>
+                                        <th width="120">值类型</th>
+                                        <th width="120">默认值</th>
+                                        <th width="150">可填值</th>
+                                        <th>功能说明</th>
+                                    </tr> 
+                                </thead> 
+                                <tbody> 
+                                    <tr>
+                                        <td>url</td>
+                                        <td>String</td>
+                                        <td>''</td>
+                                        <td>url字符串</td>
+                                        <td>文件上传url路径</td>
+                                    </tr>
+                                    <tr>
+                                        <td>timeout</td>
+                                        <td>Number</td>
+                                        <td>25000</td>
+                                        <td>正整数</td>
+                                        <td>最大加载时间，单位/毫秒，若超过该时间会调用error回调</td>
+                                    </tr>
+                                    <tr>
+                                        <td>button</td>
+                                        <td>Null | jQuery Selector</td>
+                                        <td>null</td>
+                                        <td>jQuery对象或者空</td>
+                                        <td>按钮点击上传</td>
+                                    </tr>
+                                    <tr>    
+                                        <td>dataType</td>
+                                        <td>String</td>
+                                        <td>json</td>
+                                        <td>json | text</td>
+                                        <td>上传接口返回值类型</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table>
+                                <thead> 
+                                    <tr>
+                                        <th width="120">普通方法</th>
+                                        <th width="120">参数</th>
+                                        <th width="120">默认值</th>
+                                        <th>功能说明</th>
+                                    </tr> 
+                                </thead> 
+                                <tbody> 
+                                    <tr>
+                                        <td>start</td>
+                                        <td>file</td>
+                                        <td>调用组件的file jQuery对象</td>
+                                        <td>文件选择后执行回调函数，可做类型验证，return true继续执行上传</td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="2">success</td>
+                                        <td>response</td>
+                                        <td>响应数据</td>
+                                        <td rowspan="2">上传成功回调函数</td>
+                                    </tr>
+                                    <tr>
+                                        <td>file</td>
+                                        <td>调用组件的file jQuery对象</td>
+                                    </tr>
+                                    <tr>
+                                        <td>error</td>
+                                        <td>file</td>
+                                        <td>调用组件的file jQuery对象</td>
+                                        <td>上传成功回调函数，超时或者返回值类型错误会调用该函数</td>
+                                    </tr>
+                                </tbody>
+                            </table> 
+                        </dd> 
+                        <dt>下载</dt>
+                        <dd>
+                            <a href="jquery.upload.js" class="e-ml10">jquery.upload.js</a>
+                        </dd>
+                        <dt>版本更新</dt>
+                        <dd id="updatelog"></dd>
+                    </dl> 
+                </div> 
+            </div>
+        </div>
+    </div>
+    <!-- content end -->
+    
+    <!-- footer begin -->
+    <div class="g-footer">
+        <div class="g-wrap">
+            <p>
+                <a href="http://wpa.qq.com/msgrd?v=3&uin=897102078&site=qq&menu=yes" target="_blank">技术支持</a>
+            </p>
+            <p>Copyright © 2013-2016 Aisino. All Rights Reserved.</p>
+        </div>
+    </div>
+    <!-- footer end -->
+    
+    <script type="text/javascript" src="../../script/jquery.js"></script>
+    <script type="text/javascript" src="../layer/jquery.layer.js"></script>
+    <script type="text/javascript" src="./jquery.upload.js"></script>
+    <script type="text/javascript" src="../../script/syntax/shCore.js"></script>
+    <script type="text/javascript" src="../../script/syntax/shBrushCss.js"></script>
+    <script type="text/javascript" src="../../script/syntax/shBrushXml.js"></script>
+    <script type="text/javascript" src="../../script/syntax/shBrushJScript.js"></script>
+    <script type="text/javascript" src="../../script/page.js"></script>
+    <script type="text/javascript" src="../../script/tools.js"></script>
+    <script type="text/javascript" src="../menu.js"></script>
+    <script type="text/javascript" src="../arttemplate/template.js"></script>
+    <script type="text/javascript" src="./log.js"></script>
+    <script type="text/html" id="updatelog-tpl">
+    {{each list as val key}}
+        <p>Version:{{val.ver}}</p>
+        {{if val.date}}
+        <p>Date:{{val.date}}</p>    
+        {{/if}}
+        {{each val.desc as v k}}
+        <p>{{v}}</p>
+        {{/each}}
+        <br />
+    {{/each}}
+    </script>
+    <script type="text/javascript">
+    
+    $.layer.tips('<p style="padding:10px;">格式仅支持gif/jpg/jpeg/png/pdf</p>', 'left', {
+        top:$('.m-upload span').offset().top - $(window).scrollTop() - 46,
+        left:$('.m-upload span').offset().left - $(window).scrollLeft() + 115
+    });
+    
+    $('[name="file"]').upload({
+        url:'http://192.168.1.106/haoju/test/upload.php',
+        start:function(file){
+            var val = file.val().toLowerCase();
+            if(!/\.(gif|jpg|jpeg|png|pdf)$/.test(val)){
+                $.layer.alert('<p style="padding:10px;">上传文件格式仅支持gif/jpg/jpeg/png/pdf，并且文件大小不超过8M</p>', '', 280);
+                return false;
+            }
+            else if(/\.pdf$/.test(val) && !tools.isPDFInstalled()){
+                $.layer.alert('<p style="padding:10px;">查看PDF文件需要安装PDF阅读器，请先<a href="http://rj.baidu.com/soft/detail/12612.html?ald" target="_blank">下载</a>！</p>', '', 280);
+                return false;
+            }
+            return true;
+        },
+        success:function(res, file){
+            if(res.result === 'success'){
+                var html = '';
+                var url = 'http://192.168.1.106/haoju/data/images/xhupfiles/'+ res.url;
+                if(/\.pdf$/.test(res.url)){
+                    html = '<iframe frameborder="0" scroll="hidden" src="'+ url +'" width="300" height="300"></iframe>';
+                }
+                else{
+                    html = '<img src="'+ url +'" width="300" height="300" />';
+                }
+                $('.m-upload p').append(html);
+            }
+            else{
+                $.layer.alert('<p style="padding:10px;">'+ res.message +'</p>', '', 280);
+            }
+        },
+        error:function(file){
+            $.layer.alert('<p style="padding:10px;">超时或者返回值有误！</p>', '', 280);
+        }
+    });
+    </script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?0dc9965a1c1a4ac82a30662079161264";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</body>
+</html>

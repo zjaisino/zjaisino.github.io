@@ -9,25 +9,44 @@
 ;!(function(window, document, $, undefined){
     $.fn.upload = function(o){
         o = $.extend({
+            /**
+             * @func 文件上传url路径
+             * @type <String>
+             */
             url:'',
+            /**
+             * @func 最大加载时间，若超过该时间会调用error回调
+             * @type <Number>
+             */
             timeout:25000,
+            /**
+             * @func 按钮点击上传
+             * @type <Null, jQuery Selector>
+             */
             button:null,
-            dataType:'json', //json html text
+            /**
+             * @func 上传接口返回值类型 json text
+             * @type <String>
+             */
+            dataType:'json',
             /**
              * @func 文件选择后执行回调函数，可做类型验证
+             * @type <Function>
              * @return <Boolean>
-             * @param that <jQuery Object> 当前file jquery对象
+             * @param file <jQuery Object> 当前file jquery对象
              */
             start:null,
             /**
              * @func ajax交互成功时回调函数
+             * @type <Function>
              * @param data <Response JSON> 返回json数据
-             * @param that <jQuery Object> 当前file jquery对象
+             * @param file <jQuery Object> 当前file jquery对象
              */
             success:$.noop,
             /**
              * @func ajax交互失败时回调函数
-             * @param that <jQuery Object> 当前file jquery对象
+             * @type <Function>
+             * @param file <jQuery Object> 当前file jquery对象
              */
             error:$.noop
         }, o||{});
@@ -50,7 +69,7 @@
                                 else{
                                     if(o.dataType === 'json'){
                                         if(/^{[\s\S]*}$/.test(response)){
-                                            eval('var data = '+response);
+                                            var data = eval('('+ response +')');
                                             o.success(data, clone);
                                         }
                                         else{

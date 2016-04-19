@@ -89,14 +89,11 @@
                             </pre>
                             <pre class="brush:js;">
                             $.paging({
-                                url:'http://www.yinjiazeng.com/testdata/test/goodslist/list.php?callback=?',
+                                url:'../data.json',
                                 pCount:5,
                                 wrap:$('#paging1'),
                                 loading:{
                                     wrap:$('#data1')
-                                },
-                                condition:{
-                                    price:1
                                 },
                                 echoData:function(data){
                                     if(data.result == 'success'){
@@ -451,35 +448,25 @@
     </script>
     <script type="text/javascript">
     $.paging({
-        url:'http://www.yinjiazeng.com/testdata/test/goodslist/list.php?callback=?',
-        pCount:5,
+        url:'../data.json',
+        pCount:2,
         wrap:$('#paging1'),
         loading:{
             wrap:$('#data1')
         },
-        condition:{
-            price:1
-        },
-        ajax:function(){
-            var that = this;
-            return ({
-                data:{
-                    pp:that.current,
-                    aa:that.pCount
-                }
-            })
-        },
-        echoData:function(data){
-            if(data.result == 'success'){
-                var html = (function(list){
-                    var arr = [];
-                    $.each(list, function(k, v){
-                        arr.push('<li>'+ v.buname +'</li>');
-                    });
-                    return arr.join('');
-                })(data.list);
-                $('#data1').html(html);
-            }
+        echoData:function(res){
+            var page = parseInt(this.current||1);
+            var crt = (page-1)*this.pCount;
+            res.aCount = res.length;
+            var data = res.slice(crt, crt+this.pCount);
+            var html = (function(list){
+                var arr = [];
+                $.each(list, function(k, v){
+                    arr.push('<li>'+ v.title +'</li>');
+                });
+                return arr.join('');
+            })(data);
+            $('#data1').html(html);
         }
     });
     

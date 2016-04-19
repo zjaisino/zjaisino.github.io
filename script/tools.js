@@ -1,9 +1,9 @@
 /**
- * FileName: tools.js
- * Author: Aniu[date:2015-07-31 08:50]
- * Update: Aniu[date:2015-08-17 11:15]
- * Version: v1.2
- * Description: 工具库
+ * @filename jquery.tools.js
+ * @author Aniu[2016-03-29 09:53]
+ * @update Aniu[2016-03-29 09:53]
+ * @version v1.1
+ * @description 工具类
  */
 
 var tools = {
@@ -14,18 +14,17 @@ var tools = {
      * @param urls <String, Undefined> url地址，默认为当前访问地址
      */
     getParam:function(name, urls){
-        var url = urls||location.href, value = '';
+        var url = decodeURI(urls||location.href), value = {};
         startIndex = url.indexOf('?');
         if(startIndex++ > 0){
-			value = {};
             var param = url.substr(startIndex).split('&'), temp;
             $.each(param, function(key, val){
                 temp = val.split('=');
                 value[temp[0]] = temp[1];
             });
-            if(typeof name === 'string' && name){
-                value = (temp = value[name]) !== undefined ? temp : '';
-            }
+        }
+        if(typeof name === 'string' && name){
+            value = (temp = value[name]) !== undefined ? temp : '';
         }
         return value;
     },
@@ -41,7 +40,10 @@ var tools = {
         if($.isPlainObject(name)){
             url = value||location.href;
             $.each(name, function(key, val){
-                if(typeof val === 'number' || typeof val === 'string'){
+                if(val !== ''){
+                	if($.isPlainObject(val)){
+                		val = tools.getJSON(val);
+                	}
                     url = tools.setParam(key, val, url);
                 }
             });
@@ -51,6 +53,9 @@ var tools = {
             if(url.indexOf('?') === -1){
                 url += '?';
             }
+            if($.isPlainObject(value)){
+            	value = tools.getJSON(value);
+        	}
             if(url.indexOf(name+'=') !== -1){
                 var reg = new RegExp('('+name+'=)[^&]*');
                 url = url.replace(reg, '$1'+value);
@@ -64,47 +69,6 @@ var tools = {
             }
         }
         return url;
-    },
-    /**
-     * @func 加入收藏
-     * @return <Undefined>
-     * @param url <String> 网址url
-     * @param title <String> 网址中文名称
-     */
-    addFav:function(url, title){
-        try{
-            window.external.addFavorite(url, title);
-        }
-        catch(e){
-            try{
-                window.sidebar.addPanel(title, url, '');
-                }
-            catch(e){
-                alert('您所使用的浏览器不支持该功能,请使用Ctrl+D手动添加!');
-            }
-        }
-    },
-    /**
-     * @func 设为首页
-     * @return <Undefined>
-     * @param obj <DOM Object> 调用方法的DOM对象，兼容IE
-     * @param url <String> 网址url
-     */
-    setHome:function(obj, url){
-        try{  
-            obj.style.behavior = 'url(#default#homepage)';  
-            obj.setHomePage(url);  
-        }catch(e){  
-            if(window.netscape){  
-                try{  
-                    netscape.security.PrivilegeManager.enablePrivilege('UniversalXPConnect');  
-                }catch(e){  
-                    alert('抱歉，此操作被浏览器拒绝！请在浏览器地址栏输入"about:config"并回车然后将[signed.applets.codebase_principal_support]设置为true');  
-                }
-            }else{  
-                alert('抱歉，您所使用的浏览器无法完成此操作。您需要手动将' + url + '设置为首页。');  
-            } 
-        }
     },
     /**
      * @func 检测浏览器是否支持CSS3属性
@@ -182,22 +146,120 @@ var tools = {
      * @param data <Array, Object> 数组或者对象
      */
     getJSON:function(data){
-        if($.isArray(data)){
-            var arr = [];
-            $.each(data, function(key, val){
-                arr.push(tools.getJSON(val));
-            });
-            return '[' + arr.join(',') + ']';
-        }
-        else if($.isPlainObject(data)){
-            var temp = [];
-            $.each(data, function(key, val){
-                temp.push('"'+ key +'":'+ tools.getJSON(val));
-            });
-            return '{' + temp.join(',') + '}';
+        if(typeof JSON !== 'undefined'){
+            return JSON.stringify(data);
         }
         else{
-            return '"'+data+'"';
+            if($.isArray(data)){
+                var arr = [];
+                $.each(data, function(key, val){
+                    arr.push(tools.getJSON(val));
+                });
+                return '[' + arr.join(',') + ']';
+            }
+            else if($.isPlainObject(data)){
+                var temp = [];
+                $.each(data, function(key, val){
+                    temp.push('"'+ key +'":'+ tools.getJSON(val));
+                });
+                return '{' + temp.join(',') + '}';
+            }
+            else{
+                return '"'+data+'"';
+            }
+        }
+    },
+    /**
+     * @func 正则表达式
+     */
+    regex:{
+    	//手机
+    	mobile:/^1(3|4|5|7|8)[0-9]{9}$/,
+    	//电话
+    	tel:/^[0-9-()（）]{7,18}$/,
+    	//邮箱
+    	email:/^\w+((-w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/,
+    	//身份证
+    	idcard:/^[1-9]\d{5}((\d{2}[01]\d[0-3]\d{4})|([1-9]\d{3}[01]\d[0-3]\d{4}(\d|X)))$/,
+    	//中文
+    	cn:/^[\u4e00-\u9fa5]+$/,
+    	//税号
+    	taxnum:/^[a-zA-Z0-9]{15,20}$/,
+    	//银行卡号
+    	banknum:/^[0-9]*$/
+    },
+    /**
+     * @func 判断是否安装pdf
+     */
+    isPDFInstalled:function(){
+    	var i, len;
+        var flag = false;
+        if($.browser.webkit){
+            flag = true;
+        }
+        if(navigator.plugins && (len = navigator.plugins.length)){
+            for(i = 0; i < len; i++){
+                if(/Adobe Reader|Adobe PDF|Acrobat|Chrome PDF Viewer/.test(navigator.plugins[i].name)){
+                    flag = true;
+                    break;
+                }
+            }
+        }
+        try{
+            if(window.ActiveXObject || window.ActiveXObject.prototype){
+                for(i = 1; i < 10; i++){
+                    try{
+                        if(eval("new ActiveXObject('PDF.PdfCtrl." + i + "');")){
+                            flag = true;
+                            break;
+                        }
+                    } 
+                    catch(e){
+                        flag = false;
+                    }
+                }
+                
+                var arr = ['PDF.PdfCtrl', 'AcroPDF.PDF.1', 'FoxitReader.Document', 'Adobe Acrobat', 'Adobe PDF Plug-in'];
+                len = arr.length;
+                for(i = 0; i < len; i++){
+                    try{
+                        if(new ActiveXObject(arr[i])){
+                            flag = true;
+                            break;
+                        }
+                            
+                    } 
+                    catch(e){
+                        flag = false;
+                    }
+                }
+            }
+        }
+        catch(e){
+            
+        }
+        return flag;
+    },
+    /**
+     * @func 设置上传图片本地路径
+     * @param file <jQuery Object> file上传按钮jq对象
+     * @param target <jQuery Object> 图片jq对象
+     */
+    setPath:function(file, target){
+        if(typeof document.selection !== 'undefined'){
+            file.select();
+            file.blur();
+            target.removeAttr('src');
+            target[0].style.filter = 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="'+ document.selection.createRange().text +'", sizingMethod = scale)';
+        }
+        else{
+            file = file.files[0];
+            var reader = new FileReader();
+            reader.onload = function(event){ 
+                var txt = event.target.result;
+                target.attr('src', txt);
+            }
+            reader.readAsDataURL(file);
         }
     }
-}
+};
