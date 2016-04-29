@@ -20,6 +20,11 @@
              */
             timeout:25000,
             /**
+             * @func 加载速度
+             * @type <Number>
+             */
+            speed:100,
+            /**
              * @func 按钮点击上传
              * @type <Null, jQuery Selector>
              */
@@ -36,6 +41,14 @@
              * @param file <jQuery Object> 当前file jquery对象
              */
             start:null,
+            /**
+             * @func 文件上传进行中回调函数，可实现进度条
+             * @type <Function>
+             * @param scale <Number> 当前file jquery对象
+             * @param file <jQuery Object> 当前file jquery对象
+             * @param data <Response JSON> 返回json数据
+             */
+            send:$.noop,
             /**
              * @func ajax交互成功时回调函数
              * @type <Function>
@@ -55,28 +68,34 @@
             if(that.is(':file')){
                 var iframe = $('iframe[name="uploadfile"]'), timer = null,
                     type = o.dataType === 'json' ? 'text' : o.dataType,
-                    form, val, timeout, response, body, clone,
+                    form, val, timeout, response, body, clone, speed = o.speed || 100,
                     request = function(){
+                        o.send(0, clone);
                         timer = setTimeout(function(){
-                            timeout -= 100;
+                            timeout += speed;
+                            o.send(parseInt(timeout/o.timeout), clone);
                             body = iframe.contents().find('body');
                             response = body[type]();
-                            if(response || timeout <= 0){
+                            if(response || timeout >= o.timeout){
                                 clearTimeout(timer);
-                                if(timeout <= 0){
+                                if(timeout >= o.timeout){
+                                    o.send(100, clone);
                                     o.error(clone); //超时
                                 }
                                 else{
                                     if(o.dataType === 'json'){
                                         if(/^{[\s\S]*}$/.test(response)){
                                             var data = eval('('+ response +')');
+                                            o.send(100, clone, data);
                                             o.success(data, clone);
                                         }
                                         else{
+                                            o.send(100, clone);
                                             o.error(clone); //格式错误
                                         }
                                     }
                                     else{
+                                        o.send(100, clone, response);
                                         o.success(response, clone);
                                     }
                                 }
@@ -84,8 +103,8 @@
                                 return;
                             }
                             request();
-                        }, 100);
-                }
+                        }, speed);
+                    }
                 if(!iframe[0]){
                     iframe = $('<iframe name="uploadfile"></iframe>\
                                 <form method="post" action="'+ o.url +'" target="uploadfile" enctype="multipart/form-data"></form>').appendTo('body').hide().first();
@@ -94,7 +113,7 @@
                 if(o.button !== null){
                     o.button.click(function(){
                         clearTimeout(timer);
-                        timeout = o.timeout;
+                        timeout = 0;
                         if(typeof o.start === 'function' && !o.start(that)){
                             return;
                         }
@@ -105,7 +124,7 @@
                 else{
                     that.change(function(){
                         clearTimeout(timer);
-                        timeout = o.timeout;
+                        timeout = 0;
                         if((typeof o.start === 'function' && !o.start(that)) || !that.val()){
                             return;
                         }

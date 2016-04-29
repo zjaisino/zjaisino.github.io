@@ -19,6 +19,9 @@
     .m-upload span { position:relative; display:inline-block; width:100px; height:35px; border-radius:4px; border:1px solid #397483; background-color:#7CB4C2; overflow:hidden; color:#fff; text-align:center; line-height:35px;}
     .m-upload input { position:absolute; top:0; right:0; font-size:60px; opacity:0; filter:alpha(opacity=0); cursor:pointer;}
     .m-upload em { font-size:14px;}
+    .m-upload div { position:relative; display:none; width:200px; height:16px; line-height:16px;}
+    .m-upload div b { width:0; height:100%; background-color:#7CB4C2; text-align:right;}
+    .m-upload div s { position:absolute; width:0; height:100%;}
     </style>
 </head>
 
@@ -76,6 +79,7 @@
                                     <input type="file" name="file" />
                                     <em>上传图片</em>
                                 </span>
+                                <div><b></b><s></s></div>
                                 <p></p>
                             </div>
                             <pre class="brush:xml;">
@@ -93,33 +97,42 @@
                                 start:function(file){
                                     var val = file.val().toLowerCase();
                                     if(!/\.(gif|jpg|jpeg|png|pdf)$/.test(val)){
-                                        $.layer.alert('&lt;p style="padding:10px;"&gt;上传文件格式仅支持gif/jpg/jpeg/png/pdf，并且文件大小不超过8M&lt;/p&gt;', '', 280);
+                                        $.layer.alert('<p style="padding:10px;">上传文件格式仅支持gif/jpg/jpeg/png/pdf，并且文件大小不超过80M</p>', '', 280);
                                         return false;
                                     }
                                     else if(/\.pdf$/.test(val) && !tools.isPDFInstalled()){
-                                        $.layer.alert('&lt;p style="padding:10px;">查看PDF文件需要安装PDF阅读器，请先&lt;a href="http://rj.baidu.com/soft/detail/12612.html?ald" target="_blank"&gt;下载&lt;/a&gt;！&lt;/p&gt;', '', 280);
+                                        $.layer.alert('<p style="padding:10px;">查看PDF文件需要安装PDF阅读器，请先<a href="http://rj.baidu.com/soft/detail/12612.html?ald" target="_blank">下载</a>！</p>', '', 280);
                                         return false;
                                     }
                                     return true;
                                 },
-                                success:function(res, file){
-                                    if(res.result === 'success'){
-                                        var html = '';
-                                        var url = 'http://192.168.1.106/haoju/data/images/xhupfiles/'+ res.url;
-                                        if(/\.pdf$/.test(res.url)){
-                                            html = '&lt;iframe frameborder="0" scroll="hidden" src="'+ url +'" width="300" height="300"&gt;&lt;/iframe&gt;';
+                                speed:100,
+                                send:function(scale, file, res){
+                                    var bar = file.closest('div').find('div').show();
+                                    bar.find('b').stop(true, false).animate({'width':scale+'%'}, function(){
+                                        if(scale === 100){
+                                            bar.hide().find('b').css({width:0}).end().find('s').text('');
+                                            if(res){
+                                                if(res.result === 'success'){
+                                                    var html = '';
+                                                    var url = 'http://192.168.1.106/haoju/data/images/xhupfiles/'+ res.url;
+                                                    if(/\.pdf$/.test(res.url)){
+                                                        html = '<iframe frameborder="0" scroll="hidden" src="'+ url +'" width="300" height="300"></iframe>';
+                                                    }
+                                                    else{
+                                                        html = '<img src="'+ url +'" width="300" height="300" />';
+                                                    }
+                                                    $('.m-upload p').append(html);
+                                                }
+                                                else{
+                                                    $.layer.alert('<p style="padding:10px;">'+ res.message +'</p>', '', 280);
+                                                }
+                                            }
+                                            else{
+                                                $.layer.alert('<p style="padding:10px;">超时或者返回值有误！</p>', '', 280);
+                                            }
                                         }
-                                        else{
-                                            html = '&lt;img src="'+ url +'" width="300" height="300" /&gt;';
-                                        }
-                                        $('.m-upload p').append(html);
-                                    }
-                                    else{
-                                        $.layer.alert('&lt;p style="padding:10px;"&gt;'+ res.message +'&lt;/p&gt;', '', 280);
-                                    }
-                                },
-                                error:function(file){
-                                    $.layer.alert('&lt;p style="padding:10px;"&gt;超时或者返回值有误！&lt;/p&gt;', '', 280);
+                                    }).end().find('s').text(scale+'%');
                                 }
                             });
                             </pre>
@@ -262,7 +275,7 @@
         start:function(file){
             var val = file.val().toLowerCase();
             if(!/\.(gif|jpg|jpeg|png|pdf)$/.test(val)){
-                $.layer.alert('<p style="padding:10px;">上传文件格式仅支持gif/jpg/jpeg/png/pdf，并且文件大小不超过8M</p>', '', 280);
+                $.layer.alert('<p style="padding:10px;">上传文件格式仅支持gif/jpg/jpeg/png/pdf，并且文件大小不超过80M</p>', '', 280);
                 return false;
             }
             else if(/\.pdf$/.test(val) && !tools.isPDFInstalled()){
@@ -271,24 +284,33 @@
             }
             return true;
         },
-        success:function(res, file){
-            if(res.result === 'success'){
-                var html = '';
-                var url = 'http://192.168.1.106/haoju/data/images/xhupfiles/'+ res.url;
-                if(/\.pdf$/.test(res.url)){
-                    html = '<iframe frameborder="0" scroll="hidden" src="'+ url +'" width="300" height="300"></iframe>';
+        speed:100,
+        send:function(scale, file, res){
+            var bar = file.closest('div').find('div').show();
+            bar.find('b').stop(true, false).animate({'width':scale+'%'}, function(){
+                if(scale === 100){
+                    bar.hide().find('b').css({width:0}).end().find('s').text('');
+                    if(res){
+                        if(res.result === 'success'){
+                            var html = '';
+                            var url = 'http://192.168.1.106/haoju/data/images/xhupfiles/'+ res.url;
+                            if(/\.pdf$/.test(res.url)){
+                                html = '<iframe frameborder="0" scroll="hidden" src="'+ url +'" width="300" height="300"></iframe>';
+                            }
+                            else{
+                                html = '<img src="'+ url +'" width="300" height="300" />';
+                            }
+                            $('.m-upload p').append(html);
+                        }
+                        else{
+                            $.layer.alert('<p style="padding:10px;">'+ res.message +'</p>', '', 280);
+                        }
+                    }
+                    else{
+                        $.layer.alert('<p style="padding:10px;">超时或者返回值有误！</p>', '', 280);
+                    }
                 }
-                else{
-                    html = '<img src="'+ url +'" width="300" height="300" />';
-                }
-                $('.m-upload p').append(html);
-            }
-            else{
-                $.layer.alert('<p style="padding:10px;">'+ res.message +'</p>', '', 280);
-            }
-        },
-        error:function(file){
-            $.layer.alert('<p style="padding:10px;">超时或者返回值有误！</p>', '', 280);
+            }).end().find('s').text(scale+'%');
         }
     });
     </script>

@@ -223,6 +223,8 @@
             });
             that.suggest.on('mouseover', function(){
                 that.suggest.addClass('s-evt');
+            }).on('mouseout', function(){
+                that.suggest.removeClass('s-evt');
             });
             that.suggestlist.on('click', 'li', function(){
                 var me = $(this);
@@ -296,7 +298,7 @@
             var that = this, eArr = that.eventArray, i, temp;
             for(i in eArr){
                 temp = eArr[i];
-                temp.target.unbind(temp.eventType, temp.callback);
+                temp.target && temp.target.unbind(temp.eventType, temp.callback);
             }
             that.eventArray.length = 0;
         }
@@ -332,13 +334,7 @@
                     }
                 }   
             }).on('click', function(){
-                return false;
-            }).on('blur', function(){
-                setTimeout(function(){
-                    if(sug.suggest && !sug.suggest.hasClass('s-evt')){
-                        sug.hide();
-                    }
-                }, 250);
+            	return false;
             });
         });
     }

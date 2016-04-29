@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<meta name="format-detection" content="telephone=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="renderer" content="webkit" />
+	<meta name="keywords" content="" />
+	<meta name="description" content="" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="../../style/base.css" />
+    <style type="text/css">
+    .ui-checkbox { display:inline-block; width:14px; height:14px; cursor:pointer; background:url(check.png) no-repeat;}
+    .ui-checkbox.s-checked { background-position:-18px 0;}
+    .ui-radio { display:inline-block; width:20px; height:20px; cursor:pointer; background:url(radio.png) no-repeat -24px 0;}
+    .ui-checkradio .ui-radio.s-checked { background-position:0 0;}
+    .ui-checkradio { display:inline-block; margin-top:10px; cursor:pointer;}
+    .ui-checkradio input { opacity:0; filter:alpha(opacity=0); cursor:pointer;}
+    </style>
+</head>
+
+<body class="g-bddy">
+	<!-- header -->
+	<div class="g-header"></div>
+	<!-- /header -->
+
+	<!-- content -->
+	<div class="g-content">
+    
+    <span class="ui-checkradio">
+        <input type="checkbox" name="like" value="1" /> 水果
+    </span>
+    <span class="ui-checkradio">
+        <input type="checkbox" name="like" value="1" /> 水果
+    </span>
+    <span class="ui-checkradio">
+        <input type="checkbox" name="like" value="1" /> 水果
+    </span>
+    
+    <span class="ui-checkradio">
+        <input type="radio" name="sex" value="1" />男
+    </span>
+    <span class="ui-checkradio">
+        <input type="radio" name="sex" value="2" />女
+    </span>
+    </div>
+	<!-- /content -->
+
+	<!-- footer -->
+	<div class="g-footer"></div>
+	<!-- /footer -->
+	<script type="text/javascript" src="../../script/jquery.js"></script>
+	<script type="text/javascript" src="jquery.checkradio.js"></script>
+    <script type="text/javascript">
+    $(document).click(function(){
+        alert();
+    });
+    $(':checkbox, :radio').checkradio({
+        callback:function(ele, e){
+            e.stopPropagation();
+        }
+    });
+    </script>
+</body>
+</html>
