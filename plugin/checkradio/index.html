@@ -46,6 +46,8 @@
         <input type="radio" name="sex" value="2" />女
     </span>
     </div>
+    
+    <a href="javascript:void(0);" id="default">还原</a>
 	<!-- /content -->
 
 	<!-- footer -->
@@ -61,6 +63,11 @@
         callback:function(ele, e){
             e.stopPropagation();
         }
+    });
+    
+    $('#default').click(function(e){
+        $(':checkbox').prop('checked', false).checkradio();
+        e.stopPropagation();
     });
     </script>
 </body>

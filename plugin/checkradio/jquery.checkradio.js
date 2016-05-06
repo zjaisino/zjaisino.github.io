@@ -13,7 +13,7 @@
         });
         return this.each(function(){
             var me = $(this);
-            if(!me.parent().hasClass('ui-checkradio')){
+            if(!me.parent().hasClass('ui-checkradio') && !me.parent('[checkname]').length){
                 return;
             }
             var checked = me.prop('checked') ? ' s-checked' : '';
@@ -23,29 +23,34 @@
             if(me.is(':checkbox')){
                 type = 'checkbox';
             }
-            var ele = me.css({position:'absolute', top:'-999em', left:'-999em', opacity:0})
-                .wrap('<i class="ui-'+ type + checked + disabled +'" checkname="'+ name +'"></i>').parent();
-            ele.css({overflow:'hidden'}).parent().click(function(e){
-                if(me.is(':disabled')){
-                    return;
-                }
-                if(me.is(':checkbox')){
-                    if(me.prop('checked')){
-                        me.prop('checked', false);
-                        ele.removeClass('s-checked');
+            if(me.parent('[checkname]').length){
+                me.parent().attr('class', 'ui-'+ type + checked + disabled);
+            }
+            else{
+                var ele = me.css({position:'absolute', top:'-999em', left:'-999em', opacity:0})
+                    .wrap('<i class="ui-'+ type + checked + disabled +'" checkname="'+ name +'"></i>').parent();
+                ele.css({overflow:'hidden'}).parent().click(function(e){
+                    if(me.is(':disabled')){
+                        return;
+                    }
+                    if(me.is(':checkbox')){
+                        if(me.prop('checked')){
+                            me.prop('checked', false);
+                            ele.removeClass('s-checked');
+                        }
+                        else{
+                            me.prop('checked', true);
+                            ele.addClass('s-checked');
+                        }
                     }
                     else{
                         me.prop('checked', true);
+                        $('.ui-radio[checkname="'+ name +'"]').removeClass('s-checked');
                         ele.addClass('s-checked');
                     }
-                }
-                else{
-                    me.prop('checked', true);
-                    $('.ui-radio[checkname="'+ name +'"]').removeClass('s-checked');
-                    ele.addClass('s-checked');
-                }
-                o.callback(me, e);
-            });
+                    o.callback(me, e);
+                });
+            }
         });
     }
 })(jQuery);

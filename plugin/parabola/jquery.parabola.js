@@ -20,14 +20,13 @@
             callback:$.noop
         }, o||{});
         return this.each(function(){
-            var that = $(this), speed = o.speed, a = o.curvature, b = c = 0, isTrue = true, timer = null;
+            var that = $(this), speed = o.speed, a = o.curvature, b = c = 0, timer = null;
             that.on('click', function(){
             	if(!that.hasClass('s-crt')){
             		that.addClass('s-crt');
 					if(o.callback() === false){
 						return;
 					}
-	                if(!isTrue) return;
 	                var origin = {
 	                    x:that.offset().left,
 	                    y:that.offset().top
@@ -73,12 +72,10 @@
 	                        clearTimeout(timer);
 	                        ele.hide();
 	                        o.complete(that, ele);
-	                        isTrue = true;
+	                        that.removeClass('s-crt');
 	                    }
 	                }
 	                move();
-	                isTrue = false;
-	                that.removeClass('s-crt');
             	}
             });
         });
