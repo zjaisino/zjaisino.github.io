@@ -180,7 +180,7 @@
                 var style = {
                     top:target.offset().top+target.outerHeight() - 1 + top,
                     left:target.offset().left,
-                    width:target.outerWidth()
+                    width:target.innerWidth()
                 }
                 that.suggest.css(style).show();
                 var item = that.suggestlist.html(html);

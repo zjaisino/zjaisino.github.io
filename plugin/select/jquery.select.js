@@ -135,7 +135,8 @@
                 o.callback(that);
             }
             if(value !== undefined && o.isInit === true){
-                that.val(value);
+                var selIndex = that.children('option[value="'+ value +'"]').index();
+                that[0].selectedIndex = selIndex;
             }
             var index = that[0].selectedIndex,
                 size = that.children('option').size(),
@@ -315,6 +316,6 @@
                 imitselect.removeClass('s-show');
             });
             
-        }).hide();
+        });
     }
 })(this, document, jQuery);

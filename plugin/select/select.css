@@ -8,6 +8,7 @@
  * @description none
  */
 
+.ui-select { position:absolute; top:-999em; left:-999em; opacity:0;}
 .ui-imitselect { height:21px; cursor:pointer; background-color:#fff; -webkit-user-select:none; -moz-user-select:none; -o-user-select:none;}
 .ui-imitselect, .ui-imitselect dd { border:1px solid #ddd;}
 .ui-imitselect dt i { -webkit-transition:all .3s ease-in; -ms-transition:all .3s ease-in; transition:all .3s ease-in;}
