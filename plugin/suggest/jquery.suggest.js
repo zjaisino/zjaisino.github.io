@@ -18,6 +18,7 @@
              * @type <String>
              */
             url:'',
+            container:'body',
             /**
              * @func 远程接口接收参数
              * @type <String>
@@ -60,11 +61,15 @@
              */
             getData:null,
             /**
-             * @func 下拉框定位垂直偏移
-             * @type <Number, Function>
-             * @return <Number>
+             * @func 下拉框定位偏移
+             * @type <Object, Function>
+             * @return <Object>
              */
-            offsetTop:0,
+            offset:{
+                top:0,
+                left:0,
+                width:0
+            },
             /**
              * @func 处理列表数据
              * @type <Function>
@@ -114,7 +119,7 @@
             that.suggest = $('.ui-suggest');
             if(!that.suggest.size()){
                 var diy = sets.diyCallback()||'';
-                that.suggest = $('<div class="ui-suggest"><ul class="ui-suggest-list"></ul>'+ diy +'</div>').appendTo('body').addClass(sets.theme);
+                that.suggest = $('<div class="ui-suggest"><ul class="ui-suggest-list"></ul>'+ diy +'</div>').appendTo(sets.container).addClass(sets.theme);
             }
             that.suggestlist = that.suggest.children('.ui-suggest-list');
             that.request && that.request.abort();
@@ -173,14 +178,11 @@
                     that.liSize = num;
                     return arr.join('');
                 })(res);
-                var top = parseFloat(typeof sets.offsetTop === 'function' ? sets.offsetTop() : sets.offsetTop);
-                if(!top){
-                    top = 0;
-                }
+                var offset = typeof sets.offse === 'function' ? sets.offset() : sets.offset;
                 var style = {
-                    top:target.offset().top+target.outerHeight() - 1 + top,
-                    left:target.offset().left,
-                    width:target.innerWidth()
+                    top:(sets.container == 'body' ? target.offset().top : 0)+target.outerHeight() - 1 + offset.top,
+                    left:(sets.container == 'body' ? target.offset().left : 0) + offset.left,
+                    width:target.innerWidth()+offset.width
                 }
                 that.suggest.css(style).show();
                 var item = that.suggestlist.html(html);
@@ -203,7 +205,7 @@
                 }
                 var height = that.suggest.height();
                 if($(window).height() - style.top < height){
-                    that.suggest.css({top:style.top - height - target.outerHeight() + 1 - top});
+                    that.suggest.css({top:style.top - height - target.outerHeight() + 1 - offset.top});
                 }
                 if(that.isbind){
                     that.bindMouse();
@@ -307,7 +309,7 @@
     $.fn.suggest = function(setting){
         return this.each(function(){
             var target = $(this).attr('autocomplete', 'off');
-            var sug = new Suggest(target, setting);
+            var sug = target.get(0).sug = new Suggest(target, setting);
             target.on('keyup', function(e){
                 switch(e.keyCode){
                     case 38:
@@ -333,8 +335,6 @@
                         }
                     }
                 }   
-            }).on('click', function(){
-            	return false;
             });
         });
     }

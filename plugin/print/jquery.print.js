@@ -40,8 +40,8 @@
         //防止打印界面的该组件被再次调用
         if(!me.attr('bindprint')){
             me.attr('bindprint', '1');
-            var ele = typeof o.element === 'string' ? $(o.element).clone() : o.element.clone();
             me.on('click', function(e){
+                var ele = typeof o.element === 'string' ? $(o.element).clone() : o.element.clone();
                 if(o.element){
                     if(o.iframe.enable === true){
                         var iframeBox = $('<div><iframe /></div>').appendTo('body');
