@@ -23,6 +23,10 @@
     "name":"tab",
     "desc":"选项卡菜单"
 }, {
+    "title":"模拟单复选框", 
+    "name":"checkradio",
+    "desc":"模拟单复选框"
+}, {
     "title":"图片轮播", 
     "name":"superslide",
     "desc":"固定尺寸、自适应、非循环滚动"
@@ -30,6 +34,10 @@
     "title":"分页", 
     "name":"paging",
     "desc":"支持异步分页，传统的整页刷新翻页，瀑布流"
+}, {
+    "title":"校验上传文件",
+    "name":"checkfile",
+    "desc":"检测文件大小，文件格式"
 }, {
     "title":"搜索提示", 
     "name":"suggest",

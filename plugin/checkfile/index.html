@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<meta name="format-detection" content="telephone=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="renderer" content="webkit" />
+	<meta name="keywords" content="" />
+	<meta name="description" content="" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<title>校验上传文件-组件-浙江爱信诺前端规范</title>
+	<link rel="stylesheet" type="text/css" href="../../style/base.css" />
+    <style type="text/css">
+    body { padding:100px;}
+    </style>
+</head>
+
+<body class="g-bddy">
+	
+    <input type="file" name="file" />  
+
+	<!-- footer -->
+	<div class="g-footer"></div>
+	<!-- /footer -->
+	<script type="text/javascript" src="../../script/jquery.js"></script>
+	<script type="text/javascript" src="jquery.checkfile.js"></script>
+    <script type="text/javascript">
+    $('[name="file"]').checkfile({
+        success:function(data, file, callback){
+            callback();
+            file.remove();
+            alert(data.size);
+        },
+        error:function(type){
+            if(type == 1){
+                alert('文件格式为：'+this.ext);
+            }
+            else{
+                alert('文件大小为：'+this.maxsize);
+            }
+        }
+    });
+    </script>
+</body>
+</html>
