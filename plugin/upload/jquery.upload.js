@@ -35,6 +35,13 @@
              */
             dataType:'json',
             /**
+             * @func 上传表单中添加html，可配置提交参数
+             * @type <Function>
+             * @return <String>
+             * @param file <jQuery Object> 当前file jquery对象
+             */
+            html:$.noop,
+            /**
              * @func 文件选择后执行回调函数，可做类型验证
              * @type <Function>
              * @return <Boolean>
@@ -68,35 +75,35 @@
             if(that.is(':file')){
                 var iframe = $('iframe[name="uploadfile"]'), timer = null,
                     type = o.dataType === 'json' ? 'text' : o.dataType,
-                    form, val, timeout, response, body, clone, speed = o.speed || 100,
+                    form, val, timeout, response, body, speed = o.speed || 100,
                     request = function(){
-                        o.send(0, clone);
+                        o.send(0, that);
                         timer = setTimeout(function(){
                             timeout += speed;
-                            o.send(parseInt(timeout/o.timeout), clone);
+                            o.send(parseInt(timeout/o.timeout), that);
                             body = iframe.contents().find('body');
                             response = body[type]();
                             if(response || timeout >= o.timeout){
                                 clearTimeout(timer);
                                 if(timeout >= o.timeout){
-                                    o.send(100, clone);
-                                    o.error(clone); //超时
+                                    o.send(100, that);
+                                    o.error(that); //超时
                                 }
                                 else{
                                     if(o.dataType === 'json'){
                                         if(/^{[\s\S]*}$/.test(response)){
                                             var data = eval('('+ response +')');
-                                            o.send(100, clone, data);
-                                            o.success(data, clone);
+                                            o.send(100, that, data);
+                                            o.success(data, that);
                                         }
                                         else{
-                                            o.send(100, clone);
-                                            o.error(clone); //格式错误
+                                            o.send(100, that);
+                                            o.error(that); //格式错误
                                         }
                                     }
                                     else{
-                                        o.send(100, clone, response);
-                                        o.success(response, clone);
+                                        o.send(100, that, response);
+                                        o.success(response, that);
                                     }
                                 }
                                 body.empty();
@@ -128,8 +135,8 @@
                         if((typeof o.start === 'function' && !o.start(that)) || !that.val()){
                             return;
                         }
-                        clone = that.before(that.clone()).prev().upload(o);
-                        form.children().remove().end().html(that).submit();
+                        that.before(that.clone()).prev().upload(o);
+                        form.children().remove().end().html(that).append(o.html(that)||'').submit();
                         request();
                     });
                 }

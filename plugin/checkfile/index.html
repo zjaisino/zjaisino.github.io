@@ -19,27 +19,32 @@
 <body class="g-bddy">
 	
     <input type="file" name="file" />  
-
+    <div id="temp"></div>
 	<!-- footer -->
 	<div class="g-footer"></div>
 	<!-- /footer -->
 	<script type="text/javascript" src="../../script/jquery.js"></script>
-	<script type="text/javascript" src="jquery.checkfile.js"></script>
+	<script type="text/javascript" src="../../script/tools.js"></script>
+	<script type="text/javascript" src="./jquery.checkfile.js"></script>
     <script type="text/javascript">
-    $('[name="file"]').checkfile({
-        success:function(data, file, callback){
-            callback();
-            file.remove();
-            alert(data.size);
-        },
-        error:function(type){
-            if(type == 1){
-                alert('文件格式为：'+this.ext);
+    $(function(){
+        $('[name="file"]').checkfile({
+            success:function(data, file, callback){
+                callback();
+                file.remove();
+                var img = $('<img style="max-width:200px;" />');
+                tools.setPath(file.get(0), img);
+                $('#temp').append(img);
+            },
+            error:function(type){
+                if(type == 1){
+                    alert('文件格式为：'+this.ext);
+                }
+                else{
+                    alert('文件大小为：'+this.maxsize);
+                }
             }
-            else{
-                alert('文件大小为：'+this.maxsize);
-            }
-        }
+        });
     });
     </script>
 </body>

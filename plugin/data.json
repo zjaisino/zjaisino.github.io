@@ -35,10 +35,6 @@
     "name":"paging",
     "desc":"支持异步分页，传统的整页刷新翻页，瀑布流"
 }, {
-    "title":"校验上传文件",
-    "name":"checkfile",
-    "desc":"检测文件大小，文件格式"
-}, {
     "title":"搜索提示", 
     "name":"suggest",
     "desc":"异步、非异步加载数据，自定义下拉"

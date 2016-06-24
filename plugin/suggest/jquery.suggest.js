@@ -35,6 +35,7 @@
              * @desc 将列表指定元素内容赋值到输入框中
              */
             getDom:'',
+            element:'li',
             /**
              * @func 下拉数据展示数量，多出则滚动显示
              * @type <Number>
@@ -52,6 +53,16 @@
              */
             cache:true,
             /**
+             * @func 是否可以滚动
+             * @type <Boolean>
+             */
+            scroll:true,
+            /**
+             * @func 是否多选
+             * @type <Boolean>
+             */
+            multiple:false,
+            /**
              * @func 非ajax加载数据
              * @type <Function>
              * @return <Obejct, Array> 列表数据
@@ -60,6 +71,11 @@
              * @desc 若没有设置url参数，将启用该方法
              */
             getData:null,
+            /**
+             * @func 自定义下拉框显示内容
+             * @type <Function>
+             */
+            diyCallback:null,
             /**
              * @func 下拉框定位偏移
              * @type <Object, Function>
@@ -103,7 +119,7 @@
              * @func 自定义下拉框显示内容
              * @type <Function>
              */
-            diyCallback:$.noop
+            extCallback:$.noop
         }, setting||{});
     }, doc = $(document);
     
@@ -114,20 +130,31 @@
         isbind:true,
         init:function(keywords){
             var that = this, sets = that.setting;
+            if(sets.multiple !== true){
+                that.setting.scroll = false;
+            }
             that.ishide = false;
             that.keywords = keywords;
             that.suggest = $('.ui-suggest');
             if(!that.suggest.size()){
-                var diy = sets.diyCallback()||'';
-                that.suggest = $('<div class="ui-suggest"><ul class="ui-suggest-list"></ul>'+ diy +'</div>').appendTo(sets.container).addClass(sets.theme);
+                if(typeof sets.diyCallback !== 'undefined'){
+                    that.suggest = $('<div class="ui-suggest">'+ (sets.diyCallback()||'') +'</div>').appendTo(sets.container).addClass(sets.theme);
+                }
+                else{
+                    var ext = sets.extCallback()||'';
+                    that.suggest = $('<div class="ui-suggest"><ul class="ui-suggest-list"></ul>'+ ext +'</div>').appendTo(sets.container).addClass(sets.theme);
+                }
+                that.suggestlist = that.suggest.find('.ui-suggest-list:visible');
+                sets.callback && sets.callback.call(this, that.target, that.suggestlist);
             }
-            that.suggestlist = that.suggest.children('.ui-suggest-list');
+            else{
+                that.suggestlist = that.suggest.find('.ui-suggest-list:visible');
+            }
             that.request && that.request.abort();
             that.show();
             if(sets.select !== true){
                 that.suggestlist.scrollTop(0);
             }
-            sets.callback && sets.callback.call(this, that.target, that.suggestlist);
         },
         show:function(){
             var that = this, sets = that.setting;
@@ -159,7 +186,7 @@
             var that = this, sets = that.setting;
             that.isbind = true;
             that.unbindEvent();
-            sets.hideEvent.call(that, that.target, that.suggestlist.children('li'));
+            sets.hideEvent.call(that, that.target, that.suggestlist.find(sets.element));
             that.suggest.remove();
         },
         filterData:function(res){
@@ -168,16 +195,13 @@
                 if(sets.cache === true){
                     that.cache[that.keywords] = res;
                 }
-                that.keywords
-                var arr = [],num = 0,
-                    html = (function(res){
-                    $.each(res, function(index, item){
-                        arr.push(sets.returnData.call(this, item));
-                        num += 1;
-                    });
-                    that.liSize = num;
-                    return arr.join('');
-                })(res);
+                that.liSize = 0;
+                var arr = [];
+                $.each(res, function(index, item){
+                	arr.push(sets.returnData.call(this, item, index));
+                    that.liSize++;
+                });
+                that.suggestlist.html(arr.join(''));
                 var offset = typeof sets.offse === 'function' ? sets.offset() : sets.offset;
                 var style = {
                     top:(sets.container == 'body' ? target.offset().top : 0)+target.outerHeight() - 1 + offset.top,
@@ -185,14 +209,13 @@
                     width:target.innerWidth()+offset.width
                 }
                 that.suggest.css(style).show();
-                var item = that.suggestlist.html(html);
-                that.itemHeight = item.children('li').outerHeight()||0;
+                that.itemHeight = that.suggestlist.find(sets.element).outerHeight()||0;
                 var _style = that.liSize > sets.limit ? {overflowY:'scroll', height:that.itemHeight*sets.limit} : {overflowY:'visible', height:'auto'};
-                item.css(_style);
+                that.suggestlist.css(_style);
                 if(sets.select === true){
                     var val = $.trim(target.val());
                     var i = 0;
-                    item.children('li').each(function(index, item){
+                    that.suggestlist.find(sets.element).each(function(index, item){
                         var me = $(this);
                         var text = $.trim(me.text());
                         if(val == text){
@@ -200,7 +223,7 @@
                             return false;
                         }
                     });
-                    item.children('li').eq(i).addClass('s-crt');
+                    that.suggestlist.find(sets.element).eq(i).addClass('s-crt');
                     that.suggestlist.scrollTop(that.itemHeight*i);
                 }
                 var height = that.suggest.height();
@@ -209,7 +232,9 @@
                 }
                 if(that.isbind){
                     that.bindMouse();
-                    that.bindKeyboard();
+                    if(sets.scroll === true){
+                        that.bindKeyboard();
+                    }
                     that.isbind = false;
                 }
             }
@@ -232,7 +257,9 @@
                 var me = $(this);
                 sets.getDom ? that.target.val(me.find(sets.getDom).text()) : that.target.val(me.text());
                 sets.eventEnd.call(this, me, that.target);
-                that.hide();
+                if(sets.multiple !== true){
+                    that.hide();
+                }
                 return false;
             }).on('mouseover', 'li', function(){
                 $(this).addClass('s-crt').siblings().removeClass('s-crt');
@@ -268,7 +295,7 @@
                             }
                         }
                     }
-                    current = that.suggestlist.children('li:eq('+ index +')');
+                    current = that.suggestlist.find(sets.element+':eq('+ index +')');
                     current.addClass('s-crt').siblings().removeClass('s-crt');
                     sets.eventEnd.call(this, current, that.target, true);
                     sets.getDom ? that.target.val(current.find(sets.getDom).text()) : that.target.val(current.text());
@@ -276,7 +303,7 @@
                 else if(e.keyCode == 13){
                     if(sets.select === true){
                         if($.trim(that.target.val())){
-                            that.suggestlist.children('li.s-crt').click();
+                            that.suggestlist.find(sets.element+'.s-crt').click();
                             that.hide();
                         }
                     }
@@ -323,11 +350,11 @@
                 }
                 var keywords = $.trim($(this).val());
                 if(keywords){
-                    sug.init(keywords);
+                    sug.query(keywords);
                 }
                 else{
                     if(setting.keywords !== undefined){
-                        sug.init(setting.keywords);
+                        sug.query(setting.keywords);
                     }
                     else{
                         if(sug.suggest && sug.suggest.size()){
