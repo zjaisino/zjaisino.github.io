@@ -1,8 +1,8 @@
 /**
  * @filename jquery.checkradio.js
  * @author Aniu[2016-04-27 14:00]
- * @update Aniu[2016-04-27 14:00]
- * @version v1.1
+ * @update Aniu[2016-06-25 10:47]
+ * @version v1.2
  * @description 模拟单选复选框
  */
 
@@ -24,12 +24,13 @@
                 type = 'checkbox';
             }
             if(me.parent('[checkname]').length){
-                me.parent().attr('class', 'ui-'+ type + checked + disabled);
+                me.parent().parent().attr('class', 'ui-checkradio ' + checked + disabled);
             }
             else{
-                var ele = me.css({position:'absolute', top:'-999em', left:'-999em', opacity:0})
-                    .wrap('<i class="ui-'+ type + checked + disabled +'" checkname="'+ name +'"></i>').parent();
-                ele.css({overflow:'hidden'}).parent().click(function(e){
+                me.css({position:'absolute', top:'-999em', left:'-999em', opacity:0})
+                    .wrap('<i class="ui-'+ type + checked + disabled +'" checkname="'+ name +'"></i>')
+                .parent().parent().click(function(e){
+                	var ele = $(this);
                     if(me.is(':disabled')){
                         return;
                     }
@@ -45,7 +46,7 @@
                     }
                     else{
                         me.prop('checked', true);
-                        $('.ui-radio[checkname="'+ name +'"]').removeClass('s-checked');
+                        $('.ui-radio[checkname="'+ name +'"]').parent().removeClass('s-checked');
                         ele.addClass('s-checked');
                     }
                     o.callback(me, e);

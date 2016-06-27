@@ -72,7 +72,15 @@
             $('.m-typelist').prepend((function(res){
                 var arr = [];
                 $.each(res, function(key, val){
-                    arr.push('<li><a href="plugin/'+ val.name +'/index.html"><strong>'+ val.title +'</strong><span>'+ val.desc +'</span></a></li>');
+                    if(val.disabled == true){
+                        return true;
+                    }
+                    if(val.url){
+                        arr.push('<li><a href="'+ val.url +'" target="_blank"><strong>'+ val.title +'</strong><span>'+ val.desc +'</span></a></li>');
+                    }
+                    else{
+                        arr.push('<li><a href="plugin/'+ val.name +'/index.html"><strong>'+ val.title +'</strong><span>'+ val.desc +'</span></a></li>');
+                    }
                 });
                 return arr.join('');
             })(data));
