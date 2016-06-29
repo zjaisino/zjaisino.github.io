@@ -1,8 +1,8 @@
 /**
  * @filename jquery.checkradio.js
  * @author Aniu[2016-04-27 14:00]
- * @update Aniu[2016-06-25 10:47]
- * @version v1.2
+ * @update Aniu[2016-06-29 10:36]
+ * @version v1.3
  * @description 模拟单选复选框
  */
 
@@ -13,7 +13,8 @@
         });
         return this.each(function(){
             var me = $(this);
-            if(!me.parent().hasClass('ui-checkradio') && !me.parent('[checkname]').length){
+            var checkradio = me.closest('.ui-checkradio');
+            if(!checkradio.length){
                 return;
             }
             var checked = me.prop('checked') ? ' s-checked' : '';
@@ -23,13 +24,13 @@
             if(me.is(':checkbox')){
                 type = 'checkbox';
             }
-            if(me.parent('[checkname]').length){
-                me.parent().parent().attr('class', 'ui-checkradio ' + checked + disabled);
+            if(checkradio.children().attr('checkname')){
+                checkradio.children().attr('class', 'ui-'+ type + checked + disabled);
             }
             else{
-                me.css({position:'absolute', top:'-999em', left:'-999em', opacity:0})
-                    .wrap('<i class="ui-'+ type + checked + disabled +'" checkname="'+ name +'"></i>')
-                .parent().parent().click(function(e){
+                me.css({position:'absolute', top:'-999em', left:'-999em', opacity:0}).wrap('<i></i>');
+                checkradio.wrapInner('<em class="ui-'+ type + checked + disabled +'" checkname="'+ name +'"></em>')
+                .children().click(function(e){
                 	var ele = $(this);
                     if(me.is(':disabled')){
                         return;
@@ -46,7 +47,7 @@
                     }
                     else{
                         me.prop('checked', true);
-                        $('.ui-radio[checkname="'+ name +'"]').parent().removeClass('s-checked');
+                        $('.ui-radio[checkname="'+ name +'"]').removeClass('s-checked');
                         ele.addClass('s-checked');
                     }
                     o.callback(me, e);

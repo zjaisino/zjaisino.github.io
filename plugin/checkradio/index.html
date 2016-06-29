@@ -12,12 +12,16 @@
 	<title></title>
 	<link rel="stylesheet" type="text/css" href="../../style/base.css" />
     <style type="text/css">
-    .ui-checkbox { display:inline-block; width:14px; height:14px; cursor:pointer; background:url(check.png) no-repeat;}
-    .ui-checkradio.s-checked .ui-checkbox { background-position:-18px 0;}
-    .ui-radio { display:inline-block; width:20px; height:20px; cursor:pointer; background:url(radio.png) no-repeat -24px 0;}
-    .ui-checkradio.s-checked .ui-radio { background-position:0 0;}
-    .ui-checkradio { display:inline-block; margin-top:10px; cursor:pointer;}
+    .ui-checkradio, .ui-checkradio em, .ui-checkradio i { display:inline-block;}
+    .ui-checkradio em { cursor:pointer;}
+    .ui-checkradio .ui-checkbox i { width:14px; height:14px; background:url(check.png) no-repeat;}
+    .ui-checkradio .ui-checkbox.s-checked i { background-position:-18px 0;}
+    .ui-checkradio .ui-radio i { width:20px; height:20px; background:url(radio.png) no-repeat -24px 0;}
+    .ui-checkradio .ui-radio.s-checked i { background-position:0 0;}
     .ui-checkradio input { opacity:0; filter:alpha(opacity=0); cursor:pointer;}
+    .ui-checkradio em.s-dis { cursor:default;}
+    
+    .ui-checkradio { margin-top:10px;}
     </style>
 </head>
 
@@ -30,7 +34,7 @@
 	<div class="g-content">
     
     <span class="ui-checkradio">
-        <input type="checkbox" name="like" value="1" /> 水果
+        <input type="checkbox" name="like" value="1" checked /> 水果
     </span>
     <span class="ui-checkradio">
         <input type="checkbox" name="like" value="1" /> 水果
@@ -56,9 +60,6 @@
 	<script type="text/javascript" src="../../script/jquery.js"></script>
 	<script type="text/javascript" src="jquery.checkradio.js"></script>
     <script type="text/javascript">
-    $(document).click(function(){
-        alert();
-    });
     $(':checkbox, :radio').checkradio({
         callback:function(ele, e){
             e.stopPropagation();
