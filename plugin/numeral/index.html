@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="renderer" content="webkit" />
+    <meta name="keywords" content="浙江爱信诺前端规范,爱信诺规范,爱信诺前端,爱信诺组件" />
+    <meta name="description" content="本站包括了规范、框架、代码库等内容，致力于为前端开发人员提供高效率高质量的前端页面开发解决方案，提高多人协作效率，也为非专业人员提供快速制作网页的解决方案。" />
+    <meta name="copyright" content="浙江爱信诺航天信息有限公司" />
+    <title>限制输入-组件-浙江爱信诺前端规范</title>
+    <link rel="shortcut icon" type="image/x-icon" href="../../images/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="../../style/base.css" />
+    <link rel="stylesheet" type="text/css" href="../../style/common.css" />
+    <link rel="stylesheet" type="text/css" href="../../style/page.css" />
+    <link type="text/css" rel="stylesheet" href="../../style/syntax/shCore.css"/>
+    <link type="text/css" rel="stylesheet" href="../../style/syntax/shThemeDefault.css"/>
+    <style type="text/css">
+    .input { padding-left:8px; height:30px; line-height:30px\9; border:1px solid #ddd;}
+    .decimals { width:85px;}
+    </style>
+</head>
+
+<body class="g-body">
+    <!-- header begin -->
+    <div class="g-header">
+        <div class="m-htop g-wrap">
+            <i></i><i></i><i></i><i></i><i></i><i></i>
+            <h1 class="u-logo"><a href="../../index.html">浙江爱信诺前端规范</a></h1>
+        </div>
+        <div class="m-nav">
+            <ul class="g-wrap">
+                <li><a href="../../index.html">规范<i class="ui-icon ui-icon-tip"></i></a></li>
+                <li><a href="../../framework.html">框架<i class="ui-icon ui-icon-tip"></i></a></li>
+                <li class="s-crt"><a href="../../plugin.html">组件<i class="ui-icon ui-icon-tip"></i></a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- header end -->
+    
+    <!-- content begin -->
+    <div class="g-content f-clearfix">
+        <div class="g-side">
+            <div class="m-menu" id="menu"> 
+                <ul></ul> 
+            </div>
+        </div>
+        <div class="g-main">
+            <div class="g-con">
+                <div class="m-article m-plugin ui-animate ui-animate-fadeShow"> 
+                    <h2 class="u-ttb2">组件 - <em id="title">限制输入</em></h2> 
+                    <div class="u-line"><span class="linea"></span><span class="lineb"></span></div> 
+                    <dl> 
+                        <dt>使用说明</dt>
+                        <dd>
+                            <pre class="brush:xml;">
+                            <!-- 引入jQuery和组件脚本 -->
+                            &lt;script type="text/javascript" src="jquery.js"&gt;&lt;/script&gt;
+                            &lt;script type="text/javascript" src="jquery.numeral.js"&gt;&lt;/script&gt;
+                            </pre>
+                        </dd>
+                        <dt>限制5位整数</dt>
+                        <dd>
+                            <input type="text" class="input number" />
+                            <pre class="brush:js;">
+                            $('.number').numeral({
+                                integer:5,
+                                decimal:false
+                            });
+                            </pre>
+                        </dd>
+                        <dt>限制3位整数，保留2位小数，可以正负切换</dt>
+                        <dd id="box">
+                            <p>10 * <input type="text" class="input decimal" /> = <b></b></p>
+                            <pre class="brush:js;">
+                            $('.decimal').numeral({
+                                integer:3,
+                                minus:true,
+                                convert:true,
+                                callback:function(elem, val){
+                                    var value = '';
+                                    if(val){
+                                        value = (10 * val).toFixed(2);
+                                    }
+                                    elem.siblings('b').text(value);
+                                }
+                            });
+                            </pre>
+                        </dd>
+                        <dt>API</dt>
+                        <dd>
+                            <table> 
+                                <thead> 
+                                    <tr>
+                                        <th width="120">属性名称</th>
+                                        <th width="120">值类型</th>
+                                        <th width="120">默认值</th>
+                                        <th width="150">可填值</th>
+                                        <th>功能说明</th>
+                                    </tr> 
+                                </thead> 
+                                <tbody> 
+                                    <tr>
+                                        <td>integer</td>
+                                        <td>Number</td>
+                                        <td>4</td>
+                                        <td>正整数</td>
+                                        <td>整数长度，值为0则文本框可以输入任意字符</td>
+                                    </tr>
+                                    <tr>
+                                        <td>decimal</td>
+                                        <td>Number</td>
+                                        <td>2</td>
+                                        <td>正整数</td>
+                                        <td>小数长度，值为0则不启用小数</td>
+                                    </tr>
+                                    <tr>
+                                        <td>minus</td>
+                                        <td>Boolean</td>
+                                        <td>false</td>
+                                        <td>true | false</td>
+                                        <td>是否可以输入负数</td>
+                                    </tr>
+                                    <tr>    
+                                        <td>convert</td>
+                                        <td>Boolean</td>
+                                        <td>false</td>
+                                        <td>true | false</td>
+                                        <td>是否启用正负切换，值为负数，输入“ - + ”转换为正数</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table>
+                                <thead> 
+                                    <tr>
+                                        <th width="120">方法名称</th>
+                                        <th width="120">参数</th>
+                                        <th width="120">默认值</th>
+                                        <th>功能说明</th>
+                                    </tr> 
+                                </thead> 
+                                <tbody> 
+                                    <tr>
+                                        <td rowspan="2">callback</td>
+                                        <td>elem</td>
+                                        <td>调用组件jq对象</td>
+                                        <td rowspan="2">键盘抬起时的回调</td>
+                                    </tr>
+                                    <tr>
+                                        <td>value</td>
+                                        <td>输入框的值</td>
+                                    </tr>
+                                </tbody>
+                            </table> 
+                        </dd> 
+                        <dt>下载</dt>
+                        <dd>
+                            <a href="jquery.numeral.js" class="e-ml10">jquery.numeral.js</a>
+                        </dd>
+                        <dt>版本更新</dt>
+                        <dd id="updatelog"></dd>
+                    </dl> 
+                </div> 
+            </div>
+        </div>
+    </div>
+    <!-- content end -->
+    
+    <!-- footer begin -->
+    <div class="g-footer">
+        <div class="g-wrap">
+            <p>
+                <a href="http://wpa.qq.com/msgrd?v=3&uin=897102078&site=qq&menu=yes" target="_blank">技术支持</a>
+            </p>
+            <p>Copyright © 2013-2016 Aisino. All Rights Reserved.</p>
+        </div>
+    </div>
+    <!-- footer end -->
+    
+    <script type="text/javascript" src="../../script/jquery.js"></script>
+    <script type="text/javascript" src="./jquery.numeral.js"></script>
+    <script type="text/javascript" src="../../script/syntax/shCore.js"></script>
+    <script type="text/javascript" src="../../script/syntax/shBrushCss.js"></script>
+    <script type="text/javascript" src="../../script/syntax/shBrushXml.js"></script>
+    <script type="text/javascript" src="../../script/syntax/shBrushJScript.js"></script>
+    <script type="text/javascript" src="../../script/page.js"></script>
+    <script type="text/javascript" src="../menu.js"></script>
+    <script type="text/javascript" src="../arttemplate/template.js"></script>
+    <script type="text/javascript" src="./log.js"></script>
+    <script type="text/html" id="updatelog-tpl">
+    {{each list as val key}}
+        <p>Version:{{val.ver}}</p>
+        {{if val.date}}
+        <p>Date:{{val.date}}</p>    
+        {{/if}}
+        {{each val.desc as v k}}
+        <p>{{v}}</p>
+        {{/each}}
+        <br />
+    {{/each}}
+    </script>
+    <script type="text/javascript">
+    $('.number').numeral({
+        integer:5,
+        decimal:false
+    });
+    
+    $('.decimal').numeral({
+        integer:3,
+        minus:true,
+        convert:true,
+        callback:function(elem, val){
+            var value = '';
+            if(val){
+                value = (10 * val).toFixed(2);
+            }
+            elem.siblings('b').text(value);
+        }
+    });
+    </script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?0dc9965a1c1a4ac82a30662079161264";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</body>
+</html>
