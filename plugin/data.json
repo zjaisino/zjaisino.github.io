@@ -77,8 +77,7 @@
 }, {
     "title":"数量计算", 
     "name":"calculate",
-    "desc":"数量的增加或者减少，可实现购物车计算",
-    "disabled":true
+    "desc":"数量的增加或者减少，可实现购物车计算"
 }, {
     "title":"视差悬浮", 
     "name":"plax",
