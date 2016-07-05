@@ -19,10 +19,9 @@
     "name":"timer",
     "desc":"可用于活动的定时效果"
 }, {
-    "title":"倒计时", 
+    "title":"读秒倒计时", 
     "name":"countdown",
-    "desc":"可实现发送验证码倒计时、n秒后跳转",
-    "disabled":true
+    "desc":"可实现发送验证码倒计时、n秒后跳转"
 }, {
     "title":"模拟单复选框", 
     "name":"checkradio",

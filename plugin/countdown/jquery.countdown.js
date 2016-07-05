@@ -3,7 +3,7 @@
  * @author Aniu[date:2015-08-05 21:31]
  * @update Aniu[date:2015-10-16 15:19]
  * @version v1.2
- * @description 获取验证码倒计时
+ * @description 读秒倒计时
  */
 ;!(function(window, document, $, undefined){
 $.fn.countdown = function(o){
@@ -27,6 +27,7 @@ $.fn.countdown = function(o){
          * @return <Object>
          * @param me <JQuery Object> 调用当前组件的jq对象
          * @param target <JQuery Object> 目标元素
+         * @param runCallback <Function, Undefined> 执行倒计时回调函数
          */
         ajax:null,
         /**
@@ -44,8 +45,9 @@ $.fn.countdown = function(o){
         /**
          * @function 倒计时进行中的后缀文本
          * @type <String, Function>
+         * @param second <String> 倒计时秒数
          */
-        text:'秒后重新获取验证码',
+        text:'s后重新获取',
         /**
          * @function 倒计时开始时执行函数
          * @type <Function>
@@ -65,7 +67,9 @@ $.fn.countdown = function(o){
     }, o||{});
 	return this.each(function(){
 		var that = this, 
-            me = $(that), 
+            me = $(that).bind('stop', function(){
+                me.data('stop', true);
+            }), 
             isipt = that.nodeName === 'INPUT',
             text = me[isipt?'val':'text'](),
             target = typeof o.target === 'function' ? o.target(me) : o.target,
@@ -81,7 +85,7 @@ $.fn.countdown = function(o){
                 })();
                 me[isipt?'val':'text'](temp);
                 timer = setTimeout(function(){
-                    if(time<=0 || me.data('stop') == true){
+                    if(time<=0 || me.data('stop') === true){
                         me.removeClass('s-dis').data('stop', false);
                         clearTimeout(timer);
                         me[isipt?'val':'text'](text);
@@ -94,14 +98,19 @@ $.fn.countdown = function(o){
                 }, 1000);
             }
         if(o.isEvent === true){
-            me.click(function(){
+            me.click(function(e){
+                e.stopPropagation();
                 if(!me.hasClass('s-dis')){
                 	if(o.startCallback(me, target) === false){
                 		return;
                 	}
                     me.addClass('s-dis').data('stop', false);
                     if(o.ajax !== null){
-                        $.ajax(typeof o.ajax === 'function' ? o.ajax(me, target, o.ajaxrun === true ? run : '') : o.ajax);
+                        var opts = typeof o.ajax === 'function' ? o.ajax(me, target, o.ajaxrun === true ? run : '') : o.ajax;
+                        if(!$.isPlainObject(opts)){
+                            return;
+                        }
+                        $.ajax(opts);
                     }
                     if(o.ajaxrun !== true){
                     	run();

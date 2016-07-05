@@ -54,3 +54,12 @@
 .m-animate-list li span { float:right;}
 .m-animate-list li button { border:1px solid #E7E7E7; background:url(../images/bg/btn.png) repeat-x; border-radius:1px; height:22px; _height:20px; width:36px; _width:34px; margin-left:3px;}
 #updatelog { max-height:550px; overflow:auto;}
+
+.ui-item:before, .ui-item:after { content:''; display:table;}
+.ui-item:after { clear:both;}
+.ui-item { *zoom:1;}
+.ui-item .ui-input, .ui-item strong, .ui-item span, .ui-item b { float:left;}
+.ui-btn { width:77px; height:32px; line-height:32px; background-color:#599AA9; color:#fff; cursor:pointer;}
+.ui-btn.s-dis { background-color:#ccc; cursor:default;}
+.ui-input { width:192px; padding-left:8px; height:30px; line-height:30px\9; border:1px solid #ccc;}
+.ui-input-short { width:110px;}
