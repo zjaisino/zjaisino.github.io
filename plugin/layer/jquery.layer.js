@@ -1,8 +1,8 @@
 /**
  * @filename jquery.layer.js
  * @author Aniu[2014-07-11 14:01]
- * @update Aniu[2016-04-15 14:05]
- * @version v3.3.3
+ * @update Aniu[2016-07-06 13:57]
+ * @version v3.3.4
  * @description 弹出层组件
  */
 
@@ -24,6 +24,8 @@
             padding:50,
             //弹出层容器，默认为body
             container:'body',
+            //定时关闭时间，单位/毫秒
+            timer:0,
             //是否淡入方式显示
             isFadein:true,
             //是否开启弹出层动画
@@ -293,8 +295,9 @@
                 height = options.height ? options.height : that.height,
                 theme = options.theme ? ' t-layer-'+options.theme : '',
                 tips = options.isTips === true ? (function(){
-                    options.arrow.enable = true; 
-                    options.isMove = options.isMask = options.title.enable = options.isCenter = options.isMaxSize = false;
+                    if(options.arrow.enable === true){
+                        options.isMove = options.isMask = options.title.enable = options.isCenter = options.isMaxSize = false;
+                    }
                     width = 'auto'; 
                     return ' ui-layer-tips';
                 })() : '',
@@ -514,7 +517,7 @@
                 footHeight = foot.outerHeight(), ptb = Layer.getSize(layer, 'tb', 'padding'), bbd = Layer.getSize(body), bl = Layer.getSize(layer), 
                 bb = Layer.getSize(box), blt = Layer.getSize(layer, 'lr'), extd = {}, speed = 400, wheight = that.wrap.outerHeight() - options.padding, 
                 wwidth = that.wrap.outerWidth() - options.padding, isiframe = typeof that.iframe === 'object', outerHeight = headHeight + footHeight + ptb + bbd + bl + bb;
-            
+
             if(isiframe){
                 var iframeDoc = that.iframe.contents(), 
                     iframeHtml = iframeDoc.find('html').css({overflow:'auto'});
@@ -600,7 +603,6 @@
                 winSleft = 0;
                 layer.css('position', 'fixed');
             }
-            
             that.size.width = layer.outerWidth();
             that.size.height = layer.outerHeight();
             if(layer.outerHeight() > that.wrap.outerHeight() - options.padding){
@@ -654,6 +656,7 @@
                     that.layer.css(css);
                 });
             }
+            
             layer.css({margin:0, top:that.offset.top, left:that.offset.left})[showType]();
             var innerHeight = Layer.getSize(box, 'tb', 'all') +
                               head.outerHeight() + foot.outerHeight() + 
@@ -682,6 +685,11 @@
             if(typeof options.onShowEvent === 'function'){
                 options.onShowEvent(main, that.index);
             }
+            if(options.timer > 0){
+                that.timer = setTimeout(function(){
+                    that.hide();
+                }, options.timer);
+            }
             return that;
         },
         hide:function(){
@@ -702,6 +710,9 @@
             }
             if(that.mask){
                 that.mask.remove();
+            }
+            if(options.timer > 0){
+                clearTimeout(that.timer);
             }
             if(typeof options.onHideEvent === 'function'){
                 options.onHideEvent(main, that.index);
@@ -768,6 +779,7 @@
                 enable:false
             },
             arrow:{
+                enable:true,
                 dir:dir ? dir : 'top'
             },
             offset:{
@@ -802,6 +814,7 @@
                 enable:false
             },
             arrow:{
+                enable:true,
                 dir:dir ? dir : 'top'
             },
             offset:{
@@ -832,4 +845,34 @@
         });
     }
     $.layer.showmsg.timer = null;
+    
+    $.layer.loading = function(message, showCallback, width, height){
+        var msg = '';
+        if(message !== null){
+            if(typeof message === 'function'){
+                showCallback = message;
+                message = '';
+            }
+            msg = '<b>'+ (message||'正在加载数据..') +'</b>';
+        }
+        return new Layer({
+            content:'<p><i></i>'+ msg+'</p>',
+            theme:'loading',
+            width:width||'auto',
+            height:height||'auto',
+            isTips:true,
+            isSticky:true,
+            close:{
+                enable:false
+            },
+            title:{
+                enable:false
+            },
+            onShowEvent:function(main, index){
+                if(typeof showCallback === 'function'){
+                    showCallback.call(this, main, index);
+                }
+            }
+        });
+    }
 })(this, document, jQuery);

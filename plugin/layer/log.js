@@ -1,5 +1,12 @@
 var LOG = {
     list:[{
+        ver:'v3.3.4',
+        date:'2016-07-06',
+        desc:[
+            '1.增加loading方法',
+            '2.增加timer属性，可定时关闭layer'
+        ]
+    }, {
         ver:'v3.3.3',
         date:'2016-04-15',
         desc:[

@@ -63,13 +63,15 @@
                             <a href="javascript:void(0);" id="alert">alert</a>
                             <a href="javascript:void(0);" id="confirm" class="e-ml10">confirm</a>
                             <a href="javascript:void(0);" id="iframe" class="e-ml10">iframe</a>
-                            <select id="tips" class="e-ml10">
+                            <select id="tips" class="e-ml10" style="border:1px solid #ccc;">
                                 <option value="">tips</option>
                                 <option value="top">top</option>
                                 <option value="right">right</option>
                                 <option value="bottom">bottom</option>
                                 <option value="left">left</option>
                             </select>
+                            <a href="javascript:void(0);" id="showmsg" class="e-ml10">showmsg</a>
+                            <a href="javascript:void(0);" id="loading" class="e-ml10">loading</a>
                             <pre class="brush:js;">
                             /**
                              * @func alert
@@ -103,7 +105,7 @@
                              * @desc 跨域无法正常使用
                              * @desc 谷歌浏览器在服务器环境下才能正常使用
                              */
-                            $.layer.iframe('iframe/index.html', '标题', 1100);
+                            $.layer.iframe('url', '标题', 1100);
                             
                             /**
                              * @func tips
@@ -230,6 +232,13 @@
                                         <td>body</td>
                                         <td>任意字符串 | jQuery选择器</td>
                                         <td>设置弹出层(背景遮罩)显示在指定的容器内</td>
+                                    </tr>
+                                    <tr>
+                                        <td>timer</td>
+                                        <td>Numberr</td>
+                                        <td>0</td>
+                                        <td>正整数</td>
+                                        <td>定时关闭时间弹出层，单位毫秒</td>
                                     </tr>
                                     <tr>
                                         <td>isFadein</td>
@@ -522,7 +531,7 @@
                                         <td rowspan="2">onShowEvent</td>
                                         <td>main</td>
                                         <td>$('.ui-layer-main')</td>
-                                        <td rowspan="2">弹出层显示时执行</td>
+                                        <td rowspan="2">弹出层显示时执行，函数内部可以通过this.timer设置定时关闭layer</td>
                                     </tr>
                                     <tr>
                                         <td>index</td>
@@ -722,6 +731,16 @@
                     break;
             }
             layer.css({top:offset.top, left:offset.left});
+        });
+    });
+    
+    $('#showmsg').click(function(){
+        $.layer.showmsg('阿牛真帅', $(this));
+    });
+    
+    $('#loading').click(function(){
+        $.layer.loading(function(){
+            this.timer = 2000;
         });
     });
     

@@ -45,3 +45,11 @@
 .t-layer-white .ui-layer-confirm { background-color:#D8E6F3; border-color:#A1C4EE; color:#333;}
 .t-movemask-white { border:1px dashed #A1C4EE; filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#7fffffff,endColorstr=#7fffffff); background:rgba(255,255,255,0.5); background:transparent\;}
 .t-mask-white div { filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#4cffffff,endColorstr=#4cffffff); background:rgba(255,255,255,.3); background:transparent\;}
+
+.t-layer-loading { border:5px solid #ccc;}
+.t-layer-loading .ui-layer-body { background:none;}
+.t-layer-loading .ui-layer-main { color:#666;}
+.t-layer-loading .ui-layer-main p { padding:5px;}
+.t-layer-loading .ui-layer-main i, .t-layer-loading .ui-layer-main b { display:inline-block; height:31px;}
+.t-layer-loading .ui-layer-main i { vertical-align:bottom; width:31px; background:url(./loading.gif) no-repeat;}
+.t-layer-loading .ui-layer-main b { margin-left:5px; line-height:31px;}
