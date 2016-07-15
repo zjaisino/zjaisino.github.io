@@ -18,7 +18,9 @@
              * @type <String>
              */
             url:'',
+            zindex:0,
             container:'body',
+            scrollElem:null,
             /**
              * @func 远程接口接收参数
              * @type <String>
@@ -35,7 +37,6 @@
              * @desc 将列表指定元素内容赋值到输入框中
              */
             getDom:'',
-            element:'li',
             /**
              * @func 下拉数据展示数量，多出则滚动显示
              * @type <Number>
@@ -53,16 +54,6 @@
              */
             cache:true,
             /**
-             * @func 是否可以滚动
-             * @type <Boolean>
-             */
-            scroll:true,
-            /**
-             * @func 是否多选
-             * @type <Boolean>
-             */
-            multiple:false,
-            /**
              * @func 非ajax加载数据
              * @type <Function>
              * @return <Obejct, Array> 列表数据
@@ -71,11 +62,6 @@
              * @desc 若没有设置url参数，将启用该方法
              */
             getData:null,
-            /**
-             * @func 自定义下拉框显示内容
-             * @type <Function>
-             */
-            diyCallback:null,
             /**
              * @func 下拉框定位偏移
              * @type <Object, Function>
@@ -108,6 +94,7 @@
              * @param suggestlist <Object> 下拉框jQuery对象
              */
             callback:$.noop,
+            showCallback:$.noop,
             /**
              * @func 隐藏下拉框回调函数
              * @type <Function>
@@ -119,7 +106,7 @@
              * @func 自定义下拉框显示内容
              * @type <Function>
              */
-            extCallback:$.noop
+            diyCallback:$.noop
         }, setting||{});
     }, doc = $(document);
     
@@ -130,31 +117,24 @@
         isbind:true,
         init:function(keywords){
             var that = this, sets = that.setting;
-            if(sets.multiple !== true){
-                that.setting.scroll = false;
-            }
             that.ishide = false;
             that.keywords = keywords;
             that.suggest = $('.ui-suggest');
             if(!that.suggest.size()){
-                if(typeof sets.diyCallback !== 'undefined'){
-                    that.suggest = $('<div class="ui-suggest">'+ (sets.diyCallback()||'') +'</div>').appendTo(sets.container).addClass(sets.theme);
-                }
-                else{
-                    var ext = sets.extCallback()||'';
-                    that.suggest = $('<div class="ui-suggest"><ul class="ui-suggest-list"></ul>'+ ext +'</div>').appendTo(sets.container).addClass(sets.theme);
-                }
-                that.suggestlist = that.suggest.find('.ui-suggest-list:visible');
-                sets.callback && sets.callback.call(this, that.target, that.suggestlist);
+                var diy = sets.diyCallback()||'';
+                that.suggest = $('<div class="ui-suggest"><ul class="ui-suggest-list"></ul>'+ diy +'</div>').appendTo(sets.container).addClass(sets.theme);
+                sets.showCallback && sets.showCallback.call(this, that.target, that.suggest);
             }
-            else{
-                that.suggestlist = that.suggest.find('.ui-suggest-list:visible');
+            that.suggestlist = that.suggest.children('.ui-suggest-list');
+            if(sets.zindex > 0){
+            	that.suggest.css('z-index', sets.zindex);
             }
             that.request && that.request.abort();
             that.show();
             if(sets.select !== true){
                 that.suggestlist.scrollTop(0);
             }
+            sets.callback && sets.callback.call(this, that.target, that.suggestlist);
         },
         show:function(){
             var that = this, sets = that.setting;
@@ -186,7 +166,7 @@
             var that = this, sets = that.setting;
             that.isbind = true;
             that.unbindEvent();
-            sets.hideEvent.call(that, that.target, that.suggestlist.find(sets.element));
+            sets.hideEvent.call(that, that.target, that.suggestlist.children('li'));
             that.suggest.remove();
         },
         filterData:function(res){
@@ -209,13 +189,13 @@
                     width:target.innerWidth()+offset.width
                 }
                 that.suggest.css(style).show();
-                that.itemHeight = that.suggestlist.find(sets.element).outerHeight()||0;
+                that.itemHeight = that.suggestlist.children('li').outerHeight()||0;
                 var _style = that.liSize > sets.limit ? {overflowY:'scroll', height:that.itemHeight*sets.limit} : {overflowY:'visible', height:'auto'};
                 that.suggestlist.css(_style);
                 if(sets.select === true){
                     var val = $.trim(target.val());
                     var i = 0;
-                    that.suggestlist.find(sets.element).each(function(index, item){
+                    that.suggestlist.children('li').each(function(index, item){
                         var me = $(this);
                         var text = $.trim(me.text());
                         if(val == text){
@@ -223,18 +203,22 @@
                             return false;
                         }
                     });
-                    that.suggestlist.find(sets.element).eq(i).addClass('s-crt');
+                    that.suggestlist.children('li').eq(i).addClass('s-crt');
                     that.suggestlist.scrollTop(that.itemHeight*i);
                 }
                 var height = that.suggest.height();
-                if($(window).height() - style.top < height){
-                    that.suggest.css({top:style.top - height - target.outerHeight() + 1 - offset.top});
+                if(typeof sets.scrollCallback !== 'undefined'){
+                	sets.scrollCallback(target, that.suggest, style);
                 }
+                else{
+                	if($(window).height() - style.top < height){
+                        that.suggest.css({top:style.top - height - target.outerHeight() + 1 - offset.top});
+                    }
+                }
+                
                 if(that.isbind){
                     that.bindMouse();
-                    if(sets.scroll === true){
-                        that.bindKeyboard();
-                    }
+                    that.bindKeyboard();
                     that.isbind = false;
                 }
             }
@@ -257,9 +241,7 @@
                 var me = $(this);
                 sets.getDom ? that.target.val(me.find(sets.getDom).text()) : that.target.val(me.text());
                 sets.eventEnd.call(this, me, that.target);
-                if(sets.multiple !== true){
-                    that.hide();
-                }
+                that.hide();
                 return false;
             }).on('mouseover', 'li', function(){
                 $(this).addClass('s-crt').siblings().removeClass('s-crt');
@@ -295,7 +277,7 @@
                             }
                         }
                     }
-                    current = that.suggestlist.find(sets.element+':eq('+ index +')');
+                    current = that.suggestlist.children('li:eq('+ index +')');
                     current.addClass('s-crt').siblings().removeClass('s-crt');
                     sets.eventEnd.call(this, current, that.target, true);
                     sets.getDom ? that.target.val(current.find(sets.getDom).text()) : that.target.val(current.text());
@@ -303,7 +285,7 @@
                 else if(e.keyCode == 13){
                     if(sets.select === true){
                         if($.trim(that.target.val())){
-                            that.suggestlist.find(sets.element+'.s-crt').click();
+                            that.suggestlist.children('li.s-crt').click();
                             that.hide();
                         }
                     }
