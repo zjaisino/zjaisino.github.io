@@ -350,11 +350,11 @@
                 }
                 var keywords = $.trim($(this).val());
                 if(keywords){
-                    sug.query(keywords);
+                    sug.init(keywords);
                 }
                 else{
                     if(setting.keywords !== undefined){
-                        sug.query(setting.keywords);
+                        sug.init(setting.keywords);
                     }
                     else{
                         if(sug.suggest && sug.suggest.size()){
