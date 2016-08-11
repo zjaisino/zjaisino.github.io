@@ -1,28 +1,15 @@
 /**
  * @filename jquery.numeral.js
  * @author Aniu[2016-07-01 16:31]
- * @update Aniu[2016-07-01 23:14]
- * @version v1.1
+ * @update Aniu[2016-07-27 17:46]
+ * @version v1.2
  * @description 限制输入框输入数字
  */
 
 ;!(function(window, document, $, undefined){
     
-    //允许输入的keycode
-    var kcode = [8, 9, 13, 37, 39];
-    var keyCode = [];
-    
-    //大键盘数字
-    for(var i=48; i<=57; i++){
-        keyCode.push(i);
-    }
-    //小键盘数字
-    for(var i=96; i<=105; i++){
-        keyCode.push(i);
-    }
-    
-    $.fn.numeral = function(o){
-        o = $.extend({
+    $.fn.numeral = function(opts){
+        opts = $.extend(true, {
             /**
              * @func 整数长度
              * @type <Number>
@@ -51,31 +38,47 @@
              * @param value <String> 输入框的值
              */
             callback:null
-        }, o||{});
-        
-        //不能输入负数则无法启用正负抵消
-        if(o.minus !== true){
-            o.convert = false;
-        }
-        
-        //若整数位数不大于0则用户可以任意输入
-        if(o.integer <= 0){
-            return;
-        }
-        
-        //小数位数存在则可以输入小数点
-        if(o.decimal > 0){
-            keyCode.push(110);
-            keyCode.push(190);
-        }
+        }, opts||{});
         
         return this.each(function(){
+            
             var elem = this;
             var me = $(elem);
+            var o = $.extend({}, opts, me.data()||{});
+
+            //允许输入的keycode
+            var kcode = [8, 9, 13, 37, 39];
+            var keyCode = [];
+            
+            //大键盘数字
+            for(var i=48; i<=57; i++){
+                keyCode.push(i);
+            }
+            //小键盘数字
+            for(var i=96; i<=105; i++){
+                keyCode.push(i);
+            }
+            
+            //不能输入负数则无法启用正负抵消
+            if(o.minus !== true){
+                o.convert = false;
+            }
+            
+            //若整数位数不大于0则用户可以任意输入
+            if(o.integer <= 0){
+                return;
+            }
+            
+            //小数位数存在则可以输入小数点
+            if(o.decimal > 0){
+                keyCode.push(110);
+                keyCode.push(190);
+            }
+            
             //禁用输入法 仅ie兼容
             elem.style.imeMode = 'disabled';
             
-            me.keydown(function(e){
+            me.on('keydown', function(e){
                 var kc = e.keyCode;
                 if($.inArray(kc, kcode) !== -1 || e.shiftKey || e.ctrlKey){
                     return true;
@@ -129,9 +132,13 @@
                     return false;
                 }
                 
-            }).keyup(function(e){
+            }).on('keyup', function(e){
                 var kc = e.keyCode;
-                if($.inArray(kc, kcode) !== -1){
+                //阻止键盘ctrl+v
+                if(kc == 86 || kc == 17){
+                    return false;
+                }
+                if(kc !== 8 && $.inArray(kc, kcode) !== -1){
                     return true;
                 }
                 var val = $.trim(me.val());
@@ -162,7 +169,7 @@
                     }
                     else{
                         //添加减号
-                        if(minusIndex === -1){
+                        if((kc === 109 || kc === 189) && minusIndex === -1){
                             val = '-' + val;
                             index++;
                         }
@@ -201,9 +208,10 @@
                 if(o.decimal > 0 && temp.indexOf('.') !== -1){
                     decimal = temp.substr(temp.indexOf('.'), o.decimal+1);
                 }
+                
                 //截取整数，保留设置的位数，移除尾部多余的部分，拼接上过滤的小数部分
-                val = val.indexOf('-') !== -1 ? '-' : '' + temp.replace(/\.\d*/g, '').substr(0, o.integer) + decimal;
-
+                val = (val.indexOf('-') !== -1 ? '-' : '') + temp.replace(/\.\d*/g, '').substr(0, o.integer) + decimal;
+                	
                 me.val(val);
                 var len = val.length;
                 //重新给输入框填充过滤后的值后，焦点会在最后，因此要重新将焦点移到操作部位
@@ -221,13 +229,18 @@
                         range.select();
                     }
                 });
-                
+
                 typeof o.callback === 'function' && o.callback(me, val);
-            }).blur(function(){
+            }).on('paste cut', function(e){
                 var me = $(this);
-                var val = $.trim(me.val());
+                setTimeout(function(){
+                    me.keyup();
+                }, 10);
+            }).on('blur', function(){
+                var me = this;
+                var val = $.trim(me.value);
                 if(val){
-                    me.val(parseFloat(val).toFixed(o.decimal));
+                    me.value = parseFloat(val).toFixed(o.decimal);
                 }
             });
         });

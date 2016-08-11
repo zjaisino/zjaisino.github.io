@@ -1,0 +1,28 @@
+@charset "utf-8";
+
+.ui-calendar { width:340px; padding:0 8px; background-color:#D7D7D7; z-index:19920604; font-size:12px;}
+.ui-calendar-head:before, .ui-calendar-head:after { content:''; display:table;}
+.ui-calendar-head:after { clear:both;}
+.ui-calendar-head { padding:0 5px 10px; border-bottom:1px solid #ccc;}
+.ui-calendar-head em { float:left; padding:0 7px; margin:10px 8px 0; height:22px; line-height:22px; text-align:center; border-radius:11px; color:#0099FF;}
+.ui-calendar-head em.s-crt { background-color:#0099FF; color:#fff;}
+.ui-calendar-body { margin:10px 0; padding:10px; background-color:#fff;}
+.ui-calendar-tab { position:relative; margin:0 20px; height:16px; line-height:16px; text-align:center;}
+.ui-calendar-tab span { position:absolute; top:0;}
+.ui-calendar-tab .tab-left { left:0;}
+.ui-calendar-tab .tab-right { right:0;}
+.ui-calendar-tab em { float:left; margin:0 5px; width:20px; height:16px; background:url(btn.png) no-repeat; cursor:pointer;}
+.ui-calendar-tab strong, .ui-calendar-tab b { font-size:13px; font-weight:bold;}
+.ui-calendar-tab b { margin:0 2px;}
+.ui-calendar-tab .prevYear { background-position:center -29px;}
+.ui-calendar-tab .prevMonth { background-position:center -84px;}
+.ui-calendar-tab .nextYear { background-position:center top;}
+.ui-calendar-tab .nextMonth { background-position:center -58px;}
+table.ui-calendar-table { margin-top:10px; width:100%;}
+.ui-calendar-table td, .ui-calendar-table th { padding:0; width:45px; height:35px; text-align:center; vertical-align:middle;}
+.ui-calendar-table td span { display:inline-block; padding:4px 8px 3px; border-radius:11px;}
+.ui-calendar-table td.s-crt span { background-color:#0099FF; color:#fff;}
+.ui-calendar-table td.cell, .ui-calendar-table td.s-dis { color:#ccc;}
+.ui-calendar-foot { height:25px; padding-bottom:10px;}
+.ui-calendar-foot span { float:right;}
+.ui-calendar-foot span em { float:left; margin-left:5px; height:25px; line-height:25px; padding:0 10px; background-color:#807C7C; color:#fff;}

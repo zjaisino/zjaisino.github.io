@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="renderer" content="webkit" />
+    <meta name="keywords" content="浙江爱信诺前端规范,爱信诺规范,爱信诺前端,爱信诺组件" />
+    <meta name="description" content="本站包括了规范、框架、代码库等内容，致力于为前端开发人员提供高效率高质量的前端页面开发解决方案，提高多人协作效率，也为非专业人员提供快速制作网页的解决方案。" />
+    <meta name="copyright" content="浙江爱信诺航天信息有限公司" />
+    <title>日历-组件-浙江爱信诺前端规范</title>
+    <link rel="shortcut icon" type="image/x-icon" href="../../images/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="../../style/base.css" />
+    <link rel="stylesheet" type="text/css" href="../layer/layer.css" />
+    <link rel="stylesheet" type="text/css" href="../../style/common.css" />
+    <link rel="stylesheet" type="text/css" href="../../style/page.css" />
+    <link rel="stylesheet" type="text/css" href="calendar.css" />
+    <link type="text/css" rel="stylesheet" href="../../style/syntax/shCore.css"/>
+    <link type="text/css" rel="stylesheet" href="../../style/syntax/shThemeDefault.css"/>
+    <style type="text/css">
+    .calendar .ui-calendar { background-color:#fff;}
+    </style>
+</head>
+
+<body class="g-body">
+    <!-- header begin -->
+    <div class="g-header">
+        <div class="m-htop g-wrap">
+            <i></i><i></i><i></i><i></i><i></i><i></i>
+            <h1 class="u-logo"><a href="../../index.html">浙江爱信诺前端规范</a></h1>
+        </div>
+        <div class="m-nav">
+            <ul class="g-wrap">
+                <li><a href="../../index.html">规范<i class="ui-icon ui-icon-tip"></i></a></li>
+                <li><a href="../../framework.html">框架<i class="ui-icon ui-icon-tip"></i></a></li>
+                <li class="s-crt"><a href="../../plugin.html">组件<i class="ui-icon ui-icon-tip"></i></a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- header end -->
+    
+    <!-- content begin -->
+    <div class="g-content f-clearfix">
+        <div class="g-side">
+            <div class="m-menu" id="menu"> 
+                <ul></ul> 
+            </div>
+        </div>
+        <div class="g-main">
+            <div class="g-con">
+                <div class="m-article m-plugin ui-animate ui-animate-fadeShow"> 
+                    <h2 class="u-ttb2">组件 - <em id="title">日历</em></h2> 
+                    <div class="u-line"><span class="linea"></span><span class="lineb"></span></div> 
+                    <dl> 
+                        <dt>使用说明</dt>
+                        <dd>
+                            <pre class="brush:xml;">
+                            <!-- 引入组件样式 -->
+                            &lt;link rel="stylesheet" type="text/css" href="calendar.css" /&gt;
+                            
+                            <!-- 引入jQuery和组件脚本 -->
+                            &lt;script type="text/javascript" src="jquery.js"&gt;&lt;/script&gt;
+                            &lt;script type="text/javascript" src="jquery.calendar.js"&gt;&lt;/script&gt;
+                            
+                            <!-- 调用组件 -->
+                            &lt;script&gt;
+                            $.calendar(配置参数);
+                            &lt;/pre&gt;
+                        </dd>
+                        <dd>注：输入框最好添加readonly属性，阻止用户输入错误时间</dd>
+                        <dt>案例</dt>
+                        <dd>
+                            <h3>精简日历</h3>
+                            <div class="calendar"></div>
+                            <pre class="brush:js;">
+                            $.calendar({
+                                container:'.calendar',
+                                ishide:false,
+                                button:[],
+                                onselect:function(dates){
+                                    $.layer.alert(dates[0], '', 280);
+                                }
+                            });
+                            </pre>
+                            
+                            <h3 class="e-pt15">选择日期</h3>
+                            <input type="text" class="ui-input ui-input-short" id="time" readonly="readonly" />
+                            <pre class="brush:js;">
+                            $.calendar({
+                                target:'#time'
+                            });
+                            </pre>
+                            
+                            <h3 class="e-pt15">选择时间段1</h3>
+                            <input type="text" class="ui-input ui-input-short" id="starttime" readonly="readonly" /> ~ <input type="text" class="ui-input ui-input-short" id="endtime" readonly="readonly" />
+                            <pre class="brush:js;">
+                            var starttime = $.calendar({
+                                target:'#starttime',
+                                onchoose:function(dates){
+                                    endtime.setOptions('min', dates[0])
+                                }
+                            });
+                            
+                            var endtime = $.calendar({
+                                target:'#endtime',
+                                onchoose:function(dates){
+                                    starttime.setOptions('max', dates[0])
+                                }
+                            });
+                            </pre>
+                            
+                            <h3 class="e-pt15">选择时间段2</h3>
+                            <p>请按ctrl键多选</p>
+                            <input type="text" class="ui-input" id="scope" readonly="readonly" />
+                            <pre class="brush:js;">
+                            $.calendar({
+                                target:'#scope',
+                                max:$.calendar.date(35),
+                                min:$.calendar.date(-35),
+                                iscope:true,
+                                scope:[{
+                                    text:'今天',
+                                    value:0
+                                }, {
+                                    text:'最近7天',
+                                    value:-7
+                                }, {
+                                    text:'未来7天',
+                                    value:7
+                                }]
+                            });
+                            </pre>
+                            
+                            <h3 class="e-pt15">按钮触发</h3>
+                            <input type="text" class="ui-input ui-input-short" readonly="readonly" />
+                            <button class="ui-btn" id="clickme">点击我</button>
+                            <pre class="brush:js;">
+                            $('#clickme').click(function(){
+                                $.calendar({
+                                    target:$(this).prev(),
+                                    max:$.calendar.date(35),
+                                    min:$.calendar.date(-35)
+                                });
+                            });
+                            </pre>
+                            
+                            <h3 class="e-pt15">绑定多个输入框</h3>
+                            <input type="text" class="ui-input ui-input-short multi" readonly="readonly" value="2016-01-01" />
+                            <input type="text" class="ui-input ui-input-short multi" readonly="readonly"  value="2016-01-02"/>
+                            <input type="text" class="ui-input ui-input-short multi" readonly="readonly" value="2016-01-03" />
+                            <input type="text" class="ui-input ui-input-short multi" readonly="readonly"  value="2016-01-04"/>
+                            <pre class="brush:js;">
+                            $('.multi').click(function(){
+                                $.calendar();
+                            });
+                            </pre>
+                            
+                            <h3 class="e-pt15">获取4天后的日期</h3>
+                            <p id="four"></p>
+                            <pre class="brush:js;">
+                            $('#four').text($.calendar.date(4));
+                            </pre>
+                        </dd>
+                        <dt>API</dt>
+                        <dd>
+                            <table> 
+                                <thead> 
+                                    <tr>
+                                        <th width="120">参数属性</th>
+                                        <th width="120">值类型</th>
+                                        <th width="120">默认值</th>
+                                        <th width="150">可填值</th>
+                                        <th>功能说明</th>
+                                    </tr> 
+                                </thead> 
+                                <tbody> 
+                                    <tr>    
+                                        <td>target</td>
+                                        <td>String | Object</td>
+                                        <td>' '</td>
+                                        <td>任意字符串 | jQuery对象</td>
+                                        <td>日期填充目标</td>
+                                    </tr>
+                                    <tr>
+                                        <td>format</td>
+                                        <td>String</td>
+                                        <td>yyyy-MM-dd</td>
+                                        <td>y M d h m i</td>
+                                        <td>y(年) M(月) d(日) h(时) m(分) i(秒)组合的字符串年月日用“- /”分隔，时分秒用“:”分隔</td>
+                                    </tr>
+                                    <tr>
+                                        <td>joint</td>
+                                        <td>String</td>
+                                        <td> - </td>
+                                        <td> -  ~ </td>
+                                        <td>日期区间连接符号，两边要有空格</td>
+                                    </tr>
+                                    <tr>
+                                        <td>min</td>
+                                        <td>String</td>
+                                        <td>' '</td>
+                                        <td>日期字符串</td>
+                                        <td>最小日期，小于该值的日期将无法选择</td>
+                                    </tr>
+                                    <tr>
+                                        <td>max</td>
+                                        <td>String</td>
+                                        <td>' '</td>
+                                        <td>日期字符串</td>
+                                        <td>最大日期，大于该值的日期将无法选择</td>
+                                    </tr>
+                                    <tr>
+                                        <td>startime</td>
+                                        <td>String</td>
+                                        <td>' '</td>
+                                        <td>日期字符串</td>
+                                        <td>时间区间的开始时间</td>
+                                    </tr>
+                                    <tr>
+                                        <td>initime</td>
+                                        <td>String</td>
+                                        <td>' '</td>
+                                        <td>日期字符串</td>
+                                        <td>时间区间的结束时间/默认展示时间</td>
+                                    </tr>
+                                    <tr>
+                                        <td>container</td>
+                                        <td>String | Object</td>
+                                        <td>body</td>
+                                        <td>任意字符串 | jQuery对象</td>
+                                        <td>组件显示的容器，如果不是在body里面，那组件的就无法定位</td>
+                                    </tr>
+                                    <tr>
+                                        <td>ishide</td>
+                                        <td>Boolean</td>
+                                        <td>true</td>
+                                        <td>true | false</td>
+                                        <td>是否能关闭组件</td>
+                                    </tr>
+                                    <tr>
+                                        <td>isclick</td>
+                                        <td>Boolean</td>
+                                        <td>true</td>
+                                        <td>true | false</td>
+                                        <td>是否点击日期关闭组件</td>
+                                    </tr>
+                                    <tr>
+                                        <td>iscope</td>
+                                        <td>Boolean</td>
+                                        <td>false</td>
+                                        <td>true | false</td>
+                                        <td>是否开启选择区间，按住ctrl键可选择时间区间</td>
+                                    </tr>
+                                    <tr>
+                                        <td>button</td>
+                                        <td>Array</td>
+                                        <td>
+                                        <pre>
+[{
+    name:'clear',
+    text:'清除'
+},{
+    name:'today',
+    text:'今天'
+},{
+    name:'confirm',
+    text:'确定'
+},{
+    name:'close',
+    text:'关闭'
+}]
+                                        </pre>
+                                        </td>
+                                        <td>[←参照默认值]</td>
+                                        <td>开启组件的4个按钮，传空数组将不显示按钮，name值必须为clear、today、confirm、close</td>
+                                    </tr>
+                                    <tr>
+                                        <td>scope</td>
+                                        <td>Array</td>
+                                        <td>[ ]</td>
+                                        <td>
+                                        <pre>
+[{
+    text:'今天',
+    value:0
+},{
+    text:'最近7天',
+    value:-7
+},{
+    text:'未来7天',
+    value:7
+},....]
+                                        </pre>
+                                        </td>
+                                        <td>在组件头部配置快速选择区间按钮，value值必须是整数，-1表示最近1天、-2最近2天、3表示未来3天，以此类推</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table>
+                                <thead> 
+                                    <tr>
+                                        <th width="120">参数方法</th>
+                                        <th width="120">参数</th>
+                                        <th width="120">默认值</th>
+                                        <th>功能说明</th>
+                                    </tr> 
+                                </thead> 
+                                <tbody> 
+                                    <tr>
+                                        <td rowspan="2">onchoose</td>
+                                        <td>dates</td>
+                                        <td>[ 开始日期, 结束日期 ]</td>
+                                        <td rowspan="2">选择日期组件关闭时执行函数，dates为数组，一个下标表示选择的单个时间，2个下标表示选择的时间区间，前小后大</td>
+                                    </tr>
+                                    <tr>
+                                        <td>target</td>
+                                        <td>日期填充目标元素jQuery对象</td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="2">onselect</td>
+                                        <td>dates</td>
+                                        <td>[ 开始日期, 结束日期 ]</td>
+                                        <td rowspan="2">选择日期当组件不关闭时执行函数，dates为数组，一个下标表示选择的单个时间，2个下标表示选择的时间区间，前小后大</td>
+                                    </tr>
+                                    <tr>
+                                        <td>target</td>
+                                        <td>日期填充目标元素jQuery对象</td>
+                                    </tr>
+                                </tbody>
+                            </table> 
+                            <table>
+                                <thead> 
+                                    <tr>
+                                        <th width="120">实例对象方法</th>
+                                        <th width="120">参数</th>
+                                        <th width="120">默认值</th>
+                                        <th>功能说明</th>
+                                    </tr> 
+                                </thead> 
+                                <tbody> 
+                                    <tr>
+                                        <td rowspan="2">setOptions</td>
+                                        <td>key</td>
+                                        <td></td>
+                                        <td rowspan="2">设置组件参数</td>
+                                    </tr>
+                                    <tr>
+                                        <td>value</td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table>
+                                <thead> 
+                                    <tr>
+                                        <th width="120">工具方法</th>
+                                        <th width="120">参数</th>
+                                        <th width="120">默认值</th>
+                                        <th>功能说明</th>
+                                    </tr> 
+                                </thead> 
+                                <tbody> 
+                                    <tr>
+                                        <td rowspan="2">$.calendar.date</td>
+                                        <td>scope</td>
+                                        <td></td>
+                                        <td rowspan="2">
+                                            获取格式化日期
+                                            <p>scope值0今天、-1昨天、-2前天、1明天、以此类推，当scope值为13位正整数时，将视其为时间戳，并返回该时间戳对应的日期，当scope值为字符串时，将视其为format，并返回当天的日期</p>
+                                            <p>format值为y(年) M(月) d(日) h(时) m(分) i(秒)组合的字符串年月日用“- /”分隔，时分秒用“:”分隔</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>format</td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </dd> 
+                        <dt>下载</dt>
+                        <dd>
+                            <a href="calendar.css">layer.css</a>
+                            <a href="jquery.calendar.js" class="e-ml10">jquery.calendar.js</a>
+                        </dd>
+                        <dt>版本更新</dt>
+                        <dd id="updatelog"></dd>
+                    </dl> 
+                </div> 
+            </div>
+        </div>
+    </div>
+    <!-- content end -->
+    
+    <!-- footer begin -->
+    <div class="g-footer">
+        <div class="g-wrap">
+            <p>
+                <a href="http://wpa.qq.com/msgrd?v=3&uin=897102078&site=qq&menu=yes" target="_blank">技术支持</a>
+            </p>
+            <p>Copyright © 2013-2016 Aisino. All Rights Reserved.</p>
+        </div>
+    </div>
+    <!-- footer end -->
+    
+    <script type="text/javascript" src="../../script/jquery.js"></script>
+    <script type="text/javascript" src="../layer/jquery.layer.js"></script>
+    <script type="text/javascript" src="./jquery.calendar.js"></script>
+    <script type="text/javascript" src="../../script/syntax/shCore.js"></script>
+    <script type="text/javascript" src="../../script/syntax/shBrushCss.js"></script>
+    <script type="text/javascript" src="../../script/syntax/shBrushXml.js"></script>
+    <script type="text/javascript" src="../../script/syntax/shBrushJScript.js"></script>
+    <script type="text/javascript" src="../../script/page.js"></script>
+    <script type="text/javascript" src="../menu.js"></script>
+    <script type="text/javascript" src="../arttemplate/template.js"></script>
+    <script type="text/javascript" src="./log.js"></script>
+    <script type="text/html" id="updatelog-tpl">
+    {{each list as val key}}
+        <p>Version:{{val.ver}}</p>
+        {{if val.date}}
+        <p>Date:{{val.date}}</p>    
+        {{/if}}
+        {{each val.desc as v k}}
+        <p>{{v}}</p>
+        {{/each}}
+        <br />
+    {{/each}}
+    </script>
+    <script type="text/javascript">
+    $.calendar({
+        container:'.calendar',
+        ishide:false,
+        button:[],
+        onselect:function(dates){
+            $.layer.alert(dates[0], '', 280);
+        }
+    });
+    
+    $.calendar({
+        target:'#time'
+    });
+    
+    var starttime = $.calendar({
+        target:'#starttime',
+        onchoose:function(dates){
+            endtime.setOptions('min', dates[0])
+        }
+    });
+    
+    var endtime = $.calendar({
+        target:'#endtime',
+        onchoose:function(dates){
+            starttime.setOptions('max', dates[0])
+        }
+    });
+    
+    $.calendar({
+        target:'#scope',
+        max:$.calendar.date(35),
+        min:$.calendar.date(-35),
+        iscope:true,
+        scope:[{
+            text:'今天',
+            value:0
+        }, {
+            text:'最近7天',
+            value:-7
+        }, {
+            text:'未来7天',
+            value:7
+        }]
+    });
+    
+    $('#clickme').click(function(){
+        $.calendar({
+            target:$(this).prev(),
+            max:$.calendar.date(35),
+            min:$.calendar.date(-35)
+        });
+    });
+    
+    $('.multi').click(function(){
+        $.calendar();
+    });
+    
+    $('#four').text($.calendar.date(4));
+    </script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?0dc9965a1c1a4ac82a30662079161264";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</body>
+</html>

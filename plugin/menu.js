@@ -12,7 +12,7 @@
                         return true;
                     }
                     if(val.url){
-                        arr.push('<li'+ crt +'><a href="'+ val.url +'" target="_blank">'+ val.title +'</a></li>');
+                        arr.push('<li><a href="'+ val.url +'" target="_blank">'+ val.title +'</a></li>');
                     }
                     else{
                         crt = val.title == title ? ' class="s-crt"' : '';
