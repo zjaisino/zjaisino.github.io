@@ -127,7 +127,17 @@
         constructor:Calendar,
         init:function(setOpts){
             var that = this, opts = that.options;
+            that.max = opts.max ? that.getTime(opts.max) : 0;
+            that.min = opts.min ? that.getTime(opts.min) : 0;
             if(setOpts === true || !that.target){
+                if(setOpts){
+                    if((that.getTime(that.initime) < that.min) || (that.max && that.getTime(that.initime) > that.max)){
+                        that.target && that.target.trigger('setVal', '');
+                    }
+                    else{
+                        return;
+                    }
+                }
                 if(opts.target){
                     that.target = opts.target.data('calendarindex', that.index);
                 }
@@ -145,9 +155,7 @@
                     opts.isclick = false;
                 }
                 that.bindEvent();
-                if(!setOpts || (setOpts && (that.getTime(that.initime) < that.min) || (that.max && that.getTime(that.initime) > that.max))){
-                    that.show();
-                }
+                that.show();
             }
             else{
                 that.initVal();
@@ -176,8 +184,6 @@
             that.startime = that.getArr(that.getTime(that.startime));
             that.initime = that.getArr(that.getTime(that.initime));
             that.current = [that.initime[0], that.initime[1]];
-            that.max = opts.max ? that.getTime(opts.max) : 0;
-            that.min = opts.min ? that.getTime(opts.min) : 0;
         },
         setOptions:function(key, val){
             var that = this, opts = that.options;
