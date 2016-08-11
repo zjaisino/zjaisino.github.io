@@ -130,18 +130,12 @@
             if(setOpts === true || !that.target){
                 if(opts.target){
                     that.target = opts.target.data('calendarindex', that.index);
-                    that.initVal();
-                    if(that.elem){
-                        that.elem.remove();
-                    }
-                    that.target = opts.target.data('calendarindex', that.index);
                 }
-                that.ishide = opts.ishide;
-                opts.isclick = !opts.iscope;
                 that.initVal();
                 if(that.elem){
                     that.elem.remove();
                 }
+                opts.isclick = !opts.iscope;
                 that.container = $(opts.container || 'body');
                 that.elem = $('<div class="ui-calendar" style="display:none;"></div>').appendTo(that.container);
                 if(that.container.get(0).nodeName === 'BODY'){
@@ -151,7 +145,7 @@
                     opts.isclick = false;
                 }
                 that.bindEvent();
-                if(!setOpts || (setOpts && (that.getTime(opts.initime) < that.min) || (that.max && that.getTime(opts.initime) > that.max))){
+                if(!setOpts || (setOpts && (that.getTime(that.initime) < that.min) || (that.max && that.getTime(that.initime) > that.max))){
                     that.show();
                 }
             }
@@ -197,16 +191,31 @@
                 that.init(true);
             }
         },
+        reverse:function(){
+            var that = this;
+            var startime = that.getTime(that.startime);
+            var initime = that.getTime(that.initime);
+            if(startime > initime){
+                var tmp = initime;
+                initime = startime;
+                startime = tmp;
+            }
+            return [initime, startime];
+        },
         createContent:function(){
             var that = this, opts = that.options, scope = opts.scope.length, button = opts.button.length, html = '';
             if(scope){
                 var i = 0;
+                var time = that.reverse();
                 var startime = Calendar.format(that.getTime(that.startime), opts.format);
+                var initime = Calendar.format(that.getTime(that.initime), opts.format);
+                var initdate = Calendar.format(opts.format);
                 html += '<div class="ui-calendar-head">';
                 for(i; i<scope; i++){
                     var btn = opts.scope[i];
                     var crt = '';
-                    if(Calendar.format(parseInt(btn.value), opts.format) === startime){
+                    var startdate = Calendar.format(parseInt(btn.value), opts.format);
+                    if((initime === startdate && startime === initdate) || (initime === initdate && startime === startdate)){
                         crt = 'class="s-crt"';
                     }
                     html += '<em scope="'+ btn.value +'" '+ crt +'>'+ btn.text +'</em>';
@@ -268,12 +277,8 @@
         createCell:function(){
             var that = this, opts = that.options, a = 1, b = 1, c = 1, d = 1, html = '';
             var year = that.current[0], month = that.current[1];
-            var startime = that.getTime(that.startime), initime = that.getTime(that.initime);
-            if(startime > initime){
-                var tmp = initime;
-                initime = startime;
-                startime = tmp;
-            }
+            var time = that.reverse();
+            var startime = time[1], initime = time[0];
             var date = new Date(year, month-1, 1);
             //获取月初是星期几
             var week = date.getDay();
@@ -383,15 +388,9 @@
                         that.setTime(data);
                     }
                 }
-                initime = that.initime;
-                startime = that.startime;
-                var enddate = that.getTime(initime);
-                var startdate = that.getTime(startime);
-                if(enddate < startdate){
-                    var tmp = enddate;
-                    enddate = startdate;
-                    startdate = tmp;
-                }
+                var time = that.reverse();
+                var enddate = time[0];
+                var startdate = time[1];
                 enddate = Calendar.format(enddate, opts.format);
                 startdate = Calendar.format(startdate, opts.format);
                 var date = enddate;
@@ -529,9 +528,9 @@
             var that = this, opts = that.options;
             that.body = that.elem.html(that.createContent()).find('.ui-calendar-body');
             that.resize();
-            if(that.ishide){
+            if(opts.ishide){
                 $.each(Calendar.box, function(key, val){
-                    if(val.index !== that.index && val.ishide){
+                    if(val.index !== that.index && val.options.ishide){
                         val.hide();
                     }
                 })
