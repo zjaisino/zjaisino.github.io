@@ -19,6 +19,7 @@
     .m-demo li { margin-top:10px;}
     ul.m-demo { margin-bottom:10px;}
     .ui-loading { top:10px; left:100px;}
+	a.menu.s-crt { color:#f00;}
     </style>
 </head>
 
@@ -144,6 +145,57 @@
                                 }
                             });
                             </pre>
+							<h3 class="f-fwb">滚动加载</h3>
+							<a href="javascript:void(0);" class="menu" type="">全部</a>
+							<a href="javascript:void(0);" class="menu e-ml10" type="1">按价格</a>
+							<a href="javascript:void(0);" class="menu e-ml10" type="2">按访问量</a>
+                            <div class="m-demo" id="data3" style="height:250px; overflow:auto;">
+								<ul id="boxs"></ul>
+							</div>
+                            <pre class="brush:html;">
+							&lt;a href="javascript:void(0);" class="menu" type=""&gt;全部&lt;/a&gt;
+							&lt;a href="javascript:void(0);" class="menu e-ml10" type="1"&gt;按价格&lt;/a&gt;
+							&lt;a href="javascript:void(0);" class="menu e-ml10" type="2"&gt;按访问量&lt;/a&gt;
+                            &lt;div class="m-demo" id="data3" style="height:250px; overflow:auto;"&gt;
+								&lt;ul id="boxs"&gt;&lt;/ul&gt;
+							&lt;/div&gt;
+                            </pre>
+                            <pre class="brush:js;">
+                            window['page'] = new Paging({
+								url:'http://192.168.1.106/data/?callback=?',
+								pCount:10,
+								loading:{
+									wrap:$('#data1')
+								},
+								scroll:{
+									enable:true,
+									container:'#data3'
+								},
+								echoData:function(res, type){
+									var tpl = '';
+									$.each(res.list, function(k, v){
+										tpl += '<li>'+ v.buname +'</li>';
+									});
+									if(type === 'jump'){
+										$('#boxs').append(tpl);
+									}
+									else{
+										$('#boxs').html(tpl);
+										this.container.scrollTop(0)
+									}
+								}
+							});
+							
+							$('.menu').click(function(){
+								var me = $(this);
+								if(me.hasClass('s-crt')){
+									return;
+								}
+								me.addClass('s-crt').siblings('.menu').removeClass('s-crt');
+								page.condition.type = me.attr('type');
+								page.query(true);
+							}).eq(0).click();
+                            </pre>
                         </dd>
                         <dt>API</dt>
                         <dd>
@@ -170,7 +222,7 @@
                                         <td>Object</td>
                                         <td>null</td>
                                         <td>null/jquery object</td>
-                                        <td>分页容器</td>
+                                        <td>页码容器</td>
                                     </tr>
                                     <tr>    
                                         <td>paramJSON</td>
@@ -285,6 +337,21 @@
                                         <td>»</td>
                                         <td>任意字符串</td>
                                         <td>下一页按钮文本内容</td>
+                                    <tr>
+									<tr>
+                                        <td rowspan="2">scroll</td>
+                                        <td>enable</td>
+                                        <td>Boolean</td>
+                                        <td>false</td>
+                                        <td>true | false</td>
+                                        <td>是否启用滚动分页</td>
+                                    </tr>
+                                    <tt>
+                                        <td>container</td>
+                                        <td>String | DOM Object | jQuery Object</td>
+                                        <td>window</td>
+                                        <td>String | DOM Object | jQuery Object</td>
+                                        <td>滚动容器</td>
                                     <tr>
                                     <tr>
                                         <td rowspan="4">extPage</td>
@@ -404,7 +471,6 @@
                         <dt>版本更新</dt>
                         <dd id="updatelog"></dd>
                     </dl> 
-                    <div class="ds-thread"></div>
                 </div> 
             </div>
         </div>
@@ -496,6 +562,42 @@
             pages.query('refresh');
         }
     });
+	
+	window['page'] = new Paging({
+        url:'http://192.168.1.106/data/?callback=?',
+        pCount:10,
+        loading:{
+            wrap:$('#data1')
+        },
+		scroll:{
+			enable:true,
+			container:'#data3'
+		},
+        echoData:function(res, type){
+			var tpl = '';
+			$.each(res.list, function(k, v){
+				tpl += '<li>'+ v.buname +'</li>';
+			});
+			if(type === 'jump'){
+				$('#boxs').append(tpl);
+			}
+			else{
+				$('#boxs').html(tpl);
+				this.container.scrollTop(0)
+			}
+        }
+    });
+	
+	$('.menu').click(function(){
+		var me = $(this);
+		if(me.hasClass('s-crt')){
+			return;
+		}
+		me.addClass('s-crt').siblings('.menu').removeClass('s-crt');
+		page.condition.type = me.attr('type');
+		page.query(true);
+	}).eq(0).click();
+	
     </script>
 <script>
 var _hmt = _hmt || [];

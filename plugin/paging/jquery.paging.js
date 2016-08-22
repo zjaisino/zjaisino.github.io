@@ -1,8 +1,8 @@
 /**
  * @filename jquery.paging.js
  * @author Aniu[2014-03-29 10:07]
- * @update Aniu[2016-03-15 15:13]
- * @version v2.7
+ * @update Aniu[2016-08-22 14:18]
+ * @version v2.8
  * @description 分页组件
  */
 
@@ -26,7 +26,7 @@
              */
             url:'',
             /**
-             * @function 数据填充容器
+             * @function 页码容器
              * @type <Object>
              */
             wrap:null,
@@ -67,6 +67,14 @@
              * @type <Boolean>
              */
             isFull:true,
+			/**
+             * @function 滚动分页配置
+             * @type <Obejct>
+             */
+			scroll:{
+				enable:false,
+				container:window
+			},
             /**
              * @function ajax配置信息
              * @type <JSON Obejct, Function>
@@ -142,6 +150,17 @@
              */
             echoData:$.noop
         }, options||{}));
+		
+		if(that.scroll.enable === true){
+			that.wrap = null;
+			that.container = $(that.scroll.container||window);
+			that.children = that.container[0] === window ? $(document.body) : that.container.children();
+			that.container.scroll(function(){
+				that.resize();
+			}).resize(function(){
+				that.resize();
+			});
+		}
     }
 
     Paging.prototype = {
@@ -180,7 +199,7 @@
                 that.create();
                 return;
             }
-            that.getData();
+            that.getData('jump');
         },
         query:function(type){
             var that = this;
@@ -239,7 +258,7 @@
 
             if(!that.load){
             	that.load = true;
-            	$.ajax($.extend(true, {
+            	$.ajax($.extend({}, true, {
                     url:that.url,
                     cache:false,
                     dataType:'json',
@@ -252,8 +271,10 @@
                         catch(e){}
                         that.echoData(data, type);
                         that.aCount = data.aCount;
-                        that.load = false;
-                        
+						if(that.scroll.enable === true){
+							that.resize();
+						}
+						that.load = false;
                         if(that.last === true){
                             that.last = false;
                             that.jump(-1);
@@ -285,6 +306,17 @@
             }
             return html;
         },
+		resize:function(){
+			var that = this;
+			try{
+				if(!that.load && Math.ceil(that.aCount/that.pCount) > that.current && (that.container.height() + that.container.scrollTop() >= that.children.outerHeight())){
+					that.jump(++that.current);
+				}
+			}
+			catch(e){
+				
+			}
+		},
         //创建分页骨架
         create:function(){
             var that = this, button = that.button,
