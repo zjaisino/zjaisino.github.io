@@ -11,6 +11,9 @@
     var Calendar = function(options){
         var that = this;
         that.options = $.extend({
+            //自定义皮肤
+            theme:'',
+            //填充目标
             target:'',
             //格式化时间 y年 M月 d日 h小时 m分钟 s秒
             format:'yyyy-MM-dd',
@@ -26,6 +29,14 @@
             initime:'',
             //组件显示容器
             container:'body',
+            //是否显示2个日历面板
+            istwo:false,
+            //只显示月
+            ismonth:false,
+            //是否显示时分秒
+            istime:false,
+            //是否显示其它月
+            isother:true,
             //是否能关闭组件
             ishide:true,
             //是否点击日期关闭组件
@@ -51,7 +62,9 @@
             //选择日期组件关闭时回调函数
             onchoose:$.noop,
             //选择日期时回调函数
-            onselect:$.noop
+            onselect:$.noop,
+            //组件隐藏时回调函数
+            onhide:$.noop
         }, options||{});
         that.index = Calendar.index++;
         Calendar.box[that.index] = that;
@@ -125,48 +138,75 @@
     
     Calendar.prototype = {
         constructor:Calendar,
-        init:function(setOpts){
+        init:function(init){
+            var that = this, opts = that.options;
+            if(opts.iscope){
+                opts.isclick = false;
+            }
+            if(opts.ismonth){
+                opts.istime = false;
+            }
+            if(opts.target){
+                that.target = opts.target.data('calendarindex', that.index);
+                that.target.bind('setVal', function(e, val){
+                    if(this.nodeName === 'INPUT' || this.nodeName === 'TEXTAREA'){
+                        that.target.val(val);
+                    }
+                    else{
+                        that.target.text(val);
+                    }
+                });
+            }
+            if(init !== false){
+                that.run();
+            }
+            return ({
+                setOptions:function(key, val){
+                    if(key || val){
+                        if($.isPlainObject(key)){
+                            that.options = $.extend(that.options, key);
+                        }
+                        else{
+                            that.options[key] = val;
+                        }
+                        that.run(true);
+                    }
+                },
+                show:that.run,
+                hide:that.hide
+            });
+        },
+        run:function(setOpts){
             var that = this, opts = that.options;
             that.max = opts.max ? that.getTime(opts.max) : 0;
             that.min = opts.min ? that.getTime(opts.min) : 0;
-            if(setOpts === true || !that.target){
-                if(setOpts){
-                    if((that.getTime(that.initime) < that.min) || (that.max && that.getTime(that.initime) > that.max)){
-                        that.target && that.target.trigger('setVal', '');
-                    }
-                    else{
-                        return;
-                    }
-                }
-                if(opts.target){
-                    that.target = opts.target.data('calendarindex', that.index);
-                }
-                that.initVal();
-                if(that.elem){
-                    that.elem.remove();
-                }
-                opts.isclick = !opts.iscope;
-                that.container = $(opts.container || 'body');
-                that.elem = $('<div class="ui-calendar" style="display:none;"></div>').appendTo(that.container);
-                if(that.container.get(0).nodeName === 'BODY'){
-                    that.elem.css('position', 'absolute');
+            if(setOpts === true){
+                if((that.getTime(that.initime) < that.min) || (that.max && that.getTime(that.initime) > that.max)){
+                    that.target && that.target.trigger('setVal', '');
                 }
                 else{
-                    opts.isclick = false;
+                    return;
                 }
-                that.bindEvent();
-                that.show();
             }
-            else{
-                that.initVal();
-                that.show();
+            if(!that.elem){
+                that.createWrap();
             }
-            
-            return that;
+            that.initVal();
+            that.show();
         },
         initVal:function(){
             var that = this, opts = that.options;
-            var val = opts.target ? that.getVal() : '';
+            var val = '';
+            if(that.target){
+                var target = that.target[0];
+                if(target.nodeName === 'INPUT' || target.nodeName === 'TEXTAREA'){
+                    val = that.target.val();
+                }
+                else{
+                    val = that.target.text();
+                }
+                val = that.validDate(val);
+            }
             if(val){
                 val = val.split(opts.joint);
                 if(val.length === 1){
@@ -183,18 +223,9 @@
             }
             that.startime = that.getArr(that.getTime(that.startime));
             that.initime = that.getArr(that.getTime(that.initime));
-            that.current = [that.initime[0], that.initime[1]];
-        },
-        setOptions:function(key, val){
-            var that = this, opts = that.options;
-            if(key || val){
-                if($.isPlainObject(key)){
-                    that.options = $.extend(that.options, key);
-                }
-                else{
-                    that.options[key] = val;
-                }
-                that.init(true);
+            that.current = [that.startime[0], that.startime[1]];
+            if(opts.ismonth){
+                that.nextcurrent = [that.initime[0], that.initime[1]];
             }
         },
         reverse:function(){
@@ -208,6 +239,24 @@
             }
             return [initime, startime];
         },
+        createWrap:function(){
+            var that = this, opts = that.options;
+            that.container = $(opts.container || 'body');
+            that.elem = $('<div class="ui-calendar" style="display:none;"></div>').appendTo(that.container);
+            if(opts.istwo){
+                that.elem.addClass('ui-calendar-multi');
+            }
+            if(opts.theme){
+                that.elem.addClass('t-calendar-'+opts.theme);
+            }
+            if(that.container.get(0).nodeName === 'BODY'){
+                that.elem.css('position', 'absolute');
+            }
+            else{
+                opts.isclick = false;
+            }
+            that.bindEvent();
+        },
         createContent:function(){
             var that = this, opts = that.options, scope = opts.scope.length, button = opts.button.length, html = '';
             if(scope){
@@ -216,7 +265,7 @@
                 var startime = Calendar.format(that.getTime(that.startime), opts.format);
                 var initime = Calendar.format(that.getTime(that.initime), opts.format);
                 var initdate = Calendar.format(opts.format);
-                html += '<div class="ui-calendar-head">';
+                html += '<div class="ui-calendar-head clearfix">';
                 for(i; i<scope; i++){
                     var btn = opts.scope[i];
                     var crt = '';
@@ -228,7 +277,7 @@
                 }
                 html += '</div>';
             }
-            html += '<div class="ui-calendar-body">'+ that.createBody() +'</div>';
+            html += '<div class="ui-calendar-body clearfix">'+ that.createBody() +'</div>';
             if(opts.istime || button){
                 html += '<div class="ui-calendar-foot">';
                 if(opts.istime){
@@ -247,42 +296,67 @@
             }
             return html;
         },
-        //创建主体
-        createBody:function(){
-            var that = this, opts = that.options;
-            var html = '<div class="ui-calendar-tab">\
+        createMain:function(year, month){
+            var that = this, html = '';
+            month = that.mend(month);
+            if(!that.options.ismonth){
+                return '<div class="ui-calendar-main">\
+                        <div class="ui-calendar-tab">\
                             <span class="tab-left">\
                                 <em class="dirbtn prevYear"></em>\
                                 <em class="dirbtn prevMonth"></em>\
                             </span>\
                             <strong>\
-                                <b>'+ that.current[0] +'</b>年<b>'+ that.getDay(that.current[1]) +'</b>月\
+                                <b>'+ year +'</b>年<b>'+ month +'</b>月\
                             </strong>\
                             <span class="tab-right">\
                                 <em class="dirbtn nextMonth"></em>\
                                 <em class="dirbtn nextYear"></em>\
                             </span>\
                         </div>\
-                        <table class="ui-calendar-table">\
-                            <thead>\
-                                <tr>\
-                                    <th>日</th>\
-                                    <th>一</th>\
-                                    <th>二</th>\
-                                    <th>三</th>\
-                                    <th>四</th>\
-                                    <th>五</th>\
-                                    <th>六</th>\
-                                </tr>\
-                            </thead>\
-                            <tbody>'+ that.createCell() +'</tbody>\
-                        </table>';
+                        <table class="ui-calendar-table"><thead><tr><th>日</th><th>一</th><th>二</th><th>三</th><th>四</th><th>五</th><th>六</th></tr></thead><tbody>'+ that.createCell(year, month) +'</tbody></table>\
+                    </div>';
+            }
+            return '<div class="ui-calendar-main">\
+                        <div class="ui-calendar-tab">\
+                            <span class="tab-left">\
+                                <em class="dirbtn prevYear"></em>\
+                            </span>\
+                            <strong>\
+                                <b>'+ year +'</b>年\
+                            </strong>\
+                            <span class="tab-right">\
+                                <em class="dirbtn nextYear"></em>\
+                            </span>\
+                        </div>\
+                        <table class="ui-calendar-table"><tbody>'+ that.createList(year) +'</tbody></table>\
+                    </div>';
+        },
+        //创建主体
+        createBody:function(){
+            var that = this, opts = that.options;
+            var year = that.current[0];
+            var month = that.current[1];
+            var html = that.createMain(year, month);
+            if(opts.istwo){
+                if(opts.ismonth){
+                    year = that.nextcurrent[0];
+                    month = that.nextcurrent[1];
+                }
+                else{
+                    if(13 == ++month){
+                        year++;
+                        month = 1;
+                    }
+                }
+                
+                html += that.createMain(year, month);
+            }
             return html;
         },
         //创建单元格
-        createCell:function(){
+        createCell:function(year, month){
             var that = this, opts = that.options, a = 1, b = 1, c = 1, d = 1, html = '';
-            var year = that.current[0], month = that.current[1];
             var time = that.reverse();
             var startime = time[1], initime = time[0];
             var date = new Date(year, month-1, 1);
@@ -298,15 +372,11 @@
                     html += '<tr>';
                 }
                 if(a > week && b <= days){
-                    var crt = '';
-                    if(that.initime[0]+that.initime[1]+that.initime[2] === year+month+b){
-                        crt = 's-crt';
-                    }
-                    crt += that.setCell(startime, that.getTime([year, month, b]), initime);
-                    html += '<td data-year="'+ year +'" data-month="'+ month +'" data-day="'+ b +'" class="'+ crt.replace(/s-crt s-crt/g, 's-crt') +'"><span>'+ that.getDay(b) +'</span></td>';
+                    var crt = that.setCell(startime, that.getTime([year, month, b]), initime);
+                    html += '<td data-year="'+ year +'" data-month="'+ month +'" data-day="'+ b +'" class="cell '+ crt +'"><span>'+ that.mend(b) +'</span></td>';
                     b++;
                 }
-                else{
+                else if(opts.isother){
                     //获取上月末尾时间
                     if(a <= week && c <= week){
                         var lastMonth = month-1;
@@ -319,7 +389,7 @@
                         var start = end - week;
                         if(start+c <= end){
                             var lastDay = start+c;
-                            html += '<td data-year="'+ lastYear +'" data-month="'+ lastMonth +'" data-day="'+ lastDay +'" class="cell '+ that.setCell(startime, that.getTime([lastYear, lastMonth, lastDay]), initime) +'"><span>'+ that.getDay(lastDay) +'</span></td>';
+                            html += '<td data-year="'+ lastYear +'" data-month="'+ lastMonth +'" data-day="'+ lastDay +'" class="cell other-cell '+ that.setCell(startime, that.getTime([lastYear, lastMonth, lastDay]), initime) +'"><span>'+ that.mend(lastDay) +'</span></td>';
                         }
                         c++;
                     }
@@ -331,9 +401,12 @@
                             nextMonth = 1;
                             nextYear++;
                         }
-                        html += '<td data-year="'+ nextYear +'" data-month="'+ nextMonth +'" data-day="'+ d +'" class="cell '+ that.setCell(startime, that.getTime([nextYear, nextMonth, d]), initime) +'"><span>'+ that.getDay(d) +'</span></td>';
+                        html += '<td data-year="'+ nextYear +'" data-month="'+ nextMonth +'" data-day="'+ d +'" class="cell other-cell '+ that.setCell(startime, that.getTime([nextYear, nextMonth, d]), initime) +'"><span>'+ that.mend(d) +'</span></td>';
                         d++;
                     }
+                }
+                else{
+                    html += '<td></td>'
                 }
                 if(a%7 === 0){
                     html += '</tr>';
@@ -341,6 +414,43 @@
             }
             return html;
         }, 
+        createList:function(year){
+            var that = this, opts = that.options, i = 1, html = '';
+            var time = that.reverse();
+            var startime = time[1], initime = time[0];
+            
+            for(i; i<=14; i++){
+                var month = that.mend(i);
+                if((i-1)%7 === 0){
+                    html += '<tr>';
+                }
+                if(i <= 12){
+                    html += '<td class="cell '+ that.setCell(startime, that.getTime([year, i]), initime) +'" data-year="'+ year +'" data-month="'+ month +'"><span>'+ month +'</span></td>';
+                }
+                else{
+                    html += '<td></td>'
+                }
+                if(a%7 === 0){
+                    html += '</tr>';
+                }
+            }
+            return html;
+        },
+        setCell:function(startime, currentime, initime){
+            var that = this, className = '';
+            if(startime <= currentime && currentime <= initime){
+                if(startime == currentime || currentime == initime){
+                    className += 's-crt';
+                }
+                else{
+                    className += 's-sel';
+                }
+            }
+            if((that.min && currentime < that.min) || (that.max && currentime > that.max)){
+                className += (className ? ' ' : '' + 's-dis')
+            }
+            return className;
+        },
         bindEvent:function(){
             var that = this, opts = that.options;
             that.elem.on('click', function(e){
@@ -362,36 +472,41 @@
                     date = startdate + opts.joint + initdate;
                 }
                 opts.onselect(date.split(opts.joint), that.target);
-            }).on('click', '[data-day]td:not(.s-dis), .today, .confirm', function(e){
+            }).on('click', '.cell:not(.s-dis), .today, .confirm', function(e){
                 var me = $(this), initime, startime;
-                var data = {
+                var end = {
                     hour:'00',
                     minute:'00',
                     second:'00'
                 }
                 that.elem.find('.ui-calendar-foot p em').each(function(){
                     var em = $(this);
-                    data[em.attr('class')] = em.text();
+                    end[em.attr('class')] = em.text();
                 });
                 if(me.hasClass('today') || me.hasClass('confirm')){
                     if(me.hasClass('today')){
                         initime = that.getArr(that.getTime(false));
-                        that.setTime(initime, initime, data);
+                        that.setTime(initime, initime, end);
                     }
                 }
                 else{
                     //多选
                     if(opts.iscope && e.ctrlKey){
-                        data = $.extend(me.addClass('s-crt').data(), data);
-                        that.setTime(that.initime, data);
+                        that.setTime(that.initime, $.extend(me.addClass('s-crt').data(), end));
                         that.elem.find('[scope]').removeClass('s-crt');
                         that.show();
                         return;
                     }
                     else{
-                        that.body.find('td').removeClass('s-crt');
-                        data = $.extend(me.addClass('s-crt').data(), data);
-                        that.setTime(data);
+                        var main = me.closest('.ui-calendar-main');
+                        if(main.index() === 0){
+                            that.body.find('.s-crt, .s-sel').removeClass('s-crt s-sel');
+                            that.setTime($.extend(me.addClass('s-crt').data(), end));
+                        }
+                        else{
+                            main.find('.s-crt, .s-sel').removeClass('s-crt s-sel');
+                            that.setTime($.extend(me.addClass('s-crt').data(), end), that.startime);
+                        }
                     }
                 }
                 var time = that.reverse();
@@ -412,9 +527,15 @@
                 opts.onchoose(date.split(opts.joint), that.target);
             }).on('click', '.dirbtn', function(e){
                 var me = $(this);
+                var index = me.closest('.ui-calendar-main').index();
                 if(!me.hasClass('s-dis')){
                     if(me.hasClass('prevYear')){
-                        --that.current[0];
+                        if(opts.ismonth && index === 1){
+                            --that.nextcurrent[0];
+                        }
+                        else{
+                            --that.current[0];
+                        }
                     }
                     else if(me.hasClass('prevMonth')){
                         if(--that.current[1] === 0){
@@ -423,7 +544,12 @@
                         }
                     }
                     else if(me.hasClass('nextYear')){
-                        ++that.current[0];
+                        if(opts.ismonth && index === 1){
+                            ++that.nextcurrent[0];
+                        }
+                        else{
+                            ++that.current[0];
+                        }
                     }
                     else if(me.hasClass('nextMonth')){
                         if(++that.current[1] === 13){
@@ -439,16 +565,6 @@
             }).on('click', '.close', function(e){
                 that.hide();
             })
-        },
-        setCell:function(startime, currentime, initime){
-            var that = this, className = '';
-            if(startime <= currentime && currentime <= initime){
-                className += ' s-crt';
-            }
-            if((that.min && currentime < that.min) || (that.max && currentime > that.max)){
-                className += ' s-dis';
-            }
-            return className;
         },
         setTime:function(initime, startime, data){
             var that = this;
@@ -473,7 +589,7 @@
             return [31, ((year % 4) == 0 ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
         },
         getArr:function(time){
-            var date = Calendar.format(time, 'yyyy M d hh mm ss');
+            var date = Calendar.format(time, this.options.ismonth ? 'yyyy M 1 00 00 00' : 'yyyy M d hh mm ss');
             date = date.split(' ');
             return date;
         },
@@ -481,7 +597,7 @@
         getTime:function(date){
             if(date){
                 if($.isArray(date)){
-                    return new Date(date[0], date[1]-1, date[2], date[3]||0, date[4]||0, date[5]||0).getTime();
+                    return new Date(date[0], date[1]-1, date[2]||1, date[3]||0, date[4]||0, date[5]||0).getTime();
                 }
                 else{
                     //IE6不支持横杠
@@ -494,37 +610,17 @@
             }
             return 0;
         },
-        //获取目标值
-        getVal:function(){
-            var that = this, date = '';
-            var target = that.target[0];
-            that.target.bind('setVal', function(e, val){
-                if(target.nodeName === 'INPUT' || target.nodeName === 'TEXTAREA'){
-                    that.target.val(val);
-                }
-                else{
-                    that.target.text(val);
-                }
-            });
-            if(target.nodeName === 'INPUT' || target.nodeName === 'TEXTAREA'){
-                date = that.target.val();
-            }
-            else{
-                date = that.target.text();
-            }
-            return that.validDate(date);
-        },
         //校验日期格式
         validDate:function(date){
             var that = this;
-            if(date && (!(/^\d{4}(\/|-)\d{1,2}(\/|-)\d{1,2}/g).test(date))){
+            if(date && (!(/^\d{4}(\/|-)\d{1,2}/g).test(date))){
                 that.target.trigger('setVal', '');
                 return '';
             }
             return date;
         },
-        //格式化时间
-        getDay:function(day){
+        //补齐0
+        mend:function(day){
             day = day.toString();
             day.length == 1 && (day = '0'+day);
             return day;
@@ -550,6 +646,7 @@
             try{
                 that.elem.hide();
                 Calendar.current = -1;
+                that.options.onhide(that.elem);
             }
             catch(e){}
         },
@@ -588,13 +685,12 @@
                 if(event == undefined && options.target){
                     options.target.on('click', function(e){
                         if(!options.target.hasClass('s-dis') && !options.target.prop('disabled')){
-                            calendar.init();
+                            calendar.run();
                         }
                         e.stopPropagation();
                     });
-                    return calendar;
+                    return calendar.init(false);
                 }
-                
                 return calendar.init();
             }
             else{

@@ -130,6 +130,12 @@
                             });
                             </pre>
                             
+                            <h3 class="e-pt15">选择时间段3</h3>
+                            <input type="text" class="ui-input" id="two" readonly="readonly" />
+                            <pre class="brush:js;">
+                            
+                            </pre>
+                            
                             <h3 class="e-pt15">按钮触发</h3>
                             <input type="text" class="ui-input ui-input-short" readonly="readonly" />
                             <button class="ui-btn" id="clickme">点击我</button>
@@ -467,6 +473,25 @@
             text:'未来7天',
             value:7
         }]
+    });
+    
+    $.calendar({
+        target:'#two',
+        format:'yyyy-MM',
+        istwo:true,
+        iscope:true,
+        isother:false,
+        ismonth:true,
+        /*scope:[{
+            text:'今天',
+            value:0
+        }, {
+            text:'最近7天',
+            value:-7
+        }, {
+            text:'未来7天',
+            value:7
+        }]*/
     });
     
     $('#clickme').click(function(){
