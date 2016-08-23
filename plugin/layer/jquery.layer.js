@@ -1,8 +1,8 @@
 /**
  * @filename jquery.layer.js
  * @author Aniu[2014-07-11 14:01]
- * @update Aniu[2016-07-06 13:57]
- * @version v3.3.4
+ * @update Aniu[2016-08-23 16:56]
+ * @version v3.3.5
  * @description 弹出层组件
  */
 
@@ -697,7 +697,6 @@
             layer.remove();
             that.unbindEvent();
             delete Layer.listArray[that.index];
-            Layer.index--;
             Layer.zIndex--;
             $.each(Layer.listArray, function(key, val){
                 if(val && val.options.isMask == true && val.wrap === win){

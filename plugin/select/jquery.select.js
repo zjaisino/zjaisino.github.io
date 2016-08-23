@@ -108,7 +108,7 @@
         }, o||{});
         
         return this.each(function(){
-            var _this = this, that = $(this);
+            var _this = this, that = $(this).css({position:'absolute', top:'-999em', left:'-999em', opacity:0});
             o.disabled !== null && that.prop('disabled', o.disabled);
             o.value !== null && that.data('value', o.value);
             if(o.isNull === true){

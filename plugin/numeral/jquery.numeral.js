@@ -1,8 +1,8 @@
 /**
  * @filename jquery.numeral.js
  * @author Aniu[2016-07-01 16:31]
- * @update Aniu[2016-07-27 17:46]
- * @version v1.2
+ * @update Aniu[2016-08-23 13:06]
+ * @version v1.3
  * @description 限制输入框输入数字
  */
 
@@ -25,6 +25,11 @@
              * @type <Boolean>
              */
             minus:false,
+            /**
+             * @func 是否失去焦点时校验
+             * @type <Boolean>
+             */
+            isblur:true,
             /**
              * @func 是否启用正负切换
              * @type <Boolean>
@@ -230,19 +235,52 @@
                     }
                 });
 
-                typeof o.callback === 'function' && o.callback(me, val);
+                typeof o.callback === 'function' && o.callback(me, val, e);
             }).on('paste cut', function(e){
                 var me = $(this);
                 setTimeout(function(){
                     me.keyup();
                 }, 10);
-            }).on('blur', function(){
-                var me = this;
-                var val = $.trim(me.value);
-                if(val){
-                    me.value = parseFloat(val).toFixed(o.decimal);
-                }
             });
+            
+            if(o.isblur){
+            	me.on('blur', function(){
+                    var me = this;
+                    var val = $.trim(me.value);
+                    if(val){
+                        me.value = parseFloat(val).toFixed(o.decimal);
+                    }
+                });
+            }
+            
+            this.setOption = function(key, val){
+            	var args = arguments.length;
+            	if(!args || (!$.isPlainObject(key) && !val)){
+            		return;
+            	}
+            	else if($.isPlainObject(key)){
+            		$.extend(o, key);
+            	}
+            	else{
+            		o[key] = val;
+            	}
+            	if(opts.decimal > 0){
+            		if($.inArray(110, keyCode) === -1){
+            			keyCode.push(110)
+            		}
+            		if($.inArray(190, keyCode) === -1){
+            			keyCode.push(190)
+            		}
+            	}
+            	else{
+            		var i=0, len = keyCode.length;
+            		for(i; i<len; i++){
+            			if(keyCode[i] == 110 || keyCode[i] == 190){
+            				delete keyCode[i]
+            			}
+            		}
+            	}
+            }
         });
     }
     

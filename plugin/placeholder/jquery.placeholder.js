@@ -38,10 +38,13 @@
         return this.each(function(){
             var that = $(this), ph = $.trim(that.attr('placeholder'));
             if(!!ph){
-                if(!o.animate && o.proto === true && (supportPlaceholder('input') || supportPlaceholder('textarea'))){
+                if(!o.animate && o.proto === true && supportPlaceholder('input')){
                     return;
                 }
-                that.removeAttr('placeholder');
+				
+                if(supportPlaceholder('input')){
+					that.removeAttr('placeholder');
+				}
                 
                 if(!$.trim(that.val())){
                     that.val('');

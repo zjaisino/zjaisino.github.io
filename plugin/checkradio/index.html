@@ -1,75 +1,310 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-	<meta name="format-detection" content="telephone=no" />
-	<meta name="apple-mobile-web-app-capable" content="yes" />
-	<meta name="renderer" content="webkit" />
-	<meta name="keywords" content="" />
-	<meta name="description" content="" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-	<title></title>
-	<link rel="stylesheet" type="text/css" href="../../style/base.css" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="renderer" content="webkit" />
+    <meta name="keywords" content="浙江爱信诺前端规范,爱信诺规范,爱信诺前端,爱信诺组件" />
+    <meta name="description" content="本站包括了规范、框架、代码库等内容，致力于为前端开发人员提供高效率高质量的前端页面开发解决方案，提高多人协作效率，也为非专业人员提供快速制作网页的解决方案。" />
+    <meta name="copyright" content="浙江爱信诺航天信息有限公司" />
+    <title>模拟单选复选框-组件-浙江爱信诺前端规范</title>
+    <link rel="shortcut icon" type="image/x-icon" href="../../images/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="../../style/base.css" />
+    <link rel="stylesheet" type="text/css" href="../../style/common.css" />
+    <link rel="stylesheet" type="text/css" href="../../style/page.css" />
+    <link rel="stylesheet" type="text/css" href="./checkradio.css" />
+    <link type="text/css" rel="stylesheet" href="../../style/syntax/shCore.css"/>
+    <link type="text/css" rel="stylesheet" href="../../style/syntax/shThemeDefault.css"/>
     <style type="text/css">
-    .ui-checkradio, .ui-checkradio em, .ui-checkradio i { display:inline-block;}
-    .ui-checkradio em { cursor:pointer;}
-    .ui-checkradio .ui-checkbox i { width:14px; height:14px; background:url(check.png) no-repeat;}
-    .ui-checkradio .ui-checkbox.s-checked i { background-position:-18px 0;}
-    .ui-checkradio .ui-radio i { width:20px; height:20px; background:url(radio.png) no-repeat -24px 0;}
-    .ui-checkradio .ui-radio.s-checked i { background-position:0 0;}
-    .ui-checkradio input { opacity:0; filter:alpha(opacity=0); cursor:pointer;}
-    .ui-checkradio em.s-dis { cursor:default;}
     
-    .ui-checkradio { margin-top:10px;}
     </style>
 </head>
 
-<body class="g-bddy">
-	<!-- header -->
-	<div class="g-header"></div>
-	<!-- /header -->
-
-	<!-- content -->
-	<div class="g-content">
-    
-    <span class="ui-checkradio">
-        <input type="checkbox" name="like" value="1" checked /> 水果
-    </span>
-    <span class="ui-checkradio">
-        <input type="checkbox" name="like" value="1" /> 水果
-    </span>
-    <span class="ui-checkradio">
-        <input type="checkbox" name="like" value="1" /> 水果
-    </span>
-    
-    <span class="ui-checkradio">
-        <input type="radio" name="sex" value="1" />男
-    </span>
-    <span class="ui-checkradio">
-        <input type="radio" name="sex" value="2" />女
-    </span>
+<body class="g-body">
+    <!-- header begin -->
+    <div class="g-header">
+        <div class="m-htop g-wrap">
+            <i></i><i></i><i></i><i></i><i></i><i></i>
+            <h1 class="u-logo"><a href="../../index.html">浙江爱信诺前端规范</a></h1>
+        </div>
+        <div class="m-nav">
+            <ul class="g-wrap">
+                <li><a href="../../index.html">规范<i class="ui-icon ui-icon-tip"></i></a></li>
+                <li><a href="../../framework.html">框架<i class="ui-icon ui-icon-tip"></i></a></li>
+                <li class="s-crt"><a href="../../plugin.html">组件<i class="ui-icon ui-icon-tip"></i></a></li>
+            </ul>
+        </div>
     </div>
+    <!-- header end -->
     
-    <a href="javascript:void(0);" id="default">还原</a>
-	<!-- /content -->
-
-	<!-- footer -->
-	<div class="g-footer"></div>
-	<!-- /footer -->
-	<script type="text/javascript" src="../../script/jquery.js"></script>
-	<script type="text/javascript" src="jquery.checkradio.js"></script>
-    <script type="text/javascript">
-    $(':checkbox, :radio').checkradio({
-        callback:function(ele, e){
-            e.stopPropagation();
-        }
-    });
+    <!-- content begin -->
+    <div class="g-content f-clearfix">
+        <div class="g-side">
+            <div class="m-menu" id="menu"> 
+                <ul></ul> 
+            </div>
+        </div>
+        <div class="g-main">
+            <div class="g-con">
+                <div class="m-article m-plugin ui-animate ui-animate-fadeShow"> 
+                    <h2 class="u-ttb2">组件 - <em id="title">模拟单选复选框</em></h2> 
+                    <div class="u-line"><span class="linea"></span><span class="lineb"></span></div> 
+                    <dl> 
+                        <dt>使用说明</dt>
+                        <dd>
+                            <pre class="brush:xml;">
+							<!-- 引入样式 -->
+							&lt;link rel="stylesheet" type="text/css" href="checkradio.css" /&gt;
+							
+                            <!-- 引入jQuery和组件脚本 -->
+                            &lt;script type="text/javascript" src="jquery.js"&gt;&lt;/script&gt;
+                            &lt;script type="text/javascript" src="jquery.checkradio.js"&gt;&lt;/script&gt;
+							
+							<!-- 调用 -->
+							&lt;script&gt;
+							$(':checkbox, :radio').checkradio(参数);
+							&lt;/script&gt;
+                            </pre>
+                        </dd>
+                        <dt>发送验证码</dt>
+                        <dd>
+                            <h3>单选框</h3>
+							<span class="ui-checkradio">
+								<input type="radio" name="sex" value="1" />男
+							</span>
+							<span class="ui-checkradio">
+								<input type="radio" name="sex" value="2" />女
+							</span>
+                            <pre class="brush:xml;">
+                            &lt;span class="ui-checkradio">
+								&lt;input type="radio" name="sex" value="1" />男
+							&lt;/span>
+							&lt;span class="ui-checkradio">
+								&lt;input type="radio" name="sex" value="2" />女
+							&lt;/span>
+                            </pre>
+                            <pre class="brush:js;">
+                            $(':radio').checkradio();
+                            </pre>
+							<h3>复选框</h3>
+							<span class="ui-checkradio">
+								<input type="checkbox" name="all" /> 全选
+							</span>
+							<div>
+								<span class="ui-checkradio">
+									<input type="checkbox" name="lang" /> html
+								</span>
+								<span class="ui-checkradio">
+									<input type="checkbox" name="lang" /> css
+								</span>
+								<span class="ui-checkradio">
+									<input type="checkbox" name="lang" /> js
+								</span>
+							</div>
+                            <pre class="brush:xml;">
+                            &lt;span class="ui-checkradio">
+								&lt;input type="checkbox" name="all" /> 全选
+							&lt;/span>
+							&lt;div>
+								&lt;span class="ui-checkradio">
+									&lt;input type="checkbox" name="lang" /> html
+								&lt;/span>
+								&lt;span class="ui-checkradio">
+									&lt;input type="checkbox" name="lang" /> css
+								&lt;/span>
+								&lt;span class="ui-checkradio">
+									&lt;input type="checkbox" name="lang" /> js
+								&lt;/span>
+							&lt;/div>
+                            </pre>
+                            <pre class="brush:js;">
+                            $('[name="all"]').checkradio({
+								callback:function(ele, e){
+									$('[name="lang"]').checkradio('checked', ele.prop('checked'))
+								}
+							});
+							
+							$('[name="lang"]').checkradio({
+								callback:function(ele, e){
+									$('[name="all"]').checkradio('checked', $('[name="lang"]').length === $('[name="lang"]:checked').length);
+								}
+							});
+                            </pre>
+							<h3>开关按钮</h3>
+							<span class="ui-checkradio">
+								<input type="checkbox" name="switch1" data-off="OFF" data-on="ON" />
+							</span>
+							<span class="ui-checkradio">
+								<input type="checkbox" name="switch2" checked />
+							</span>
+							<pre class="brush:xml;">
+							&lt;span class="ui-checkradio">
+								&lt;input type="checkbox" name="switch1" data-off="OFF" data-on="ON" /> <!-- data-off和data-on会覆盖参数中的值 -->
+							&lt;/span>
+							
+                            &lt;span class="ui-checkradio">
+								&lt;input type="checkbox" name="switch2" checked />
+							&lt;/span>
+                            </pre>
+							<pre class="brush:js;">
+							$('[name="switch1"]').checkradio();
+							
+                            $('[name="switch2"]').checkradio({
+								switches:{
+									off:'未开启',
+									on:'已开启'
+								}
+							});
+                            </pre>
+                        </dd>
+                        <dt>API</dt>
+                        <dd>
+                            <table> 
+                                <thead> 
+                                    <tr>
+                                        <th width="120">属性名称</th>
+                                        <th width="120">值类型</th>
+                                        <th width="120">默认值</th>
+                                        <th width="150">可填值</th>
+                                        <th>功能说明</th>
+                                    </tr> 
+                                </thead> 
+                                <tbody> 
+                                    <tr>
+                                        <td>switches</td>
+                                        <td>Object</td>
+                                        <td>{ off : ' ', on : ' ' }</td>
+                                        <td>{ off : 值, on : 值 }</td>
+                                        <td>配置开关按钮，off和on不能为空，也可在元素上设置data-off data-on属性，设置后将会覆盖原值</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table>
+                                <thead> 
+                                    <tr>
+                                        <th width="120">方法名称</th>
+                                        <th width="120">参数</th>
+                                        <th width="120">默认值</th>
+                                        <th width="120">返回值</th>
+                                        <th>功能说明</th>
+                                    </tr> 
+                                </thead> 
+                                <tbody> 
+									<tr>
+                                        <td rowspan="2">beforeCallback</td>
+                                        <td>ele</td>
+                                        <td>调用组件jq对象</td>
+                                        <td rowspan="2">undefined | false</td>
+                                        <td rowspan="2">点击元素状态改变前回调，如返回值为false则将阻止状态改变</td>
+                                    </tr>
+									<tr>
+                                        <td>event</td>
+                                        <td>事件对象</td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="2">callback</td>
+                                        <td>ele</td>
+                                        <td>调用组件jq对象</td>
+                                        <td rowspan="2">undefined</td>
+                                        <td rowspan="2">点击元素状态改变后回调</td>
+                                    </tr>
+									<tr>
+                                        <td>event</td>
+                                        <td>事件对象</td>
+                                    </tr>
+                                </tbody>
+                            </table> 
+                            <table> 
+                                <thead> 
+                                    <tr>
+                                        <th width="120">备注</th>
+                                    </tr> 
+                                </thead> 
+                                <tbody> 
+                                    <tr>
+                                        <td>$(selector).checkradio('checked', true|false) 或者 $(selector).checkradio('disabled', true|false)可改变元素状态</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </dd> 
+                        <dt>下载</dt>
+                        <dd>
+                            <a href="jquery.checkradio.js" class="e-ml10">jquery.checkradio.js</a>
+                        </dd>
+                        <dt>版本更新</dt>
+                        <dd id="updatelog"></dd>
+                    </dl> 
+                </div> 
+            </div>
+        </div>
+    </div>
+    <!-- content end -->
     
-    $('#default').click(function(e){
-        $(':checkbox').prop('checked', false).checkradio();
-        e.stopPropagation();
-    });
+    <!-- footer begin -->
+    <div class="g-footer">
+        <div class="g-wrap">
+            <p>
+                <a href="http://wpa.qq.com/msgrd?v=3&uin=897102078&site=qq&menu=yes" target="_blank">技术支持</a>
+            </p>
+            <p>Copyright © 2013-2016 Aisino. All Rights Reserved.</p>
+        </div>
+    </div>
+    <!-- footer end -->
+    
+    <script type="text/javascript" src="../../script/jquery.js"></script>
+    <script type="text/javascript" src="./jquery.checkradio.js"></script>
+    <script type="text/javascript" src="../../script/syntax/shCore.js"></script>
+    <script type="text/javascript" src="../../script/syntax/shBrushCss.js"></script>
+    <script type="text/javascript" src="../../script/syntax/shBrushXml.js"></script>
+    <script type="text/javascript" src="../../script/syntax/shBrushJScript.js"></script>
+    <script type="text/javascript" src="../../script/tools.js"></script>
+    <script type="text/javascript" src="../../script/page.js"></script>
+    <script type="text/javascript" src="../menu.js"></script>
+    <script type="text/javascript" src="../arttemplate/template.js"></script>
+    <script type="text/javascript" src="./log.js"></script>
+    <script type="text/html" id="updatelog-tpl">
+    {{each list as val key}}
+        <p>Version:{{val.ver}}</p>
+        {{if val.date}}
+        <p>Date:{{val.date}}</p>    
+        {{/if}}
+        {{each val.desc as v k}}
+        <p>{{v}}</p>
+        {{/each}}
+        <br />
+    {{/each}}
     </script>
+    <script type="text/javascript">
+    $(':radio').checkradio();
+	
+	$('[name="all"]').checkradio({
+		callback:function(ele, e){
+			$('[name="lang"]').checkradio('checked', ele.prop('checked'))
+		}
+	});
+	
+	$('[name="lang"]').checkradio({
+		callback:function(ele, e){
+			$('[name="all"]').checkradio('checked', $('[name="lang"]').length === $('[name="lang"]:checked').length);
+		}
+	});
+	
+	$('[name="switch1"]').checkradio();
+	$('[name="switch2"]').checkradio({
+		switches:{
+			off:'未开启',
+			on:'已开启'
+		}
+	});
+    </script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?0dc9965a1c1a4ac82a30662079161264";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
 </body>
 </html>
