@@ -17,7 +17,21 @@
     <link type="text/css" rel="stylesheet" href="../../style/syntax/shCore.css"/>
     <link type="text/css" rel="stylesheet" href="../../style/syntax/shThemeDefault.css"/>
     <style type="text/css">
-    .calendar .ui-calendar { background-color:#fff;}
+	.calendar dt, .calendar dd, .calendar table { margin:0;}
+    .calendar .ui-calendar { position:relative; padding:0; width:950px; background-color:#fff;}
+	.calendar .ui-calendar-body { padding:0;}
+	.calendar .ui-calendar .ui-loading { position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255, .5) url(./loading.gif) no-repeat center;}
+	.calendar .ui-calendar-table th, .calendar .ui-calendar-table td { border:5px solid #fff;}
+	.calendar .ui-calendar-table th { height:40px; background-color:#AECAD1;}
+	.calendar .ui-calendar-table th.rest { background-color:#969696;}
+	.calendar .ui-calendar-table td { width:130px; background-color:#F2F2F2; text-align:left; vertical-align:top;}
+	.calendar .ui-calendar-table td span { display:block; padding:6px 10px; height:118px; border-radius:0;}
+	.calendar .ui-calendar-table td.s-crt span { background-color:#AECAD1;}
+	.calendar .ui-calendar-table td dt { margin:0; font-weight:normal; font-size:20px;}
+	.calendar .ui-calendar-table tr:hover { background:none;}
+	.calendar .ui-calendar-table td.other-cell dt { color:#cfcfcf;}
+	.m-statistics { margin:20px 0 15px; padding:0 5px 20px; border-bottom:1px solid #E1E1E8; font-size:16px;}
+	.m-statistics th, .m-statistics td { height:40px; padding:0; text-align:center;}
     </style>
 </head>
 
@@ -72,14 +86,77 @@
                             <h3>精简日历</h3>
                             <div class="calendar"></div>
                             <pre class="brush:js;">
-                            $.calendar({
-                                container:'.calendar',
-                                ishide:false,
-                                button:[],
-                                onselect:function(dates){
-                                    $.layer.alert(dates[0], '', 280);
-                                }
-                            });
+                            var calendar = $.calendar({
+								container:'.calendar',
+								ishide:false,
+								button:[],
+								week:['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
+								onselect:function(dates){
+									$.layer.alert(dates[0], '', 280);
+								},
+								ajax:{
+									url:'./data.json',
+									data:function(year, month){
+										return ({
+											year:year,
+											month:month
+										})
+									},
+									loading:{
+										show:function(elem){
+											this.hide(elem)
+											elem.append('&lt;i class="ui-loading">&lt;/i>');
+										},
+										hide:function(elem){
+											elem.find('.ui-loading').remove();
+										}
+									},
+									success:function(res, elem){
+										if(res.result === 'success'){
+											var statistics = elem.find('.m-statistics');
+											if(!statistics.length){
+												statistics = $('&lt;div class="m-statistics">&lt;/div>').insertBefore(elem.find('.ui-calendar-table'));
+											}
+											var tpl = '&lt;table>\
+														   &lt;thead>\
+															   &lt;th>实际出勤（天）&lt;/th>\
+															   &lt;th>迟到（次）&lt;/th>\
+															   &lt;th>早退（次）&lt;/th>\
+															   &lt;th>缺卡（次）&lt;/th>\
+															   &lt;th>设备异常&lt;/th>\
+															   &lt;th>位置异常（次）&lt;/th>\
+														   &lt;/thead>\
+														   &lt;tbody>\
+															   &lt;td>21&lt;/td>\
+															   &lt;td>1&lt;/td>\
+															   &lt;td>2&lt;/td>\
+															   &lt;td>1&lt;/td>\
+															   &lt;td>-&lt;/td>\
+															   &lt;td>4&lt;/td>\
+														   &lt;/tbody>\
+													   &lt;/table>';
+											statistics.html(tpl);
+										}
+									}
+								},
+								editcell:function(day, other, res){
+									var tpl = '&lt;dl>&lt;dt>'+ day +'&lt;/dt>';
+									if(res && res.result === 'success' && !other){
+										$.each(res.list, function(k, v){
+											if(v.day == day){
+												tpl += ('&lt;dd>&lt;p>' + v.ontime + ' - ' + v.offtime + '&lt;/p>&lt;/dd>');
+												tpl += ('&lt;dd>' + v.onmsg + '&lt;/dd>');
+												tpl += ('&lt;dd>' + v.offmsg + '&lt;/dd>');
+												return false;
+											}
+										})
+									}
+									tpl += '&lt;/dl>';
+									return tpl;
+								}
+							});
+							
+							calendar.reset();
                             </pre>
                             
                             <h3 class="e-pt15">选择日期</h3>
@@ -431,14 +508,77 @@
     {{/each}}
     </script>
     <script type="text/javascript">
-    $.calendar({
+    var calendar = $.calendar({
         container:'.calendar',
         ishide:false,
         button:[],
+		week:['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
         onselect:function(dates){
             $.layer.alert(dates[0], '', 280);
-        }
+        },
+		ajax:{
+			url:'./data.json',
+			data:function(year, month){
+				return ({
+					year:year,
+					month:month
+				})
+			},
+			loading:{
+				show:function(elem){
+					this.hide(elem)
+					elem.append('<i class="ui-loading"></i>');
+				},
+				hide:function(elem){
+					elem.find('.ui-loading').remove();
+				}
+			},
+			success:function(res, elem){
+				if(res.result === 'success'){
+					var statistics = elem.find('.m-statistics');
+					if(!statistics.length){
+						statistics = $('<div class="m-statistics"></div>').insertBefore(elem.find('.ui-calendar-table'));
+					}
+					var tpl = '<table>\
+							       <thead>\
+								       <th>实际出勤（天）</th>\
+								       <th>迟到（次）</th>\
+								       <th>早退（次）</th>\
+								       <th>缺卡（次）</th>\
+								       <th>设备异常</th>\
+								       <th>位置异常（次）</th>\
+								   </thead>\
+								   <tbody>\
+								       <td>21</td>\
+								       <td>1</td>\
+								       <td>2</td>\
+								       <td>1</td>\
+								       <td>-</td>\
+								       <td>4</td>\
+								   </tbody>\
+							   </table>';
+					statistics.html(tpl);
+				}
+			}
+		},
+		editcell:function(day, other, res){
+			var tpl = '<dl><dt>'+ day +'</dt>';
+			if(res && res.result === 'success' && !other){
+				$.each(res.list, function(k, v){
+					if(v.day == day){
+						tpl += ('<dd><p>' + v.ontime + ' - ' + v.offtime + '</p></dd>');
+						tpl += ('<dd>' + v.onmsg + '</dd>');
+						tpl += ('<dd>' + v.offmsg + '</dd>');
+						return false;
+					}
+				})
+			}
+			tpl += '</dl>';
+			return tpl;
+		}
     });
+	
+	calendar.reset();
     
     $.calendar({
         target:'#time'
@@ -481,7 +621,7 @@
         istwo:true,
         iscope:true,
         isother:false,
-        ismonth:true,
+        ismonth:true
         /*scope:[{
             text:'今天',
             value:0

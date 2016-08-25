@@ -43,6 +43,7 @@
             isclick:true,
             //是否开启选择区间，需要按住ctrl键
             iscope:false,
+			ajax:null,
             //显示按钮
             button:[{
                 name:'clear',
@@ -64,7 +65,9 @@
             //选择日期时回调函数
             onselect:$.noop,
             //组件隐藏时回调函数
-            onhide:$.noop
+            onhide:$.noop,
+			//编辑单元格
+			editcell:null
         }, options||{});
         that.index = Calendar.index++;
         Calendar.box[that.index] = that;
@@ -90,6 +93,10 @@
     
     //当前显示的id
     Calendar.current = -1;
+	
+	Calendar.add = ['prepend', 'append'];
+	
+	Calendar.week = ['日', '一', '二', '三', '四', '五', '六'];
     
     Calendar.format = function(scope, format){
         var date, timestamp;
@@ -161,6 +168,7 @@
                 that.run();
             }
             return ({
+				//重设options值
                 setOptions:function(key, val){
                     if(key || val){
                         if($.isPlainObject(key)){
@@ -172,8 +180,17 @@
                         that.run(true);
                     }
                 },
-                show:that.run,
-                hide:that.hide
+				//显示组件
+                show:function(){
+					that.run();
+				},
+				//隐藏组件
+                hide:function(){
+					that.hide();
+				},
+				reset:function(){
+					that.createBody(true);
+				}
             });
         },
         run:function(setOpts){
@@ -258,14 +275,14 @@
             that.bindEvent();
         },
         createContent:function(){
-            var that = this, opts = that.options, scope = opts.scope.length, button = opts.button.length, html = '';
+            var that = this, opts = that.options, scope = opts.scope.length, button = opts.button.length, tpl = '';
             if(scope){
                 var i = 0;
                 var time = that.reverse();
                 var startime = Calendar.format(that.getTime(that.startime), opts.format);
                 var initime = Calendar.format(that.getTime(that.initime), opts.format);
                 var initdate = Calendar.format(opts.format);
-                html += '<div class="ui-calendar-head clearfix">';
+                tpl += '<div class="ui-calendar-head clearfix">';
                 for(i; i<scope; i++){
                     var btn = opts.scope[i];
                     var crt = '';
@@ -273,49 +290,65 @@
                     if((initime === startdate && startime === initdate) || (initime === initdate && startime === startdate)){
                         crt = 'class="s-crt"';
                     }
-                    html += '<em scope="'+ btn.value +'" '+ crt +'>'+ btn.text +'</em>';
+                    tpl += '<em scope="'+ btn.value +'" '+ crt +'>'+ btn.text +'</em>';
                 }
-                html += '</div>';
+                tpl += '</div>';
             }
-            html += '<div class="ui-calendar-body clearfix">'+ that.createBody() +'</div>';
+            tpl += '<div class="ui-calendar-body clearfix">'+ that.createBody() +'</div>';
             if(opts.istime || button){
-                html += '<div class="ui-calendar-foot">';
+                tpl += '<div class="ui-calendar-foot">';
                 if(opts.istime){
-                    html += '<p>';
-                    html += '<em class="hour">'+ that.initime[3] +'</em><em class="minute">'+ that.initime[4] +'</em><em class="second">'+ that.initime[5] +'</em>';
-                    html += '</p>';
+                    tpl += '<p>';
+                    tpl += '<em class="hour">'+ that.initime[3] +'</em><em class="minute">'+ that.initime[4] +'</em><em class="second">'+ that.initime[5] +'</em>';
+                    tpl += '</p>';
                 }
                 if(button){
-                    html += '<span>';
+                    tpl += '<span>';
                     $.each(opts.button, function(k, btn){
-                        html += '<em class="'+ btn.name +'">'+ btn.text +'</em>';
+                        tpl += '<em class="'+ btn.name +'">'+ btn.text +'</em>';
                     })
-                    html += '</span>';
+                    tpl += '</span>';
                 }
-                html += '</div>';
+                tpl += '</div>';
             }
-            return html;
+            return tpl;
         },
+		createWeek:function(){
+			var that = this, opts = that.options, tpl = '<tr>', i = 0;
+			for(i; i<7; i++){
+				var rest = i === 0 || i === 6 ? ' class="rest"' : '';
+				var week = Calendar.week[i];
+				if(opts.week && opts.week[i]){
+					week = opts.week[i];
+				}
+				tpl += ('<th'+ rest +'>' + week + '</th>')
+			}
+			tpl += '</tr>';
+			return tpl;
+		},
         createMain:function(year, month){
-            var that = this, html = '';
+            var that = this, tpl = '';
             month = that.mend(month);
             if(!that.options.ismonth){
                 return '<div class="ui-calendar-main">\
-                        <div class="ui-calendar-tab">\
-                            <span class="tab-left">\
-                                <em class="dirbtn prevYear"></em>\
-                                <em class="dirbtn prevMonth"></em>\
-                            </span>\
-                            <strong>\
-                                <b>'+ year +'</b>年<b>'+ month +'</b>月\
-                            </strong>\
-                            <span class="tab-right">\
-                                <em class="dirbtn nextMonth"></em>\
-                                <em class="dirbtn nextYear"></em>\
-                            </span>\
-                        </div>\
-                        <table class="ui-calendar-table"><thead><tr><th>日</th><th>一</th><th>二</th><th>三</th><th>四</th><th>五</th><th>六</th></tr></thead><tbody>'+ that.createCell(year, month) +'</tbody></table>\
-                    </div>';
+							<div class="ui-calendar-tab">\
+								<span class="tab-left">\
+									<em class="dirbtn prevYear"></em>\
+									<em class="dirbtn prevMonth"></em>\
+								</span>\
+								<strong>\
+									<b>'+ year +'</b>年<b>'+ month +'</b>月\
+								</strong>\
+								<span class="tab-right">\
+									<em class="dirbtn nextMonth"></em>\
+									<em class="dirbtn nextYear"></em>\
+								</span>\
+							</div>\
+							<table class="ui-calendar-table">\
+								<thead>'+ that.createWeek() +'</thead>\
+								<tbody>'+ that.createCell(year, month) +'</tbody>\
+							</table>\
+						</div>';
             }
             return '<div class="ui-calendar-main">\
                         <div class="ui-calendar-tab">\
@@ -333,11 +366,11 @@
                     </div>';
         },
         //创建主体
-        createBody:function(){
+        createBody:function(flag){
             var that = this, opts = that.options;
             var year = that.current[0];
             var month = that.current[1];
-            var html = that.createMain(year, month);
+			var tpl = that.resetBody(flag, 0, year, month);
             if(opts.istwo){
                 if(opts.ismonth){
                     year = that.nextcurrent[0];
@@ -349,14 +382,60 @@
                         month = 1;
                     }
                 }
-                
-                html += that.createMain(year, month);
+                tpl += that.resetBody(flag, 1, year, month);
             }
-            return html;
+			return tpl;
         },
+		//加载主体部分
+		resetBody:function(flag, index, year, month){
+			var that = this, opts = that.options, ajax = opts.ajax;
+			if(flag){
+				if($.isPlainObject(ajax)){
+					var success = ajax.success;
+					var error = ajax.error;
+					ajax.loading = $.extend({
+						show:$.noop,
+						hide:$.noop
+					}, ajax.loading||{});
+					var data = ajax.data;
+					if(typeof data === 'function'){
+						data = data(year, month) || {};
+					}
+					ajax.loading.show(that.elem);
+					$.ajax($.extend({
+						dataType:'json',
+						cache:false
+					}, ajax, {
+						data:data,
+						success:function(res){
+							that.response = res;
+							that.body.find('.ui-calendar-main').eq(index).remove();
+							that.body[Calendar.add[index]](that.createMain(year, month));
+							if(typeof success === 'function'){
+								success.call(this, res, that.elem);
+							}
+							ajax.loading.hide(that.elem);
+						},
+						error:function(){
+							if(typeof error === 'function'){
+								error.call(this);
+							}
+							ajax.loading.hide(that.elem);
+						}
+					}))
+				}
+				else{
+					that.body.find('.ui-calendar-main').eq(index).remove();
+					that.body[Calendar.add[index]](that.createMain(year, month));
+				}
+			}
+			else{
+				return that.createMain(year, month);
+			}
+		},
         //创建单元格
         createCell:function(year, month){
-            var that = this, opts = that.options, a = 1, b = 1, c = 1, d = 1, html = '';
+            var that = this, opts = that.options, a = 1, b = 1, c = 1, d = 1, tpl = '';
             var time = that.reverse();
             var startime = time[1], initime = time[0];
             var date = new Date(year, month-1, 1);
@@ -369,11 +448,11 @@
             var days = monthArray[month-1];
             for(a; a<43; a++){
                 if((a-1)%7 === 0){
-                    html += '<tr>';
+                    tpl += '<tr>';
                 }
                 if(a > week && b <= days){
                     var crt = that.setCell(startime, that.getTime([year, month, b]), initime);
-                    html += '<td data-year="'+ year +'" data-month="'+ month +'" data-day="'+ b +'" class="cell '+ crt +'"><span>'+ that.mend(b) +'</span></td>';
+                    tpl += '<td data-year="'+ year +'" data-month="'+ month +'" data-day="'+ b +'" class="cell '+ crt +'"><span>'+ that.editCell(that.mend(b)) +'</span></td>';
                     b++;
                 }
                 else if(opts.isother){
@@ -389,7 +468,7 @@
                         var start = end - week;
                         if(start+c <= end){
                             var lastDay = start+c;
-                            html += '<td data-year="'+ lastYear +'" data-month="'+ lastMonth +'" data-day="'+ lastDay +'" class="cell other-cell '+ that.setCell(startime, that.getTime([lastYear, lastMonth, lastDay]), initime) +'"><span>'+ that.mend(lastDay) +'</span></td>';
+                            tpl += '<td data-year="'+ lastYear +'" data-month="'+ lastMonth +'" data-day="'+ lastDay +'" class="cell other-cell '+ that.setCell(startime, that.getTime([lastYear, lastMonth, lastDay]), initime) +'"><span>'+ that.editCell(that.mend(lastDay), true) +'</span></td>';
                         }
                         c++;
                     }
@@ -401,40 +480,41 @@
                             nextMonth = 1;
                             nextYear++;
                         }
-                        html += '<td data-year="'+ nextYear +'" data-month="'+ nextMonth +'" data-day="'+ d +'" class="cell other-cell '+ that.setCell(startime, that.getTime([nextYear, nextMonth, d]), initime) +'"><span>'+ that.mend(d) +'</span></td>';
+                        tpl += '<td data-year="'+ nextYear +'" data-month="'+ nextMonth +'" data-day="'+ d +'" class="cell other-cell '+ that.setCell(startime, that.getTime([nextYear, nextMonth, d]), initime) +'"><span>'+ that.editCell(that.mend(d), true) +'</span></td>';
                         d++;
                     }
                 }
                 else{
-                    html += '<td></td>'
+                    tpl += '<td></td>'
                 }
                 if(a%7 === 0){
-                    html += '</tr>';
+                    tpl += '</tr>';
                 }
             }
-            return html;
+			delete that.response;
+            return tpl;
         }, 
         createList:function(year){
-            var that = this, opts = that.options, i = 1, html = '';
+            var that = this, opts = that.options, i = 1, tpl = '';
             var time = that.reverse();
             var startime = time[1], initime = time[0];
             
             for(i; i<=14; i++){
                 var month = that.mend(i);
                 if((i-1)%7 === 0){
-                    html += '<tr>';
+                    tpl += '<tr>';
                 }
                 if(i <= 12){
-                    html += '<td class="cell '+ that.setCell(startime, that.getTime([year, i]), initime) +'" data-year="'+ year +'" data-month="'+ month +'"><span>'+ month +'</span></td>';
+                    tpl += '<td class="cell '+ that.setCell(startime, that.getTime([year, i]), initime) +'" data-year="'+ year +'" data-month="'+ month +'"><span>'+ month +'</span></td>';
                 }
                 else{
-                    html += '<td></td>'
+                    tpl += '<td></td>'
                 }
                 if(a%7 === 0){
-                    html += '</tr>';
+                    tpl += '</tr>';
                 }
             }
-            return html;
+            return tpl;
         },
         setCell:function(startime, currentime, initime){
             var that = this, className = '';
@@ -451,6 +531,13 @@
             }
             return className;
         },
+		editCell:function(day, other){
+			var that = this, opts = that.options;
+			if(typeof opts.editcell === 'function'){
+				return opts.editcell(day, other, that.response) || day;
+			}
+			return day;
+		},
         bindEvent:function(){
             var that = this, opts = that.options;
             that.elem.on('click', function(e){
@@ -557,7 +644,7 @@
                             ++that.current[0];
                         }
                     }
-                    that.body.html(that.createBody());
+					that.createBody(true);
                 }
             }).on('click', '.clear', function(e){
                 that.target.trigger('setVal', '');

@@ -1,0 +1,29 @@
+{
+	"result":"success",
+	
+	"list":[{
+		"day":"01",
+		"ontime":"08:20",
+		"onmsg":"",
+		"offtime":"16:40",
+		"offmsg":"早退50分钟"
+	}, {
+		"day":"02",
+		"ontime":"08:10",
+		"onmsg":"",
+		"offtime":"15:40",
+		"offmsg":""
+	}, {
+		"day":"03",
+		"ontime":"08:40",
+		"onmsg":"迟到10分钟",
+		"offtime":"15:30",
+		"offmsg":""
+	}, {
+		"day":"04",
+		"ontime":"08:35",
+		"onmsg":"迟到5分钟",
+		"offtime":"17:20",
+		"offmsg":"早退10分钟"
+	}]
+}
