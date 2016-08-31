@@ -1,8 +1,8 @@
 /**
  * @filename jquery.paging.js
  * @author Aniu[2014-03-29 10:07]
- * @update Aniu[2016-08-22 14:18]
- * @version v2.8
+ * @update Aniu[2016-08-31 17:26]
+ * @version v2.9
  * @description 分页组件
  */
 
@@ -271,10 +271,10 @@
                         catch(e){}
                         that.echoData(data, type);
                         that.aCount = data.aCount;
+                        that.load = false;
 						if(that.scroll.enable === true){
 							that.resize();
 						}
-						that.load = false;
                         if(that.last === true){
                             that.last = false;
                             that.jump(-1);
@@ -309,7 +309,10 @@
 		resize:function(){
 			var that = this;
 			try{
-				if(!that.load && Math.ceil(that.aCount/that.pCount) > that.current && (that.container.height() + that.container.scrollTop() >= that.children.outerHeight())){
+				var stop = that.container.scrollTop();
+				var height = that.container.height();
+				var cheight = that.children.outerHeight();
+				if(!that.load && Math.ceil(that.aCount/that.pCount) > that.current && ((stop === 0 && cheight <= height) || (height + stop >= cheight))){
 					that.jump(++that.current);
 				}
 			}
