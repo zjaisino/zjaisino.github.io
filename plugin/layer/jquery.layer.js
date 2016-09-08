@@ -605,7 +605,7 @@
             }
             that.size.width = layer.outerWidth();
             that.size.height = layer.outerHeight();
-            if(layer.outerHeight() > that.wrap.outerHeight() - options.padding){
+            if(options.padding>=0 && layer.outerHeight() > that.wrap.outerHeight() - options.padding){
                 that.size.height = layer.height(that.wrap.outerHeight() - options.padding - Layer.getSize(layer, 'tb', 'all')).outerHeight();
                 body.css({'overflow-y':'auto', 'overflow-x':'auto'});
             }

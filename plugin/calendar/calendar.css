@@ -24,9 +24,17 @@ table.ui-calendar-table { margin-top:10px; width:100%;}
 .ui-calendar-table td span { display:inline-block; padding:4px 8px 3px; border-radius:11px;}
 .ui-calendar-table td.s-crt span, .ui-calendar-table td.s-sel span { background-color:#0099FF; color:#fff;}
 .ui-calendar-table td.other-cell, .ui-calendar-table td.s-dis { color:#ccc;}
-.ui-calendar-foot { height:25px; padding-bottom:10px;}
-.ui-calendar-foot span { float:right;}
-.ui-calendar-foot span em { float:left; margin-left:5px; height:25px; line-height:25px; padding:0 10px; background-color:#807C7C; color:#fff;}
+.ui-calendar-foot { position:relative; height:25px; padding-bottom:10px;}
+.ui-calendar-foot .calendar-btn { float:right;}
+.ui-calendar-foot .calendar-btn em { float:left; margin-left:5px; height:25px; line-height:25px; padding:0 10px; background-color:#807C7C; color:#fff;}
+.ui-calendar-foot p, .ui-calendar-foot p b, .ui-calendar-foot p em { float:left;}
+.ui-calendar-foot p { text-align:center;}
+.ui-calendar-foot p b { width:38px; color:#fff; background-color:#807C7C; line-height:25px;}
+.ui-calendar-foot p em { margin-left:-1px; width:30px; line-height:23px; border:1px solid #807C7C; cursor:pointer;}
 .ui-calendar-multi { width:680px;}
 .ui-calendar-multi .ui-calendar-main { float:left; width:330px;}
 .ui-calendar-multi td.s-sel span { background:none; color:#333;}
+.ui-calendar-time { position:absolute; left:0; bottom:35px; width:340px; background-color:#fff; text-align:center;}
+.ui-calendar-timehead { position:relative; height:30px; line-height:30px; background-color:#807C7C; border-bottom:1px solid #D7D7D7; color:#fff;}
+.ui-calendar-timehead i { position:absolute; top:5px; right:10px; cursor:pointer;}
+.ui-calendar-time.hour { width:245px;}

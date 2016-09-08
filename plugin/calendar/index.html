@@ -581,7 +581,9 @@
 	calendar.reset();
     
     $.calendar({
-        target:'#time'
+        target:'#time',
+		format:'yyyy-MM-dd hh:mm',
+		istime:true
     });
     
     var starttime = $.calendar({

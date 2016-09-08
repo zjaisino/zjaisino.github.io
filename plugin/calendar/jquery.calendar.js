@@ -97,6 +97,8 @@
 	Calendar.add = ['prepend', 'append'];
 	
 	Calendar.week = ['日', '一', '二', '三', '四', '五', '六'];
+	
+	Calendar.time = {hour:'小时', minute:'分钟', second:'秒数'};
     
     Calendar.format = function(scope, format){
         var date, timestamp;
@@ -235,7 +237,7 @@
                 }
             }
             else{
-                that.initime = opts.initime || Calendar.format();
+                that.initime = opts.initime || Calendar.format(opts.format);
                 that.startime = opts.startime || that.initime;
             }
             that.startime = that.getArr(that.getTime(that.startime));
@@ -245,10 +247,10 @@
                 that.nextcurrent = [that.initime[0], that.initime[1]];
             }
         },
-        reverse:function(){
+        reverse:function(date){
             var that = this;
-            var startime = that.getTime(that.startime);
-            var initime = that.getTime(that.initime);
+            var startime = that.getTime(date ? [that.startime[0], that.startime[1], that.startime[2]] : that.startime);
+            var initime = that.getTime(date ? [that.initime[0], that.initime[1], that.initime[2]] : that.initime);
             if(startime > initime){
                 var tmp = initime;
                 initime = startime;
@@ -278,7 +280,7 @@
             var that = this, opts = that.options, scope = opts.scope.length, button = opts.button.length, tpl = '';
             if(scope){
                 var i = 0;
-                var time = that.reverse();
+                var time = that.reverse(true);
                 var startime = Calendar.format(that.getTime(that.startime), opts.format);
                 var initime = Calendar.format(that.getTime(that.initime), opts.format);
                 var initdate = Calendar.format(opts.format);
@@ -298,12 +300,12 @@
             if(opts.istime || button){
                 tpl += '<div class="ui-calendar-foot">';
                 if(opts.istime){
-                    tpl += '<p>';
-                    tpl += '<em class="hour">'+ that.initime[3] +'</em><em class="minute">'+ that.initime[4] +'</em><em class="second">'+ that.initime[5] +'</em>';
+                    tpl += '<p><b>时间</b>';
+                    tpl += '<em type="hour">'+ that.initime[3] +'</em><em type="minute">'+ that.initime[4] +'</em><em type="second">'+ that.initime[5] +'</em>';
                     tpl += '</p>';
                 }
                 if(button){
-                    tpl += '<span>';
+                    tpl += '<span class="calendar-btn">';
                     $.each(opts.button, function(k, btn){
                         tpl += '<em class="'+ btn.name +'">'+ btn.text +'</em>';
                     })
@@ -337,7 +339,7 @@
 									<em class="dirbtn prevMonth"></em>\
 								</span>\
 								<strong>\
-									<b>'+ year +'</b>年<b>'+ month +'</b>月\
+									<b type="year">'+ year +'</b>年<b type="month">'+ month +'</b>月\
 								</strong>\
 								<span class="tab-right">\
 									<em class="dirbtn nextMonth"></em>\
@@ -356,7 +358,7 @@
                                 <em class="dirbtn prevYear"></em>\
                             </span>\
                             <strong>\
-                                <b>'+ year +'</b>年\
+                                <b type="year">'+ year +'</b>年\
                             </strong>\
                             <span class="tab-right">\
                                 <em class="dirbtn nextYear"></em>\
@@ -436,7 +438,7 @@
         //创建单元格
         createCell:function(year, month){
             var that = this, opts = that.options, a = 1, b = 1, c = 1, d = 1, tpl = '';
-            var time = that.reverse();
+            var time = that.reverse(true);
             var startime = time[1], initime = time[0];
             var date = new Date(year, month-1, 1);
             //获取月初是星期几
@@ -496,7 +498,7 @@
         }, 
         createList:function(year){
             var that = this, opts = that.options, i = 1, tpl = '';
-            var time = that.reverse();
+            var time = that.reverse(true);
             var startime = time[1], initime = time[0];
             
             for(i; i<=14; i++){
@@ -519,6 +521,7 @@
         setCell:function(startime, currentime, initime){
             var that = this, className = '';
             if(startime <= currentime && currentime <= initime){
+				
                 if(startime == currentime || currentime == initime){
                     className += 's-crt';
                 }
@@ -538,6 +541,16 @@
 			}
 			return day;
 		},
+        showDateTime:function(type, arr, crt){
+            var that = this, opts = that.options, len = arr.length, i = 0;
+            var html = '<div class="ui-calendar-time '+ type +'"><div class="ui-calendar-timehead">'+ Calendar.time[type] +'<i title="关闭">×</i></div><div class="ui-calendar-timebody" type="'+ type +'">';
+            for(i; i<len; i++){
+                html += '<span'+ (crt == i ? ' class="s-crt"' : '') +'>'+ arr[i] +'</span>';
+            }
+            html += '</div></div>';
+            that.elem.find('.ui-calendar-time').remove();
+            that.elem.find('.ui-calendar-foot').append(html);
+        },
         bindEvent:function(){
             var that = this, opts = that.options;
             that.elem.on('click', function(e){
@@ -568,13 +581,17 @@
                 }
                 that.elem.find('.ui-calendar-foot p em').each(function(){
                     var em = $(this);
-                    end[em.attr('class')] = em.text();
+                    end[em.attr('type')] = em.text();
                 });
                 if(me.hasClass('today') || me.hasClass('confirm')){
                     if(me.hasClass('today')){
                         initime = that.getArr(that.getTime(false));
                         that.setTime(initime, initime, end);
                     }
+                    else{
+                        initime = that.initime;
+                    }
+                    //that.setTime(initime, initime, end);
                 }
                 else{
                     //多选
@@ -651,6 +668,31 @@
                 opts.onselect([''], that.target);
             }).on('click', '.close', function(e){
                 that.hide();
+            }).on('click', '.ui-calendar-tab b', function(e){
+				var me = $(this)
+				e.stopPropagation()
+			}).on('click', '.ui-calendar-foot p em', function(){
+                var me = $(this);
+                var type = me.attr('type');
+                var arr = [];
+                if(type == 'hour'){
+                    for(var i=0; i<=23; i++){
+                        arr.push(that.mend(i));
+                    }
+                }
+                else{
+                    for(var i=0; i<=59; i++){
+                        arr.push(that.mend(i));
+                    }
+                }
+                that.showDateTime(type, arr, me.text());
+            }).on('click', '.ui-calendar-timehead i', function(){
+                $(this).closest('.ui-calendar-time').remove();
+            }).on('click', '.ui-calendar-timebody span', function(){
+                var me = $(this);
+                var type = me.parent().attr('type');
+                that.elem.find('.ui-calendar-foot p [type="'+ type +'"]').text(me.text());
+                me.closest('.ui-calendar-time').remove();
             })
         },
         setTime:function(initime, startime, data){
