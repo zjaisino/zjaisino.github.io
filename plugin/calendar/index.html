@@ -583,7 +583,10 @@
     $.calendar({
         target:'#time',
 		format:'yyyy-MM-dd hh:mm',
-		istime:true
+        isclick:false,
+		istime:true,
+        max:'2016-05-01',
+        min:'2015-01-01'
     });
     
     var starttime = $.calendar({
@@ -624,16 +627,6 @@
         iscope:true,
         isother:false,
         ismonth:true
-        /*scope:[{
-            text:'今天',
-            value:0
-        }, {
-            text:'最近7天',
-            value:-7
-        }, {
-            text:'未来7天',
-            value:7
-        }]*/
     });
     
     $('#clickme').click(function(){
