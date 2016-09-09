@@ -199,8 +199,8 @@
         },
         run:function(setOpts){
             var that = this, opts = that.options;
-            that.max = opts.max ? that.getTime(opts.max) : 0;
-            that.min = opts.min ? that.getTime(opts.min) : 0;
+            that.max = opts.max ? that.getTime(Calendar.format(that.getTime(opts.max), 'yyyy-MM-dd')) : 0;
+            that.min = opts.min ? that.getTime(Calendar.format(that.getTime(opts.min), 'yyyy-MM-dd')) : 0;
             if(setOpts === true){
                 if((that.getTime(that.initime) < that.min) || (that.max && that.getTime(that.initime) > that.max)){
                     that.target && that.target.trigger('setVal', '');
@@ -580,13 +580,13 @@
 				initime = initime + that.initime[3] + that.initime[4];
 				startime = startime + that.startime[3] + that.startime[4];
 			}
-			var date = that.getcb(format)();
+			var max = opts.max ? Calendar.format(that.getTime(opts.max), format).replace(/-/g, '') : 0;
+            var min = opts.min ? Calendar.format(that.getTime(opts.min), format).replace(/-/g, '') : 0;
             for(i; i<len; i++){
 				var cls = arr[i] == crt ? 's-crt' : '';
 				var start = startime + arr[i];
 				var init = initime + arr[i];
-				
-				if(start < date.min || init > date.max){
+				if((min && start < min) || (max && init > max)){
 					if(cls){
 						cls += ' s-dis';
 					}
