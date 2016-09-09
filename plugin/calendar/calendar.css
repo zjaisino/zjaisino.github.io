@@ -59,3 +59,5 @@ table.ui-calendar-table { margin-top:10px; width:100%;}
 .ui-calendar-timebody { padding:0 0 5px;}
 .ui-calendar-timebody span { float:left; margin:5px 0 0 5px; width:28px; height:28px; line-height:28px;}
 .ui-calendar-timebody span.s-crt { background-color:#0099FF; color:#fff;}
+.ui-calendar-timebody span.s-dis { color:#ccc; background-color:#D7D7D7;}
+.ui-calendar-timebody span.s-crt.s-dis { color:#fff;}
