@@ -1,8 +1,8 @@
 /**
  * @filename jquery.calendar.js
  * @author Aniu[2016-08-08 20:10]
- * @update Aniu[2016-08-10 19:55]
- * @version v1.1.1
+ * @update Aniu[2016-09-10 13:43]
+ * @version v1.2.1
  * @description 日历
  */
  
@@ -45,6 +45,7 @@
             isclick:true,
             //是否开启选择区间，需要按住ctrl键
             iscope:false,
+            //异步加载数据
 			ajax:null,
             //显示按钮
             button:[{
@@ -199,10 +200,8 @@
         },
         run:function(setOpts){
             var that = this, opts = that.options;
-            that.max = opts.max ? that.getTime(Calendar.format(that.getTime(opts.max), 'yyyy-MM-dd')) : 0;
-            that.min = opts.min ? that.getTime(Calendar.format(that.getTime(opts.min), 'yyyy-MM-dd')) : 0;
             if(setOpts === true){
-                if((that.getTime(that.initime) < that.min) || (that.max && that.getTime(that.initime) > that.max)){
+                if((!that.startime && !that.initime) || (opts.min && that.getTime(that.startime) < that.getTime(opts.min)) || (opts.max && that.getTime(that.initime) > that.getTime(opts.max))){
                     that.target && that.target.trigger('setVal', '');
                 }
                 else{
@@ -217,6 +216,8 @@
         },
         initVal:function(){
             var that = this, opts = that.options;
+            that.max = opts.max ? that.getTime(Calendar.format(that.getTime(opts.max), 'yyyy-MM-dd')) : 0;
+            that.min = opts.min ? that.getTime(Calendar.format(that.getTime(opts.min), 'yyyy-MM-dd')) : 0;
             var val = '';
             if(that.target){
                 var target = that.target[0];
@@ -394,7 +395,7 @@
                     month = that.nextcurrent[1];
                 }
                 else{
-					var date = that.resetDate(year, month);
+					var date = that.resetDate(year, month, 1);
                     year = date.year;
                     month = date.month;
                 }
@@ -513,14 +514,13 @@
             var that = this, opts = that.options, i = 1, tpl = '';
             var time = that.reverse(true);
             var startime = time[1], initime = time[0];
-            var cb = that.getcb('yyyy-MM');
             for(i; i<=14; i++){
                 var month = that.mend(i);
                 if((i-1)%7 === 0){
                     tpl += '<tr>';
                 }
                 if(i <= 12){
-                    tpl += '<td'+ that.setClass('cell', startime, year+that.mend(i), initime, cb) +' data-year="'+ year +'" data-month="'+ month +'"><span>'+ month +'</span></td>';
+                    tpl += '<td'+ that.setClass('cell', startime, that.getTime([year, month, '01']), initime) +' data-year="'+ year +'" data-month="'+ month +'" data-day="01"><span>'+ month +'</span></td>';
                 }
                 else{
                     tpl += '<td></td>'
@@ -823,20 +823,22 @@
                     $(this).closest('.ui-calendar-time').remove();
                 }).on('click', '.ui-calendar-timebody span', function(){
                     var me = $(this);
-                    var type = me.parent().attr('type');
-                    that.elem.find('.ui-calendar-foot p [type="'+ type +'"]').text(me.text());
-					var time = {
-						hour:'00',
-						minute:'00',
-						second:'00'
-					}
-					that.elem.find('.ui-calendar-foot p em').each(function(){
-						var em = $(this);
-						time[em.attr('type')] = em.text();
-					});
-					that.initime[3] = that.startime[3] = time.hour;
-					that.initime[4] = that.startime[4] = time.minute;
-					that.initime[5] = that.startime[5] = time.second;
+                    if(!me.hasClass('s-dis')){
+                        var type = me.parent().attr('type');
+                        that.elem.find('.ui-calendar-foot p [type="'+ type +'"]').text(me.text());
+                        var time = {
+                            hour:'00',
+                            minute:'00',
+                            second:'00'
+                        }
+                        that.elem.find('.ui-calendar-foot p em').each(function(){
+                            var em = $(this);
+                            time[em.attr('type')] = em.text();
+                        });
+                        that.initime[3] = that.startime[3] = time.hour;
+                        that.initime[4] = that.startime[4] = time.minute;
+                        that.initime[5] = that.startime[5] = time.second;
+                    }
                     me.closest('.ui-calendar-time').remove();
                 });
             }

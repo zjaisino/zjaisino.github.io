@@ -30,6 +30,7 @@
 	.calendar .ui-calendar-table td dt { margin:0; font-weight:normal; font-size:20px;}
 	.calendar .ui-calendar-table tr:hover { background:none;}
 	.calendar .ui-calendar-table td.other-cell dt { color:#cfcfcf;}
+    .calendar .ui-calendar-date { width:84px; margin-left:-42px;}
 	.m-statistics { margin:20px 0 15px; padding:0 5px 20px; border-bottom:1px solid #E1E1E8; font-size:16px;}
 	.m-statistics th, .m-statistics td { height:40px; padding:0; text-align:center;}
     </style>
@@ -334,6 +335,34 @@
                                         <td>是否开启选择区间，按住ctrl键可选择时间区间</td>
                                     </tr>
                                     <tr>
+                                        <td>istwo</td>
+                                        <td>Boolean</td>
+                                        <td>false</td>
+                                        <td>true | false</td>
+                                        <td>是否显示2个日历面板</td>
+                                    </tr>
+                                    <tr>
+                                        <td>ismonth</td>
+                                        <td>Boolean</td>
+                                        <td>false</td>
+                                        <td>true | false</td>
+                                        <td>是否只显示月</td>
+                                    </tr>
+                                    <tr>
+                                        <td>istime</td>
+                                        <td>Boolean</td>
+                                        <td>false</td>
+                                        <td>true | false</td>
+                                        <td>是否显示时分秒</td>
+                                    </tr>
+                                    <tr>
+                                        <td>isdate</td>
+                                        <td>Boolean</td>
+                                        <td>true</td>
+                                        <td>true | false</td>
+                                        <td>是否可以下拉选择年月</td>
+                                    </tr>
+                                    <tr>
                                         <td>button</td>
                                         <td>Array</td>
                                         <td>
@@ -381,9 +410,9 @@
                             <table>
                                 <thead> 
                                     <tr>
-                                        <th width="120">参数方法</th>
+                                        <th width="120">方法</th>
                                         <th width="120">参数</th>
-                                        <th width="120">默认值</th>
+                                        <th width="120">参数说明</th>
                                         <th>功能说明</th>
                                     </tr> 
                                 </thead> 
@@ -407,6 +436,49 @@
                                     <tr>
                                         <td>target</td>
                                         <td>日期填充目标元素jQuery对象</td>
+                                    </tr>
+                                    <tr>
+                                        <td>onhide</td>
+                                        <td>elem</td>
+                                        <td>日历容器JQuery对象：$('.ui-calendar')</td>
+                                        <td>日历组件隐藏时回调函数</td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="3">ajax</td>
+                                        <td>data</td>
+                                        <td>函数或者对象，函数时有2个参数，year和month</td>
+                                        <td rowspan="3">切换日期时执行ajax请求，配合editcell可自定义单元格显示内容</td>
+                                    </tr>
+                                    <tr>
+                                        <td>loading</td>
+                                        <td>加载loading效果<pre>
+{
+    show:function(elem){
+        //显示loading
+    },
+    hide:function(elem){
+        //隐藏loading
+    }
+}
+                                        </pre></td>
+                                    </tr>
+                                    <tr>
+                                        <td>success</td>
+                                        <td>响应成功时回调函数，比有2个参数 response和elem</td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="3">editcell</td>
+                                        <td>day</td>
+                                        <td>遍历选择月份的日期，例如：01 、02、03、...</td>
+                                        <td rowspan="3">自定义单元格，返回自定义的html字符串，可配合ajax使用</td>
+                                    </tr>
+                                    <tr>
+                                        <td>otherday</td>
+                                        <td>布尔值，是否为其它月份日期</td>
+                                    </tr>
+                                    <tr>
+                                        <td>response</td>
+                                        <td>ajax接收的数据</td>
                                     </tr>
                                 </tbody>
                             </table> 
@@ -461,7 +533,7 @@
                         </dd> 
                         <dt>下载</dt>
                         <dd>
-                            <a href="calendar.css">layer.css</a>
+                            <a href="calendar.css">calendar.css</a>
                             <a href="jquery.calendar.js" class="e-ml10">jquery.calendar.js</a>
                         </dd>
                         <dt>版本更新</dt>
@@ -582,24 +654,35 @@
     
     $.calendar({
         target:'#time',
-		format:'yyyy-MM-dd hh:mm',
+		format:'yyyy-MM-dd hh:mm:ss',
         isclick:false,
 		istime:true,
-        max:'2016-10-01 10:10',
-        min:'2015-01-01 20:05'
+        initime:'2016-08-21 05:20:01',
+        max:'2016-10-01 10:10:05',
+        min:'2015-01-01 20:05:20'
     });
     
     var starttime = $.calendar({
         target:'#starttime',
+        istime:true,
+        format:'yyyy-MM-dd hh:mm:ss',
         onchoose:function(dates){
-            endtime.setOptions('min', dates[0])
+            endtime.setOptions({
+                'min':dates[0],
+                'initime':dates[0]
+            })
         }
     });
     
     var endtime = $.calendar({
         target:'#endtime',
+        format:'yyyy-MM-dd hh:mm:ss',
+        istime:true,
         onchoose:function(dates){
-            starttime.setOptions('max', dates[0])
+            starttime.setOptions({
+                'max':dates[0],
+                'initime':dates[0]
+            })
         }
     });
     
