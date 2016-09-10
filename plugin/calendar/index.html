@@ -278,6 +278,14 @@
                             <pre class="brush:js;">
                             $('#four').text($.calendar.date(4));
                             </pre>
+							
+							<h3 class="e-pt15">定时日期</h3>
+                            <p id="date"></p>
+                            <pre class="brush:js;">
+							setInterval(function(){
+								$('#date').text($.calendar.date('yyyy-MM-dd hh:mm:ss'));
+							}, 1000);
+                            </pre>
                         </dd>
                         <dt>API</dt>
                         <dd>
@@ -783,6 +791,10 @@
     });
     
     $('#four').text($.calendar.date(4));
+	
+	setInterval(function(){
+		$('#date').text($.calendar.date('yyyy-MM-dd hh:mm:ss'));
+	}, 1000);
     </script>
 <script>
 var _hmt = _hmt || [];
