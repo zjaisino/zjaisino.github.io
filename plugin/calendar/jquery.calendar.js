@@ -29,6 +29,10 @@
             initime:'',
             //组件显示容器
             container:'body',
+            //下拉展示年数量
+            yearcount:14,
+            //当只显示月时，月份一行显示数量
+            monthcount:6,
             //是否显示2个日历面板
             istwo:false,
             //只显示月
@@ -67,6 +71,8 @@
             onchoose:$.noop,
             //选择日期时回调函数
             onselect:$.noop,
+            //组件显示时回调函数
+            onshow:$.noop,
             //组件隐藏时回调函数
             onhide:$.noop,
 			//编辑单元格
@@ -344,11 +350,11 @@
 									<em'+ that.setClass('dirbtn prevMonth', prevdate.year+''+prevdate.month, that.getcb('yyyy-MM')) +'></em>\
 								</span>\
 								<div class="ui-calendar-date">\
-									<dl>\
+									<dl class="calendar-year">\
                                         <dt type="year">'+ year +'</dt>\
                                     </dl>\
                                     <b>年</b>\
-                                    <dl>\
+                                    <dl class="calendar-month">\
                                         <dt type="month">'+ month +'</dt>\
                                     </dl>\
                                     <b>月</b>\
@@ -511,18 +517,14 @@
         createList:function(year){
             var that = this, opts = that.options, i = 1, tpl = '';
             var startime = that.getTime([that.startime[0], that.startime[1], that.startime[2]]), initime = that.getTime([that.initime[0], that.initime[1], that.initime[2]]);
-            for(i; i<=14; i++){
+            var count = opts.monthcount;
+            for(i; i<=12; i++){
                 var month = that.mend(i);
-                if((i-1)%7 === 0){
+                if((i-1)%count === 0){
                     tpl += '<tr>';
                 }
-                if(i <= 12){
-                    tpl += '<td'+ that.setClass('cell', startime, that.getTime([year, month, '01']), initime) +' data-year="'+ year +'" data-month="'+ month +'" data-day="01"><span>'+ month +'</span></td>';
-                }
-                else{
-                    tpl += '<td></td>'
-                }
-                if(i%7 === 0){
+                tpl += '<td'+ that.setClass('cell', startime, that.getTime([year, month, '01']), initime) +' data-year="'+ year +'" data-month="'+ month +'" data-day="01"><span>'+ month +'</span></td>';
+                if(i%count === 0){
                     tpl += '</tr>';
                 }
             }
@@ -547,7 +549,8 @@
             }
             else{
 				var crtmonth = that.current[1];
-                for(i=val-7; i<=val*1+6; i++){
+                var count = opts.yearcount/2;
+                for(i=val-count; i<=(val|0)+count-1; i++){
                     tpl += '<li'+ that.setClass('', i+crtmonth, crt+crtmonth, cb) +'>'+ i +'</li>'; 
                 }
             }
@@ -867,11 +870,12 @@
                     if(opts.ismonth){
                         index = me.closest('.ui-calendar-main').index();
                     }
+                    var count = opts.yearcount/2;
                     if(me.hasClass('upYear')){
-                        year = item.first().text() - 7
+                        year = item.first().text() - count
                     }
                     else{
-                        year = (item.last().text()|0) + 8;
+                        year = (item.last().text()|0) + count + 1;
                     }
                     ele.find('dd').remove();
                     ele.append(that.createDate(index, year));
@@ -949,6 +953,7 @@
                 })
                 Calendar.current = that.index;    
             }
+            opts.onshow(that.elem);
             that.elem.show();
         },
         //隐藏组件

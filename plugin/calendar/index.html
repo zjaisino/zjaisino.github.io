@@ -314,6 +314,20 @@
                                         <td>组件显示的容器，如果不是在body里面，那组件的就无法定位</td>
                                     </tr>
                                     <tr>
+                                        <td>yearcount</td>
+                                        <td>Number</td>
+                                        <td>14</td>
+                                        <td>正偶数</td>
+                                        <td>下拉展示年数量</td>
+                                    </tr>
+                                    <tr>
+                                        <td>monthcount</td>
+                                        <td>Number</td>
+                                        <td>6</td>
+                                        <td>1 ~ 12之间</td>
+                                        <td>当只显示月时，月份一行显示数量</td>
+                                    </tr>
+                                    <tr>
                                         <td>ishide</td>
                                         <td>Boolean</td>
                                         <td>true</td>
@@ -654,12 +668,12 @@
     
     $.calendar({
         target:'#time',
-		format:'yyyy-MM-dd hh:mm:ss',
+		format:'yyyy-MM-dd hh:mm',
         isclick:false,
 		istime:true,
-        initime:'2016-08-21 05:20:01',
-        max:'2016-10-01 10:10:05',
-        min:'2015-01-01 20:05:20'
+        initime:'2016-08-21 05:20',
+        max:'2016-10-01 10:10',
+        min:'2016-08-01 20:05'
     });
     
     var starttime = $.calendar({
@@ -709,7 +723,9 @@
         istwo:true,
         iscope:true,
         isother:false,
-        ismonth:true
+        ismonth:true,
+        monthcount:3,
+        yearcount:6
     });
     
     $('#clickme').click(function(){
