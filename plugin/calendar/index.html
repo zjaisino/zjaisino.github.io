@@ -164,30 +164,45 @@
                             <input type="text" class="ui-input ui-input-short" id="time" readonly="readonly" />
                             <pre class="brush:js;">
                             $.calendar({
-                                target:'#time'
-                            });
+								target:'#time',
+								format:'yyyy-MM-dd hh:mm',
+								isclick:false,
+								istime:true,
+								initime:'2016-08-21 05:20',
+								max:'2016-10-01 10:10',
+								min:'2016-08-01 20:05'
+							});
                             </pre>
                             
                             <h3 class="e-pt15">选择时间段1</h3>
                             <input type="text" class="ui-input ui-input-short" id="starttime" readonly="readonly" /> ~ <input type="text" class="ui-input ui-input-short" id="endtime" readonly="readonly" />
                             <pre class="brush:js;">
                             var starttime = $.calendar({
-                                target:'#starttime',
-                                onchoose:function(dates){
-                                    endtime.setOptions('min', dates[0])
-                                }
-                            });
-                            
-                            var endtime = $.calendar({
-                                target:'#endtime',
-                                onchoose:function(dates){
-                                    starttime.setOptions('max', dates[0])
-                                }
-                            });
+								target:'#starttime',
+								istime:true,
+								format:'yyyy-MM-dd hh:mm:ss',
+								onchoose:function(dates){
+									endtime.setOptions({
+										'min':dates[0],
+										'initime':dates[0]
+									})
+								}
+							});
+							
+							var endtime = $.calendar({
+								target:'#endtime',
+								format:'yyyy-MM-dd hh:mm:ss',
+								istime:true,
+								onchoose:function(dates){
+									starttime.setOptions({
+										'max':dates[0],
+										'initime':dates[0]
+									})
+								}
+							});
                             </pre>
                             
                             <h3 class="e-pt15">选择时间段2</h3>
-                            <p>请按ctrl键多选</p>
                             <input type="text" class="ui-input" id="scope" readonly="readonly" />
                             <pre class="brush:js;">
                             $.calendar({
@@ -208,10 +223,30 @@
                             });
                             </pre>
                             
-                            <h3 class="e-pt15">选择时间段3</h3>
-                            <input type="text" class="ui-input" id="two" readonly="readonly" />
+                            <h3 class="e-pt15">双日历1</h3>
+                            <input type="text" class="ui-input" id="two1" readonly="readonly" />
                             <pre class="brush:js;">
-                            
+                            $.calendar({
+								target:'#two1',
+								istwo:true,
+								iscope:true,
+								isother:false,
+								yearcount:12
+							});
+                            </pre>
+							
+							<h3 class="e-pt15">双日历2</h3>
+                            <input type="text" class="ui-input" id="two2" readonly="readonly" />
+                            <pre class="brush:js;">
+                            $.calendar({
+								target:'#two2',
+								format:'yyyy-MM',
+								istwo:true,
+								iscope:true,
+								isother:false,
+								ismonth:true,
+								monthcount:3
+							});
                             </pre>
                             
                             <h3 class="e-pt15">按钮触发</h3>
@@ -718,14 +753,21 @@
     });
     
     $.calendar({
-        target:'#two',
+        target:'#two1',
+        istwo:true,
+		iscope:true,
+		isother:false,
+        yearcount:12
+    });
+	
+	$.calendar({
+        target:'#two2',
         format:'yyyy-MM',
         istwo:true,
         iscope:true,
         isother:false,
         ismonth:true,
-        monthcount:3,
-        yearcount:6
+        monthcount:3
     });
     
     $('#clickme').click(function(){

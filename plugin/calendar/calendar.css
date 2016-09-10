@@ -53,6 +53,7 @@ table.ui-calendar-table { margin-top:10px; width:100%;}
 .ui-calendar-multi { width:680px;}
 .ui-calendar-multi .ui-calendar-main { float:left; width:330px;}
 .ui-calendar-multi td.s-sel span { background:none; color:#333;}
+.ui-calendar-multi td.s-sel.other-cell span { background:none; color:#ccc;}
 .ui-calendar-time { position:absolute; left:0; bottom:45px; width:340px; background-color:#fff; text-align:center;}
 .ui-calendar-timehead { position:relative; height:30px; line-height:30px; background-color:#807C7C; border-bottom:1px solid #D7D7D7; color:#fff;}
 .ui-calendar-timehead i { position:absolute; top:5px; right:10px; cursor:pointer;}
