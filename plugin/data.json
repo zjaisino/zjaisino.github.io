@@ -61,12 +61,7 @@
 }, {
     "title":"日历", 
     "name":"calendar",
-    "desc":"支持范围限制、区间选择"
-}, {
-    "title":"日期选择", 
-    "name":"laydate",
-    "desc":"日期范围限制、时分秒选择、智能响应、自动纠错、节日识别等",
-    "url":"http://laydate.layui.com/"
+    "desc":"支持范围限制、区间选择、时分秒、时间格式化输出、自定义结构"
 }, {
     "title":"抛物线", 
     "name":"parabola",
