@@ -41,12 +41,16 @@
             istime:false,
             //是否可以选择年月
             isdate:true,
-            //是否显示其它月
-            isother:true,
             //是否能关闭组件
             ishide:true,
             //是否点击日期关闭组件
+            isclose:true,
+            //是否可以点击非本月
             isclick:true,
+            //是否展示上月
+            islast:true,
+            //是否展示下月
+            isnext:true,
             //是否开启选择区间，需要按住ctrl键
             iscope:false,
             //异步加载数据
@@ -159,7 +163,7 @@
         init:function(init){
             var that = this, opts = that.options;
             if(opts.iscope){
-                opts.isclick = false;
+                opts.isclose = false;
             }
             if(opts.ismonth){
                 opts.istime = false;
@@ -274,7 +278,7 @@
                 that.elem.css('position', 'absolute');
             }
             else{
-                opts.isclick = false;
+                opts.isclose = false;
             }
             that.bindEvent();
         },
@@ -475,34 +479,32 @@
                     tpl += '<td data-year="'+ year +'" data-month="'+ month +'" data-day="'+ that.mend(b) +'"'+ that.setClass('cell', startime, that.getTime([year, month, b]), initime) +'><span>'+ that.editCell(that.mend(b)) +'</span></td>';
                     b++;
                 }
-                else if(opts.isother){
+                else if(opts.islast && a <= week && c <= week){
                     //获取上月末尾时间
-                    if(a <= week && c <= week){
-                        var lastMonth = month-1;
-                        var lastYear = year;
-                        if(lastMonth === 0){
-                            lastMonth = 12;
-                            lastYear--;
-                        }
-                        var end = monthArray[lastMonth-1];
-                        var start = end - week;
-                        if(start+c <= end){
-                            var lastDay = start+c;
-                            tpl += '<td data-year="'+ lastYear +'" data-month="'+ lastMonth +'" data-day="'+ that.mend(lastDay) +'"'+ that.setClass('cell other-cell', startime, that.getTime([lastYear, lastMonth, lastDay]), initime) +'><span>'+ that.editCell(that.mend(lastDay), true) +'</span></td>';
-                        }
-                        c++;
+                    var lastMonth = month-1;
+                    var lastYear = year;
+                    if(lastMonth === 0){
+                        lastMonth = 12;
+                        lastYear--;
                     }
+                    var end = monthArray[lastMonth-1];
+                    var start = end - week;
+                    if(start+c <= end){
+                        var lastDay = start+c;
+                        tpl += '<td data-year="'+ lastYear +'" data-month="'+ lastMonth +'" data-day="'+ that.mend(lastDay) +'"'+ that.setClass('cell other-cell', startime, that.getTime([lastYear, lastMonth, lastDay]), initime) +'><span>'+ that.editCell(that.mend(lastDay), true) +'</span></td>';
+                    }
+                    c++;
+                }
+                else if(opts.isnext && a < 43 && a > days+week){
                     //获取下月月初时间
-                    else if(a < 43 && a > days+week){
-                        var nextMonth = month*1+1;
-                        var nextYear = year;
-                        if(nextMonth === 13){
-                            nextMonth = 1;
-                            nextYear++;
-                        }
-                        tpl += '<td data-year="'+ nextYear +'" data-month="'+ nextMonth +'" data-day="'+ that.mend(d) +'"'+ that.setClass('cell other-cell', startime, that.getTime([nextYear, nextMonth, d]), initime) +'><span>'+ that.editCell(that.mend(d), true) +'</span></td>';
-                        d++;
+                    var nextMonth = (month|0)+1;
+                    var nextYear = year;
+                    if(nextMonth === 13){
+                        nextMonth = 1;
+                        nextYear++;
                     }
+                    tpl += '<td data-year="'+ nextYear +'" data-month="'+ nextMonth +'" data-day="'+ that.mend(d) +'"'+ that.setClass('cell other-cell', startime, that.getTime([nextYear, nextMonth, d]), initime) +'><span>'+ that.editCell(that.mend(d), true) +'</span></td>';
+                    d++;
                 }
                 else{
                     tpl += '<td></td>'
@@ -712,7 +714,7 @@
                     date = startdate + opts.joint + initdate;
                 }
                 opts.onselect(date.split(opts.joint), that.elem, that.target);
-            }).on('click', '.cell:not(.s-dis), .today, .confirm', function(e){
+            }).on('click', '.cell:not(.s-dis)'+ (opts.isclick ? ':not(.other-cell)' : '') +', .today, .confirm', function(e){
                 var me = $(this), initime = that.initime, startime = that.startime;
                 if(me.hasClass('today') || me.hasClass('confirm')){
                     if(me.hasClass('today')){
@@ -752,7 +754,7 @@
                 if(enddate != startdate){
                     date = startdate + opts.joint + enddate;
                 }
-                if(this.nodeName === 'TD' && !opts.isclick){
+                if(this.nodeName === 'TD' && !opts.isclose){
                     opts.onselect(date.split(opts.joint), that.elem, that.target);
                     if(opts.iscope){
                         that.show();

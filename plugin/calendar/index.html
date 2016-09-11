@@ -166,7 +166,7 @@
                             $.calendar({
 								target:'#time',
 								format:'yyyy-MM-dd hh:mm',
-								isclick:false,
+								isclose:false,
 								istime:true,
 								initime:'2016-08-21 05:20',
 								max:'2016-10-01 10:10',
@@ -230,7 +230,6 @@
 								target:'#two1',
 								istwo:true,
 								iscope:true,
-								isother:false,
 								yearcount:12
 							});
                             </pre>
@@ -243,7 +242,6 @@
 								format:'yyyy-MM',
 								istwo:true,
 								iscope:true,
-								isother:false,
 								ismonth:true,
 								monthcount:3
 							});
@@ -378,11 +376,18 @@
                                         <td>是否能关闭组件</td>
                                     </tr>
                                     <tr>
-                                        <td>isclick</td>
+                                        <td>isclose</td>
                                         <td>Boolean</td>
                                         <td>true</td>
                                         <td>true | false</td>
                                         <td>是否点击日期关闭组件</td>
+                                    </tr>
+                                    <tr>
+                                        <td>isclick</td>
+                                        <td>Boolean</td>
+                                        <td>true</td>
+                                        <td>true | false</td>
+                                        <td>是否可以点击非本月</td>
                                     </tr>
                                     <tr>
                                         <td>iscope</td>
@@ -418,6 +423,20 @@
                                         <td>true</td>
                                         <td>true | false</td>
                                         <td>是否可以下拉选择年月</td>
+                                    </tr>
+                                    <tr>
+                                        <td>islast</td>
+                                        <td>Boolean</td>
+                                        <td>true</td>
+                                        <td>true | false</td>
+                                        <td>是否展示上月</td>
+                                    </tr>
+                                    <tr>
+                                        <td>isnext</td>
+                                        <td>Boolean</td>
+                                        <td>true</td>
+                                        <td>true | false</td>
+                                        <td>是否展示下月</td>
                                     </tr>
                                     <tr>
                                         <td>button</td>
@@ -720,7 +739,7 @@
     $.calendar({
         target:'#time',
 		format:'yyyy-MM-dd hh:mm',
-        isclick:false,
+        isclose:false,
 		istime:true,
         initime:'2016-08-21 05:20',
         max:'2016-10-01 10:10',
@@ -772,7 +791,6 @@
         target:'#two1',
         istwo:true,
 		iscope:true,
-		isother:false,
         yearcount:12
     });
 	
@@ -781,7 +799,6 @@
         format:'yyyy-MM',
         istwo:true,
         iscope:true,
-        isother:false,
         ismonth:true,
         monthcount:3
     });
