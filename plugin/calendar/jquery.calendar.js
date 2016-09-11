@@ -299,7 +299,7 @@
             }
             tpl += '<div class="ui-calendar-body clearfix">'+ that.createBody() +'</div>';
             if(opts.istime || button){
-                tpl += '<div class="ui-calendar-foot">';
+                tpl += '<div class="ui-calendar-foot clearfix">';
                 if(opts.istime){
                     tpl += '<p><b>时间</b>';
                     if(opts.format.indexOf('h') !== -1){
