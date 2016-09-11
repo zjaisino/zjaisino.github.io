@@ -722,7 +722,14 @@
                 else{
                     //多选
                     if(opts.iscope){
-                        initime = me.addClass('s-crt').data();
+                        var data = me.data();
+                        initime = data;
+                        if(me.hasClass('s-crt')){
+                            startime = initime;
+                        }
+                        else{
+                            me.addClass('s-crt');
+                        }
                         that.elem.find('[scope]').removeClass('s-crt');
                     }
                     else{
