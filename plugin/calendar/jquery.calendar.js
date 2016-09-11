@@ -711,7 +711,7 @@
                 if(initdate != startdate){
                     date = startdate + opts.joint + initdate;
                 }
-                opts.onselect(date.split(opts.joint), that.target);
+                opts.onselect(date.split(opts.joint), that.elem, that.target);
             }).on('click', '.cell:not(.s-dis), .today, .confirm', function(e){
                 var me = $(this), initime = that.initime, startime = that.startime;
                 if(me.hasClass('today') || me.hasClass('confirm')){
@@ -753,7 +753,7 @@
                     date = startdate + opts.joint + enddate;
                 }
                 if(this.nodeName === 'TD' && !opts.isclick){
-                    opts.onselect(date.split(opts.joint), that.target);
+                    opts.onselect(date.split(opts.joint), that.elem, that.target);
                     if(opts.iscope){
                         that.show();
                     }
@@ -761,7 +761,7 @@
                 }
                 that.target.trigger('setVal', date);
                 that.hide();
-                opts.onchoose(date.split(opts.joint), that.target);
+                opts.onchoose(date.split(opts.joint), that.elem, that.target);
             }).on('click', '.dirbtn', function(e){
                 var me = $(this);
                 var index = me.closest('.ui-calendar-main').index();
@@ -798,7 +798,7 @@
                 }
             }).on('click', '.clear', function(e){
                 that.target.trigger('setVal', '');
-                opts.onselect([''], that.target);
+                opts.onselect([''], that.elem, that.target);
             }).on('click', '.close', function(e){
                 that.hide();
             }).on('click', '.ui-calendar-time, .ui-calendar-tab dl, .ui-calendar-foot p em', function(e){
