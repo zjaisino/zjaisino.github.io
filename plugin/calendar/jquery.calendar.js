@@ -1006,7 +1006,7 @@
                 var calendarindex = options.target.data('calendarindex');
                 var calendar = Calendar.box[calendarindex] || new Calendar(options);
                 if(event == undefined && options.target){
-                    options.target.on('click', function(e){
+                    options.target.on(options.event||'click', function(e){
                         if(!options.target.hasClass('s-dis') && !options.target.prop('disabled')){
                             calendar.run();
                         }
