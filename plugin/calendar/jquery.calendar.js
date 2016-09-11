@@ -710,7 +710,7 @@
                     date = startdate + opts.joint + initdate;
                 }
                 opts.onselect(date.split(opts.joint), that.elem, that.target);
-            }).on('click', '.cell:not(.s-dis)'+ (opts.isclick ? ':not(.other-cell)' : '') +', .today, .confirm', function(e){
+            }).on('click', '.cell:not(.s-dis)'+ (!opts.isclick ? ':not(.other-cell)' : '') +', .today, .confirm', function(e){
                 var me = $(this), initime = that.initime, startime = that.startime;
                 if(me.hasClass('today') || me.hasClass('confirm')){
                     if(me.hasClass('today')){
