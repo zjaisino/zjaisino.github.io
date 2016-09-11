@@ -548,7 +548,8 @@
             else{
 				var crtmonth = that.current[1];
                 var count = opts.yearcount/2;
-                for(i=val-count; i<=(val|0)+count-1; i++){
+                var len = (val|0)+count-1;
+                for(i=val-count; i<=len; i++){
                     tpl += '<li'+ that.setClass('', i+crtmonth, crt+crtmonth, cb) +'>'+ i +'</li>'; 
                 }
             }
@@ -1019,6 +1020,5 @@
             }
         }
     })
-    
     $.calendar.date = Calendar.format;
 })(this, document, jQuery);
