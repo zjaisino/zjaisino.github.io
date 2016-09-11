@@ -47,7 +47,7 @@
             //是否可以点击非本月
             isclick:true,
             //是否展示上月
-            islast:true,
+            isprev:true,
             //是否展示下月
             isnext:true,
             //是否开启选择区间，需要按住ctrl键
@@ -475,7 +475,7 @@
                     tpl += '<td data-year="'+ year +'" data-month="'+ month +'" data-day="'+ that.mend(b) +'"'+ that.setClass('cell', startime, that.getTime([year, month, b]), initime) +'><span>'+ that.editCell(that.mend(b)) +'</span></td>';
                     b++;
                 }
-                else if(opts.islast && a <= week && c <= week){
+                else if(opts.isprev && a <= week && c <= week){
                     //获取上月末尾时间
                     var lastMonth = month-1;
                     var lastYear = year;
