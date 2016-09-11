@@ -7,7 +7,6 @@
  */
  
 ;!(function(window, document, $, undefined){
-    
     var Calendar = function(options){
         var that = this;
         that.options = $.extend({
@@ -258,9 +257,6 @@
             that.current = [that.startime[0], that.startime[1]];
             if(opts.ismonth){
                 var year = that.initime[0];
-                /*if(that.initime[0] == that.startime[0]){
-                    year++;
-                }*/
                 that.nextcurrent = [year, that.initime[1]];
             }
         },
@@ -1025,5 +1021,4 @@
     })
     
     $.calendar.date = Calendar.format;
-    
 })(this, document, jQuery);
