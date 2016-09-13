@@ -1,8 +1,8 @@
 /**
  * @filename jquery.calendar.js
  * @author Aniu[2016-08-08 20:10]
- * @update Aniu[2016-09-10 18:00]
- * @version v1.2.2
+ * @update Aniu[2016-09-13 15:46]
+ * @version v1.2.3
  * @description 日历
  */
  
@@ -29,7 +29,7 @@
             //组件显示容器
             container:'body',
             //下拉展示年数量
-            yearcount:14,
+            yearcount:6,
             //当只显示月时，月份一行显示数量
             monthcount:6,
             //是否显示2个日历面板
@@ -263,7 +263,7 @@
         createWrap:function(){
             var that = this, opts = that.options;
             that.container = $(opts.container || 'body');
-            that.elem = $('<div class="ui-calendar" style="display:none;"></div>').appendTo(that.container);
+            that.elem = $('<div class="ui-calendar'+ (opts.ismonth ? ' ui-calendar-month' : '') +'" style="display:none;"></div>').appendTo(that.container);
             if(opts.istwo){
                 that.elem.addClass('ui-calendar-multi');
             }
