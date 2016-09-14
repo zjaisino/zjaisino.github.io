@@ -3,7 +3,7 @@
 .ui-calendar .clearfix:after { clear:both;}
 .ui-calendar .clearfix { *zoom:1;}
 .ui-calendar .s-dis { cursor:default;}
-.ui-calendar-body { padding-top:8px; border:1px solid #EBEBEB; background-color:#fff;}
+.ui-calendar-body { border:1px solid #EBEBEB; background-color:#fff;}
 .ui-calendar-head { padding:0 5px 10px; border-bottom:1px solid #ccc;}
 .ui-calendar-head em { float:left; padding:0 7px; margin:10px 8px 0; height:22px; line-height:22px; text-align:center; border-radius:11px; color:#0099FF;}
 .ui-calendar-head em.s-crt { background-color:#0099FF; color:#fff;}
@@ -50,30 +50,35 @@
 .ui-calendar-tab li.s-dis, .ui-calendar-tab li.s-dis:hover { background:none; color:#D8D8D8;}
 .ui-calendar-table { width:100%;}
 .ui-calendar-table thead tr { background-color:#EBEEF0;}
-.ui-calendar-table td, .ui-calendar-table th { padding:0; width:45px; height:36px; text-align:center; vertical-align:middle;}
+.ui-calendar-table td, .ui-calendar-table th { padding:0; text-align:center; vertical-align:middle;}
+.ui-calendar-table th { height:25px;}
+.ui-calendar-table td { width:45px; height:36px; }
 .ui-calendar-table td { padding:3px 0;}
 .ui-calendar-table td span { display:inline-block; width:36px; height:36px; line-height:36px; border-radius:3px;}
 .ui-calendar-table td span:hover { background-color:#E9F2F9; cursor:pointer;}
 .ui-calendar-table td.s-crt span, .ui-calendar-table td.s-sel span { background-color:#64B1F3; color:#fff;}
 .ui-calendar-table td.other-cell span, .ui-calendar-table td.s-dis span { color:#D8D8D8;}
 .ui-calendar-table td.s-dis span { cursor:default; background:none;}
-.ui-calendar-foot { position:relative; height:25px; padding-bottom:10px;}
+.ui-calendar-foot { position:relative; margin-top:10px;}
 .ui-calendar-foot .calendar-btn { float:right;}
-.ui-calendar-foot .calendar-btn em { float:left; margin-left:5px; height:25px; line-height:25px; padding:0 10px; background-color:#807C7C; color:#fff;}
+.ui-calendar-foot .calendar-btn em { float:left; margin-left:5px; height:26px; line-height:26px; padding:0 12px; border:1px solid #EBEBEB; border-radius:3px; background-color:#fff; color:#7D7D7D; cursor:pointer;}
+.ui-calendar-foot .calendar-btn em:hover { border-color:#DADADA;}
+.ui-calendar-foot .calendar-btn .confirm { background-color:#64B1F3; border-color:#64B1F3; color:#fff;}
+.ui-calendar-foot .calendar-btn .confirm:hover { background-color:#52A5EA; border-color:#52A5EA;}
 .ui-calendar-foot p, .ui-calendar-foot p b, .ui-calendar-foot p em { float:left;}
-.ui-calendar-foot p { text-align:center;}
-.ui-calendar-foot p b { width:38px; color:#fff; background-color:#807C7C; line-height:25px;}
-.ui-calendar-foot p em { margin-left:-1px; width:30px; line-height:23px; border:1px solid #807C7C; cursor:pointer;}
+.ui-calendar-foot p { text-align:center; border-radius:3px;}
+.ui-calendar-foot p b { position:relative; width:38px; color:#fff; background-color:#64B1F3; line-height:28px; border-radius:3px 0 0 3px;}
+.ui-calendar-foot p em { margin-left:-1px; width:32px; line-height:26px; border:1px solid #EBEBEB; cursor:pointer;}
 .ui-calendar-multi { width:680px;}
 .ui-calendar-multi .ui-calendar-main { float:left; width:330px;}
 .ui-calendar-multi td.s-sel span { background:none; color:#333;}
 .ui-calendar-multi td.s-sel.other-cell span { background:none; color:#D8D8D8;}
-.ui-calendar-time { position:absolute; left:0; bottom:45px; width:340px; background-color:#fff; text-align:center;}
-.ui-calendar-timehead { position:relative; height:30px; line-height:30px; background-color:#807C7C; border-bottom:1px solid #D7D7D7; color:#fff;}
-.ui-calendar-timehead i { position:absolute; top:5px; right:10px; cursor:pointer;}
+.ui-calendar-time { position:absolute; left:0px; bottom:38px; width:347px; background-color:#fff; text-align:center; border:1px solid #EBEBEB;}
+.ui-calendar-timehead { position:relative; height:25px; line-height:25px; background-color:#EBEEF0;}
+.ui-calendar-timehead i { position:absolute; top:2px; right:10px; cursor:pointer; font-size:18px;}
 .ui-calendar-time.hour { width:245px;}
 .ui-calendar-timebody { padding:0 0 5px;}
-.ui-calendar-timebody span { float:left; margin:5px 0 0 5px; width:28px; height:28px; line-height:28px;}
+.ui-calendar-timebody span { float:left; margin:5px 0 0 6px; width:28px; height:28px; line-height:28px; border-radius:2px;}
+.ui-calendar-timebody span:hover { background-color:#E9F2F9; cursor:pointer;}
 .ui-calendar-timebody span.s-crt { background-color:#0099FF; color:#fff;}
-.ui-calendar-timebody span.s-dis { color:#ccc; background-color:#D7D7D7;}
-.ui-calendar-timebody span.s-crt.s-dis { color:#fff;}
+.ui-calendar-timebody span.s-dis { color:#D8D8D8; cursor:default; background:none;}
