@@ -2,7 +2,6 @@
 .ui-calendar .clearfix:before, .ui-calendar .clearfix:after { content:''; display:table;}
 .ui-calendar .clearfix:after { clear:both;}
 .ui-calendar .clearfix { *zoom:1;}
-.ui-calendar .s-dis { cursor:default;}
 .ui-calendar-body { border:1px solid #EBEBEB; background-color:#fff;}
 .ui-calendar-head { padding:0 5px 10px; border-bottom:1px solid #ccc;}
 .ui-calendar-head em { float:left; padding:0 7px; margin:10px 8px 0; height:22px; line-height:22px; text-align:center; border-radius:11px; color:#0099FF;}
@@ -25,6 +24,7 @@
 .ui-calendar-tab .prevMonth.s-dis { background-position:center -200px;}
 .ui-calendar-tab .nextYear.s-dis { background-position:center -180px;}
 .ui-calendar-tab .nextMonth.s-dis { background-position:center -220px;}
+.ui-calendar-tab em.s-dis { cursor:default;}
 .ui-calendar-tab div { position:absolute; left:50%; top:50%; width:90px; height:16px; margin:-8px 0 0 -50px;}
 .ui-calendar-tab div b { margin:0 3px; font-size:14px; font-weight:bold;}
 .ui-calendar-tab dl { position:relative;}
@@ -47,7 +47,7 @@
 .ui-calendar-tab .calendar-month li { margin:2px 0 0 2px; width:32px;}
 .ui-calendar-tab li:hover { background-color:#E9F2F9;}
 .ui-calendar-tab li.s-crt { background-color:#64B1F3; color:#fff;}
-.ui-calendar-tab li.s-dis, .ui-calendar-tab li.s-dis:hover { background:none; color:#D8D8D8;}
+.ui-calendar-tab li.s-dis, .ui-calendar-tab li.s-dis:hover { cursor:default; background:none; color:#D8D8D8;}
 .ui-calendar-table { width:100%;}
 .ui-calendar-table thead tr { background-color:#EBEEF0;}
 .ui-calendar-table td, .ui-calendar-table th { padding:0; text-align:center; vertical-align:middle;}
