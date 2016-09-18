@@ -1,8 +1,8 @@
 /**
  * @filename jquery.calendar.js
  * @author Aniu[2016-08-08 20:10]
- * @update Aniu[2016-09-13 15:46]
- * @version v1.2.3
+ * @update Aniu[2016-09-18 09:26]
+ * @version v1.2.4
  * @description 日历
  */
  
@@ -83,9 +83,9 @@
         }, options||{});
         that.index = Calendar.index++;
         Calendar.box[that.index] = that;
-    }, win = $(window)
+    }, win = $(window), doc = $(document);
     
-    $(document).click(function(){
+    doc.click(function(){
         if(Calendar.current >= 0){
             Calendar.box[Calendar.current].hide();
         }
@@ -977,8 +977,15 @@
             var that = this;
             try{
                 var offset = that.target.offset();
+                var height = that.target.height();
+                var top = offset.top + height;
+                var oheight = that.elem.outerHeight();
+                var stop = win.scrollTop();
+                if(win.height() + stop - top < oheight && offset.top-stop >= oheight){
+                    top = top - height - oheight;
+                }
                 that.elem.css({
-                    top:offset.top + that.target.height(),
+                    top:top,
                     left:offset.left
                 });
             }
