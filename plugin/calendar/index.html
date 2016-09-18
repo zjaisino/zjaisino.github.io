@@ -238,6 +238,16 @@
                             });
                             </pre>
                             
+                            <h3 class="e-pt15">选择时间段3 - 不跨年月</h3>
+                            <input type="text" class="ui-input" id="scope2" readonly="readonly" />
+                            <pre class="brush:js;">
+                            $.calendar({
+                                target:'#scope2',
+                                istride:false,
+                                iscope:true
+                            });
+                            </pre>
+                            
                             <h3 class="e-pt15">双日历1</h3>
                             <input type="text" class="ui-input" id="two1" readonly="readonly" />
                             <pre class="brush:js;">
@@ -382,6 +392,13 @@
                                         <td>6</td>
                                         <td>1 ~ 12之间</td>
                                         <td>当只显示月时，月份一行显示数量</td>
+                                    </tr>
+                                    <tr>
+                                        <td>istride</td>
+                                        <td>Boolean</td>
+                                        <td>true</td>
+                                        <td>true | false</td>
+                                        <td>是否允许跨年或者月</td>
                                     </tr>
                                     <tr>
                                         <td>ishide</td>
@@ -811,6 +828,12 @@
     });
     
     $.calendar({
+        target:'#scope2',
+        istride:false,
+        iscope:true
+    });
+    
+    $.calendar({
         target:'#two1',
         istwo:true,
 		iscope:true,
@@ -820,6 +843,7 @@
 	$.calendar({
         target:'#two2',
         format:'yyyy-MM',
+        istride:false,
         istwo:true,
         iscope:true,
         ismonth:true,

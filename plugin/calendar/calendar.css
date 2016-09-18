@@ -74,7 +74,8 @@
 .ui-calendar-multi .ui-calendar-main { float:left; width:330px; margin-left:10px;}
 .ui-calendar-multi td.s-sel span { background:none; color:#333;}
 .ui-calendar-multi td.s-sel.other-cell span { background:none; color:#D8D8D8;}
-.ui-calendar-month { width:405px;}
+.ui-calendar-month { width:207px;}
+.ui-calendar-multi.ui-calendar-month { width:405px;}
 .ui-calendar-month .ui-calendar-main { width:185px;}
 .ui-calendar-month .ui-calendar-tab div { width:54px; margin-left:-27px;}
 .ui-calendar-time { position:absolute; left:10px; bottom:48px; width:347px; background-color:#fff; text-align:center; border:1px solid #EBEBEB;}

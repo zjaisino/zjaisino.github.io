@@ -32,6 +32,8 @@
             yearcount:6,
             //当只显示月时，月份一行显示数量
             monthcount:6,
+            //是否允许跨年或月
+            istride:true,
             //是否显示2个日历面板
             istwo:false,
             //只显示月
@@ -521,7 +523,7 @@
                 if((i-1)%count === 0){
                     tpl += '<tr>';
                 }
-                tpl += '<td'+ that.setClass('cell', startime, that.getTime([year, month, '01']), initime) +' data-year="'+ year +'" data-month="'+ month +'" data-day="01"><span>'+ month +'</span></td>';
+                tpl += '<td'+ that.setClass('cell', startime, that.getTime([year, month, '01']), initime) +' data-year="'+ year +'" data-month="'+ month +'" data-day="01"><span>'+ that.editCell(month) +'</span></td>';
                 if(i%count === 0){
                     tpl += '</tr>';
                 }
@@ -722,6 +724,11 @@
                     //多选
                     if(opts.iscope){
                         var data = me.data();
+                        if(!opts.istride){
+                            if((!opts.ismonth && initime[0]+initime[1] != data.year+that.mend(data.month)) || (opts.ismonth && initime[0] != data.year)){
+                                startime = data;
+                            }
+                        }
                         initime = data;
                         if(me.hasClass('s-crt')){
                             startime = initime;
@@ -977,7 +984,7 @@
             var that = this;
             try{
                 var offset = that.target.offset();
-                var height = that.target.height();
+                var height = that.target.outerHeight() - 1;
                 var top = offset.top + height;
                 var oheight = that.elem.outerHeight();
                 var stop = win.scrollTop();
