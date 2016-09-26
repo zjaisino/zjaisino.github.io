@@ -1,8 +1,8 @@
 /**
  * @filename jquery.calendar.js
  * @author Aniu[2016-08-08 20:10]
- * @update Aniu[2016-09-18 09:26]
- * @version v1.2.4
+ * @update Aniu[2016-09-25 18:36]
+ * @version v1.2.5
  * @description 日历
  */
  
@@ -942,7 +942,7 @@
         //校验日期格式
         validDate:function(date){
             var that = this;
-            if(date && (!(/^\d{4}(\/|-)\d{1,2}/g).test(date))){
+            if(date && (!(/^\d{4}\D+\d{1,2}/g).test(date))){
                 that.target.trigger('setVal', '');
                 return '';
             }
