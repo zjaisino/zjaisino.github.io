@@ -721,8 +721,9 @@
                     }
                 }
                 else{
+                    var scope = that.elem.find('.ui-calendar-head em.s-crt');
                     //多选
-                    if(opts.iscope){
+                    if(opts.iscope && !scope.length){
                         var data = me.data();
                         if(!opts.istride){
                             if((!opts.ismonth && initime[0]+initime[1] != data.year+that.mend(data.month)) || (opts.ismonth && initime[0] != data.year)){
