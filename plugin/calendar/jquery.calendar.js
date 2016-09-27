@@ -511,6 +511,12 @@
                     tpl += '</tr>';
                 }
             }
+			if(!opts.isprev){
+				tpl = tpl.replace(/^\<tr\>(\<td\>\<\/td\>){7}\<\/tr\>/g, '')
+			}
+			if(!opts.isnext){
+				tpl = tpl.replace(/\<tr\>(\<td\>\<\/td\>){7}\<\/tr\>$/g, '')
+			}
 			delete that.response;
             return tpl;
         },
