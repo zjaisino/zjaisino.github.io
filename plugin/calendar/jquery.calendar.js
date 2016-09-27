@@ -930,7 +930,7 @@
                 }
                 else{
                     //IE6不支持横杠
-                    date = date.replace(/-/g, '/');
+                    date = date.replace(/[-.]/g, '/');
                     return new Date(date).getTime();
                 }
             }
