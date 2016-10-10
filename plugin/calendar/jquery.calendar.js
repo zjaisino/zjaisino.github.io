@@ -183,6 +183,9 @@
             if(init !== false){
                 that.run();
             }
+            else{
+                that.initVal();
+            }
             return ({
 				//重设options值
                 setOptions:function(key, val){

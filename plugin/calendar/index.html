@@ -697,177 +697,179 @@
     </script>
     <script type="text/javascript">
 
-    $.calendar({
-        container:'.simple-calendar',
-        button:[],
-        isdate:false,
-        ishide:false
-    })
-    
-    var calendar = $.calendar({
-        container:'.calendar',
-        ishide:false,
-        button:[],
-		week:['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
-        onselect:function(dates){
-            $.layer.alert(dates[0], '', 280);
-        },
-		ajax:{
-			url:'./data.json',
-			data:function(year, month){
-				return ({
-					year:year,
-					month:month
-				})
-			},
-			loading:{
-				show:function(elem){
-					this.hide(elem)
-					elem.append('<i class="ui-loading"></i>');
-				},
-				hide:function(elem){
-					elem.find('.ui-loading').remove();
-				}
-			},
-			success:function(res, elem){
-				if(res.result === 'success'){
-					var statistics = elem.find('.m-statistics');
-					if(!statistics.length){
-						statistics = $('<div class="m-statistics"></div>').insertBefore(elem.find('.ui-calendar-table'));
-					}
-					var tpl = '<table>\
-							       <thead>\
-								       <th>实际出勤（天）</th>\
-								       <th>迟到（次）</th>\
-								       <th>早退（次）</th>\
-								       <th>缺卡（次）</th>\
-								       <th>设备异常</th>\
-								       <th>位置异常（次）</th>\
-								   </thead>\
-								   <tbody>\
-								       <td>21</td>\
-								       <td>1</td>\
-								       <td>2</td>\
-								       <td>1</td>\
-								       <td>-</td>\
-								       <td>4</td>\
-								   </tbody>\
-							   </table>';
-					statistics.html(tpl);
-				}
-			}
-		},
-		editcell:function(day, other, res){
-			var tpl = '<dl><dt>'+ day +'</dt>';
-			if(res && res.result === 'success' && !other){
-				$.each(res.list, function(k, v){
-					if(v.day == day){
-						tpl += ('<dd><p>' + v.ontime + ' - ' + v.offtime + '</p></dd>');
-						tpl += ('<dd>' + v.onmsg + '</dd>');
-						tpl += ('<dd>' + v.offmsg + '</dd>');
-						return false;
-					}
-				})
-			}
-			tpl += '</dl>';
-			return tpl;
-		}
-    });
-	
-	calendar.reset();
-    
-    $.calendar({
-        target:'#time',
-		format:'yyyy-MM-dd hh:mm',
-        isclose:false,
-		istime:true,
-        initime:'2016-08-21 05:20',
-        max:'2016-10-01 10:10',
-        min:'2016-08-01 20:05'
-    });
-    
-    var starttime = $.calendar({
-        target:'#starttime',
-        istime:true,
-        format:'yyyy-MM-dd hh:mm:ss',
-        onchoose:function(dates){
-            endtime.setOptions({
-                'min':dates[0],
-                'initime':dates[0]
-            })
-        }
-    });
-    
-    var endtime = $.calendar({
-        target:'#endtime',
-        format:'yyyy-MM-dd hh:mm:ss',
-        istime:true,
-        onchoose:function(dates){
-            starttime.setOptions({
-                'max':dates[0],
-                'initime':dates[0]
-            })
-        }
-    });
-    
-    $.calendar({
-        target:'#scope',
-        max:$.calendar.date(35),
-        min:$.calendar.date(-35),
-		format:'yyyy.MM.dd',
-        iscope:true,
-        scope:[{
-            text:'今天',
-            value:0
-        }, {
-            text:'最近7天',
-            value:-7
-        }, {
-            text:'未来7天',
-            value:7
-        }]
-    });
-    
-    $.calendar({
-        target:'#scope2',
-        istride:false,
-        iscope:true
-    });
-    
-    $.calendar({
-        target:'#two1',
-        istwo:true,
-		iscope:true,
-        yearcount:12
-    });
-	
-	$.calendar({
-        target:'#two2',
-        format:'yyyy-MM',
-        istride:false,
-        istwo:true,
-        iscope:true,
-        ismonth:true,
-        monthcount:3
-    });
-    
-    $('#clickme').click(function(){
+    $(function(){
         $.calendar({
-            target:$(this).prev(),
-            max:$.calendar.date(35),
-            min:$.calendar.date(-35)
+            container:'.simple-calendar',
+            button:[],
+            isdate:false,
+            ishide:false
+        })
+        
+        var calendar = $.calendar({
+            container:'.calendar',
+            ishide:false,
+            button:[],
+            week:['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
+            onselect:function(dates){
+                $.layer.alert(dates[0], '', 280);
+            },
+            ajax:{
+                url:'./data.json',
+                data:function(year, month){
+                    return ({
+                        year:year,
+                        month:month
+                    })
+                },
+                loading:{
+                    show:function(elem){
+                        this.hide(elem)
+                        elem.append('<i class="ui-loading"></i>');
+                    },
+                    hide:function(elem){
+                        elem.find('.ui-loading').remove();
+                    }
+                },
+                success:function(res, elem){
+                    if(res.result === 'success'){
+                        var statistics = elem.find('.m-statistics');
+                        if(!statistics.length){
+                            statistics = $('<div class="m-statistics"></div>').insertBefore(elem.find('.ui-calendar-table'));
+                        }
+                        var tpl = '<table>\
+                                       <thead>\
+                                           <th>实际出勤（天）</th>\
+                                           <th>迟到（次）</th>\
+                                           <th>早退（次）</th>\
+                                           <th>缺卡（次）</th>\
+                                           <th>设备异常</th>\
+                                           <th>位置异常（次）</th>\
+                                       </thead>\
+                                       <tbody>\
+                                           <td>21</td>\
+                                           <td>1</td>\
+                                           <td>2</td>\
+                                           <td>1</td>\
+                                           <td>-</td>\
+                                           <td>4</td>\
+                                       </tbody>\
+                                   </table>';
+                        statistics.html(tpl);
+                    }
+                }
+            },
+            editcell:function(day, other, res){
+                var tpl = '<dl><dt>'+ day +'</dt>';
+                if(res && res.result === 'success' && !other){
+                    $.each(res.list, function(k, v){
+                        if(v.day == day){
+                            tpl += ('<dd><p>' + v.ontime + ' - ' + v.offtime + '</p></dd>');
+                            tpl += ('<dd>' + v.onmsg + '</dd>');
+                            tpl += ('<dd>' + v.offmsg + '</dd>');
+                            return false;
+                        }
+                    })
+                }
+                tpl += '</dl>';
+                return tpl;
+            }
         });
-    });
-    
-    $('.multi').click(function(){
-        $.calendar();
-    });
-    
-    $('#four').text($.calendar.date(4));
-	
-	setInterval(function(){
-		$('#date').text($.calendar.date('yyyy-MM-dd hh:mm:ss'));
-	}, 1000);
+        
+        calendar.reset();
+        
+        $.calendar({
+            target:'#time',
+            format:'yyyy-MM-dd hh:mm',
+            isclose:false,
+            istime:true,
+            initime:'2016-08-21 05:20',
+            max:'2016-10-01 10:10',
+            min:'2016-08-01 20:05'
+        });
+        
+        var starttime = $.calendar({
+            target:'#starttime',
+            istime:true,
+            format:'yyyy-MM-dd hh:mm:ss',
+            onchoose:function(dates){
+                endtime.setOptions({
+                    'min':dates[0],
+                    'initime':dates[0]
+                })
+            }
+        });
+        
+        var endtime = $.calendar({
+            target:'#endtime',
+            format:'yyyy-MM-dd hh:mm:ss',
+            istime:true,
+            onchoose:function(dates){
+                starttime.setOptions({
+                    'max':dates[0],
+                    'initime':dates[0]
+                })
+            }
+        });
+        
+        $.calendar({
+            target:'#scope',
+            max:$.calendar.date(35),
+            min:$.calendar.date(-35),
+            format:'yyyy.MM.dd',
+            iscope:true,
+            scope:[{
+                text:'今天',
+                value:0
+            }, {
+                text:'最近7天',
+                value:-7
+            }, {
+                text:'未来7天',
+                value:7
+            }]
+        });
+        
+        $.calendar({
+            target:'#scope2',
+            istride:false,
+            iscope:true
+        });
+        
+        $.calendar({
+            target:'#two1',
+            istwo:true,
+            iscope:true,
+            yearcount:12
+        });
+        
+        $.calendar({
+            target:'#two2',
+            format:'yyyy-MM',
+            istride:false,
+            istwo:true,
+            iscope:true,
+            ismonth:true,
+            monthcount:3
+        });
+        
+        $('#clickme').click(function(){
+            $.calendar({
+                target:$(this).prev(),
+                max:$.calendar.date(35),
+                min:$.calendar.date(-35)
+            });
+        });
+        
+        $('.multi').click(function(){
+            $.calendar();
+        });
+        
+        $('#four').text($.calendar.date(4));
+        
+        setInterval(function(){
+            $('#date').text($.calendar.date('yyyy-MM-dd hh:mm:ss'));
+        }, 1000);
+    })
     </script>
 <script>
 var _hmt = _hmt || [];
