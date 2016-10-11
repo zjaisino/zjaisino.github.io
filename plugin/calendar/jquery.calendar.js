@@ -1024,6 +1024,22 @@
             catch(e){}
         }
     }
+	
+	//修复firefox获取不到event对象问题
+	if($.browser.mozilla){
+		var evt = function(){
+			var func = evt.caller; 
+			while(func != null){
+				var arg0 = func.arguments[0];  
+				if(arg0 instanceof Event){
+					return arg0;
+				}  
+				func = func.caller;  
+			} 
+			return null;
+		}
+		window.__defineGetter__('event', evt)
+	}
     
     $.extend({
         calendar:function(options){
