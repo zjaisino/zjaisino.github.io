@@ -1,8 +1,8 @@
 /**
  * @filename jquery.calendar.js
  * @author Aniu[2016-08-08 20:10]
- * @update Aniu[2016-09-25 18:36]
- * @version v1.2.5
+ * @update Aniu[2016-10-11 12:15]
+ * @version v1.3.1
  * @description 日历
  */
  
@@ -169,23 +169,18 @@
             if(opts.ismonth){
                 opts.istime = false;
             }
+            
             if(opts.target){
                 that.target = opts.target.data('calendarindex', that.index);
-                that.target.bind('setVal', function(e, val){
-                    if(this.nodeName === 'INPUT' || this.nodeName === 'TEXTAREA'){
-                        that.target.val(val);
-                    }
-                    else{
-                        that.target.text(val);
-                    }
-                });
             }
+            
             if(init !== false){
                 that.run();
             }
             else{
                 that.initVal();
             }
+            
             return ({
 				//重设options值
                 setOptions:function(key, val){
@@ -216,16 +211,19 @@
             var that = this, opts = that.options;
             if(setOpts === true){
                 if((!that.startime && !that.initime) || (opts.min && that.getTime(that.startime) < that.getTime(opts.min)) || (opts.max && that.getTime(that.initime) > that.getTime(opts.max))){
-                    that.target && that.target.trigger('setVal', '');
+                    that.setVal('')
                 }
                 else{
                     return;
                 }
             }
+            
             if(!that.elem){
                 that.createWrap();
             }
+            
             that.initVal();
+            
             that.show();
         },
         initVal:function(){
@@ -233,16 +231,21 @@
             that.max = opts.max ? that.getTime(Calendar.format(that.getTime(opts.max), 'yyyy-MM-dd')) : 0;
             that.min = opts.min ? that.getTime(Calendar.format(that.getTime(opts.min), 'yyyy-MM-dd')) : 0;
             var val = '';
+            
             if(that.target){
                 var target = that.target[0];
-                if(target.nodeName === 'INPUT' || target.nodeName === 'TEXTAREA'){
-                    val = that.target.val();
+                if(target){
+                    if(target.nodeName === 'INPUT' || target.nodeName === 'TEXTAREA'){
+                        val = that.target.val();
+                    }
+                    else{
+                        val = that.target.text();
+                        
+                    }
+                    val = that.validDate(val);
                 }
-                else{
-                    val = that.target.text();
-                }
-                val = that.validDate(val);
             }
+            
             if(val){
                 val = val.split(opts.joint);
                 if(val.length === 1){
@@ -775,7 +778,7 @@
                     }
                     return;
                 }
-                that.target.trigger('setVal', date);
+                that.setVal(date)
                 that.hide();
                 opts.onchoose(date.split(opts.joint), that.elem, that.target);
             }).on('click', '.dirbtn', function(e){
@@ -813,7 +816,7 @@
 					that.createBody(true);
                 }
             }).on('click', '.clear', function(e){
-                that.target.trigger('setVal', '');
+                that.setVal('');
                 opts.onselect([''], that.elem, that.target);
             }).on('click', '.close', function(e){
                 that.hide();
@@ -948,11 +951,23 @@
             }
             return 0;
         },
+        setVal:function(val){
+            var that = this, target = that.target;
+            if(target){
+                var elem = that.target.get(0);
+                if(elem.nodeName === 'INPUT' || elem.nodeName === 'TEXTAREA'){
+                    target.val(val);
+                }
+                else if(elem != document){
+                    target.text(val);
+                }
+            }
+        },
         //校验日期格式
         validDate:function(date){
             var that = this;
             if(date && (!(/^\d{4}\D+\d{1,2}/g).test(date))){
-                that.target.trigger('setVal', '');
+                that.setVal('');
                 return '';
             }
             return date;
@@ -1013,33 +1028,26 @@
     $.extend({
         calendar:function(options){
             options = options || {};
-            var event = window.event, target = '';
+            var event = window.event, target = null;
             if(event != undefined){
-                target = $(event.target || event.srcElement);
+                target = event.target || event.srcElement;
                 event.stopPropagation ? event.stopPropagation() : (event.cancelBubble = true)
             }
-            if(options.target){
-                target = $(options.target);
-            }
-            if(event != undefined && target && (target.hasClass('s-dis') || target.prop('disabled'))){
-                return;
-            }
-            if(target){
-                options.target = target;
+            
+            if(options.target && (event === undefined || target === null || target === document)){
+                options.target = $(options.target);
                 var calendarindex = options.target.data('calendarindex');
                 var calendar = Calendar.box[calendarindex] || new Calendar(options);
-                if(event == undefined && options.target){
-                    options.target.on(options.event||'click', function(e){
-                        if(!options.target.hasClass('s-dis') && !options.target.prop('disabled')){
-                            calendar.run();
-                        }
-                        e.stopPropagation();
-                    });
-                    return calendar.init(false);
-                }
-                return calendar.init();
+                options.target.on(options.event||'click', function(e){
+                    if(!options.target.hasClass('s-dis') && !options.target.prop('disabled')){
+                        calendar.run();
+                    }
+                    e.stopPropagation();
+                });
+                return calendar.init(false);
             }
             else{
+                options.target = $(options.target||target);
                 return new Calendar(options).init();
             }
         }

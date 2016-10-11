@@ -1,5 +1,11 @@
 var LOG = {
     list:[{
+        ver:'v1.3.1',
+        date:'2016-10-11',
+        desc:[
+            '1.修复组件在DOMContentLoaded、onload事件中直接调用时页面空白bug'
+        ]
+    },{
         ver:'v1.2.5',
         date:'2016-09-25',
         desc:[
