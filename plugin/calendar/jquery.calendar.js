@@ -1,8 +1,8 @@
 /**
  * @filename jquery.calendar.js
  * @author Aniu[2016-08-08 20:10]
- * @update Aniu[2016-10-11 12:15]
- * @version v1.3.1
+ * @update Aniu[2016-10-12 11:07]
+ * @version v1.3.2
  * @description 日历
  */
  
@@ -249,11 +249,11 @@
             if(val){
                 val = val.split(opts.joint);
                 if(val.length === 1){
-                    that.initime = that.startime = val[0];
+                    that.initime = that.startime = that.validDate(val[0], true)
                 }
                 else{
-                    that.startime = val[0];
-                    that.initime = val[1];
+                    that.startime = that.validDate(val[0], true);
+                    that.initime = that.validDate(val[1], true)
                 }
             }
             else{
@@ -941,7 +941,7 @@
                     return new Date(date[0], date[1]-1, date[2]||1, date[3]||0, date[4]||0, date[5]||0).getTime();
                 }
                 else{
-                    //IE6不支持横杠
+                    //IE8-不支持横杠
                     date = date.replace(/[-.]/g, '/');
                     return new Date(date).getTime();
                 }
@@ -964,11 +964,21 @@
             }
         },
         //校验日期格式
-        validDate:function(date){
-            var that = this;
-            if(date && (!(/^\d{4}\D+\d{1,2}/g).test(date))){
-                that.setVal('');
-                return '';
+        validDate:function(date, regex){
+            var that = this, opts = that.options;
+            if(regex){
+                if(/M$/.test(opts.format)){
+                    date += '/01';
+                }
+                if(/h$/.test(opts.format)){
+                    date += ':00:00';
+                }
+            }
+            else{
+                if(date && (!(/^\d{4}\D+\d{1,2}/g).test(date))){
+                    that.setVal('');
+                    return '';
+                }
             }
             return date;
         },
