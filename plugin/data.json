@@ -11,6 +11,10 @@
     "name":"paging",
     "desc":"支持异步分页，传统的整页刷新翻页，瀑布流"
 }, {
+    "title":"数据网格", 
+    "name":"datagrid",
+    "desc":"以表格格式显示数据，并为选择、排序、分组和编辑数据提供了丰富的支持"
+}, {
     "title":"模版引擎", 
     "name":"arttemplate",
     "desc":"性能卓越的javascript模板引擎"

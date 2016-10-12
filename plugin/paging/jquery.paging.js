@@ -422,12 +422,13 @@
                 options = name;
                 name = 'paging';
             }
-            window[name] = new Paging(options);
+            var page = window[name] = new Paging(options);
             if(typeof window[name].refreshCallback !== 'function'){
-                window[name].query(true);
-                return;
+                page.query(true);
+                return page;
             }
-            window[name].query('refresh');
+            page.query('refresh');
+            return page
         }
     });
     

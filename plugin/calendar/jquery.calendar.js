@@ -400,7 +400,7 @@
         createBody:function(flag){
             var that = this, opts = that.options;
             var year = that.current[0];
-            var month = that.current[1];
+            var month = that.mend(that.current[1]);
 			var tpl = that.resetBody(flag, 0, year, month);
             if(opts.istwo){
                 if(opts.ismonth){

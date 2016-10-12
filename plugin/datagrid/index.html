@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="renderer" content="webkit" />
+	<meta name="keywords" content="" />
+	<meta name="description" content="" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="../../style/base.css" />
+	<style type="text/css">
+    
+    </style>
+</head>
+
+<body class="g-body">
+	<!-- header -->
+	<div class="g-header"></div>
+	<!-- /header -->
+
+	<!-- content -->
+	<div class="g-content">
+        <div class="ui-datagrid">
+            <div class="datagrid-head">
+                <div class="datagrid-btnleft"></div>
+                <div class="datagrid-title"></div>
+                <div class="datagrid-btnright"></div>
+            </div>
+            <div class="datagrid-body">
+                <div class="datagrid-main">
+                    <div class="datagrid-tablebox">
+                        <table class="datagrid-table">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="datagrid-paging"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	<!-- /content -->
+
+	<!-- footer -->
+	<div class="g-footer"></div>
+	<!-- /footer -->
+	<script type="text/javascript" src="../../script/jquery.js"></script>
+    <script type="text/javascript" src="../paging/jquery.paging.js"></script>
+    <script type="text/javascript" src="jquery.datagrid.js"></script>
+    <script type="text/javascript">
+    $.datagrid({
+        container:'.g-content',
+        url:'http://192.168.1.109/data/?callback=?',
+        title:[[{
+            text:'标题1',
+            align:'center',
+            colspan:2
+        }, {
+            text:'标题2',
+            align:'center',
+            colspan:2
+        }], [{
+            text:'子标题1',
+            align:'center'
+        }, {
+            text:'子标题2',
+            align:'center'
+        }, {
+            text:'子标题3',
+            align:'center'
+        }, {
+            text:'子标题4',
+            align:'center'
+        }]],
+        cols:[{
+            name:'buname',
+            width:'',
+            align:'left'
+        }, {
+            name:'buname_py',
+            width:'',
+            align:'left'
+        }, {
+            name:'buname_pinyin',
+            width:'',
+            align:'left'
+        }, {
+            name:'saletel',
+            width:'',
+            align:'left'
+        }],
+        /*caption:{
+            enable:true,
+            text:''
+        },
+        btnleft:[{
+            text:'',
+            callback:function(){
+                
+            }
+        }],
+        btnright:[{
+            text:'',
+            callback:function(){
+                
+            }
+        }]*/
+    })
+    </script>
+</body>
+</html>
