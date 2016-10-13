@@ -1,8 +1,8 @@
 /**
  * @filename jquery.calendar.js
  * @author Aniu[2016-08-08 20:10]
- * @update Aniu[2016-10-12 11:07]
- * @version v1.3.2
+ * @update Aniu[2016-10-13 15:47]
+ * @version v1.3.3
  * @description 日历
  */
  
@@ -114,10 +114,14 @@
 	
 	Calendar.time = {hour:'小时', minute:'分钟', second:'秒数'};
     
-    Calendar.format = function(scope, format){
+    Calendar.format = function(scope, format, flag){
         var date, timestamp;
-        if(scope && typeof scope === 'number'){
-            if(scope > 0 && scope.toString().length === 13){
+        if(typeof scope === 'number'){
+            if(format === true){
+                flag = true;
+                format = '';
+            }
+            if(flag === true){
                 timestamp = scope;
             }
             else{
@@ -228,8 +232,8 @@
         },
         initVal:function(){
             var that = this, opts = that.options;
-            that.max = opts.max ? that.getTime(Calendar.format(that.getTime(opts.max), 'yyyy-MM-dd')) : 0;
-            that.min = opts.min ? that.getTime(Calendar.format(that.getTime(opts.min), 'yyyy-MM-dd')) : 0;
+            that.max = opts.max ? that.getTime(Calendar.format(that.getTime(opts.max), 'yyyy-MM-dd', true)) : 0;
+            that.min = opts.min ? that.getTime(Calendar.format(that.getTime(opts.min), 'yyyy-MM-dd', true)) : 0;
             var val = '';
             
             if(that.target){
@@ -290,8 +294,8 @@
             var that = this, opts = that.options, scope = opts.scope.length, button = opts.button.length, tpl = '';
             if(scope){
                 var i = 0;
-                var startime = Calendar.format(that.getTime(that.startime), opts.format);
-                var initime = Calendar.format(that.getTime(that.initime), opts.format);
+                var startime = Calendar.format(that.getTime(that.startime), opts.format, true);
+                var initime = Calendar.format(that.getTime(that.initime), opts.format, true);
                 var initdate = Calendar.format(opts.format);
                 tpl += '<div class="ui-calendar-head clearfix">';
                 for(i; i<scope; i++){
@@ -593,8 +597,8 @@
 				initime = initime + that.initime[3] + that.initime[4];
 				startime = startime + that.startime[3] + that.startime[4];
 			}
-			var max = opts.max ? Calendar.format(that.getTime(opts.max), format).replace(/-/g, '') : 0;
-            var min = opts.min ? Calendar.format(that.getTime(opts.min), format).replace(/-/g, '') : 0;
+			var max = opts.max ? Calendar.format(that.getTime(opts.max), format, true).replace(/-/g, '') : 0;
+            var min = opts.min ? Calendar.format(that.getTime(opts.min), format, true).replace(/-/g, '') : 0;
             for(i; i<len; i++){
 				var cls = arr[i] == crt ? 's-crt' : '';
 				var start = startime + arr[i];
@@ -693,8 +697,8 @@
         getcb:function(format){
             var that = this;
             format = format || 'yyyy-MM-dd';
-            var max = that.max ? Calendar.format(that.max, format).replace(/-/g, '') : 0;
-            var min = that.min ? Calendar.format(that.min, format).replace(/-/g, '') : 0;
+            var max = that.max ? Calendar.format(that.max, format, true).replace(/-/g, '') : 0;
+            var min = that.min ? Calendar.format(that.min, format, true).replace(/-/g, '') : 0;
             return (function(){
                 return ({
                     max:max,
@@ -765,8 +769,8 @@
                 }
                 that.setTime(initime, startime);
                 that.reverse();
-                var enddate = Calendar.format(that.getTime(that.initime), opts.format);
-                var startdate = Calendar.format(that.getTime(that.startime), opts.format);
+                var enddate = Calendar.format(that.getTime(that.initime), opts.format, true);
+                var startdate = Calendar.format(that.getTime(that.startime), opts.format, true);
                 var date = enddate;
                 if(enddate != startdate){
                     date = startdate + opts.joint + enddate;
@@ -930,7 +934,7 @@
             return [31, ((year % 4) == 0 ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
         },
         getArr:function(time){
-            var date = Calendar.format(time, this.options.ismonth ? 'yyyy MM 01 00 00 00' : 'yyyy MM dd hh mm ss');
+            var date = Calendar.format(time, this.options.ismonth ? 'yyyy MM 01 00 00 00' : 'yyyy MM dd hh mm ss', true);
             date = date.split(' ');
             return date;
         },
