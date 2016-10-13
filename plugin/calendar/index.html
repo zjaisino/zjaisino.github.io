@@ -637,18 +637,23 @@
                                 </thead> 
                                 <tbody> 
                                     <tr>
-                                        <td rowspan="2">$.calendar.date</td>
+                                        <td rowspan="3">$.calendar.date</td>
                                         <td>scope</td>
                                         <td></td>
-                                        <td rowspan="2">
+                                        <td rowspan="3">
                                             获取格式化日期
                                             <p>scope值0今天、-1昨天、-2前天、1明天、以此类推，当scope值为13位正整数时，将视其为时间戳，并返回该时间戳对应的日期，当scope值为字符串时，将视其为format，并返回当天的日期</p>
-                                            <p>format值为y(年) M(月) d(日) h(时) m(分) i(秒)组合的字符串年月日用“- /”分隔，时分秒用“:”分隔</p>
+                                            <p>format值为y(年) M(月) d(日) h(时) m(分) i(秒)组合的字符串年月日用“- /”分隔，时分秒用“:”分隔，如果值为布尔类型，将其视为flag参数</p>
+                                            <p>flag布尔值，如果为true表示scope为时间戳，否则为天数</p>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>format</td>
                                         <td>yyyy-MM-dd</td>
+                                    </tr>
+                                    <tr>
+                                        <td>flag</td>
+                                        <td>undefined</td>
                                     </tr>
                                 </tbody>
                             </table>
