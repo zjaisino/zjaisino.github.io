@@ -1,8 +1,8 @@
 /**
  * @filename jquery.calendar.js
  * @author Aniu[2016-08-08 20:10]
- * @update Aniu[2016-10-12 11:07]
- * @version v1.3.2
+ * @update Aniu[2016-10-13 15:47]
+ * @version v1.3.3
  * @description 日历
  */
  
@@ -116,8 +116,8 @@
     
     Calendar.format = function(scope, format){
         var date, timestamp;
-        if(scope && typeof scope === 'number'){
-            if(scope > 0 && scope.toString().length === 13){
+        if(typeof scope === 'number'){
+            if(scope.toString().length >= 8){
                 timestamp = scope;
             }
             else{
