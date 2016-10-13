@@ -115,7 +115,7 @@
 	Calendar.time = {hour:'小时', minute:'分钟', second:'秒数'};
     
     Calendar.format = function(scope, format, flag){
-        var date, timestamp; 
+        var date, timestamp;
         if(typeof scope === 'number'){
             if(format === true){
                 flag = true;
