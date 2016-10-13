@@ -1,8 +1,8 @@
 /**
  * @filename jquery.calendar.js
  * @author Aniu[2016-08-08 20:10]
- * @update Aniu[2016-10-11 12:15]
- * @version v1.3.1
+ * @update Aniu[2016-10-13 15:47]
+ * @version v1.3.3
  * @description 日历
  */
  
@@ -56,6 +56,11 @@
             iscope:false,
             //异步加载数据
 			ajax:null,
+			//时分秒下拉模式
+			showtime:{
+				count:0,
+				height:0
+			},
             //显示按钮
             button:[{
                 name:'clear',
@@ -114,10 +119,14 @@
 	
 	Calendar.time = {hour:'小时', minute:'分钟', second:'秒数'};
     
-    Calendar.format = function(scope, format){
+    Calendar.format = function(scope, format, flag){
         var date, timestamp;
-        if(scope && typeof scope === 'number'){
-            if(scope > 0 && scope.toString().length === 13){
+        if(typeof scope === 'number'){
+            if(format === true){
+                flag = true;
+                format = '';
+            }
+            if(flag === true){
                 timestamp = scope;
             }
             else{
@@ -166,7 +175,8 @@
             if(opts.iscope){
                 opts.isclose = false;
             }
-            if(opts.ismonth){
+            
+			if(opts.ismonth || opts.showtime > 0){
                 opts.istime = false;
             }
             
@@ -228,8 +238,8 @@
         },
         initVal:function(){
             var that = this, opts = that.options;
-            that.max = opts.max ? that.getTime(Calendar.format(that.getTime(opts.max), 'yyyy-MM-dd')) : 0;
-            that.min = opts.min ? that.getTime(Calendar.format(that.getTime(opts.min), 'yyyy-MM-dd')) : 0;
+            that.max = opts.max ? that.getTime(Calendar.format(that.getTime(opts.max), 'yyyy-MM-dd', true)) : 0;
+            that.min = opts.min ? that.getTime(Calendar.format(that.getTime(opts.min), 'yyyy-MM-dd', true)) : 0;
             var val = '';
             
             if(that.target){
@@ -249,11 +259,11 @@
             if(val){
                 val = val.split(opts.joint);
                 if(val.length === 1){
-                    that.initime = that.startime = val[0];
+                    that.initime = that.startime = that.validDate(val[0], true)
                 }
                 else{
-                    that.startime = val[0];
-                    that.initime = val[1];
+                    that.startime = that.validDate(val[0], true);
+                    that.initime = that.validDate(val[1], true)
                 }
             }
             else{
@@ -271,7 +281,13 @@
         createWrap:function(){
             var that = this, opts = that.options;
             that.container = $(opts.container || 'body');
-            that.elem = $('<div class="ui-calendar'+ (opts.ismonth ? ' ui-calendar-month' : '') +'" style="display:none;"></div>').appendTo(that.container);
+            that.elem = $('<div class="ui-calendar" style="display:none;"></div>').appendTo(that.container);
+			if(opts.showtime > 0){
+				that.elem.addClass('ui-calendar-selectime')
+			}
+			else if(opts.ismonth){
+				that.elem.addClass('ui-calendar-month')
+			}
             if(opts.istwo){
                 that.elem.addClass('ui-calendar-multi');
             }
@@ -290,8 +306,8 @@
             var that = this, opts = that.options, scope = opts.scope.length, button = opts.button.length, tpl = '';
             if(scope){
                 var i = 0;
-                var startime = Calendar.format(that.getTime(that.startime), opts.format);
-                var initime = Calendar.format(that.getTime(that.initime), opts.format);
+                var startime = Calendar.format(that.getTime(that.startime), opts.format, true);
+                var initime = Calendar.format(that.getTime(that.initime), opts.format, true);
                 var initdate = Calendar.format(opts.format);
                 tpl += '<div class="ui-calendar-head clearfix">';
                 for(i; i<scope; i++){
@@ -398,22 +414,36 @@
         },
         //创建主体
         createBody:function(flag){
-            var that = this, opts = that.options;
-            var year = that.current[0];
-            var month = that.current[1];
-			var tpl = that.resetBody(flag, 0, year, month);
-            if(opts.istwo){
-                if(opts.ismonth){
-                    year = that.nextcurrent[0];
-                    month = that.nextcurrent[1];
-                }
-                else{
-					var date = that.resetDate(year, month, 1);
-                    year = date.year;
-                    month = date.month;
-                }
-                tpl += that.resetBody(flag, 1, year, month);
-            }
+            var that = this, opts = that.options, tpl = '';
+			if(opts.showtime > 0){
+				var format = opts.format;
+				if((/h+/g).test(format)){
+					tpl += that.createTime('hour', that.getTimeArr(23), that.startime[3], true);
+				}
+				if((/m+/g).test(format)){
+					tpl += that.createTime('minute', that.getTimeArr(59), that.startime[4], true);
+				}
+				if((/i+/g).test(format)){
+					tpl += that.createTime('second', that.getTimeArr(59), that.startime[5], true);
+				}
+			}
+            else{
+				var year = that.current[0];
+				var month = that.current[1];
+				tpl += that.resetBody(flag, 0, year, month);
+				if(opts.istwo){
+					if(opts.ismonth){
+						year = that.nextcurrent[0];
+						month = that.nextcurrent[1];
+					}
+					else{
+						var date = that.resetDate(year, month, 1);
+						year = date.year;
+						month = date.month;
+					}
+					tpl += that.resetBody(flag, 1, year, month);
+				}
+			}
 			return tpl;
         },
 		//加载主体部分
@@ -574,9 +604,13 @@
             tpl += '</dd>';
             return tpl;
         },
-        createTime:function(type, arr, crt){
+        createTime:function(type, arr, crt, hide){
             var that = this, opts = that.options, len = arr.length, i = 0;
-            var tpl = '<div class="ui-calendar-time '+ type +'"><div class="ui-calendar-timehead">'+ Calendar.time[type] +'<i title="关闭">×</i></div><div class="ui-calendar-timebody clearfix" type="'+ type +'">';
+            var tpl = '<div class="ui-calendar-time '+ type +'">';
+			if(!hide){
+				tpl += '<div class="ui-calendar-timehead">'+ Calendar.time[type] +'<i title="关闭">×</i></div>';
+			}
+			tpl += '<div class="ui-calendar-timebody clearfix" type="'+ type +'">';
 			var format = 'yyyy-MM-dd';
 			var initime = that.initime[0] + that.initime[1] + that.initime[2];
 			var startime = that.startime[0] + that.startime[1] + that.startime[2];
@@ -593,8 +627,8 @@
 				initime = initime + that.initime[3] + that.initime[4];
 				startime = startime + that.startime[3] + that.startime[4];
 			}
-			var max = opts.max ? Calendar.format(that.getTime(opts.max), format).replace(/-/g, '') : 0;
-            var min = opts.min ? Calendar.format(that.getTime(opts.min), format).replace(/-/g, '') : 0;
+			var max = opts.max ? Calendar.format(that.getTime(opts.max), format, true).replace(/-/g, '') : 0;
+            var min = opts.min ? Calendar.format(that.getTime(opts.min), format, true).replace(/-/g, '') : 0;
             for(i; i<len; i++){
 				var cls = arr[i] == crt ? 's-crt' : '';
 				var start = startime + arr[i];
@@ -693,8 +727,8 @@
         getcb:function(format){
             var that = this;
             format = format || 'yyyy-MM-dd';
-            var max = that.max ? Calendar.format(that.max, format).replace(/-/g, '') : 0;
-            var min = that.min ? Calendar.format(that.min, format).replace(/-/g, '') : 0;
+            var max = that.max ? Calendar.format(that.max, format, true).replace(/-/g, '') : 0;
+            var min = that.min ? Calendar.format(that.min, format, true).replace(/-/g, '') : 0;
             return (function(){
                 return ({
                     max:max,
@@ -705,7 +739,10 @@
         bindEvent:function(){
             var that = this, opts = that.options;
             that.elem.on('click', function(e){
-                that.elem.find('.ui-calendar-time, .ui-calendar-tab dd').remove();
+                that.elem.find('.ui-calendar-tab dd').remove();
+				if(opts.showtime<=0){
+					that.elem.find('.ui-calendar-time').remove();
+				}
                 e.stopPropagation();
             }).on('click', '[scope]', function(e){
                 var me = $(this);
@@ -765,8 +802,8 @@
                 }
                 that.setTime(initime, startime);
                 that.reverse();
-                var enddate = Calendar.format(that.getTime(that.initime), opts.format);
-                var startdate = Calendar.format(that.getTime(that.startime), opts.format);
+                var enddate = Calendar.format(that.getTime(that.initime), opts.format, true);
+                var startdate = Calendar.format(that.getTime(that.startime), opts.format, true);
                 var date = enddate;
                 if(enddate != startdate){
                     date = startdate + opts.joint + enddate;
@@ -823,21 +860,37 @@
             }).on('click', '.ui-calendar-time, .ui-calendar-tab dl, .ui-calendar-foot p em', function(e){
 				e.stopPropagation()
 			});
+			
+			if(opts.showtime > 0){
+				that.elem.on('click', '.ui-calendar-timebody span', function(){
+                    var me = $(this);
+                    if(!me.hasClass('s-dis')){
+                        var type = me.parent().attr('type');
+						me.addClass('s-crt').siblings().removeClass('s-crt')
+						if(type == 'hour'){
+							that.initime[3] = that.startime[3] = me.text();
+						}
+						else if(type == 'minute'){
+							that.initime[4] = that.startime[4] = me.text();
+						}
+						else{
+							that.initime[5] = that.startime[5] = me.text();
+						}
+                    }
+                })
+				return;
+			}
             
             if(opts.istime){
                 that.elem.on('click', '.ui-calendar-foot p em', function(e){
                     var me = $(this);
                     var type = me.attr('type');
-                    var arr = [];
+                    var arr;
                     if(type == 'hour'){
-                        for(var i=0; i<=23; i++){
-                            arr.push(that.mend(i));
-                        }
+						arr = that.getTimeArr(23)
                     }
                     else{
-                        for(var i=0; i<=59; i++){
-                            arr.push(that.mend(i));
-                        }
+                        arr = that.getTimeArr(59)
                     }
                     that.elem.find('.ui-calendar-time').remove();
                     that.elem.find('.ui-calendar-foot').append(that.createTime(type, arr, me.text()));
@@ -930,7 +983,7 @@
             return [31, ((year % 4) == 0 ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
         },
         getArr:function(time){
-            var date = Calendar.format(time, this.options.ismonth ? 'yyyy MM 01 00 00 00' : 'yyyy MM dd hh mm ss');
+            var date = Calendar.format(time, this.options.ismonth ? 'yyyy MM 01 00 00 00' : 'yyyy MM dd hh mm ss', true);
             date = date.split(' ');
             return date;
         },
@@ -941,7 +994,7 @@
                     return new Date(date[0], date[1]-1, date[2]||1, date[3]||0, date[4]||0, date[5]||0).getTime();
                 }
                 else{
-                    //IE6不支持横杠
+                    //IE8-不支持横杠
                     date = date.replace(/[-.]/g, '/');
                     return new Date(date).getTime();
                 }
@@ -951,6 +1004,13 @@
             }
             return 0;
         },
+		getTimeArr:function(num){
+			var arr = [];
+			for(var i=0; i<=num; i++){
+				arr.push(this.mend(i));
+			}
+			return arr;
+		},
         setVal:function(val){
             var that = this, target = that.target;
             if(target){
@@ -964,11 +1024,24 @@
             }
         },
         //校验日期格式
-        validDate:function(date){
-            var that = this;
-            if(date && (!(/^\d{4}\D+\d{1,2}/g).test(date))){
-                that.setVal('');
-                return '';
+        validDate:function(date, regex){
+            var that = this, opts = that.options;
+            if(regex){
+				if(/^h/.test(opts.format)){
+					date = Calendar.format() + ' ' + date;
+				}
+                else if(/M$/.test(opts.format)){
+                    date += '/01';
+                }
+                else if(/h$/.test(opts.format)){
+                    date += ':00:00';
+                }
+            }
+            else{
+                if(date && (!(/^\d{2,4}\D+\d{1,2}/g).test(date))){
+                    that.setVal('');
+                    return '';
+                }
             }
             return date;
         },
@@ -991,6 +1064,9 @@
                 })
                 Calendar.current = that.index;    
             }
+			if(opts.showtime > 0){
+				that.resetHeight()
+			}
             opts.onshow(that.elem);
             that.elem.show();
         },
@@ -1022,7 +1098,21 @@
                 });
             }
             catch(e){}
-        }
+        },
+		resetHeight:function(){
+			var that = this, opts = that.options;
+			that.elem.find('.ui-calendar-time').each(function(){
+				var time = $(this);
+				var span = time.find('span');
+				var height = span.outerHeight();
+				time.height(height*opts.showtime);
+				var mid = Math.floor(opts.showtime/2);
+				var crt = time.find('span.s-crt').index() - mid;
+				setTimeout(function(){
+					time.scrollTop(crt > 0 ? crt*height : 0)
+				})
+			})
+		}
     }
 	
 	//修复firefox获取不到event对象问题

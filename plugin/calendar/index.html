@@ -295,6 +295,12 @@
                                 $.calendar();
                             });
                             </pre>
+							
+							<h3 class="e-pt15">选择时分秒</h3>
+                            <input type="text" class="ui-input ui-input-short" id="onlytime" readonly="readonly" />
+                            <pre class="brush:js;">
+							
+                            </pre>
                             
                             <h3 class="e-pt15">获取4天后的日期</h3>
                             <p id="four"></p>
@@ -858,6 +864,12 @@
                 max:$.calendar.date(35),
                 min:$.calendar.date(-35)
             });
+        });
+		
+		$.calendar({
+            target:'#onlytime',
+			format:'hh:mm',
+            showtime:6
         });
         
         $('.multi').click(function(){
