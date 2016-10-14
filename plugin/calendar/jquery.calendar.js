@@ -1,8 +1,8 @@
 /**
  * @filename jquery.calendar.js
  * @author Aniu[2016-08-08 20:10]
- * @update Aniu[2016-10-14 09:37]
- * @version v1.3.5
+ * @update Aniu[2016-10-14 23:31]
+ * @version v1.4.1
  * @description 日历
  */
  
@@ -227,8 +227,11 @@
             
             return ({
 				//重设options值
-                setOptions:function(key, val){
-                    if(key || val){
+                set:function(key, val){
+					if(key === 'value'){
+						that.setVal(val||'')
+					}
+                    else if(key || val){
                         if($.isPlainObject(key)){
                             that.options = $.extend(that.options, key);
                         }
@@ -237,27 +240,43 @@
                         }
                         that.run(true);
                     }
-                    else{
-                        that.options = $.extend(that.options, that.optionsCache);
-                    }
                     return this
                 },
+				//获取options值
+				get:function(key){
+					if(!key){
+						return that.options
+					}
+					else if(key === 'value'){
+						return that.setVal(false)||''
+					}
+					else{
+						return that.options[key]
+					}
+				},
 				//显示组件
                 show:function(){
 					that.run();
                     return this
 				},
 				//隐藏组件
-                hide:function(remove){
+                hide:function(flag){
 					that.hide();
-                    if(remove === true){
+                    if(flag === true){
                         that.elem.remove();
                         that.elem = null
                     }
                     return this
 				},
+				//销毁组件
+				destory:function(){
+					this.hide(true)
+					opts.target.off(opts.event||'click', that.eventCallback)
+					delete Calendar.box[that.index]
+				},
+				//重置日历为初始状态
 				reset:function(){
-					that.createBody(true);
+					that.options = $.extend(that.options, that.optionsCache);
                     return this
 				}
             });
@@ -276,10 +295,13 @@
             if(!that.elem){
                 that.createWrap();
             }
-            
+
             that.initVal();
-            
             that.show();
+			if($.isPlainObject(opts.ajax)){
+				
+				that.createBody(true)
+			}
         },
         initVal:function(){
             var that = this, opts = that.options;
@@ -1061,9 +1083,15 @@
             if(target){
                 var elem = that.target.get(0);
                 if(elem.nodeName === 'INPUT' || elem.nodeName === 'TEXTAREA'){
+					if(val === false){
+						return target.val()
+					}
                     target.val(val);
                 }
                 else if(elem != document){
+					if(val === false){
+						return target.text()
+					}
                     target.text(val);
                 }
             }
@@ -1188,16 +1216,20 @@
                 event.stopPropagation ? event.stopPropagation() : (event.cancelBubble = true)
             }
             
-            if(options.target && (event === undefined || target === null || target === document)){
+			if(target === document){
+				target = null;
+			}
+			
+            if(options.target && (event === undefined || target === null)){
                 options.target = $(options.target);
                 var calendar = Calendar.box[options.target.data('calendarindex')] || new Calendar(options);
-                options.target.on(options.event||'click', function(e){
-                    console.log(calendar)
+				calendar.eventCallback = function(e){
                     if(!options.target.hasClass('s-dis') && !options.target.prop('disabled')){
                         calendar.run();
                     }
                     e.stopPropagation();
-                });
+                }
+                options.target.on(options.event||'click', calendar.eventCallback);
                 return calendar.init(false);
             }
             else{
@@ -1208,16 +1240,5 @@
     })
     
     $.calendar.date = Calendar.format;
-    
-    $.calendar.hide = function(theme){
-        if(typeof theme == 'string'){
-            
-        }
-        else if($.isArray(theme)){
-            
-        }
-        else{
-            
-        }
-    }
+
 })(this, document, jQuery);

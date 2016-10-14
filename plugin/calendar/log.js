@@ -1,5 +1,12 @@
 var LOG = {
     list:[{
+        ver:'v1.4.1',
+        date:'2016-10-14',
+        desc:[
+            '1.修改实例方法setOptions名称为“set”',
+			'2.增加实例方法：get、destory、reset'
+        ]
+    },{
         ver:'v1.3.4',
         date:'2016-10-14',
         desc:[

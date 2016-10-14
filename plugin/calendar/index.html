@@ -102,7 +102,7 @@
                             <h3>ajax日历</h3>
                             <div class="calendar"></div>
                             <pre class="brush:js;">
-                            var calendar = $.calendar({
+                            $.calendar({
 								container:'.calendar',
 								ishide:false,
 								button:[],
@@ -171,13 +171,10 @@
 									return tpl;
 								}
 							});
-							
-							calendar.reset();
                             </pre>
                             
                             <h3 class="e-pt15">选择日期</h3>
                             <input type="text" class="ui-input ui-input-short" id="time" readonly="readonly" />
-                            <a id="reset">重置</a>
                             <pre class="brush:js;">
                             $.calendar({
 								target:'#time',
@@ -192,13 +189,14 @@
                             
                             <h3 class="e-pt15">选择时间段1</h3>
                             <input type="text" class="ui-input ui-input-short" id="starttime" readonly="readonly" /> ~ <input type="text" class="ui-input ui-input-short" id="endtime" readonly="readonly" />
+							<a id="reset">重置</a>
                             <pre class="brush:js;">
                             var starttime = $.calendar({
 								target:'#starttime',
 								istime:true,
 								format:'yyyy-MM-dd hh:mm:ss',
 								onchoose:function(dates){
-									endtime.setOptions({
+									endtime.set({
 										'min':dates[0],
 										'initime':dates[0]
 									})
@@ -210,12 +208,17 @@
 								format:'yyyy-MM-dd hh:mm:ss',
 								istime:true,
 								onchoose:function(dates){
-									starttime.setOptions({
+									starttime.set({
 										'max':dates[0],
 										'initime':dates[0]
 									})
 								}
 							});
+							
+							$('#reset').click(function(){
+								startdate.set('value', '').reset();
+								enddate.set('value', '').reset();
+							})
                             </pre>
                             
                             <h3 class="e-pt15">选择时间段2</h3>
@@ -634,14 +637,44 @@
                                 </thead> 
                                 <tbody> 
                                     <tr>
-                                        <td rowspan="2">setOptions</td>
+                                        <td rowspan="2">set</td>
                                         <td>key</td>
                                         <td></td>
-                                        <td rowspan="2">设置组件参数</td>
+                                        <td rowspan="2">设置options，key为options键，val为options值，若key值为“value”，则为设置target值</td>
                                     </tr>
                                     <tr>
-                                        <td>value</td>
+                                        <td>val</td>
                                         <td></td>
+                                    </tr>
+									<tr>
+                                        <td>get</td>
+                                        <td>key</td>
+                                        <td></td>
+                                        <td>获取options，key为options键，若key值为“value”，则为获取target值</td>
+                                    </tr>
+									<tr>
+                                        <td>show</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>显示组件</td>
+                                    </tr>
+									<tr>
+                                        <td>hide</td>
+                                        <td>flag</td>
+                                        <td></td>
+                                        <td>隐藏组件，flag值为true时，则会将组件DOM元素移除</td>
+                                    </tr>
+									<tr>
+                                        <td>destory</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>销毁组件，会删除DOM元素并且实例对象会从内存中删除</td>
+                                    </tr>
+									<tr>
+                                        <td>reset</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>重置日历组件为初始状态</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -727,7 +760,7 @@
     </script>
     <script type="text/javascript">
 
-    setTimeout(function(){
+    $(function(){
         $.calendar({
             container:'.simple-calendar',
             button:[],
@@ -735,7 +768,7 @@
             ishide:false
         })
         
-        var calendar = $.calendar({
+        $.calendar({
             container:'.calendar',
             ishide:false,
             button:[],
@@ -805,8 +838,6 @@
             }
         });
         
-        calendar.reset();
-        
         $.calendar({
             target:'#time',
             format:'yyyy-MM-dd hh:mm',
@@ -817,35 +848,34 @@
             min:'2016-08-01 20:05'
         });
         
-        $('#reset').click(function(){
-            endtime.setOptions('reset')
-            starttime.setOptions('reset')
-            $('#endtime, #starttime').val('');
-        })
-        
-        var starttime = $.calendar({
+        var startdate = $.calendar({
             target:'#starttime',
             istime:true,
             format:'yyyy-MM-dd hh:mm:ss',
             onchoose:function(dates){
-                endtime.setOptions({
+                enddate.set({
                     'min':dates[0],
                     'initime':dates[0]
                 })
             }
         });
         
-        var endtime = $.calendar({
+        var enddate = $.calendar({
             target:'#endtime',
             format:'yyyy-MM-dd hh:mm:ss',
             istime:true,
             onchoose:function(dates){
-                starttime.setOptions({
+                startdate.set({
                     'max':dates[0],
                     'initime':dates[0]
                 })
             }
         });
+		
+		$('#reset').click(function(){
+			startdate.set('value', '').reset();
+			enddate.set('value', '').reset();
+		})
         
         $.calendar({
             target:'#scope',
