@@ -177,6 +177,7 @@
                             
                             <h3 class="e-pt15">选择日期</h3>
                             <input type="text" class="ui-input ui-input-short" id="time" readonly="readonly" />
+                            <a id="reset">重置</a>
                             <pre class="brush:js;">
                             $.calendar({
 								target:'#time',
@@ -815,6 +816,12 @@
             max:'2016-10-01 10:10',
             min:'2016-08-01 20:05'
         });
+        
+        $('#reset').click(function(){
+            endtime.setOptions('reset')
+            starttime.setOptions('reset')
+            $('#endtime, #starttime').val('');
+        })
         
         var starttime = $.calendar({
             target:'#starttime',

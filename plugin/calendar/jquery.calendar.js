@@ -85,6 +85,8 @@
 			//编辑单元格
 			editcell:null
         }, options||{});
+        //将options备份，重置时将更改的选项还原
+        that.optionsCache = $.extend({}, that.options)
         that.index = Calendar.index++;
         Calendar.box[that.index] = that;
     }, win = $(window), doc = $(document);
@@ -203,6 +205,7 @@
         constructor:Calendar,
         init:function(init){
             var that = this, opts = that.options;
+            
             if(opts.iscope){
                 opts.isclose = false;
             }
@@ -234,17 +237,28 @@
                         }
                         that.run(true);
                     }
+                    else{
+                        that.options = $.extend(that.options, that.optionsCache);
+                    }
+                    return this
                 },
 				//显示组件
                 show:function(){
 					that.run();
+                    return this
 				},
 				//隐藏组件
                 hide:function(remove){
-					that.hide(remove);
+					that.hide();
+                    if(remove === true){
+                        that.elem.remove();
+                        that.elem = null
+                    }
+                    return this
 				},
 				reset:function(){
 					that.createBody(true);
+                    return this
 				}
             });
         },
@@ -1102,20 +1116,12 @@
             that.elem.show();
         },
         //隐藏组件
-        hide:function(remove){
+        hide:function(){
             var that = this;
             try{
                 Calendar.current = -1;
-            	if(!remove){
-            		that.elem.hide();
-            		that.options.onhide(that.elem);
-            	}
-            	else{
-            		that.elem.remove();
-                    that.options.target.removeData('calendarindex');
-            		that.options.onhide();
-            		delete Calendar.box[that.index]
-            	}
+            	that.elem.hide();
+                that.options.onhide(that.elem);
             }
             catch(e){}
         },
@@ -1186,6 +1192,7 @@
                 options.target = $(options.target);
                 var calendar = Calendar.box[options.target.data('calendarindex')] || new Calendar(options);
                 options.target.on(options.event||'click', function(e){
+                    console.log(calendar)
                     if(!options.target.hasClass('s-dis') && !options.target.prop('disabled')){
                         calendar.run();
                     }
@@ -1199,5 +1206,18 @@
             }
         }
     })
+    
     $.calendar.date = Calendar.format;
+    
+    $.calendar.hide = function(theme){
+        if(typeof theme == 'string'){
+            
+        }
+        else if($.isArray(theme)){
+            
+        }
+        else{
+            
+        }
+    }
 })(this, document, jQuery);
