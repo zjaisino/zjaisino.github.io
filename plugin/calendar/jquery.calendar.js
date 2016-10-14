@@ -314,7 +314,7 @@
             that.container = $(opts.container || 'body');
             that.elem = $('<div class="ui-calendar" style="display:none;"></div>').appendTo(that.container);
 			if(opts.drowdown > 0){
-				that.elem.addClass('ui-calendar-selectime')
+				that.elem.addClass('ui-calendar-dropdown')
 			}
 			else if(opts.ismonth){
 				that.elem.addClass('ui-calendar-month')
