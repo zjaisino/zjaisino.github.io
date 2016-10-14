@@ -243,6 +243,7 @@
                 hide:function(){
 					that.hide();
 				},
+				
 				reset:function(){
 					that.createBody(true);
 				}
@@ -1086,7 +1087,6 @@
         show:function(){
             var that = this, opts = that.options;
             that.body = that.elem.html(that.createContent()).find('.ui-calendar-body');
-            that.resize();
             if(opts.ishide){
                 $.each(Calendar.box, function(key, val){
                     if(val.index !== that.index && val.options.ishide){
@@ -1098,16 +1098,24 @@
 			if(opts.drowdown > 0){
 				that.resetSize()
 			}
+			that.resize();
             opts.onshow(that.elem);
             that.elem.show();
         },
         //隐藏组件
-        hide:function(){
+        hide:function(remove){
             var that = this;
             try{
-                that.elem.hide();
                 Calendar.current = -1;
-                that.options.onhide(that.elem);
+            	if(!remove){
+            		that.elem.hide();
+            		that.options.onhide(that.elem);
+            	}
+            	else{
+            		that.elem.remove();
+            		that.options.onhide();
+            		delete Calendar.box[that.index]
+            	}
             }
             catch(e){}
         },
