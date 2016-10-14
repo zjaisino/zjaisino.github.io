@@ -240,10 +240,9 @@
 					that.run();
 				},
 				//隐藏组件
-                hide:function(){
-					that.hide();
+                hide:function(remove){
+					that.hide(remove);
 				},
-				
 				reset:function(){
 					that.createBody(true);
 				}
@@ -1113,6 +1112,7 @@
             	}
             	else{
             		that.elem.remove();
+                    that.options.target.removeData('calendarindex');
             		that.options.onhide();
             		delete Calendar.box[that.index]
             	}
@@ -1184,8 +1184,7 @@
             
             if(options.target && (event === undefined || target === null || target === document)){
                 options.target = $(options.target);
-                var calendarindex = options.target.data('calendarindex');
-                var calendar = Calendar.box[calendarindex] || new Calendar(options);
+                var calendar = Calendar.box[options.target.data('calendarindex')] || new Calendar(options);
                 options.target.on(options.event||'click', function(e){
                     if(!options.target.hasClass('s-dis') && !options.target.prop('disabled')){
                         calendar.run();
@@ -1196,7 +1195,7 @@
             }
             else{
                 options.target = $(options.target||target);
-                return new Calendar(options).init();
+                return (Calendar.box[options.target.data('calendarindex')] || new Calendar(options)).init()
             }
         }
     })
