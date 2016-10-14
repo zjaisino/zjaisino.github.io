@@ -191,27 +191,33 @@
                             <input type="text" class="ui-input ui-input-short" id="starttime" readonly="readonly" /> ~ <input type="text" class="ui-input ui-input-short" id="endtime" readonly="readonly" />
 							<a id="reset">重置</a>
                             <pre class="brush:js;">
-                            var starttime = $.calendar({
+                            var startdate = $.calendar({
 								target:'#starttime',
 								istime:true,
 								format:'yyyy-MM-dd hh:mm:ss',
 								onchoose:function(dates){
-									endtime.set({
+									enddate.set({
 										'min':dates[0],
 										'initime':dates[0]
 									})
+									if(!enddate.get('value')){
+										enddate.show()
+									}
 								}
 							});
 							
-							var endtime = $.calendar({
+							var enddate = $.calendar({
 								target:'#endtime',
 								format:'yyyy-MM-dd hh:mm:ss',
 								istime:true,
 								onchoose:function(dates){
-									starttime.set({
+									startdate.set({
 										'max':dates[0],
 										'initime':dates[0]
 									})
+									if(!startdate.get('value')){
+										startdate.show()
+									}
 								}
 							});
 							
@@ -857,6 +863,9 @@
                     'min':dates[0],
                     'initime':dates[0]
                 })
+				if(!enddate.get('value')){
+					enddate.show()
+				}
             }
         });
         
@@ -869,6 +878,9 @@
                     'max':dates[0],
                     'initime':dates[0]
                 })
+				if(!startdate.get('value')){
+					startdate.show()
+				}
             }
         });
 		
