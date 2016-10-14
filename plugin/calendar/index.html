@@ -297,9 +297,20 @@
                             </pre>
 							
 							<h3 class="e-pt15">选择时分秒</h3>
-                            <input type="text" class="ui-input ui-input-short" id="onlytime" readonly="readonly" />
+                            <input type="text" class="ui-input ui-input-short" id="onlytime" readonly="readonly" value="08:30" />
                             <pre class="brush:js;">
-							
+							$.calendar({
+                                target:'#onlytime',
+                                format:'hh:mm',
+                                drowdown:7,
+                                button:[{
+                                    name:'clear',
+                                    text:'清除'
+                                },{
+                                    name:'confirm',
+                                    text:'确定'
+                                }]
+                            });
                             </pre>
                             
                             <h3 class="e-pt15">获取4天后的日期</h3>
@@ -398,6 +409,13 @@
                                         <td>6</td>
                                         <td>1 ~ 12之间</td>
                                         <td>当只显示月时，月份一行显示数量</td>
+                                    </tr>
+                                    <tr>
+                                        <td>drowdown</td>
+                                        <td>Number</td>
+                                        <td>0</td>
+                                        <td>正整数</td>
+                                        <td>下拉模式显示数量，大于0则开启下拉模式</td>
                                     </tr>
                                     <tr>
                                         <td>istride</td>
@@ -874,7 +892,14 @@
 		$.calendar({
             target:'#onlytime',
 			format:'hh:mm',
-            showtime:6
+            drowdown:7,
+            button:[{
+                name:'clear',
+                text:'清除'
+            },{
+                name:'confirm',
+                text:'确定'
+            }]
         });
         
         $('.multi').click(function(){

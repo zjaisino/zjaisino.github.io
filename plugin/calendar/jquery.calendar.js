@@ -1,8 +1,8 @@
 /**
  * @filename jquery.calendar.js
  * @author Aniu[2016-08-08 20:10]
- * @update Aniu[2016-10-13 15:47]
- * @version v1.3.3
+ * @update Aniu[2016-10-14 09:37]
+ * @version v1.3.5
  * @description 日历
  */
  
@@ -32,6 +32,8 @@
             yearcount:6,
             //当只显示月时，月份一行显示数量
             monthcount:6,
+            //下拉模式显示数量，大于0则开启
+			drowdown:0,
             //是否允许跨年或月
             istride:true,
             //是否显示2个日历面板
@@ -56,11 +58,6 @@
             iscope:false,
             //异步加载数据
 			ajax:null,
-			//时分秒下拉模式
-			showtime:{
-				count:0,
-				height:0
-			},
             //显示按钮
             button:[{
                 name:'clear',
@@ -119,6 +116,40 @@
 	
 	Calendar.time = {hour:'小时', minute:'分钟', second:'秒数'};
     
+    Calendar.getSize = function(selector, dir, attr){
+        var size = 0;
+        attr = attr || 'border';
+        dir = dir || 'tb';
+        if(attr === 'all'){
+            return Calendar.getSize(selector, dir) + Calendar.getSize(selector, dir, 'padding');
+        }
+        var arr = [{
+            border:{
+                lr:['LeftWidth', 'RightWidth'],
+                tb:['TopWidth', 'BottomWidth']
+            }
+        }, {
+            padding:{
+                lr:['Left', 'Right'],
+                tb:['Top', 'Bottom']
+            }
+        }, {
+            margin:{
+                lr:['Left', 'Right'],
+                tb:['Top', 'Bottom']
+            }
+        }];
+        $.each(arr, function(key, val){
+            if(val[attr]){
+                $.each(val[attr][dir], function(k, v){
+                    var value = parseInt(selector.css(attr+v));
+                    size += isNaN(value) ? 0 : value;
+                });
+            }
+        });
+        return size;
+    }
+    
     Calendar.format = function(scope, format, flag){
         var date, timestamp;
         if(typeof scope === 'number'){
@@ -176,7 +207,7 @@
                 opts.isclose = false;
             }
             
-			if(opts.ismonth || opts.showtime > 0){
+			if(opts.ismonth || opts.drowdown > 0){
                 opts.istime = false;
             }
             
@@ -282,7 +313,7 @@
             var that = this, opts = that.options;
             that.container = $(opts.container || 'body');
             that.elem = $('<div class="ui-calendar" style="display:none;"></div>').appendTo(that.container);
-			if(opts.showtime > 0){
+			if(opts.drowdown > 0){
 				that.elem.addClass('ui-calendar-selectime')
 			}
 			else if(opts.ismonth){
@@ -415,7 +446,7 @@
         //创建主体
         createBody:function(flag){
             var that = this, opts = that.options, tpl = '';
-			if(opts.showtime > 0){
+			if(opts.drowdown > 0){
 				var format = opts.format;
 				if((/h+/g).test(format)){
 					tpl += that.createTime('hour', that.getTimeArr(23), that.startime[3], true);
@@ -740,7 +771,7 @@
             var that = this, opts = that.options;
             that.elem.on('click', function(e){
                 that.elem.find('.ui-calendar-tab dd').remove();
-				if(opts.showtime<=0){
+				if(opts.drowdown<=0){
 					that.elem.find('.ui-calendar-time').remove();
 				}
                 e.stopPropagation();
@@ -861,7 +892,7 @@
 				e.stopPropagation()
 			});
 			
-			if(opts.showtime > 0){
+			if(opts.drowdown > 0){
 				that.elem.on('click', '.ui-calendar-timebody span', function(){
                     var me = $(this);
                     if(!me.hasClass('s-dis')){
@@ -1064,8 +1095,8 @@
                 })
                 Calendar.current = that.index;    
             }
-			if(opts.showtime > 0){
-				that.resetHeight()
+			if(opts.drowdown > 0){
+				that.resetSize()
 			}
             opts.onshow(that.elem);
             that.elem.show();
@@ -1099,19 +1130,22 @@
             }
             catch(e){}
         },
-		resetHeight:function(){
+		resetSize:function(){
 			var that = this, opts = that.options;
+            var width = 0;
 			that.elem.find('.ui-calendar-time').each(function(){
 				var time = $(this);
 				var span = time.find('span');
 				var height = span.outerHeight();
-				time.height(height*opts.showtime);
-				var mid = Math.floor(opts.showtime/2);
+                width += time.outerWidth() + Calendar.getSize(time, 'lr', 'margin');
+				time.height(height*opts.drowdown);
+				var mid = Math.floor(opts.drowdown/2);
 				var crt = time.find('span.s-crt').index() - mid;
 				setTimeout(function(){
 					time.scrollTop(crt > 0 ? crt*height : 0)
 				})
 			})
+            that.elem.width(width + Calendar.getSize(that.elem.find('.ui-calendar-body'), 'lr', 'all'))
 		}
     }
 	
