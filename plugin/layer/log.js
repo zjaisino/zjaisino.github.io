@@ -1,5 +1,11 @@
 var LOG = {
     list:[{
+        ver:'v3.3.6',
+        date:'2016-10-15',
+        desc:[
+            '1.移除<div class="ui-layer-body"></div>'
+        ]
+    }, {
         ver:'v3.3.4',
         date:'2016-07-06',
         desc:[

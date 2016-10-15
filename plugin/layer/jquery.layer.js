@@ -1,8 +1,8 @@
 /**
  * @filename jquery.layer.js
  * @author Aniu[2014-07-11 14:01]
- * @update Aniu[2016-08-23 16:56]
- * @version v3.3.5
+ * @update Aniu[2016-10-15 13:31]
+ * @version v3.3.6
  * @description 弹出层组件
  */
 
@@ -252,7 +252,6 @@
     
     Layer.prototype = {
         constructor:Layer,
-        version:'3.3.3',
         width:410,
         height:220,
         offset:{
@@ -314,7 +313,7 @@
                 title = options.title.text ? options.title.text : that.title;
                 html += '<div class="ui-layer-title"><span>'+ title +'</span></div>';
             }
-            html += '<div class="ui-layer-body"><div class="ui-layer-main">';
+            html += '<div class="ui-layer-main">';
             if(options.iframe.enable === true){
                 html += that.createIframe();
             }
@@ -323,7 +322,7 @@
                     html += options.content;
                 }
             }
-            html += '</div></div>';
+            html += '</div>';
             if(!$.isPlainObject(options.button)){
                 options.button = {};
             }
@@ -360,8 +359,13 @@
             }
             html += '</div></div>';
             that.layer = $(html).appendTo(options.container);
+			that.layer.box = that.layer.find('.ui-layer-box');
+			that.layer.title = that.layer.find('.ui-layer-title');
+			that.layer.main = that.layer.find('.ui-layer-main');
+			that.layer.foot = that.layer.find('.ui-layer-foot');
+			that.layer.button = that.layer.find('.ui-layer-button');
             if(typeof options.content === 'object'){
-                that.layer.find('.ui-layer-main').html(options.content);
+                that.layer.main.html(options.content);
             }
             if(options.iframe.enable === true){
                 that.iframe = that.layer.find('iframe[name="layer-iframe-'+ that.index +'"]');
@@ -401,8 +405,8 @@
             return $('<div class="ui-layer-movemask'+ theme +'" style="z-index:'+ zIndex +';"></div>').appendTo(options.container);
         },
         bindMove:function(){
-            var that = this, options = that.options, layer = that.layer, title = that.layer.find('.ui-layer-title'), isMove = false, x, y, mx, my;
-            that.bindEvent(title, 'mousedown', function(e){
+            var that = this, options = that.options, layer = that.layer, isMove = false, x, y, mx, my;
+            that.bindEvent(layer.title, 'mousedown', function(e){
                 isMove = true;
                 that.setzIndex();
                 if(options.isMoveMask === true){
@@ -440,7 +444,7 @@
             that.bindEvent(doc, 'mouseup', function(){
                 if(isMove){
                     isMove = false;
-                    title.css({cursor:'default'});
+                    that.layer.title.css({cursor:'default'});
                     mx = mx || that.offset.left;
                     my = my || that.offset.top;
                     if(options.isMoveMask === true){
@@ -456,21 +460,19 @@
         },
         bindBtnClick:function(){
             var that = this, layer = that.layer, 
-                options = that.options,
-                main = layer.find('.ui-layer-main'),
-                button = layer.find('.ui-layer-button');
+                options = that.options;
             layer.on('click', function(){
                options.isSticky === true && that.setzIndex();
             });
-            button.on('click', function(e){
+            layer.button.on('click', function(e){
                 var me = $(this), btnid = me.attr('btnid'), callback = options.button[btnid].callback;
                 if(btnid === 'confirm'){
-                    if(typeof callback === 'function' && callback(main, that.index, me, e) === true){
+                    if(typeof callback === 'function' && callback(layer.main, that.index, me, e) === true){
                         that.hide();
                     }
                 }
                 else{
-                    if(typeof callback !== 'function' || (typeof callback === 'function' && callback(main, that.index, me, e) !== false)){
+                    if(typeof callback !== 'function' || (typeof callback === 'function' && callback(layer.main, that.index, me, e) !== false)){
                         that.hide();
                     }
                 }
@@ -511,11 +513,10 @@
             }
         },
         layerResize:function(){
-            var that = this, options = that.options, layer = that.layer, bodyHeight, contentHeight, height, box = layer.children('.ui-layer-box'), 
-                head = box.children('.ui-layer-title'), body = box.children('.ui-layer-body'), main = body.children('.ui-layer-main'), 
-                winStop = that.wrap.scrollTop(), winSleft = that.wrap.scrollLeft(), foot = box.children('.ui-layer-foot'), headHeight = head.outerHeight(), 
-                footHeight = foot.outerHeight(), ptb = Layer.getSize(layer, 'tb', 'padding'), bbd = Layer.getSize(body), bl = Layer.getSize(layer), 
-                bb = Layer.getSize(box), blt = Layer.getSize(layer, 'lr'), extd = {}, speed = 400, wheight = that.wrap.outerHeight() - options.padding, 
+            var that = this, options = that.options, layer = that.layer, bodyHeight, contentHeight, height, 
+                winStop = that.wrap.scrollTop(), winSleft = that.wrap.scrollLeft(), headHeight = layer.title.outerHeight(), 
+                footHeight = layer.foot.outerHeight(), ptb = Layer.getSize(layer, 'tb', 'padding'), bbd = Layer.getSize(layer.main), bl = Layer.getSize(layer), 
+                bb = Layer.getSize(layer.box), blt = Layer.getSize(layer, 'lr'), extd = {}, speed = 400, wheight = that.wrap.outerHeight() - options.padding, 
                 wwidth = that.wrap.outerWidth() - options.padding, isiframe = typeof that.iframe === 'object', outerHeight = headHeight + footHeight + ptb + bbd + bl + bb;
 
             if(isiframe){
@@ -525,12 +526,21 @@
                 contentHeight = iframeHtml.children('body').outerHeight();
             }
             else{
-                contentHeight = main.outerHeight();
+				//如果内容区域子元素为多个，无法获取准确的高度，因此创建一个div容器来获取高度
+				var content = layer.main.children();
+				if(content.length > 1){
+					layer.main.wrapInner('<div style="position:static; display:block; padding:0; margin:0; height:auto; width:auto; border:none; overflow:hidden; background:none;"></div>')
+					contentHeight = layer.main.children().height();
+					content.unwrap()
+				}
+				else{
+					contentHeight = main.outerHeight();
+				}
             }
             
             if(options.height === 'auto' && options.maxHeight > 0 && that.maxBodyHeight !== undefined && contentHeight > that.maxBodyHeight){
                 that.size.height = options.height = options.maxHeight;
-                body.height(that.maxBodyHeight);
+                layer.main.height(that.maxBodyHeight);
             }
             
             if(isiframe){
@@ -549,19 +559,9 @@
                     contentHeight += outerHeight;
                     if(contentHeight > wheight){
                         that.size.height = wheight;
-                        body.css({'overflow-y':'auto', 'overflow-x':'auto'});
                     }
                     else{
                         that.size.height = contentHeight;
-                        body.css({'overflow':'visible'});
-                    }
-                }
-                else{
-                    if(contentHeight > body.height()){
-                        body.css({'overflow-y':'auto', 'overflow-x':'auto'});
-                    }
-                    else{
-                        body.css({'overflow':'visible'});
                     }
                 }
             }
@@ -583,21 +583,20 @@
             }
             height = that.size.height - ptb - bl;
             bodyHeight = height - bb - headHeight - footHeight - bbd;
-            body.stop(true, false).animate({height:bodyHeight}, options.isAnimate === true ? speed : 0);
+            layer.main.stop(true, false).animate({height:bodyHeight}, options.isAnimate === true ? speed : 0);
             isiframe && that.iframe.stop(true, false).animate({height:bodyHeight}, options.isAnimate === true ? speed : 0);
             layer.stop(true, false).animate($.extend({top:that.offset.top, left:that.offset.left, height:height}, extd), options.isAnimate === true ? speed : 0, function(){
                 if(Layer.bsie6 && options.isFixed === true){
                     that.offset.winTop = that.offset.top - winStop;
                     that.offset.winLeft = that.offset.left - winSleft;
                 }
-                typeof options.onResizeEvent === 'function' && options.onResizeEvent(main, that.index);
+				!isiframe && layer.main.css({'overflow':'auto'});
+                typeof options.onResizeEvent === 'function' && options.onResizeEvent(layer.main, that.index);
             });
         },
         show:function(){
             var that = this, options = that.options, layer = that.layer, bodyHeight, winStop = that.wrap.scrollTop(), winSleft = that.wrap.scrollLeft(),
-                theme = options.theme ? ' t-mask-'+options.theme : '', showType = options.isFadein === true ? 'fadeIn' : 'show',
-                box = layer.children('.ui-layer-box'), head = box.children('.ui-layer-title'), body = box.children('.ui-layer-body'),
-                main = body.children('.ui-layer-main'), foot = box.children('.ui-layer-foot');
+                theme = options.theme ? ' t-mask-'+options.theme : '', showType = options.isFadein === true ? 'fadeIn' : 'show';
             if(options.isFixed === true && !Layer.bsie6){
                 winStop = 0;
                 winSleft = 0;
@@ -607,11 +606,8 @@
             that.size.height = layer.outerHeight();
             if(options.padding>=0 && layer.outerHeight() > that.wrap.outerHeight() - options.padding){
                 that.size.height = layer.height(that.wrap.outerHeight() - options.padding - Layer.getSize(layer, 'tb', 'all')).outerHeight();
-                body.css({'overflow-y':'auto', 'overflow-x':'auto'});
             }
-            else{
-                body.css({'overflow':'visible'});
-            }
+
             that.offset.top = parseInt(options.offset.top);
             that.offset.left = parseInt(options.offset.left);
             that.offset.top = (isNaN(that.offset.top) ? ((that.wrap.outerHeight() - that.size.height) / 2) : that.offset.top) + winStop;
@@ -658,21 +654,19 @@
             }
             
             layer.css({margin:0, top:that.offset.top, left:that.offset.left})[showType]();
-            var innerHeight = Layer.getSize(box, 'tb', 'all') +
-                              head.outerHeight() + foot.outerHeight() + 
-                              Layer.getSize(body, 'tb', 'all');
+            var innerHeight = Layer.getSize(layer.box, 'tb', 'all') +
+                              layer.title.outerHeight() + layer.foot.outerHeight() + 
+                              Layer.getSize(layer.main, 'tb', 'all');
             bodyHeight = layer.height() - innerHeight;
             if(options.maxHeight > 0 && options.maxHeight < that.wrap.outerHeight() - options.padding){
                 that.maxBodyHeight = options.maxHeight - Layer.getSize(layer, 'tb', 'all') - innerHeight;
             }
-            body.css({height:bodyHeight});
-            if(options.height > 0 && main.outerHeight() > body.height()){
-                body.css({'overflow-y':'auto', 'overflow-x':'auto'});
-            }
+            layer.main.css({height:bodyHeight});
+
             if(options.iframe.enable === true){
-                body.css({overflow:'hidden'});
+                layer.main.css({overflow:'hidden'});
             }
-            layer.css({overflow:'visible'});
+
             that.bindBtnClick();
             if(options.isCenter === true){
                 that.bindEvent(win, 'resize', function(){
@@ -683,7 +677,7 @@
                 }
             }
             if(typeof options.onShowEvent === 'function'){
-                options.onShowEvent(main, that.index);
+                options.onShowEvent(layer.main, that.index);
             }
             if(options.timer > 0){
                 that.timer = setTimeout(function(){
@@ -693,7 +687,7 @@
             return that;
         },
         hide:function(){
-            var that = this, options = that.options, layer = that.layer, main = layer.find('.ui-layer-main'), xMask = true;
+            var that = this, options = that.options, layer = that.layer, xMask = true;
             layer.remove();
             that.unbindEvent();
             delete Layer.listArray[that.index];
@@ -714,8 +708,8 @@
                 clearTimeout(that.timer);
             }
             if(typeof options.onHideEvent === 'function'){
-                options.onHideEvent(main, that.index);
-                main.remove();
+                options.onHideEvent(layer.main, that.index);
+                layer.main.remove();
             }
         }
     }
