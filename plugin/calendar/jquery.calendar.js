@@ -87,7 +87,7 @@
         }, options||{});
         //将options备份，重置时将更改的选项还原
         that.optionsCache = $.extend({}, that.options)
-        that.index = Calendar.index++;
+        that.index = Calendar.id++;
         Calendar.box[that.index] = that;
     }, win = $(window), doc = $(document);
     
@@ -107,7 +107,10 @@
     Calendar.box = {};
     
     //给实例绑定唯一id
-    Calendar.index = 0;
+    Calendar.id = 0;
+	
+	//target上增加属性存储id
+	Calendar.attr = '_calendarid_';
     
     //当前显示的id
     Calendar.current = -1;
@@ -215,7 +218,7 @@
             }
             
             if(opts.target){
-                that.target = opts.target.data('calendarindex', that.index);
+                that.target = opts.target.attr(Calendar.attr, that.index);
             }
             
             if(init !== false){
@@ -271,7 +274,7 @@
 				//销毁组件
 				destory:function(){
 					this.hide(true)
-					opts.target.off(opts.event||'click', that.eventCallback)
+					opts.target.removeAttr(Calendar.attr).off(opts.event||'click', that.eventCallback)
 					delete Calendar.box[that.index]
 				},
 				//重置日历为初始状态
@@ -846,13 +849,19 @@
                                 startime = data;
                             }
                         }
-                        initime = data;
-                        if(me.hasClass('s-crt')){
-                            startime = initime;
-                        }
+						if(!that.equal(initime, startime)){
+							startime = initime = data;
+							me.addClass('s-crt');
+						}
                         else{
-                            me.addClass('s-crt');
-                        }
+							initime = data;
+							if(me.hasClass('s-crt')){
+								startime = initime;
+							}
+							else{
+								me.addClass('s-crt');
+							}
+						}
                         that.elem.find('[scope]').removeClass('s-crt');
                     }
                     else{
@@ -1118,6 +1127,17 @@
             }
             return date;
         },
+		//判断2个数组是否键值相等
+		equal:function(arr1, arr2){
+			var flag = true, i = 0, len = arr1.length;
+			for(i; i<len; i++){
+				if(arr1[i] != arr2[i]){
+					flag = false;
+					break;
+				}
+			}
+			return flag
+		},
         //补齐0
         mend:function(day){
             day = day.toString();
@@ -1222,7 +1242,7 @@
 			
             if(options.target && (event === undefined || target === null)){
                 options.target = $(options.target);
-                var calendar = Calendar.box[options.target.data('calendarindex')] || new Calendar(options);
+                var calendar = Calendar.box[options.target.attr(Calendar.attr)] || new Calendar(options);
 				calendar.eventCallback = function(e){
                     if(!options.target.hasClass('s-dis') && !options.target.prop('disabled')){
                         calendar.run();
@@ -1234,7 +1254,7 @@
             }
             else{
                 options.target = $(options.target||target);
-                return (Calendar.box[options.target.data('calendarindex')] || new Calendar(options)).init()
+                return (Calendar.box[options.target.attr(Calendar.attr)] || new Calendar(options)).init()
             }
         }
     })
