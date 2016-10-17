@@ -323,10 +323,16 @@
                             });
                             </pre>
                             
-                            <h3 class="e-pt15">获取4天后的日期</h3>
+                            <h3 class="e-pt15">格式化获取时间</h3>
                             <p id="four"></p>
+                            <p id="three"></p>
+                            <p id="lastday"></p>
                             <pre class="brush:js;">
-                            $('#four').text($.calendar.date(4));
+                            $('#four').text('4天后：'+$.calendar.date(4));
+                            
+                            $('#three').text('3天前：'+$.calendar.date(-3), 'yyyy/MM/dd');
+        
+                            $('#lastday').text('本月底：'+$.calendar.date($.calendar.date('yyyy-MM').split('-')));
                             </pre>
 							
 							<h3 class="e-pt15">定时日期</h3>
@@ -700,8 +706,8 @@
                                         <td></td>
                                         <td rowspan="3">
                                             获取格式化日期
-                                            <p>scope值0今天、-1昨天、-2前天、1明天、以此类推，当scope值为13位正整数时，将视其为时间戳，并返回该时间戳对应的日期，当scope值为字符串时，将视其为format，并返回当天的日期</p>
-                                            <p>format值为y(年) M(月) d(日) h(时) m(分) i(秒)组合的字符串年月日用“- /”分隔，时分秒用“:”分隔，如果值为布尔类型，将其视为flag参数</p>
+                                            <p>scope值0今天、-1昨天、-2前天、1明天、以此类推，若值为数组[年，月]，函数会返回该月月末</p>
+                                            <p>format值为y(年) M(月) d(日) h(时) m(分) i(秒)组合的字符串年月日用“- /”分隔，时分秒用“:”分隔</p>
                                             <p>flag布尔值，如果为true表示scope为时间戳，否则为天数</p>
                                         </td>
                                     </tr>
@@ -955,7 +961,11 @@
             $.calendar();
         });
         
-        $('#four').text($.calendar.date(4));
+        $('#four').text('4天后：'+$.calendar.date(4));
+        
+        $('#three').text('3天前：'+$.calendar.date(-3), 'yyyy/MM/dd');
+        
+        $('#lastday').text('本月底：'+$.calendar.date($.calendar.date('yyyy-MM').split('-')));
         
         setInterval(function(){
             $('#date').text($.calendar.date('yyyy-MM-dd hh:mm:ss'));

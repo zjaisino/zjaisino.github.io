@@ -1,5 +1,11 @@
 var LOG = {
     list:[{
+        ver:'v1.4.2',
+        date:'2016-10-17',
+        desc:[
+            '1.增加$.calendar.date方法功能，能够返回月份的最后一天'
+        ]
+    },{
         ver:'v1.4.1',
         date:'2016-10-14',
         desc:[

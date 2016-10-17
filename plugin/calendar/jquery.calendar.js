@@ -1,8 +1,8 @@
 /**
  * @filename jquery.calendar.js
  * @author Aniu[2016-08-08 20:10]
- * @update Aniu[2016-10-14 23:31]
- * @version v1.4.1
+ * @update Aniu[2016-10-17 16:00]
+ * @version v1.4.2
  * @description 日历
  */
  
@@ -170,6 +170,9 @@
             }
             date = new Date(timestamp);
         }
+        else if($.isArray(scope) && scope[0] && scope[1]){
+            date = new Date(scope[0], scope[1]-1, Calendar.getDay(scope[0], scope[1]));
+        }
         else{
             if(typeof scope === 'string'){
                 format = scope;
@@ -202,6 +205,15 @@
             return all;
         });
         return format;
+    }
+    
+    //获取所有月的天数
+    Calendar.getDay = function(year, month){
+        var arr = [31, ((year % 4) == 0 ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+        if(!month){
+            return arr
+        }
+        return arr[month-1]
     }
     
     Calendar.prototype = {
@@ -573,7 +585,7 @@
             if(week === 7){
                 week = 0;
             }
-            var monthArray = that.getMonth(year);
+            var monthArray = Calendar.getDay(year);
             var days = monthArray[month-1];
             for(a; a<43; a++){
                 if((a-1)%7 === 0){
@@ -1053,10 +1065,6 @@
                 that.initime[4] = that.startime[4] = time.minute;
                 that.initime[5] = that.startime[5] = time.second;
             }
-        },
-        //获取所有月的天数
-        getMonth:function(year){
-            return [31, ((year % 4) == 0 ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
         },
         getArr:function(time){
             var date = Calendar.format(time, this.options.ismonth ? 'yyyy MM 01 00 00 00' : 'yyyy MM dd hh mm ss', true);
