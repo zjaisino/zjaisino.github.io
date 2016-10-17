@@ -327,12 +327,15 @@
                             <p id="four"></p>
                             <p id="three"></p>
                             <p id="lastday"></p>
+                            <p id="special"></p>
                             <pre class="brush:js;">
                             $('#four').text('4天后：'+$.calendar.date(4));
                             
-                            $('#three').text('3天前：'+$.calendar.date(-3), 'yyyy/MM/dd');
+                            $('#three').text('3天前：'+$.calendar.date(-3, 'yyyy/MM/dd'));
         
                             $('#lastday').text('本月底：'+$.calendar.date($.calendar.date('yyyy-MM').split('-')));
+                            
+                            $('#special').text('特定时间：'+$.calendar.date(1476692463663, 'yyyy-MM-dd hh:mm:ss', true));
                             </pre>
 							
 							<h3 class="e-pt15">定时日期</h3>
@@ -963,9 +966,11 @@
         
         $('#four').text('4天后：'+$.calendar.date(4));
         
-        $('#three').text('3天前：'+$.calendar.date(-3), 'yyyy/MM/dd');
+        $('#three').text('3天前：'+$.calendar.date(-3, 'yyyy/MM/dd'));
         
         $('#lastday').text('本月底：'+$.calendar.date($.calendar.date('yyyy-MM').split('-')));
+        
+        $('#special').text('特定时间：'+$.calendar.date(1476692463663, 'yyyy-MM-dd hh:mm:ss', true));
         
         setInterval(function(){
             $('#date').text($.calendar.date('yyyy-MM-dd hh:mm:ss'));
