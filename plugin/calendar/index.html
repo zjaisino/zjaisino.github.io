@@ -307,7 +307,8 @@
                             </pre>
 							
 							<h3 class="e-pt15">选择时分秒</h3>
-                            <input type="text" class="ui-input ui-input-short" id="onlytime" readonly="readonly" value="08:30" />
+                            <input type="text" class="ui-input ui-input-short" id="onlytime" readonly="readonly" value="" />
+                            <input type="text" class="ui-input ui-input-short" id="onlytime2" readonly="readonly" value="" />
                             <pre class="brush:js;">
 							$.calendar({
                                 target:'#onlytime',
@@ -947,7 +948,7 @@
             });
         });
 		
-		$.calendar({
+		var start = $.calendar({
             target:'#onlytime',
 			format:'hh:mm',
             drowdown:7,
@@ -957,7 +958,32 @@
             },{
                 name:'confirm',
                 text:'确定'
-            }]
+            }],
+            onchoose:function(dates){
+                end.set({
+                    min:dates[0],
+                    initime:dates[0]
+                })
+            }
+        });
+        
+        var end = $.calendar({
+            target:'#onlytime2',
+			format:'hh:mm',
+            drowdown:7,
+            button:[{
+                name:'clear',
+                text:'清除'
+            },{
+                name:'confirm',
+                text:'确定'
+            }],
+            onchoose:function(dates){
+                start.set({
+                    max:dates[0],
+                    initime:dates[0]
+                })
+            }
         });
         
         $('.multi').click(function(){

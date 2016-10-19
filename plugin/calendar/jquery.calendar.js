@@ -320,8 +320,8 @@
         },
         initVal:function(){
             var that = this, opts = that.options;
-            that.max = opts.max ? that.getTime(Calendar.format(that.getTime(opts.max), 'yyyy-MM-dd', true)) : 0;
-            that.min = opts.min ? that.getTime(Calendar.format(that.getTime(opts.min), 'yyyy-MM-dd', true)) : 0;
+            that.max = opts.max ? that.getTime(Calendar.format(that.getTime(opts.max), opts.format||'yyyy-MM-dd', true)) : 0;
+            that.min = opts.min ? that.getTime(Calendar.format(that.getTime(opts.min), opts.format||'yyyy-MM-dd', true)) : 0;
             var val = '';
             
             if(that.target){
@@ -592,7 +592,7 @@
                     tpl += '<tr>';
                 }
                 if(a > week && b <= days){
-                    tpl += '<td data-year="'+ year +'" data-month="'+ month +'" data-day="'+ that.mend(b) +'"'+ that.setClass('cell', startime, that.getTime([year, month, b]), initime) +'><span>'+ that.editCell(that.mend(b)) +'</span></td>';
+                    tpl += '<td data-year="'+ year +'" data-month="'+ month +'" data-day="'+ that.mend(b) +'"'+ that.setClass('cell', startime, [year, month, b], initime) +'><span>'+ that.editCell(that.mend(b)) +'</span></td>';
                     b++;
                 }
                 else if(opts.isprev && a <= week && c <= week){
@@ -607,7 +607,7 @@
                     var start = end - week;
                     if(start+c <= end){
                         var lastDay = start+c;
-                        tpl += '<td data-year="'+ lastYear +'" data-month="'+ lastMonth +'" data-day="'+ that.mend(lastDay) +'"'+ that.setClass('cell other-cell', startime, that.getTime([lastYear, lastMonth, lastDay]), initime) +'><span>'+ that.editCell(that.mend(lastDay), true) +'</span></td>';
+                        tpl += '<td data-year="'+ lastYear +'" data-month="'+ lastMonth +'" data-day="'+ that.mend(lastDay) +'"'+ that.setClass('cell other-cell', startime, [lastYear, lastMonth, lastDay], initime) +'><span>'+ that.editCell(that.mend(lastDay), true) +'</span></td>';
                     }
                     c++;
                 }
@@ -619,7 +619,7 @@
                         nextMonth = 1;
                         nextYear++;
                     }
-                    tpl += '<td data-year="'+ nextYear +'" data-month="'+ nextMonth +'" data-day="'+ that.mend(d) +'"'+ that.setClass('cell other-cell', startime, that.getTime([nextYear, nextMonth, d]), initime) +'><span>'+ that.editCell(that.mend(d), true) +'</span></td>';
+                    tpl += '<td data-year="'+ nextYear +'" data-month="'+ nextMonth +'" data-day="'+ that.mend(d) +'"'+ that.setClass('cell other-cell', startime, [nextYear, nextMonth, d], initime) +'><span>'+ that.editCell(that.mend(d), true) +'</span></td>';
                     d++;
                 }
                 else{
@@ -647,7 +647,7 @@
                 if((i-1)%count === 0){
                     tpl += '<tr>';
                 }
-                tpl += '<td'+ that.setClass('cell', startime, that.getTime([year, month, '01']), initime) +' data-year="'+ year +'" data-month="'+ month +'" data-day="01"><span>'+ that.editCell(month) +'</span></td>';
+                tpl += '<td'+ that.setClass('cell', startime, [year, month, '01'], initime) +' data-year="'+ year +'" data-month="'+ month +'" data-day="01"><span>'+ that.editCell(month) +'</span></td>';
                 if(i%count === 0){
                     tpl += '</tr>';
                 }
@@ -737,6 +737,9 @@
             var max = that.max;
             var flag = false;
             if(typeof currentime !== 'function'){
+                if(typeof currentime === 'object'){
+                    currentime = that.getTime(currentime.concat([that.initime[3], that.initime[4], that.initime[5]]))
+                }
                 if(typeof initime === 'function'){
                     cb = initime;
                     initime = startime;
@@ -764,6 +767,7 @@
                 max = res.max;
             }
             if((min && currentime < min) || (max && currentime > max)){
+                console.log(min, currentime)
                 className += ((className ? ' ' : '') + 's-dis')
             }
             if(name){
@@ -1241,6 +1245,9 @@
             var event = window.event, target = null;
             if(event != undefined){
                 target = event.target || event.srcElement;
+                if(event.type == 'load' || event.type == 'DOMContentLoaded'){
+                    target = null
+                }
                 event.stopPropagation ? event.stopPropagation() : (event.cancelBubble = true)
             }
             
