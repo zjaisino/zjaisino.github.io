@@ -310,18 +310,43 @@
                             <input type="text" class="ui-input ui-input-short" id="onlytime" readonly="readonly" value="" />
                             <input type="text" class="ui-input ui-input-short" id="onlytime2" readonly="readonly" value="" />
                             <pre class="brush:js;">
-							$.calendar({
-                                target:'#onlytime',
-                                format:'hh:mm',
-                                drowdown:7,
-                                button:[{
-                                    name:'clear',
-                                    text:'清除'
-                                },{
-                                    name:'confirm',
-                                    text:'确定'
-                                }]
-                            });
+							var start = $.calendar({
+								target:'#onlytime',
+								format:'hh:mm',
+								drowdown:7,
+								button:[{
+									name:'clear',
+									text:'清除'
+								},{
+									name:'confirm',
+									text:'确定'
+								}],
+								onchoose:function(dates){
+									end.set({
+										min:dates[0],
+										initime:dates[0]
+									})
+								}
+							});
+							
+							var end = $.calendar({
+								target:'#onlytime2',
+								format:'hh:mm',
+								drowdown:7,
+								button:[{
+									name:'clear',
+									text:'清除'
+								},{
+									name:'confirm',
+									text:'确定'
+								}],
+								onchoose:function(dates){
+									start.set({
+										max:dates[0],
+										initime:dates[0]
+									})
+								}
+							});
                             </pre>
                             
                             <h3 class="e-pt15">格式化获取时间</h3>
@@ -863,7 +888,7 @@
             max:'2016-10-01 10:10',
             min:'2016-08-01 20:05'
         });
-        
+
         var startdate = $.calendar({
             target:'#starttime',
             istime:true,

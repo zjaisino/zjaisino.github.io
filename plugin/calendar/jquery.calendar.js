@@ -299,7 +299,9 @@
         run:function(setOpts){
             var that = this, opts = that.options;
             if(setOpts === true){
-                if((!that.startime && !that.initime) || (opts.min && that.getTime(that.startime) < that.getTime(opts.min)) || (opts.max && that.getTime(that.initime) > that.getTime(opts.max))){
+                if((!that.startime && !that.initime) || 
+					(opts.min && that.getTime(that.startime) < that.getTime(that.validDate(opts.min, true))) || 
+					(opts.max && that.getTime(that.initime) > that.getTime(that.validDate(opts.max, true)))){
                     that.setVal('')
                 }
                 else{
@@ -320,8 +322,8 @@
         },
         initVal:function(){
             var that = this, opts = that.options;
-            that.max = opts.max ? that.getTime(Calendar.format(that.getTime(opts.max), opts.format||'yyyy-MM-dd', true)) : 0;
-            that.min = opts.min ? that.getTime(Calendar.format(that.getTime(opts.min), opts.format||'yyyy-MM-dd', true)) : 0;
+            that.max = opts.max ? that.getTime(that.validDate(opts.max, true)) : 0;
+            that.min = opts.min ? that.getTime(that.validDate(opts.min, true)) : 0;
             var val = '';
             
             if(that.target){
@@ -349,9 +351,10 @@
                 }
             }
             else{
-                that.initime = opts.initime || Calendar.format();
-                that.startime = opts.startime || that.initime;
+                that.initime = opts.initime ? that.validDate(opts.initime, true) :  Calendar.format();
+                that.startime = opts.startime ? that.validDate(opts.startime, true) : that.initime;
             }
+			
             that.startime = that.getArr(that.getTime(that.startime));
             that.initime = that.getArr(that.getTime(that.initime));
             that.current = [that.startime[0], that.startime[1]];
@@ -578,7 +581,7 @@
         //创建单元格
         createCell:function(year, month){
             var that = this, opts = that.options, a = 1, b = 1, c = 1, d = 1, tpl = '';
-            var startime = that.getTime([that.startime[0], that.startime[1], that.startime[2]]), initime = that.getTime([that.initime[0], that.initime[1], that.initime[2]]);
+            var startime = that.getTime(that.startime), initime = that.getTime(that.initime);
             var date = new Date(year, month-1, 1);
             //获取月初是星期几
             var week = date.getDay();
@@ -692,7 +695,7 @@
             if(!hide){
                 tpl += '<div class="ui-calendar-timehead">'+ Calendar.time[type] +'<i title="关闭">×</i></div>';
             }
-            tpl += '<div class="ui-calendar-timebody clearfix" type="'+ type +'">';
+            var timebody = '<div class="ui-calendar-timebody clearfix" type="'+ type +'">';
             var format = 'yyyy-MM-dd';
             var initime = that.initime[0] + that.initime[1] + that.initime[2];
             var startime = that.startime[0] + that.startime[1] + that.startime[2];
@@ -709,8 +712,9 @@
                 initime = initime + that.initime[3] + that.initime[4];
                 startime = startime + that.startime[3] + that.startime[4];
             }
-            var max = opts.max ? Calendar.format(that.getTime(opts.max), format, true).replace(/-/g, '') : 0;
-            var min = opts.min ? Calendar.format(that.getTime(opts.min), format, true).replace(/-/g, '') : 0;
+            var max = that.max ? Calendar.format(that.max, format, true).replace(/-/g, '') : 0;
+            var min = that.min ? Calendar.format(that.min, format, true).replace(/-/g, '') : 0;
+			var item = '';
             for(i; i<len; i++){
                 var cls = arr[i] == crt ? 's-crt' : '';
                 var start = startime + arr[i];
@@ -726,9 +730,13 @@
                 if(cls){
                     cls = ' class="'+ cls +'"';
                 }
-                tpl += '<span'+ cls +'>'+ arr[i] +'</span>';
+                timebody += '<span'+ cls +'>'+ arr[i] +'</span>';
             }
-            tpl += '</div></div>';
+			timebody += '</div>';
+			if(hide === 0){
+				return timebody
+			}
+            tpl = tpl + timebody + '</div>';
             return tpl;
         },
         setClass:function(name, startime, currentime, initime, cb){
@@ -767,7 +775,6 @@
                 max = res.max;
             }
             if((min && currentime < min) || (max && currentime > max)){
-                console.log(min, currentime)
                 className += ((className ? ' ' : '') + 's-dis')
             }
             if(name){
@@ -961,9 +968,21 @@
                         me.addClass('s-crt').siblings().removeClass('s-crt')
                         if(type == 'hour'){
                             that.initime[3] = that.startime[3] = me.text();
+							var minute = that.elem.find('.ui-calendar-timebody[type="minute"]');
+							if(minute.length){
+								minute.replaceWith(that.createTime('minute', that.getTimeArr(59), that.startime[4], 0))
+							}
+							var second = that.elem.find('.ui-calendar-timebody[type="second"]');
+							if(second.length){
+								second.replaceWith(that.createTime('second', that.getTimeArr(59), that.startime[5], 0))
+							}
                         }
                         else if(type == 'minute'){
                             that.initime[4] = that.startime[4] = me.text();
+							var second = that.elem.find('.ui-calendar-timebody[type="second"]');
+							if(second.length){
+								second.replaceWith(that.createTime('second', that.getTimeArr(59), that.startime[5], 0))
+							}
                         }
                         else{
                             that.initime[5] = that.startime[5] = me.text();
