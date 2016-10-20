@@ -1,8 +1,8 @@
 /**
  * @filename jquery.calendar.js
  * @author Aniu[2016-08-08 20:10]
- * @update Aniu[2016-10-17 16:00]
- * @version v1.4.2
+ * @update Aniu[2016-10-20 17:12]
+ * @version v1.4.3
  * @description 日历
  */
  
@@ -87,14 +87,15 @@
         }, options||{});
         //将options备份，重置时将更改的选项还原
         that.optionsCache = $.extend({}, that.options)
-        that.index = Calendar.id++;
+        that.index = ++Calendar.id;
         Calendar.box[that.index] = that;
     }, win = $(window), doc = $(document);
     
-    doc.click(function(){
-        if(Calendar.current >= 0){
-            Calendar.box[Calendar.current].hide();
-        }
+    doc.click(function(e){
+    	//防止多个不同组件同时显示问题
+    	if(e.target[Calendar.attr] === undefined && Calendar.current > 0){
+    		Calendar.box[Calendar.current].hide();
+    	}
     });
     
     win.resize(function(){
@@ -230,7 +231,8 @@
             }
             
             if(opts.target){
-                that.target = opts.target.attr(Calendar.attr, that.index);
+                that.target = $(opts.target);
+                that.target[0][Calendar.attr] = that.index
             }
             
             if(init !== false){
@@ -285,8 +287,9 @@
                 },
                 //销毁组件
                 destory:function(){
-                    this.hide(true)
-                    opts.target.removeAttr(Calendar.attr).off(opts.event||'click', that.eventCallback)
+                    this.hide(true);
+                    that.target.off(opts.event||'click', that.eventCallback);
+                    delete that.target[0][Calendar.attr];
                     delete Calendar.box[that.index]
                 },
                 //重置日历为初始状态
@@ -1267,24 +1270,27 @@
                 if(target === document || event.type == 'load' || event.type == 'DOMContentLoaded'){
                     target = null
                 }
-                event.stopPropagation ? event.stopPropagation() : (event.cancelBubble = true)
             }
-            
             if(options.target && (event === undefined || target === null)){
-                options.target = $(options.target);
-                var calendar = Calendar.box[options.target.attr(Calendar.attr)] || new Calendar(options);
+                var calendar = Calendar.box[options.target[Calendar.attr]] || new Calendar(options);
+                target = $(options.target);
                 calendar.eventCallback = function(e){
-                    if(!options.target.hasClass('s-dis') && !options.target.prop('disabled')){
+                    if(!target.hasClass('s-dis') && !target.prop('disabled')){
                         calendar.run();
                     }
-                    e.stopPropagation();
                 }
-                options.target.on(options.event||'click', calendar.eventCallback);
+                target.on(options.event||'click', calendar.eventCallback);
                 return calendar.init(false);
             }
             else{
-                options.target = $(options.target||target);
-                return (Calendar.box[options.target.attr(Calendar.attr)] || new Calendar(options)).init()
+                if(target && target[Calendar.attr] === undefined){
+                    target[Calendar.attr] = ''
+                }
+                options.target = $(options.target||target)[0];
+                if(options.target){
+                    return (Calendar.box[options.target[Calendar.attr]] || new Calendar(options)).init()
+                }
+                return new Calendar(options).init()
             }
         }
     })
