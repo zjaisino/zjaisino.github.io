@@ -1264,14 +1264,10 @@
             var event = window.event, target = null;
             if(event != undefined){
                 target = event.target || event.srcElement;
-                if(event.type == 'load' || event.type == 'DOMContentLoaded'){
+                if(target === document || event.type == 'load' || event.type == 'DOMContentLoaded'){
                     target = null
                 }
                 event.stopPropagation ? event.stopPropagation() : (event.cancelBubble = true)
-            }
-            
-            if(target === document){
-                target = null;
             }
             
             if(options.target && (event === undefined || target === null)){
