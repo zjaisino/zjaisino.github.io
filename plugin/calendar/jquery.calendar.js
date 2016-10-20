@@ -300,8 +300,8 @@
             var that = this, opts = that.options;
             if(setOpts === true){
                 if((!that.startime && !that.initime) || 
-					(opts.min && that.getTime(that.startime) < that.getTime(that.validDate(opts.min, true))) || 
-					(opts.max && that.getTime(that.initime) > that.getTime(that.validDate(opts.max, true)))){
+                    (opts.min && that.getTime(that.startime) < that.getTime(that.validDate(opts.min, true))) || 
+                    (opts.max && that.getTime(that.initime) > that.getTime(that.validDate(opts.max, true)))){
                     that.setVal('')
                 }
                 else{
@@ -354,7 +354,7 @@
                 that.initime = opts.initime ? that.validDate(opts.initime, true) :  Calendar.format();
                 that.startime = opts.startime ? that.validDate(opts.startime, true) : that.initime;
             }
-			
+            
             that.startime = that.getArr(that.getTime(that.startime));
             that.initime = that.getArr(that.getTime(that.initime));
             that.current = [that.startime[0], that.startime[1]];
@@ -714,7 +714,7 @@
             }
             var max = that.max ? Calendar.format(that.max, format, true).replace(/-/g, '') : 0;
             var min = that.min ? Calendar.format(that.min, format, true).replace(/-/g, '') : 0;
-			var item = '';
+            var item = '';
             for(i; i<len; i++){
                 var cls = arr[i] == crt ? 's-crt' : '';
                 var start = startime + arr[i];
@@ -732,10 +732,10 @@
                 }
                 timebody += '<span'+ cls +'>'+ arr[i] +'</span>';
             }
-			timebody += '</div>';
-			if(hide === 0){
-				return timebody
-			}
+            timebody += '</div>';
+            if(hide === 0){
+                return timebody
+            }
             tpl = tpl + timebody + '</div>';
             return tpl;
         },
@@ -968,21 +968,21 @@
                         me.addClass('s-crt').siblings().removeClass('s-crt')
                         if(type == 'hour'){
                             that.initime[3] = that.startime[3] = me.text();
-							var minute = that.elem.find('.ui-calendar-timebody[type="minute"]');
-							if(minute.length){
-								minute.replaceWith(that.createTime('minute', that.getTimeArr(59), that.startime[4], 0))
-							}
-							var second = that.elem.find('.ui-calendar-timebody[type="second"]');
-							if(second.length){
-								second.replaceWith(that.createTime('second', that.getTimeArr(59), that.startime[5], 0))
-							}
+                            var minute = that.elem.find('.ui-calendar-timebody[type="minute"]');
+                            if(minute.length){
+                                minute.replaceWith(that.createTime('minute', that.getTimeArr(59), that.startime[4], 0))
+                            }
+                            var second = that.elem.find('.ui-calendar-timebody[type="second"]');
+                            if(second.length){
+                                second.replaceWith(that.createTime('second', that.getTimeArr(59), that.startime[5], 0))
+                            }
                         }
                         else if(type == 'minute'){
                             that.initime[4] = that.startime[4] = me.text();
-							var second = that.elem.find('.ui-calendar-timebody[type="second"]');
-							if(second.length){
-								second.replaceWith(that.createTime('second', that.getTimeArr(59), that.startime[5], 0))
-							}
+                            var second = that.elem.find('.ui-calendar-timebody[type="second"]');
+                            if(second.length){
+                                second.replaceWith(that.createTime('second', that.getTimeArr(59), that.startime[5], 0))
+                            }
                         }
                         else{
                             that.initime[5] = that.startime[5] = me.text();
