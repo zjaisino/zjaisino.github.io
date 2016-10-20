@@ -286,7 +286,7 @@
                     return this
                 },
                 //销毁组件
-                destory:function(){
+                destroy:function(){
                     this.hide(true);
                     that.target.off(opts.event||'click', that.eventCallback);
                     delete that.target[0][Calendar.attr];
@@ -1283,6 +1283,7 @@
                 return calendar.init(false);
             }
             else{
+                //防止
                 if(target && target[Calendar.attr] === undefined){
                     target[Calendar.attr] = ''
                 }
