@@ -451,7 +451,6 @@
         },
         createMain:function(year, month){
             var that = this, tpl = '';
-            month = that.mend(month);
             if(!that.options.ismonth){
                 var prevdate = that.resetDate(year, month, -1);
                 var nextdate = that.resetDate(year, month, 1);
@@ -537,6 +536,7 @@
         //加载主体部分
         resetBody:function(flag, index, year, month){
             var that = this, opts = that.options, ajax = opts.ajax;
+            month = that.mend(month)
             if(flag){
                 if($.isPlainObject(ajax)){
                     var success = ajax.success;
