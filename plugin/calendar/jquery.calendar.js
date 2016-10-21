@@ -1283,7 +1283,8 @@
                 return calendar.init(false);
             }
             else{
-                //防止
+                //document点击时会判断目标元素如果没有Calendar.attr属性，就会隐藏日历组件，这是为了防止多个不同组件(select、search...)同时显示的问题
+                //默认target是不含有该属性的，这就会导致target触发事件时日历组件不显示的问题，因此默认给target添加Calendar.attr属性
                 if(target && target[Calendar.attr] === undefined){
                     target[Calendar.attr] = ''
                 }
