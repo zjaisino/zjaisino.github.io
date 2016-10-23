@@ -92,13 +92,13 @@
 							</span>
 							<div>
 								<span class="ui-checkradio">
-									<input type="checkbox" name="lang" /> html
+									<input type="checkbox" name="lang[a]" /> html
 								</span>
 								<span class="ui-checkradio">
-									<input type="checkbox" name="lang" /> css
+									<input type="checkbox" name="lang[a]" checked /> css
 								</span>
 								<span class="ui-checkradio">
-									<input type="checkbox" name="lang" /> js
+									<input type="checkbox" name="lang[a]" /> js
 								</span>
 							</div>
                             <pre class="brush:xml;">
@@ -107,13 +107,13 @@
 							&lt;/span>
 							&lt;div>
 								&lt;span class="ui-checkradio">
-									&lt;input type="checkbox" name="lang" /> html
+									&lt;input type="checkbox" name="lang[a]" /> html
 								&lt;/span>
 								&lt;span class="ui-checkradio">
-									&lt;input type="checkbox" name="lang" /> css
+									&lt;input type="checkbox" name="lang[a]" checked /> css
 								&lt;/span>
 								&lt;span class="ui-checkradio">
-									&lt;input type="checkbox" name="lang" /> js
+									&lt;input type="checkbox" name="lang[a]" /> js
 								&lt;/span>
 							&lt;/div>
                             </pre>
@@ -279,13 +279,13 @@
 	
 	$('[name="all"]').checkradio({
 		callback:function(ele, e){
-			$('[name="lang"]').checkradio('checked', ele.prop('checked'))
+			$('[name="lang[a]"]').checkradio('checked', ele.prop('checked'))
 		}
 	});
 	
-	$('[name="lang"]').checkradio({
+	$('[name="lang[a]"]').checkradio({
 		callback:function(ele, e){
-			$('[name="all"]').checkradio('checked', $('[name="lang"]').length === $('[name="lang"]:checked').length);
+			$('[name="all"]').checkradio('checked', $('[name="lang[a]"]').length === $('[name="lang[a]"]:checked').length);
 		}
 	});
 	
