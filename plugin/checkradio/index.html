@@ -120,13 +120,13 @@
                             <pre class="brush:js;">
                             $('[name="all"]').checkradio({
 								callback:function(ele, e){
-									$('[name="lang"]').checkradio('checked', ele.prop('checked'))
+									$('[name="lang[a]"]').checkradio('checked', ele.prop('checked'))
 								}
 							});
 							
-							$('[name="lang"]').checkradio({
+							$('[name="lang[a]"]').checkradio({
 								callback:function(ele, e){
-									$('[name="all"]').checkradio('checked', $('[name="lang"]').length === $('[name="lang"]:checked').length);
+									$('[name="all"]').checkradio('checked', $('[name="lang[a]"]').length === $('[name="lang[a]"]:checked').length);
 								}
 							});
                             </pre>
