@@ -122,6 +122,9 @@
     
     Calendar.time = {hour:'小时', minute:'分钟', second:'秒数'};
     
+    //此事件集合下不会触发组件调用
+    Calendar.filterEvent = ['load', 'readystatechange', 'DOMContentLoaded'];
+    
     Calendar.getSize = function(selector, dir, attr){
         var size = 0;
         attr = attr || 'border';
@@ -1267,7 +1270,7 @@
             var event = window.event, target = null;
             if(event != undefined){
                 target = event.target || event.srcElement;
-                if(target === document || event.type == 'load' || event.type == 'DOMContentLoaded'){
+                if(target === document || Calendar.filterEvent.indexOf(event.type) !== -1){
                     target = null
                 }
             }
