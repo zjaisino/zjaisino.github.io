@@ -108,7 +108,7 @@
         }, o||{});
         
         return this.each(function(){
-            var _this = this, that = $(this).css({position:'absolute', top:'-999em', left:'-999em', opacity:0});
+            var _this = this, that = $(this);
             o.disabled !== null && that.prop('disabled', o.disabled);
             o.value !== null && that.data('value', o.value);
             if(o.isNull === true){
@@ -195,6 +195,7 @@
             });
             var imitselect = that.prev('.ui-imitselect:not(.s-dis)');
             imitselect.on('click', function(){
+            	$('.ui-imitselect').removeClass('s-show');
                 var select = $(this);
                 if(that.data('init')){
                     eval('var option = '+init+'()');
@@ -214,7 +215,6 @@
                     size > o.count && selectbox.css({height:itemHeight*o.count, overflowY:'scroll'});
                 }
                 $(this).addClass('s-show').children('dd').removeClass(o.animate).addClass(o.animate);
-                return false;
             }).on('click', '.ui-imitselect-btn', function(){
                 return false;
             }).on('click', '.ui-imitselect-btn em', function(){
@@ -312,10 +312,12 @@
                 selectbox.html(cache).css(styleTemp);
             });
             
-            $(document).on('click', function(){
-                imitselect.removeClass('s-show');
-            });
-            
         });
     }
+    $(document).on('click', function(e){
+    	var target = $(e.target);
+    	if(!target.hasClass('ui-imitselect') && !target.closest('dl').hasClass('ui-imitselect')){
+    		$('.ui-imitselect').removeClass('s-show');
+    	}
+    });
 })(this, document, jQuery);

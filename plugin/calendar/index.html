@@ -258,6 +258,25 @@
                             });
                             </pre>
                             
+                            <h3 class="e-pt15">选择时间段4</h3>
+                            <input type="text" class="ui-input" id="scope4" readonly="readonly" />
+                            <pre class="brush:js;">
+                            $.calendar({
+                                target:'#scope4',
+                                iscope:true,
+                                scope:[{
+                                    text:'本月',
+                                    value:0
+                                }, {
+                                    text:'上月',
+                                    value:-30
+                                }, {
+                                    text:'下月',
+                                    value:30
+                                }]
+                            });
+                            </pre>
+                            
                             <h3 class="e-pt15">双日历1</h3>
                             <input type="text" class="ui-input" id="two1" readonly="readonly" />
                             <pre class="brush:js;">
@@ -939,6 +958,29 @@
             }, {
                 text:'未来7天',
                 value:7
+            }]
+        });
+        
+        $.calendar({
+            target:'#scope4',
+            iscope:true,
+            ismonth:true,
+            button:[{
+                name:'confirm',
+                text:'确定'
+            }, {
+                name:'close',
+                text:'关闭'
+            }],
+            scope:[{
+                text:'近3个月',
+                value:-60
+            }, {
+                text:'近半年',
+                value:-150
+            }, {
+                text:'全年',
+                value:0
             }]
         });
         

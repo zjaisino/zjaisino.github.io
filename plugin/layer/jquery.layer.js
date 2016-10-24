@@ -534,7 +534,7 @@
 					content.unwrap()
 				}
 				else{
-					contentHeight = main.outerHeight();
+					contentHeight = content.outerHeight()
 				}
             }
             
