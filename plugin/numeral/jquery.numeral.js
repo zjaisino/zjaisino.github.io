@@ -45,6 +45,8 @@
             callback:null
         }, opts||{});
         
+        var unkeycode = [16, 17, 65, 67, 86];
+        
         return this.each(function(){
             
             var elem = this;
@@ -139,8 +141,7 @@
                 
             }).on('keyup', function(e){
                 var kc = e.keyCode;
-                //阻止键盘ctrl+v
-                if(kc == 86 || kc == 17){
+                if(e.shiftKey || e.ctrlKey || $.inArray(kc, unkeycode) !== -1){
                     return false;
                 }
                 if(kc !== 8 && $.inArray(kc, kcode) !== -1){
