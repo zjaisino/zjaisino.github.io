@@ -1270,7 +1270,7 @@
             var event = window.event, target = null;
             if(event != undefined){
                 target = event.target || event.srcElement;
-                if(target === document || Calendar.filterEvent.indexOf(event.type) !== -1){
+                if(target === document || $.inArray(event.type, Calendar.filterEvent) !== -1){
                     target = null
                 }
             }

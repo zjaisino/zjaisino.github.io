@@ -15,6 +15,13 @@
     <link rel="stylesheet" type="text/css" href="layer.css" />
     <link type="text/css" rel="stylesheet" href="../../style/syntax/shCore.css"/>
     <link type="text/css" rel="stylesheet" href="../../style/syntax/shThemeDefault.css"/>
+    <style>
+    form { padding:20px;}
+    form input { padding-left:10px; height:30px; width:250px; line-height:30px; border:1px solid #ccc;}
+    form * { float:left;}
+    form .err { margin-left:5px; position:relative; line-height:32px;}
+    form .err label { position:absolute; top:0; left:0; white-space:nowrap; color:#f00;}
+    </style>
 </head>
 
 <body class="g-body">
@@ -61,8 +68,40 @@
                         <dt>通用接口</dt>
                         <dd>
                             <a href="javascript:void(0);" id="alert">alert</a>
+                            <pre class="brush:js;">
+                            /**
+                             * @func alert
+                             * @param message &lt;String, JQuery Object&gt; 消息内容
+                             * @param title &lt;String&gt; 标题
+                             * @param width &lt;String, Number&gt; 宽度
+                             * @param height &lt;String, Number&gt; 高度
+                             */
+                            $.layer.alert(message, title, width, height);
+                            </pre>
                             <a href="javascript:void(0);" id="confirm" class="e-ml10">confirm</a>
+                            <pre class="brush:js;">
+                            /**
+                             * @func confirm
+                             * @param message &lt;String, JQuery Object&gt; 消息内容
+                             * @param callback &lt;Function&gt; 确认按钮回调函数，接收3个参数：$('.ui-layer-main')、弹出层索引、$('.ui-layer-confirm')
+                             * @param title &lt;String&gt; 标题
+                             * @param width &lt;String, Number&gt; 宽度
+                             * @param height &lt;String, Number&gt; 高度
+                             */
+                            $.layer.confirm(mesaage, callback, title, width, height);
+                            </pre>
                             <a href="javascript:void(0);" id="iframe" class="e-ml10">iframe</a>
+                            <pre class="brush:js;">
+                            /**
+                             * @func iframe
+                             * @param url &lt;String&gt; url地址
+                             * @param title &lt;String&gt; 标题
+                             * @param width &lt;String, Number&gt; 宽度
+                             * @param height &lt;String, Number&gt; 高度
+                             * @desc 不能加载跨域url，一些浏览器只能在服务器环境下运行
+                             */
+                            $.layer.iframe(url, title, width, height);
+                            </pre>
                             <select id="tips" class="e-ml10" style="border:1px solid #ccc;">
                                 <option value="">tips</option>
                                 <option value="top">top</option>
@@ -70,65 +109,55 @@
                                 <option value="bottom">bottom</option>
                                 <option value="left">left</option>
                             </select>
-                            <a href="javascript:void(0);" id="showmsg" class="e-ml10">showmsg</a>
+                            <pre class="brush:js;">
+                            /**
+                             * @func tips
+                             * @param message &lt;String, JQuery Object&gt; 消息内容
+                             * @param dir &lt;String&gt; 箭头方向 top right bottom left
+                             * @param offset &lt;Object&gt; 显示位置 {top:value, left:value}
+                             * @param callback &lt;Function&gt; 显示回调函数onShowEvent
+                             */
+                            $.layer.tips(message, dir, offset, callback);
+                            </pre>
                             <a href="javascript:void(0);" id="loading" class="e-ml10">loading</a>
                             <pre class="brush:js;">
                             /**
-                             * @func alert
-                             * @param &lt;String, JQuery Object&gt; 内容
-                             * @param &lt;String&gt; 标题
-                             * @param &lt;String, Number&gt; 宽度
-                             * @param &lt;String, Number&gt; 高度
+                             * @func loading
+                             * @param message &lt;String, Object, Function&gt; 消息内容，若为对象，则表示options，若为函数则表示onShowEvent
+                             * @param options &lt;Object, Function&gt; 组件参数，若是函数则表示onShowEvent
+                             * @param width &lt;Number&gt; 宽度
+                             * @param height &lt;Number&gt; 高度
                              */
-                            $.layer.alert('<p style="padding:10px;">弹出层内容</p>', '标题', '280');
-                            
+                            $.layer.loading(message, options, width, height);
+                            </pre>
+                            <a href="javascript:void(0);" id="showmsg" class="e-ml10">showmsg</a>
+                            <pre class="brush:js;">
                             /**
-                             * @func confirm
-                             * @param &lt;String, JQuery Object&gt; 内容
-                             * @param &lt;Function&gt; 确认按钮回调函数，接收3个参数：$('.ui-layer-main')、弹出层索引、$('.ui-layer-confirm')
-                             * @param &lt;String&gt; 标题
-                             * @param &lt;String, Number&gt; 宽度
-                             * @param &lt;String, Number&gt; 高度
+                             * @func showmsg
+                             * @param message &lt;String&gt; 消息内容
+                             * @param element &lt;jQuery Object&gt; 目标元素
+                             * @param dir &lt;String&gt; 箭头方向 top right bottom left
+                             * @param offset &lt;Object&gt; 显示位置 {top:value, left:value}
                              */
-                            $.layer.confirm('<p style="padding:10px;">10 * 10 = <input type="text" style="border:1px solid #ccc; width:40px;" /> ？</p>', function(main, index, button){
-                                if(main.find(':text').val() == '100'){
-                                    return true;
-                                }
-                            }, '标题', '280');
-                            
+                            $.layer.showmsg(message, element, dir, offset);
+                            </pre>
+                            <a href="javascript:void(0);" id="form" class="e-ml10">form</a>
+                            <pre class="brush:js;">
                             /**
-                             * @func iframe
-                             * @param &lt;String&gt; url地址
-                             * @param &lt;String&gt; 标题
-                             * @param &lt;String, Number&gt; 宽度
-                             * @param &lt;String, Number&gt; 高度
-                             * @desc 跨域无法正常使用
-                             * @desc 谷歌浏览器在服务器环境下才能正常使用
+                             * @func form
+                             * @param options &lt;Object&gt; 组件参数
+                             * @desc 在options基础上新增：messageFilter、itemWrap、errorWrap、onSuccessEvent、onErrorEvent、ajax、valid
+                             * @desc 该方法配合jquery.validate使用，减少layer中的校验逻辑，layer内容中必须包含form元素
+                             * @desc 在需要校验的元素上配置规则data-rule="{required:true, ...}" data-message="{required:'消息', ...}"
+                             * @desc form上可以设置data-setting="{validate属性参数}"
                              */
-                            $.layer.iframe('url', '标题', 1100);
-                            
-                            /**
-                             * @func tips
-                             * @param &lt;String, JQuery Object&gt; 内容
-                             * @param &lt;String&gt; 箭头方向 top right bottom left
-                             * @param &lt;Object&gt; 显示位置 {top:value, left:value}
-                             * @param &lt;Function&gt; 显示回调函数，接收2个参数：$('.ui-layer-main')、弹出层索引
-                             */
-                            $.layer.tips('<p style="padding:10px;">这是一个弹出层！</p>', type, {}, function(main, index){
-                                //code...
-                            });
+                            $.layer.form(options);
                             </pre>
                         </dd>
                         <dt>自定义</dt>
-                        <dd id="box">
+                        <dd>
                             <a href="javascript:void(0);" id="unmove">不可拖动</a>
-                            <a href="javascript:void(0);" id="theme" class="e-ml10">自定义皮肤</a>
-                            <a href="javascript:void(0);" id="right" class="e-ml10">右下角滑出</a>
-                            <a href="javascript:void(0);" id="resize" class="e-ml10">更改大小</a>
-                            <a href="javascript:void(0);" id="slide" class="e-ml10">弹出幻灯片</a>
-                            <a href="javascript:void(0);" id="full" class="e-ml10">全屏</a>
                             <pre class="brush:js;">
-                            //不可拖动
                             $.layer({
                                 content:'<p style="padding:10px;">该弹出层无法拖动！</p>',
                                 width:300,
@@ -141,34 +170,79 @@
                                     text:'关闭'
                                 }
                             });
-                            
-                            //自定义皮肤
-                            $('#theme').click(function(){
-                                $.layer({
-                                    content:'<p style="padding:10px;">这是一个自定义皮肤弹出层</p>',
-                                    theme:'white',
-                                    width:300,
-                                    isMoveMask:true,
-                                    title:{
-                                        text:'标题',
-                                    },
-                                    cancel:{
-                                        enable:true,
-                                        text:'关闭'
-                                    }
-                                });
-                            });
-                            
-                            //更多...DIY
                             </pre>
-                            <pre class="brush:css;">
-                            /* 自定义皮肤css */
-                            .t-layer-white { padding:0 10px; border:1px solid #A1C4EE; box-shadow:0 0 4px #DADBDD; background-color:#fff;}
-                            .t-layer-white .ui-layer-title { padding:0; height:40px; line-height:40px; border-bottom:1px solid #D8E6F3; color:#333; font-weight:normal; background-color:#fff;}
-                            .t-layer-white .ui-layer-close { top:4px; right:0; width:30px; height:30px; line-height:30px; border:0; font-size:25px; font-weight:normal; color:#A1C4EE; background:none;}
-                            .t-layer-white .ui-layer-confirm { background-color:#D8E6F3; border-color:#A1C4EE; color:#333;}
-                            .t-movemask-white { border:1px dashed #A1C4EE; filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#7fffffff,endColorstr=#7fffffff); background:rgba(255,255,255,0.5); background:transparent\;}
-                            .t-mask-white div { filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#4cffffff,endColorstr=#4cffffff); background:rgba(255,255,255,.3); background:transparent\;}
+                            <a href="javascript:void(0);" id="theme" class="e-ml10">自定义皮肤</a>
+                            <pre class="brush:js;">
+                            $.layer({
+                                content:'<p style="padding:10px;">这是一个自定义皮肤弹出层</p>',
+                                theme:'white',
+                                width:300,
+                                isMoveMask:true,
+                                title:{
+                                    text:'标题',
+                                },
+                                cancel:{
+                                    enable:true,
+                                    text:'关闭'
+                                }
+                            });
+                            </pre>
+                            <a href="javascript:void(0);" id="height" class="e-ml10">高度无限制</a>
+                            <pre class="brush:js;">
+                            $.layer({
+                                content:'<p style="padding:20px; height:1100px;">无滚动条，高度无限制</p>',
+                                scrollbar:false,
+                                padding:20,
+                                width:300,
+                                title:{
+                                    text:'标题',
+                                },
+                                cancel:{
+                                    enable:true,
+                                    text:'关闭'
+                                }
+                            });
+                            </pre>
+                            <div id="box">
+                            <a href="javascript:void(0);" id="resize" class="e-ml10">更改大小</a>
+                            <pre class="brush:js;">
+                            $.layer({
+                                content:'<p style="padding:10px;">阿牛真帅！</p>',
+                                width:400,
+                                padding:20,
+                                isClickMask:true,
+                                container:$('#box'),
+                                title:{
+                                    text:'标题'
+                                },
+                                confirm:{
+                                    enable:true,
+                                    text:'添加内容',
+                                    callback:function(main, index){
+                                        main.append('<p style="padding:10px;">阿牛真帅！</p><p style="padding:10px;">阿牛真帅！</p><p style="padding:10px;">阿牛真帅！</p>');
+                                        layerResize(index);
+                                    }
+                                },
+                                close:{
+                                    enable:false
+                                }
+                            });
+                            </pre>
+                            </div>
+                            <a href="javascript:void(0);" id="full" class="e-ml10">全屏</a>
+                            <pre class="brush:js;">
+                            $.layer({
+                                isMaxSize:true,
+                                isFadein:false,
+                                padding:20,
+                                title:{
+                                    enable:false
+                                },
+                                iframe:{
+                                    enable:true,
+                                    src:'iframe/index.html'
+                                }
+                            });
                             </pre>
                         </dd>
                         <dt>API</dt>
@@ -590,7 +664,7 @@
                                         <td>事件对象</td>
                                     </tr>
                                     <tr>
-                                        <td rowspan="3">isClickMask</td>
+                                        <td rowspan="3">onMaskClick</td>
                                         <td>layer</td>
                                         <td>$('.ui-layer')</td>
                                         <td rowspan="3">遮罩层点击回调函数</td>
@@ -671,6 +745,8 @@
     <!-- footer end -->
     
     <script type="text/javascript" src="../../script/jquery.js"></script>
+    <script type="text/javascript" src="../../script/jquery.validate.js"></script>
+    <script type="text/javascript" src="../placeholder/jquery.placeholder.js"></script>
     <script type="text/javascript" src="./jquery.layer.js"></script>
     <script type="text/javascript" src="../../script/syntax/shCore.js"></script>
     <script type="text/javascript" src="../../script/syntax/shBrushCss.js"></script>
@@ -715,7 +791,7 @@
         layerHide();
         if(!type) return;
         $.layer.tips('<p style="padding:10px;">这是一个弹出层！</p>', type, {}, function(main, index){
-            var layer = main.parents('.ui-layer'), width = layer.outerWidth(), height = layer.outerHeight();
+            var layer = main.closest('.ui-layer'), width = layer.outerWidth(), height = layer.outerHeight();
             switch(type){
                 case 'top':
                     offset.top = offset.top + that.height() + 23;
@@ -743,6 +819,22 @@
             this.timer = 2000;
         });
     });
+    
+    $('#height').click(function(){
+        $.layer({
+            content:'<p style="padding:20px; height:1100px;">无滚动条，高度无限制</p>',
+            scrollbar:false,
+            padding:20,
+            width:300,
+            title:{
+                text:'标题',
+            },
+            cancel:{
+                enable:true,
+                text:'关闭'
+            }
+        });
+    })
     
     $('#unmove').click(function(){
         $.layer({
@@ -780,6 +872,8 @@
         $.layer({
             content:'<p style="padding:10px;">阿牛真帅！</p>',
             width:400,
+            padding:20,
+            isClickMask:true,
             container:$('#box'),
             title:{
                 text:'标题'
@@ -794,21 +888,6 @@
             },
             close:{
                 enable:false
-            },
-            button:{
-                enable:{
-                    callback:function(){
-                        return false;
-                    }
-                },
-                cancel:{
-                    callback:function(){
-                        return false;
-                    }
-                }
-            },
-            onMaskClick:function(layer, mask, event){
-                event.stopPropagation();
             }
         });
     });
@@ -827,6 +906,54 @@
             }
         });
     });
+    
+    $('#form').click(function(){
+        var layer = $.layer.form({
+            content:'<form>\
+                        <div class="item f-clearfix">\
+                            <input type="text" name="username" placeholder="请输入用户名" autocomplete="off" data-rule="{required:true}" data-message="{required:\'请输入用户名\'}" />\
+                            <b class="err"></b>\
+                        </div>\
+                        <div class="item e-mt10 f-clearfix">\
+                            <input type="text" name="password" placeholder="请输入密码" autocomplete="off" data-rule="{required:true}" data-message="{required:\'请输入密码\'}" />\
+                            <b class="err"></b>\
+                        </div>\
+                    </form>',
+            itemWrap:'.item',
+            errorWrap:'.err',
+            width:320,
+            title:{
+                text:'登录'
+            },
+            button:{
+                cancel:{
+                    text:'重置',
+                    callback:function(){
+                        layer.validator.resetForm()
+                        return false
+                    }
+                },
+                confirm:{
+                    text:'登录'
+                }
+            },
+            ajax:{
+                url:'http://zjaisino.github.io/plugin/data.json',
+                type:'GET',
+                cache:false
+            },
+            messageFilter:function(name, msg){
+                return '自定义消息格式：'+msg
+            },
+            onShowEvent:function(main, i, vaild){
+                main.find('[placeholder]').placeholder()
+            },
+            onSuccessEvent:function(main, index, res){
+                $.layer.alert('登录成功！', '', 280)
+                layerHide(index)
+            }
+        })
+    })
     </script>
 <script>
 var _hmt = _hmt || [];

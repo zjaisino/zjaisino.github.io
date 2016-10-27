@@ -98,7 +98,7 @@
                                         }
                                         else{
                                             o.send(100, that);
-                                            o.error(that); //格式错误
+                                            o.error(that, response); //格式错误
                                         }
                                     }
                                     else{

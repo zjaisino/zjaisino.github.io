@@ -1,8 +1,8 @@
 /**
  * @filename jquery.layer.js
  * @author Aniu[2014-07-11 14:01]
- * @update Aniu[2016-10-15 13:31]
- * @version v3.3.6
+ * @update Aniu[2016-10-27 18:24]
+ * @version v3.3.8
  * @description 弹出层组件
  */
 
@@ -50,6 +50,8 @@
             isSticky:false,
             //是否固定弹出层
             isFixed:false,
+            //是否显示滚动条
+            scrollbar:true,
             //标题
             title:{
                 enable:true,
@@ -557,7 +559,7 @@
             else{
                 if(options.height === 'auto'){
                     contentHeight += outerHeight;
-                    if(contentHeight > wheight){
+                    if(options.scrollbar === true && contentHeight > wheight){
                         that.size.height = wheight;
                     }
                     else{
@@ -577,7 +579,13 @@
                 winStop = 0;
             }
             
-            that.offset.top = (that.wrap.outerHeight() - that.size.height) / 2 + winStop;
+            if(options.scrollbar !== true && that.size.height > wheight){
+                that.offset.top =  winStop + options.padding;
+            }
+            else{
+                that.offset.top = (that.wrap.outerHeight() - that.size.height) / 2 + winStop;
+            }
+            
             if(options.isCenter === true){
                 that.offset.left = (that.wrap.outerWidth() - that.size.width) / 2 + winSleft;
             }
@@ -590,13 +598,13 @@
                     that.offset.winTop = that.offset.top - winStop;
                     that.offset.winLeft = that.offset.left - winSleft;
                 }
-				!isiframe && layer.main.css({'overflow':'auto'});
+				!isiframe && layer.main.css('overflow', options.scrollbar === true ? 'auto' : 'visible');
                 typeof options.onResizeEvent === 'function' && options.onResizeEvent(layer.main, that.index);
             });
         },
         show:function(){
             var that = this, options = that.options, layer = that.layer, bodyHeight, winStop = that.wrap.scrollTop(), winSleft = that.wrap.scrollLeft(),
-                theme = options.theme ? ' t-mask-'+options.theme : '', showType = options.isFadein === true ? 'fadeIn' : 'show';
+                theme = options.theme ? ' t-mask-'+options.theme : '', showType = options.isFadein === true ? 'fadeIn' : 'show', whieght = that.wrap.outerHeight() - options.padding;
             if(options.isFixed === true && !Layer.bsie6){
                 winStop = 0;
                 winSleft = 0;
@@ -604,13 +612,18 @@
             }
             that.size.width = layer.outerWidth();
             that.size.height = layer.outerHeight();
-            if(options.padding>=0 && layer.outerHeight() > that.wrap.outerHeight() - options.padding){
-                that.size.height = layer.height(that.wrap.outerHeight() - options.padding - Layer.getSize(layer, 'tb', 'all')).outerHeight();
+            if(options.scrollbar === true && options.padding>=0 && layer.outerHeight() > whieght){
+                that.size.height = layer.height(whieght - Layer.getSize(layer, 'tb', 'all')).outerHeight();
             }
 
             that.offset.top = parseInt(options.offset.top);
             that.offset.left = parseInt(options.offset.left);
-            that.offset.top = (isNaN(that.offset.top) ? ((that.wrap.outerHeight() - that.size.height) / 2) : that.offset.top) + winStop;
+            if(options.scrollbar !== true && that.size.height > whieght){
+                that.offset.top = winStop + options.padding;
+            }
+            else{
+                that.offset.top = (isNaN(that.offset.top) ? ((that.wrap.outerHeight() - that.size.height) / 2) : that.offset.top) + winStop;
+            }
             that.offset.left = (isNaN(that.offset.left) ? ((that.wrap.outerWidth() - that.size.width) / 2) : that.offset.left) + winSleft;
             if(!!that.index && options.offset.isBasedPrev === true){
                 var index = that.index - 1, prevLayer = Layer.listArray[index];
@@ -638,19 +651,24 @@
                     (that.mask||Layer.mask)[showType]();
                 }
             }
-            if(Layer.bsie6 && options.isFixed === true){
-                that.offset.winTop = that.offset.top - winStop;
-                that.offset.winLeft = that.offset.left - winSleft;
-                that.bindEvent(win, 'scroll', function(){
-                    var css = {
-                        top:that.offset.winTop + win.scrollTop(),
-                        left:that.offset.winLeft + win.scrollLeft()
-                    }
-                    that.offset.top = css.top;
-                    that.offset.left = css.left;
-                    that.moveMask && that.moveMask.css(css);
-                    that.layer.css(css);
-                });
+            if(Layer.bsie6){
+                if(options.isFixed === true){
+                    that.offset.winTop = that.offset.top - winStop;
+                    that.offset.winLeft = that.offset.left - winSleft;
+                    that.bindEvent(win, 'scroll', function(){
+                        var css = {
+                            top:that.offset.winTop + win.scrollTop(),
+                            left:that.offset.winLeft + win.scrollLeft()
+                        }
+                        that.offset.top = css.top;
+                        that.offset.left = css.left;
+                        that.moveMask && that.moveMask.css(css);
+                        that.layer.css(css);
+                    });
+                }
+                setTimeout(function(){
+                    layer.css('overflow', 'visible')
+                })
             }
             
             layer.css({margin:0, top:that.offset.top, left:that.offset.left})[showType]();
@@ -664,7 +682,10 @@
             layer.main.css({height:bodyHeight});
 
             if(options.iframe.enable === true){
-                layer.main.css({overflow:'hidden'});
+                layer.main.css('overflow','hidden');
+            }
+            else{
+                layer.main.css('overflow', options.scrollbar === true ? 'auto' : 'visible');
             }
 
             that.bindBtnClick();
@@ -841,14 +862,21 @@
     
     $.layer.loading = function(message, showCallback, width, height){
         var msg = '';
+        var options;
         if(message !== null){
             if(typeof message === 'function'){
                 showCallback = message;
                 message = '';
             }
+            else if(typeof message === 'object'){
+                options = message
+            }
+            else if(typeof showCallback === 'object'){
+                options = showCallback
+            }
             msg = '<b>'+ (message||'正在加载数据..') +'</b>';
         }
-        return new Layer({
+        return new Layer($.extend(true, {
             content:'<p><i></i>'+ msg+'</p>',
             theme:'loading',
             width:width||'auto',
@@ -861,11 +889,116 @@
             title:{
                 enable:false
             },
-            onShowEvent:function(main, index){
-                if(typeof showCallback === 'function'){
-                    showCallback.call(this, main, index);
+            onShowEvent:showCallback
+        }, options||{}));
+    }
+    
+    $.layer.form = function(options){
+        var showEvent = options.onShowEvent;
+        delete options.onShowEvent;
+        var validator;
+        var valid = options.valid;
+        var btns = $.extend({}, options.button || ({
+            cancel:{
+                text:'关闭'
+            },
+            confirm:{
+                text:'保存',
+                callback:function(main){
+                    main.find('form').submit()
                 }
             }
-        });
+        }))
+        if(!btns.confirm.callback){
+            btns.confirm.callback = function(main){
+                main.find('form').submit()
+            }
+        }
+        delete options.button;
+        var layer = new Layer($.extend(true, {button:btns}, {
+            scrollbar:false,
+            theme:'form',
+            onShowEvent:function(main, index){
+                var that = this;
+                var elems = main.find('[name!=""][data-rule]');
+                var form = main.find('form');
+                var rules = {};
+                var messages = {};
+                var setting = form.data('setting');
+                elems.each(function(){
+                    var elem = $(this);
+                    var name = elem.attr('name');
+                    var data = elem.data();
+                    var rule = eval('('+ data.rule +')');
+                    var message = eval('('+ data.message +')');
+                    rules[name] = rule;
+                    $.each(message, function(key, msg){
+                        if(typeof options.messageFilter === 'function'){
+                            message[key] = options.messageFilter(name, msg)||''
+                        }
+                    })
+                    messages[name] = message;
+                });
+                var opts = {
+                    rules:rules,
+                    messages:messages,
+                    errorClass:'s-err',
+					onkeyup:false,
+					focusInvalid:false,
+					focusCleanup:true,
+                    onfocusout:false,
+                    ignore:'',
+                    success:function(error, element) {
+						error.remove();
+						$(element).addClass('s-succ');
+					},
+					errorPlacement:function(error, element) {
+						element.removeClass('s-succ');
+						if(error.text()){
+							element.closest(options.itemWrap||'.ui-item').find(options.errorWrap||'.ui-err').html(error);
+						}
+					},
+                    submitHandler:function(){
+                        var serialize = form.serializeArray();
+                        var param = {};
+                        $.each(serialize, function(k, v){
+                            if(!param[v.name]){
+                                param[v.name] = [];
+                            }
+                            param[v.name].push(v.value)
+                        })
+                        for(var i in param){
+                            param[i] = param[i].join(',')
+                        }
+                        $.layer.loading('正在保存..', {
+                            container:main.closest('.ui-layer-box')
+                        });
+                        $.ajax($.extend({
+                            url:form.attr('action'),
+                            dataType:'json',
+                            type:form.attr('method')||'POST',
+                            data:param,
+                            success:function(res, xhr){
+                                layerHide('loading');
+                                if(typeof options.onSuccessEvent === 'function'){
+                                    options.onSuccessEvent.call(this, main, index, res)
+                                }
+                            },
+                            error:function(xhr){
+                                layerHide('loading')
+                                if(typeof options.onErrorEvent === 'function'){
+                                    options.onErrorEvent.call(this, main, index, xhr)
+                                }
+                            }
+                        }, options.ajax||{}))
+                    }
+                }
+                validator = form.validate($.extend(true, opts, setting||{}, valid||{}))
+                typeof showEvent === 'function' && showEvent.call(this, main, index, validator)
+            }
+        }, options||{}))
+        layer.validator = validator;
+        return layer
     }
+    
 })(this, document, jQuery);

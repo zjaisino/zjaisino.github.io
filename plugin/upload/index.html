@@ -93,7 +93,7 @@
                             </pre>
                             <pre class="brush:js;">
                             $('[name="file"]').upload({
-                                url:'http://192.168.1.106/haoju/test/upload.php',
+                                url:'http://192.168.1.109/haoju/test/upload.php',
                                 start:function(file){
                                     var val = file.val().toLowerCase();
                                     if(!/\.(gif|jpg|jpeg|png|pdf)$/.test(val)){
@@ -115,7 +115,7 @@
                                             if(res){
                                                 if(res.result === 'success'){
                                                     var html = '';
-                                                    var url = 'http://192.168.1.106/haoju/data/images/xhupfiles/'+ res.url;
+                                                    var url = 'http://192.168.1.109/haoju/data/images/xhupfiles/'+ res.url;
                                                     if(/\.pdf$/.test(res.url)){
                                                         html = '<iframe frameborder="0" scroll="hidden" src="'+ url +'" width="300" height="300"></iframe>';
                                                     }
@@ -271,7 +271,7 @@
     });
     
     $('[name="file"]').upload({
-        url:'http://192.168.1.106/haoju/test/upload.php',
+        url:'http://192.168.1.109/haoju/test/upload.php',
         start:function(file){
             var val = file.val().toLowerCase();
             if(!/\.(gif|jpg|jpeg|png|pdf)$/.test(val)){
@@ -293,7 +293,7 @@
                     if(res){
                         if(res.result === 'success'){
                             var html = '';
-                            var url = 'http://192.168.1.106/haoju/data/images/xhupfiles/'+ res.url;
+                            var url = 'http://192.168.1.109/haoju/data/images/xhupfiles/'+ res.url;
                             if(/\.pdf$/.test(res.url)){
                                 html = '<iframe frameborder="0" scroll="hidden" src="'+ url +'" width="300" height="300"></iframe>';
                             }
