@@ -845,12 +845,12 @@
                 e.stopPropagation();
             }).on('click', '[scope]', function(e){
                 var me = $(this);
-                me.addClass('s-crt').siblings('[scope]').removeClass('s-crt');
+                //me.addClass('s-crt').siblings('[scope]').removeClass('s-crt');
                 var scope = parseInt(me.attr('scope'));
                 var initdate = Calendar.format(opts.format);
                 var startdate = Calendar.format(scope, opts.format);
-                initime = that.getArr(that.getTime(initdate));
-                startime = that.getArr(that.getTime(startdate));
+                initime = that.getArr(that.getTime(that.validDate(initdate, true)));
+                startime = that.getArr(that.getTime(that.validDate(startdate, true)));
                 that.setTime(initime, startime);
                 that.reverse();
                 that.current[0] = initime[0];

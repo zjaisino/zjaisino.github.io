@@ -3,7 +3,7 @@ var LOG = {
         ver:'v3.3.8',
         date:'2016-10-27',
         desc:[
-            '1.增加scrollbar属性'
+            '1.增加scrollbar属性',
             '2.新增form通用方法'
         ]
     }, {
