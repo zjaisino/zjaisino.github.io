@@ -1,7 +1,7 @@
 /**
  * @filename jquery.layer.js
  * @author Aniu[2014-07-11 14:01]
- * @update Aniu[2016-10-27 18:24]
+ * @update Aniu[2016-10-28 11:14]
  * @version v3.3.8
  * @description 弹出层组件
  */
@@ -823,6 +823,7 @@
             content:'<p style="padding:6px;">'+ msg +'</p>',
             isTips:true,
             isClose:false,
+            scrollbar:false,
             theme:'showmsg',
             close:{
                 enable:false
@@ -881,6 +882,7 @@
             theme:'loading',
             width:width||'auto',
             height:height||'auto',
+            scrollbar:false,
             isTips:true,
             isSticky:true,
             close:{
