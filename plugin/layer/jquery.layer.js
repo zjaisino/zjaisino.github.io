@@ -1,7 +1,7 @@
 /**
  * @filename jquery.layer.js
  * @author Aniu[2014-07-11 14:01]
- * @update Aniu[2016-10-28 11:14]
+ * @update Aniu[2016-10-28 11:28]
  * @version v3.3.8
  * @description 弹出层组件
  */
@@ -299,7 +299,6 @@
                     if(options.arrow.enable === true){
                         options.isMove = options.isMask = options.title.enable = options.isCenter = options.isMaxSize = false;
                     }
-                    width = 'auto'; 
                     return ' ui-layer-tips';
                 })() : '',
                 html = '<div class="ui-layer'+ theme + tips +'" style="z-index:'+ Layer.zIndex +';">',
@@ -785,10 +784,12 @@
             }
         });
     }
-    $.layer.tips = function(message, dir, offset, callback){
+    $.layer.tips = function(message, dir, offset, callback, width, height){
         return new Layer({
             content:message,
             isTips:true,
+            width:width||'auto',
+            height:height||'auto',
             close:{
                 enable:false
             },
@@ -825,6 +826,7 @@
             isClose:false,
             scrollbar:false,
             theme:'showmsg',
+            width:'auto',
             close:{
                 enable:false
             },
@@ -866,6 +868,8 @@
         var options;
         if(message !== null){
             if(typeof message === 'function'){
+                height = width;
+                width = showCallback;
                 showCallback = message;
                 message = '';
             }
