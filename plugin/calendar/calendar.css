@@ -72,7 +72,7 @@
 .ui-calendar-multi { width:694px;}
 .ui-calendar-multi .ui-calendar-body { padding-left:0;}
 .ui-calendar-multi .ui-calendar-main { float:left; width:330px; margin-left:10px;}
-.ui-calendar-multi td.s-sel span { background:none; color:#333;}
+/*.ui-calendar-multi td.s-sel span { background:none; color:#333;}*/
 .ui-calendar-multi td.s-sel.other-cell span { background:none; color:#D8D8D8;}
 .ui-calendar-month { width:207px;}
 .ui-calendar-multi.ui-calendar-month { width:405px;}
