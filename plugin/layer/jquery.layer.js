@@ -1,8 +1,8 @@
 /**
  * @filename jquery.layer.js
  * @author Aniu[2014-07-11 14:01]
- * @update Aniu[2016-10-28 11:28]
- * @version v3.3.8
+ * @update Aniu[2016-11-01 16:06]
+ * @version v3.3.9
  * @description 弹出层组件
  */
 
@@ -160,6 +160,10 @@
             width:0,
             height:0
         }
+        that.offset = {
+            top:0,
+            left:0
+        }
         that.index = Layer.index++;
         that.eventArray = [];
         Layer.zIndex++;
@@ -256,10 +260,6 @@
         constructor:Layer,
         width:410,
         height:220,
-        offset:{
-            top:0,
-            left:0
-        },
         title:'温馨提示',
         init:function(){
             var that = this, options = that.options;
@@ -745,6 +745,7 @@
             title:{
                 text:title
             },
+            isMask:false,
             width:width,
             height:isNaN(height) ? 'auto' : height,
             cancel:{
