@@ -1,8 +1,8 @@
 /**
  * @filename jquery.calendar.js
  * @author Aniu[2016-08-08 20:10]
- * @update Aniu[2016-11-01 14:26]
- * @version v1.4.4
+ * @update Aniu[2016-11-01 22:59]
+ * @version v1.4.5
  * @description 日历
  */
  
@@ -94,10 +94,16 @@
     }, win = $(window), doc = $(document);
     
     doc.click(function(e){
-    	//防止多个不同组件同时显示问题
-    	if(e.target[Calendar.attr] === undefined && Calendar.current > 0){
-    		Calendar.box[Calendar.current].hide();
-    	}
+		$.each(Calendar.box, function(k, o){
+			var opts = o.options;
+			if(opts.ishide && o.index !== Calendar.current){
+				o.hide()
+			}
+			else if(opts.container !== 'body'){
+				o.selectRemove()
+			}
+		})
+		Calendar.current = -1
     });
     
     win.resize(function(){
@@ -837,13 +843,17 @@
                 })
             })
         },
+		selectRemove:function(){
+			var that = this;
+			that.elem.find('.ui-calendar-tab dd').remove();
+			if(that.options.drowdown<=0){
+				that.elem.find('.ui-calendar-time').remove();
+			}
+		},
         bindEvent:function(){
             var that = this, opts = that.options;
             that.elem.on('click', function(e){
-                that.elem.find('.ui-calendar-tab dd').remove();
-                if(opts.drowdown<=0){
-                    that.elem.find('.ui-calendar-time').remove();
-                }
+                that.selectRemove();
                 e.stopPropagation();
             }).on('click', '[scope]', function(e){
                 var me = $(this);
@@ -871,9 +881,9 @@
                     }
                 }
                 else{
-                    var scope = that.elem.find('.ui-calendar-head em.s-crt');
+                    //var scope = that.elem.find('.ui-calendar-head em.s-crt');
                     //多选
-                    if(opts.iscope && !scope.length){
+                    if(opts.iscope){
                         var data = me.data();
                         if(!opts.istride){
                             if((!opts.ismonth && initime[0]+initime[1] != data.year+that.mend(data.month)) || (opts.ismonth && initime[0] != data.year)){
@@ -1188,11 +1198,6 @@
             var that = this, opts = that.options;
             that.body = that.elem.html(that.createContent()).find('.ui-calendar-body');
             if(opts.ishide){
-                $.each(Calendar.box, function(key, val){
-                    if(val.index !== that.index && val.options.ishide){
-                        val.hide();
-                    }
-                })
                 Calendar.current = that.index;    
             }
             if(opts.drowdown > 0){
@@ -1206,7 +1211,7 @@
         hide:function(){
             var that = this;
             try{
-                Calendar.current = -1;
+                //Calendar.current = -1;
                 that.elem.hide();
                 that.options.onhide(that.elem);
             }
