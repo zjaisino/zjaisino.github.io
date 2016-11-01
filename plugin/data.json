@@ -11,13 +11,13 @@
     "name":"paging",
     "desc":"支持异步分页，传统的整页刷新翻页，瀑布流"
 }, {
-    "title":"数据网格", 
-    "name":"datagrid",
-    "desc":"以表格格式显示数据，并为选择、排序、分组和编辑数据提供了丰富的支持"
-}, {
     "title":"模版引擎", 
     "name":"arttemplate",
     "desc":"性能卓越的javascript模板引擎"
+}, {
+    "title":"日历", 
+    "name":"calendar",
+    "desc":"支持范围限制、区间选择、时分秒、时间格式化输出、自定义结构"
 }, {
     "title":"定时器", 
     "name":"timer",
@@ -63,9 +63,9 @@
     "name":"numeral",
     "desc":"限制输入框只能输入整数、小数，输入的位数；可控制正负切换；支持半角输入，自动转换为数字"
 }, {
-    "title":"日历", 
-    "name":"calendar",
-    "desc":"支持范围限制、区间选择、时分秒、时间格式化输出、自定义结构"
+    "title":"数据网格", 
+    "name":"datagrid",
+    "desc":"以表格格式显示数据，并为选择、排序、分组和编辑数据提供了丰富的支持"
 }, {
     "title":"抛物线", 
     "name":"parabola",
