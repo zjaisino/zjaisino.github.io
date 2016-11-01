@@ -1,8 +1,8 @@
 /**
  * @filename jquery.superslide.js
  * @author Aniu[2014-12-15 08:07]
- * @update Aniu[2016-04-07 16:25]
- * @version v1.4.1
+ * @update Aniu[2016-11-01 21:41]
+ * @version v1.4.2
  * @description 超级幻灯片
  */
 
@@ -174,29 +174,30 @@
             }
             
             that.list = $('<div class="ui-slide-list">'+ listItems +'</div>').appendTo(target);
+			
+			if(that.itemSize >= 1 && options.thumb.enable === true){
+				that.thumb = new SuperSlide({
+					target:$('<div class="ui-slide-scroll"><ul class="ui-slide">'+ thumbItems +'</ul></div>').appendTo(target),
+					speed:450,
+					isHorz:options.thumb.isHorz,
+					button:{
+						enable:true
+					},
+					scroll:{
+						enable:true
+					},
+					callback:function(index){
+						that.thumbClick = true;
+						that.index = index;
+						that.slideMove();
+					}
+				});
+			}
             
             if(that.itemSize > 1){
                 
                 if(options.button.enable === true){
                     that.button = $('<span class="ui-slide-btn ui-slide-prev"></span><span class="ui-slide-btn ui-slide-next"></span>').appendTo(target);
-                }
-                if(options.thumb.enable === true){
-                    that.thumb = new SuperSlide({
-                        target:$('<div class="ui-slide-scroll"><ul class="ui-slide">'+ thumbItems +'</ul></div>').appendTo(target),
-                        speed:450,
-                        isHorz:options.thumb.isHorz,
-                        button:{
-                            enable:true
-                        },
-                        scroll:{
-                            enable:true
-                        },
-                        callback:function(index){
-                            that.thumbClick = true;
-                            that.index = index;
-                            that.slideMove();
-                        }
-                    });
                 }
                 
                 if(options.isFadein !== true){
