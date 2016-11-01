@@ -1,8 +1,8 @@
 /**
  * @filename jquery.calendar.js
  * @author Aniu[2016-08-08 20:10]
- * @update Aniu[2016-10-20 17:12]
- * @version v1.4.3
+ * @update Aniu[2016-11-01 14:26]
+ * @version v1.4.4
  * @description 日历
  */
  
@@ -14,6 +14,8 @@
             theme:'',
             //填充目标
             target:'',
+            //填充目标，仅点击自身触发
+            elem:'',
             //格式化时间 y年 M月 d日 h小时 m分钟 s秒
             format:'yyyy-MM-dd',
             //连接符号
@@ -1274,15 +1276,16 @@
                     target = null
                 }
             }
-            if(options.target && (event === undefined || target === null)){
+            if(options.elem || (options.target && (event === undefined || target === null))){
+                options.target = (target = $(options.elem||options.target))[0];
                 var calendar = Calendar.box[options.target[Calendar.attr]] || new Calendar(options);
-                target = $(options.target);
                 calendar.eventCallback = function(e){
                     if(!target.hasClass('s-dis') && !target.prop('disabled')){
                         calendar.run();
                     }
                 }
-                target.on(options.event||'click', calendar.eventCallback);
+                target.off(options.event||'click', calendar.eventCallback)
+                      .on(options.event||'click', calendar.eventCallback);
                 return calendar.init(false);
             }
             else{

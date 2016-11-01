@@ -86,91 +86,33 @@
                             $.calendar(配置参数);
                             </pre>
                         </dd>
-                        <dd>注：输入框最好添加readonly属性，阻止用户输入错误时间</dd>
+                        <dd class="f-cred">注：输入框最好添加readonly属性，阻止用户输入错误时间</dd>
                         <dt>案例</dt>
                         <dd>
-                            <h3>精简日历</h3>
-                            <div class="simple-calendar"></div>
-                            <pre class="brush:js;">
-                            $.calendar({
-                                container:'.simple-calendar',
-                                button:[],
-                                isdate:false,
-                                ishide:false
-                            })
+                            <h3 class="e-pt15">简单调用</h3>
+                            <input type="text" class="ui-input ui-input-short date" readonly="readonly" value="2016-01-01" />
+                            <pre class="brush:xml;">
+                            &lt;input type="text" class="ui-input ui-input-short date" readonly="readonly" value="2016-01-01" /&gt;
                             </pre>
-                            <h3>ajax日历</h3>
-                            <div class="calendar"></div>
+                            <pre class="brush:js;">
+                            $('.date').click(function(){
+                                $.calendar();
+                            });
+                            </pre>
+                            
+                            <input type="text" class="ui-input ui-input-short date2" readonly="readonly" value="2016-01-02" />
+                            <pre class="brush:xml;">
+                            &lt;input type="text" class="ui-input ui-input-short date2" readonly="readonly" value="2016-01-02" /&gt;
+                            </pre>
                             <pre class="brush:js;">
                             $.calendar({
-								container:'.calendar',
-								ishide:false,
-								button:[],
-								week:['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
-								onselect:function(dates){
-									$.layer.alert(dates[0], '', 280);
-								},
-								ajax:{
-									url:'./data.json',
-									data:function(year, month){
-										return ({
-											year:year,
-											month:month
-										})
-									},
-									loading:{
-										show:function(elem){
-											this.hide(elem)
-											elem.append('&lt;i class="ui-loading">&lt;/i>');
-										},
-										hide:function(elem){
-											elem.find('.ui-loading').remove();
-										}
-									},
-									success:function(res, elem){
-										if(res.result === 'success'){
-											var statistics = elem.find('.m-statistics');
-											if(!statistics.length){
-												statistics = $('&lt;div class="m-statistics">&lt;/div>').insertBefore(elem.find('.ui-calendar-table'));
-											}
-											var tpl = '&lt;table>\
-														   &lt;thead>\
-															   &lt;th>实际出勤（天）&lt;/th>\
-															   &lt;th>迟到（次）&lt;/th>\
-															   &lt;th>早退（次）&lt;/th>\
-															   &lt;th>缺卡（次）&lt;/th>\
-															   &lt;th>设备异常&lt;/th>\
-															   &lt;th>位置异常（次）&lt;/th>\
-														   &lt;/thead>\
-														   &lt;tbody>\
-															   &lt;td>21&lt;/td>\
-															   &lt;td>1&lt;/td>\
-															   &lt;td>2&lt;/td>\
-															   &lt;td>1&lt;/td>\
-															   &lt;td>-&lt;/td>\
-															   &lt;td>4&lt;/td>\
-														   &lt;/tbody>\
-													   &lt;/table>';
-											statistics.html(tpl);
-										}
-									}
-								},
-								editcell:function(day, other, res){
-									var tpl = '&lt;dl>&lt;dt>'+ day +'&lt;/dt>';
-									if(res && res.result === 'success' && !other){
-										$.each(res.list, function(k, v){
-											if(v.day == day){
-												tpl += ('&lt;dd>&lt;p>' + v.ontime + ' - ' + v.offtime + '&lt;/p>&lt;/dd>');
-												tpl += ('&lt;dd>' + v.onmsg + '&lt;/dd>');
-												tpl += ('&lt;dd>' + v.offmsg + '&lt;/dd>');
-												return false;
-											}
-										})
-									}
-									tpl += '&lt;/dl>';
-									return tpl;
-								}
-							});
+                                target:'.date2'
+                            });
+                            </pre>
+                            
+                            <input type="text" class="ui-input ui-input-short" readonly="readonly" onclick="$.calendar()" value="2016-01-03" />
+                            <pre class="brush:xml;">
+                            &lt;input type="text" class="ui-input ui-input-short" readonly="readonly" onclick="$.calendar()" value="2016-01-03" /&gt;
                             </pre>
                             
                             <h3 class="e-pt15">选择日期</h3>
@@ -323,18 +265,7 @@
                                 });
                             });
                             </pre>
-                            
-                            <h3 class="e-pt15">绑定多个输入框</h3>
-                            <input type="text" class="ui-input ui-input-short multi" readonly="readonly" value="2016-01-01" />
-                            <input type="text" class="ui-input ui-input-short multi" readonly="readonly"  value="2016-01-02"/>
-                            <input type="text" class="ui-input ui-input-short multi" readonly="readonly" value="2016-01-03" />
-                            <input type="text" class="ui-input ui-input-short multi" readonly="readonly"  value="2016-01-04"/>
-                            <pre class="brush:js;">
-                            $('.multi').click(function(){
-                                $.calendar();
-                            });
-                            </pre>
-							
+
 							<h3 class="e-pt15">选择时分秒</h3>
                             <input type="text" class="ui-input ui-input-short" id="onlytime" readonly="readonly" value="" />
                             <input type="text" class="ui-input ui-input-short" id="onlytime2" readonly="readonly" value="" />
@@ -374,6 +305,90 @@
 										max:dates[0],
 										initime:dates[0]
 									})
+								}
+							});
+                            </pre>
+                            
+                            <h3>精简日历</h3>
+                            <div class="simple-calendar"></div>
+                            <pre class="brush:js;">
+                            $.calendar({
+                                container:'.simple-calendar',
+                                button:[],
+                                isdate:false,
+                                ishide:false
+                            })
+                            </pre>
+                            <h3>ajax日历</h3>
+                            <div class="calendar"></div>
+                            <pre class="brush:js;">
+                            $.calendar({
+								container:'.calendar',
+								ishide:false,
+								button:[],
+								week:['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
+								onselect:function(dates){
+									$.layer.alert(dates[0], '', 280);
+								},
+								ajax:{
+									url:'./data.json',
+									data:function(year, month){
+										return ({
+											year:year,
+											month:month
+										})
+									},
+									loading:{
+										show:function(elem){
+											this.hide(elem)
+											elem.append('&lt;i class="ui-loading">&lt;/i>');
+										},
+										hide:function(elem){
+											elem.find('.ui-loading').remove();
+										}
+									},
+									success:function(res, elem){
+										if(res.result === 'success'){
+											var statistics = elem.find('.m-statistics');
+											if(!statistics.length){
+												statistics = $('&lt;div class="m-statistics">&lt;/div>').insertBefore(elem.find('.ui-calendar-table'));
+											}
+											var tpl = '&lt;table>\
+														   &lt;thead>\
+															   &lt;th>实际出勤（天）&lt;/th>\
+															   &lt;th>迟到（次）&lt;/th>\
+															   &lt;th>早退（次）&lt;/th>\
+															   &lt;th>缺卡（次）&lt;/th>\
+															   &lt;th>设备异常&lt;/th>\
+															   &lt;th>位置异常（次）&lt;/th>\
+														   &lt;/thead>\
+														   &lt;tbody>\
+															   &lt;td>21&lt;/td>\
+															   &lt;td>1&lt;/td>\
+															   &lt;td>2&lt;/td>\
+															   &lt;td>1&lt;/td>\
+															   &lt;td>-&lt;/td>\
+															   &lt;td>4&lt;/td>\
+														   &lt;/tbody>\
+													   &lt;/table>';
+											statistics.html(tpl);
+										}
+									}
+								},
+								editcell:function(day, other, res){
+									var tpl = '&lt;dl>&lt;dt>'+ day +'&lt;/dt>';
+									if(res && res.result === 'success' && !other){
+										$.each(res.list, function(k, v){
+											if(v.day == day){
+												tpl += ('&lt;dd>&lt;p>' + v.ontime + ' - ' + v.offtime + '&lt;/p>&lt;/dd>');
+												tpl += ('&lt;dd>' + v.onmsg + '&lt;/dd>');
+												tpl += ('&lt;dd>' + v.offmsg + '&lt;/dd>');
+												return false;
+											}
+										})
+									}
+									tpl += '&lt;/dl>';
+									return tpl;
 								}
 							});
                             </pre>
@@ -418,8 +433,15 @@
                                         <td>target</td>
                                         <td>String | Object</td>
                                         <td>' '</td>
-                                        <td>任意字符串 | jQuery对象</td>
+                                        <td>DOM选择器 | jQuery对象</td>
                                         <td>日期填充目标</td>
+                                    </tr>
+                                    <tr>    
+                                        <td>elem</td>
+                                        <td>String | Object</td>
+                                        <td>' '</td>
+                                        <td>DOM选择器 | jQuery对象</td>
+                                        <td>日期填充目标，仅点击目标自身触发组件</td>
                                     </tr>
                                     <tr>
                                         <td>format</td>
@@ -831,6 +853,11 @@
     <script type="text/javascript">
 
     $(function(){
+        
+        $.calendar({
+            target:'.date2'
+        });
+        
         $.calendar({
             container:'.simple-calendar',
             button:[],
@@ -1065,7 +1092,7 @@
             }
         });
         
-        $('.multi').click(function(){
+        $('.date').click(function(){
             $.calendar();
         });
         
