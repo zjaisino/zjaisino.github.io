@@ -1,6 +1,6 @@
 var LOG = {
     list:[{
-        ver:'v1.4.3',
+        ver:'v1.4.4',
         date:'2016-11-01',
         desc:[
             '1.增加elem属性',
