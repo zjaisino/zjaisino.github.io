@@ -94,15 +94,7 @@
     }, win = $(window), doc = $(document);
     
     doc.click(function(e){
-		$.each(Calendar.box, function(k, o){
-			var opts = o.options;
-			if(opts.ishide && o.index !== Calendar.current){
-				o.hide()
-			}
-			else if(opts.container !== 'body'){
-				o.selectRemove()
-			}
-		})
+		Calendar.hide();
 		Calendar.current = -1
     });
     
@@ -132,6 +124,18 @@
     
     //此事件集合下不会触发组件调用
     Calendar.filterEvent = ['load', 'readystatechange', 'DOMContentLoaded'];
+    
+    Calendar.hide = function(){
+        $.each(Calendar.box, function(k, o){
+			var opts = o.options;
+			if(opts.ishide && o.index !== Calendar.current){
+				o.hide()
+			}
+			else if(opts.container !== 'body'){
+				o.selectRemove()
+			}
+		})
+    }
     
     Calendar.getSize = function(selector, dir, attr){
         var size = 0;
@@ -1198,7 +1202,8 @@
             var that = this, opts = that.options;
             that.body = that.elem.html(that.createContent()).find('.ui-calendar-body');
             if(opts.ishide){
-                Calendar.current = that.index;    
+                Calendar.current = that.index;
+                Calendar.hide()
             }
             if(opts.drowdown > 0){
                 that.resetSize()
@@ -1296,9 +1301,9 @@
             else{
                 //document点击时会判断目标元素如果没有Calendar.attr属性，就会隐藏日历组件，这是为了防止多个不同组件(select、search...)同时显示的问题
                 //默认target是不含有该属性的，这就会导致target触发事件时日历组件不显示的问题，因此默认给target添加Calendar.attr属性
-                if(target && target[Calendar.attr] === undefined){
+                /*if(target && target[Calendar.attr] === undefined){
                     target[Calendar.attr] = ''
-                }
+                }*/
                 options.target = $(options.target||target)[0];
                 if(options.target){
                     return (Calendar.box[options.target[Calendar.attr]] || new Calendar(options)).init()
