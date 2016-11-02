@@ -113,9 +113,6 @@
     //target上增加属性存储id
     Calendar.attr = '_calendarid_';
     
-    //当前显示的id
-    Calendar.current = -1;
-    
     Calendar.add = ['prepend', 'append'];
     
     Calendar.week = ['日', '一', '二', '三', '四', '五', '六'];
@@ -127,13 +124,14 @@
     
     Calendar.hide = function(){
         $.each(Calendar.box, function(k, o){
-			var opts = o.options;
-			if(opts.ishide && o.index !== Calendar.current){
-				o.hide()
-			}
-			else if(opts.container !== 'body'){
-				o.selectRemove()
-			}
+            if(o.isshow){
+                if(o.options.ishide && o.index !== Calendar.current){
+                    o.hide()
+                }
+                else if(o.options.container !== 'body'){
+                    o.selectRemove()
+                }
+            }
 		})
     }
     
@@ -303,8 +301,7 @@
                 //销毁组件
                 destroy:function(){
                     this.hide(true);
-                    that.target.off(opts.event||'click', that.eventCallback);
-                    delete that.target[0][Calendar.attr];
+                    that.target && that.target.off(opts.event||'click', that.eventCallback);
                     delete Calendar.box[that.index]
                 },
                 //重置日历为初始状态
@@ -861,7 +858,6 @@
                 e.stopPropagation();
             }).on('click', '[scope]', function(e){
                 var me = $(this);
-                //me.addClass('s-crt').siblings('[scope]').removeClass('s-crt');
                 var scope = parseInt(me.attr('scope'));
                 var initdate = Calendar.format(opts.format);
                 var startdate = Calendar.format(scope, opts.format);
@@ -885,7 +881,6 @@
                     }
                 }
                 else{
-                    //var scope = that.elem.find('.ui-calendar-head em.s-crt');
                     //多选
                     if(opts.iscope){
                         var data = me.data();
@@ -1200,46 +1195,43 @@
         //显示组件
         show:function(){
             var that = this, opts = that.options;
+            that.isshow = true;
             that.body = that.elem.html(that.createContent()).find('.ui-calendar-body');
             if(opts.ishide){
                 Calendar.current = that.index;
                 Calendar.hide()
             }
-            if(opts.drowdown > 0){
-                that.resetSize()
+            if(that.target){
+                if(opts.drowdown > 0){
+                    that.resetSize()
+                }
+                that.resize()
             }
-            that.resize();
             opts.onshow(that.elem);
             that.elem.show();
         },
         //隐藏组件
         hide:function(){
             var that = this;
-            try{
-                //Calendar.current = -1;
-                that.elem.hide();
-                that.options.onhide(that.elem);
-            }
-            catch(e){}
+            that.isshow = false;
+            that.elem.hide();
+            that.options.onhide(that.elem);
         },
         //定位
         resize:function(){
             var that = this;
-            try{
-                var offset = that.target.offset();
-                var height = that.target.outerHeight() - 1;
-                var top = offset.top + height;
-                var oheight = that.elem.outerHeight();
-                var stop = win.scrollTop();
-                if(win.height() + stop - top < oheight && offset.top-stop >= oheight){
-                    top = top - height - oheight;
-                }
-                that.elem.css({
-                    top:top,
-                    left:offset.left
-                });
+            var offset = that.target.offset();
+            var height = that.target.outerHeight() - 1;
+            var top = offset.top + height;
+            var oheight = that.elem.outerHeight();
+            var stop = win.scrollTop();
+            if(win.height() + stop - top < oheight && offset.top-stop >= oheight){
+                top = top - height - oheight
             }
-            catch(e){}
+            that.elem.css({
+                top:top,
+                left:offset.left
+            });
         },
         resetSize:function(){
             var that = this, opts = that.options;
@@ -1253,7 +1245,10 @@
                 var mid = Math.floor(opts.drowdown/2);
                 var crt = time.find('span.s-crt').index() - mid;
                 setTimeout(function(){
-                    time.scrollTop(crt > 0 ? crt*height : 0)
+                    try{
+                        time.scrollTop(crt > 0 ? crt*height : 0)
+                    }
+                    catch(e){}
                 })
             })
             that.elem.width(width + Calendar.getSize(that.elem.find('.ui-calendar-body'), 'lr', 'all'))
@@ -1299,11 +1294,6 @@
                 return calendar.init(false);
             }
             else{
-                //document点击时会判断目标元素如果没有Calendar.attr属性，就会隐藏日历组件，这是为了防止多个不同组件(select、search...)同时显示的问题
-                //默认target是不含有该属性的，这就会导致target触发事件时日历组件不显示的问题，因此默认给target添加Calendar.attr属性
-                /*if(target && target[Calendar.attr] === undefined){
-                    target[Calendar.attr] = ''
-                }*/
                 options.target = $(options.target||target)[0];
                 if(options.target){
                     return (Calendar.box[options.target[Calendar.attr]] || new Calendar(options)).init()
