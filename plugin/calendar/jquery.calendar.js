@@ -293,6 +293,7 @@
                 //显示组件
                 show:function(){
                     that.run();
+                    Calendar.current = -1;
                     return this
                 },
                 //隐藏组件
@@ -332,6 +333,11 @@
             
             if(!that.elem){
                 that.createWrap()
+            }
+            
+            if(opts.ishide){
+                Calendar.current = that.index;
+                Calendar.hide()
             }
 
             that.initVal();
@@ -375,10 +381,7 @@
                 that.startime = opts.iscope && opts.startime ? that.validDate(opts.startime, true) : that.initime
             }
             that.reverse();
-            that.current = [that.startime[0], that.startime[1]];
-            if(opts.ismonth){
-                that.nextcurrent = [that.initime[0], that.initime[1]]
-            }
+            that.setCurrent()
         },
         createWrap:function(){
             var that = this, opts = that.options;
@@ -799,6 +802,13 @@
             }
             return className = className ? ' class="'+ className +'"':''
         },
+        setCurrent:function(){
+            var that = this, opts = that.options;
+            that.current = [that.startime[0], that.startime[1]];
+            if(opts.ismonth){
+                that.nextcurrent = [that.initime[0], that.initime[1]]
+            }
+        },
         editCell:function(day, other){
             var that = this, opts = that.options;
             if(typeof opts.editcell === 'function'){
@@ -877,8 +887,10 @@
                 opts.onselect(date.split(opts.joint), that.elem, that.target)
             }).on('click', '.cell:not(.s-dis)'+ (!opts.isclick ? ':not(.other-cell)' : '') +', .today, .confirm', function(e){
                 var me = $(this), initime = that.initime, startime = that.startime;
-                if(me.hasClass('today') || me.hasClass('confirm')){
-                    if(me.hasClass('today')){
+                var today = me.hasClass('today');
+                var confirm = me.hasClass('confirm');
+                if(today || confirm){
+                    if(today){
                         initime = startime = that.getArr(that.getTime(false))
                     }
                 }
@@ -926,9 +938,12 @@
                 if(enddate != startdate){
                     date = startdate + opts.joint + enddate
                 }
-                if(this.nodeName === 'TD' && !opts.isclose){
+                if((today || this.nodeName === 'TD') && !opts.isclose){
                     opts.onselect(date.split(opts.joint), that.elem, that.target);
-                    if(opts.iscope){
+                    if(opts.iscope || today){
+                        if(today){
+                            that.setCurrent()
+                        }
                         that.show()
                     }
                     return
@@ -1199,10 +1214,6 @@
             var that = this, opts = that.options;
             that.isshow = true;
             that.body = that.elem.html(that.createContent()).find('.ui-calendar-body');
-            if(opts.ishide){
-                Calendar.current = that.index;
-                Calendar.hide()
-            }
             if(that.target){
                 if(opts.drowdown > 0){
                     that.resetSize()
