@@ -86,7 +86,9 @@
                             $.calendar(配置参数);
                             </pre>
                         </dd>
-                        <dd class="f-cred">注：输入框最好添加readonly属性，阻止用户输入错误时间</dd>
+                        <dd class="f-fwb">注：</dd>
+                        <dd>1.输入框最好添加readonly属性，阻止用户输入错误时间</dd>
+                        <dd class="f-cred">2.如果在layer中调用别忘记在onHideEvent回调中将日历destroy，不然会一直占用内存</dd>
                         <dt>案例</dt>
                         <dd>
                             <h3 class="e-pt15">简单调用</h3>
