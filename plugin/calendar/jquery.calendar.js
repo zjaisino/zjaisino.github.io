@@ -99,9 +99,11 @@
     });
     
     win.resize(function(){
-        if(Calendar.current >= 0){
-            Calendar.box[Calendar.current].resize()
-        }
+        $.each(Calendar.box, function(k, o){
+            if(o.isshow && o.options.ishide){
+                o.resize()
+            }
+		})
     })
     
     //存储对象实例
