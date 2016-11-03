@@ -298,10 +298,12 @@
                 },
                 //隐藏组件
                 hide:function(flag){
-                    that.hide();
-                    if(flag === true){
-                        that.elem.remove();
-                        that.elem = null
+                    if(that.elem){
+                        that.hide();
+                        if(flag === true){
+                            that.elem.remove();
+                            that.elem = null
+                        }
                     }
                     return this
                 },
