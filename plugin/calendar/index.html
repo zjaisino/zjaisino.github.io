@@ -867,7 +867,8 @@
     $(function(){
         
         $.calendar({
-            target:'.date2'
+            target:'.date2',
+            theme:'aaaa'
         });
         
         $.calendar({
@@ -1101,7 +1102,9 @@
         });
         
         $('.date').click(function(){
-            $.calendar();
+            $.calendar({
+                theme:'bbb'
+            });
         });
         
         $('#four').text('4天后：'+$.calendar.date(4));

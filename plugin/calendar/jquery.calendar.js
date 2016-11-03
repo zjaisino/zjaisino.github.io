@@ -1342,6 +1342,7 @@
                 $.each(Calendar.box, function(key, object){
                     if(object.options.theme === model){
                         object.api[method].apply(that, param)
+                        return false
                     }
                 })
             }
