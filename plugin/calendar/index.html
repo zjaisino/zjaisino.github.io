@@ -91,7 +91,7 @@
                         <dd class="f-cred">2.如果在layer中调用别忘记在onHideEvent回调中将日历destroy，不然会一直占用内存</dd>
                         <dt>案例</dt>
                         <dd>
-                            <h3 class="e-pt15">简单调用</h3>
+                            <h3 class="e-pt15" id="a">简单调用</h3>
                             <input type="text" class="ui-input ui-input-short date" readonly="readonly" value="2016-01-01" />
                             <pre class="brush:xml;">
                             &lt;input type="text" class="ui-input ui-input-short date" readonly="readonly" value="2016-01-01" /&gt;
@@ -867,8 +867,11 @@
     $(function(){
         
         $.calendar({
-            target:'.date2',
-            theme:'aaaa'
+            target:'.date2'
+        });
+		
+		$('.date').click(function(){
+            $.calendar();
         });
         
         $.calendar({
@@ -1099,12 +1102,6 @@
                     max:dates[0]
                 })
             }
-        });
-        
-        $('.date').click(function(){
-            $.calendar({
-                theme:'bbb'
-            });
         });
         
         $('#four').text('4天后：'+$.calendar.date(4));
