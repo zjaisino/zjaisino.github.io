@@ -1,11 +1,12 @@
 var LOG = {
     list:[{
-        ver:'v1.4.6',
+        ver:'v1.4.7',
         date:'2016-11-03',
         desc:[
             '1.增加elem属性',
             '2.修复多次调用组件，生成多个对象的bug',
-			'3.优化组件显示时关闭其它日历逻辑'
+			'3.优化组件显示时关闭其它日历逻辑',
+			'4.新增工具方法$.calendar.hide | $.calendar.destory | $.calendar.reset'
         ]
     },{
         ver:'v1.4.2',

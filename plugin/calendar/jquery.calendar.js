@@ -1,8 +1,8 @@
 /**
  * @filename jquery.calendar.js
  * @author Aniu[2016-08-08 20:10]
- * @update Aniu[2016-11-03 10:01]
- * @version v1.4.6
+ * @update Aniu[2016-11-03 17:40]
+ * @version v1.4.7
  * @description 日历
  */
  
@@ -257,7 +257,7 @@
                 that.initVal()
             }
             
-            return ({
+            return (that.api = {
                 //重设options值
                 set:function(key, val){
                     if(key === 'value'){
@@ -312,7 +312,9 @@
                 //销毁组件
                 destroy:function(){
                     this.hide(true);
-                    that.target && that.target.off(opts.event||'click', that.eventCallback);
+                    if(that.target){
+                        that.target.off(opts.event||'click', that.eventCallback||function(){})
+                    }
                     delete Calendar.box[that.index]
                 },
                 //重置日历为初始状态
@@ -1320,6 +1322,38 @@
         }
     })
     
-    $.calendar.date = Calendar.format
+    $.calendar.date = Calendar.format;
+    
+    $.each(['hide', 'destroy', 'reset'], function(index, method){
+        $.calendar[method] = function(){
+            var that = this;
+            var args = arguments;
+            var model = args[0];
+            var param = args.length > 1 ? Array.prototype.slice.call(args, 1) : [];
+            if($.isArray(model)){
+                $.each(model, function(k, mod){
+                    $.calendar[method].apply(that, [].concat(mod, param))
+                })
+            }
+            else if(typeof model === 'object'){
+                model[method].apply(that, param)
+            }
+            else if(typeof model === 'string'){
+                $.each(Calendar.box, function(key, object){
+                    if(object.options.theme === model){
+                        object.api[method].apply(that, param)
+                    }
+                })
+            }
+            else{
+                if(typeof model === 'boolean'){
+                    param = args
+                }
+                $.each(Calendar.box, function(key, object){
+                    object.api[method].apply(that, param)
+                })
+            }
+        }
+    })
 
 })(this, document, jQuery);

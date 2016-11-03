@@ -421,7 +421,7 @@
                                     <tr>
                                         <th width="120">参数属性</th>
                                         <th width="120">值类型</th>
-                                        <th width="120">默认值</th>
+                                        <th width="140">默认值</th>
                                         <th width="150">可填值</th>
                                         <th>功能说明</th>
                                     </tr> 
@@ -638,7 +638,7 @@
                                     <tr>
                                         <th width="120">方法</th>
                                         <th width="120">参数</th>
-                                        <th width="120">参数说明</th>
+                                        <th width="140">参数说明</th>
                                         <th>功能说明</th>
                                     </tr> 
                                 </thead> 
@@ -721,7 +721,7 @@
                                     <tr>
                                         <th width="120">实例对象方法</th>
                                         <th width="120">参数</th>
-                                        <th width="120">默认值</th>
+                                        <th width="140">默认值 [ 参数类型 ] </th>
                                         <th>功能说明</th>
                                     </tr> 
                                 </thead> 
@@ -729,7 +729,7 @@
                                     <tr>
                                         <td rowspan="2">set</td>
                                         <td>key</td>
-                                        <td></td>
+                                        <td>[ Object, String ]</td>
                                         <td rowspan="2">设置options，key为options键，val为options值，若key值为“value”，则为设置target值</td>
                                     </tr>
                                     <tr>
@@ -739,7 +739,7 @@
 									<tr>
                                         <td>get</td>
                                         <td>key</td>
-                                        <td></td>
+                                        <td>[ Object, String ]</td>
                                         <td>获取options，key为options键，若key值为“value”，则为获取target值</td>
                                     </tr>
 									<tr>
@@ -773,7 +773,7 @@
                                     <tr>
                                         <th width="120">工具方法</th>
                                         <th width="120">参数</th>
-                                        <th width="120">默认值</th>
+                                        <th width="140">默认值 [ 参数类型 ] </th>
                                         <th>功能说明</th>
                                     </tr> 
                                 </thead> 
@@ -796,6 +796,20 @@
                                     <tr>
                                         <td>flag</td>
                                         <td>undefined</td>
+                                    </tr>
+                                    <tr>
+                                        <td>$.calendar.hide <br> $.calendar.reset <br> $.calendar.destroy</td>
+                                        <td>model</td>
+                                        <td>[ Array, Object, String, Boolean ]</td>
+                                        <td>
+                                            功能和实例方法一样
+                                            <p>1、不传参，则作用于所有实例</p>
+                                            <p>2、model为String，则作用于设置theme=model的实例</p>
+                                            <p>3、model为Object且本身就是实例，则作用于该对象</p>
+                                            <p>4、model为Array，数组值类型只能为String和Object，功能同2、3</p>
+                                            <p>5、model为Boolean，则作为实例方法的参数</p>
+                                            <p>6、当有多个参数且第一个参数类型为String | Object | Array，后面的参数则作为实例方法的参数</p>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
