@@ -311,7 +311,7 @@
                 },
                 //销毁组件
                 destroy:function(){
-                    this.hide(true);
+                    that.api.hide(true);
                     if(that.target){
                         that.target.off(opts.event||'click', that.eventCallback||function(){})
                     }
