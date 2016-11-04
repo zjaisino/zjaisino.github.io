@@ -1332,37 +1332,40 @@
         }
     })
     
-    $.calendar.date = Calendar.format;
-    
-    $.each(['hide', 'destroy', 'reset'], function(index, method){
+    $.each(['date', 'hide', 'destroy', 'reset'], function(index, method){
         $.calendar[method] = function(){
             var that = this;
             var args = arguments;
-            var model = args[0];
-            var param = args.length > 1 ? Array.prototype.slice.call(args, 1) : [];
-            if($.isArray(model)){
-                $.each(model, function(k, mod){
-                    $.calendar[method].apply(that, [].concat(mod, param))
-                })
-            }
-            else if(typeof model === 'object'){
-                model[method].apply(that, param)
-            }
-            else if(typeof model === 'string'){
-                $.each(Calendar.box, function(key, object){
-                    if(object.options.theme === model){
-                        object.api[method].apply(that, param)
-                        return false
-                    }
-                })
+            if(method === 'date'){
+                return Calendar.format.apply(that, args)
             }
             else{
-                if(typeof model === 'boolean'){
-                    param = args
+                var model = args[0];
+                var param = args.length > 1 ? Array.prototype.slice.call(args, 1) : [];
+                if($.isArray(model)){
+                    $.each(model, function(k, mod){
+                        $.calendar[method].apply(that, [].concat(mod, param))
+                    })
                 }
-                $.each(Calendar.box, function(key, object){
-                    object.api[method].apply(that, param)
-                })
+                else if(typeof model === 'object'){
+                    model[method].apply(that, param)
+                }
+                else if(typeof model === 'string'){
+                    $.each(Calendar.box, function(key, object){
+                        if(object.options.theme === model){
+                            object.api[method].apply(that, param)
+                            return false
+                        }
+                    })
+                }
+                else{
+                    if(typeof model === 'boolean'){
+                        param = args
+                    }
+                    $.each(Calendar.box, function(key, object){
+                        object.api[method].apply(that, param)
+                    })
+                }
             }
         }
     })
