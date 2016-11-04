@@ -93,11 +93,13 @@
         Calendar.box[that.index] = that
     }, win = $(window), doc = $(document);
     
+    //点击页面隐藏日历组件
     doc.click(function(e){
 		Calendar.hide();
 		Calendar.current = -1
     });
     
+    //窗口缩放时重置日历显示位置
     win.resize(function(){
         $.each(Calendar.box, function(k, o){
             if(o.isshow && o.options.ishide){
@@ -112,18 +114,22 @@
     //给实例绑定唯一id
     Calendar.id = 0;
     
-    //target上增加属性存储id
+    //target上增加属性存储id，目的是解决重复创建实例的问题，直接从Calendar.box中取
     Calendar.attr = '_calendarid_';
     
+    //定义双日历添加内容类型，第一个是前置，第二个是后置
     Calendar.add = ['prepend', 'append'];
     
+    //定义日历时间title
     Calendar.week = ['日', '一', '二', '三', '四', '五', '六'];
     
+    //定义时分秒弹出框title
     Calendar.time = {hour:'小时', minute:'分钟', second:'秒数'};
     
     //此事件集合下不会触发组件调用
     Calendar.filterEvent = ['load', 'readystatechange', 'DOMContentLoaded'];
     
+    //隐藏日历
     Calendar.hide = function(){
         $.each(Calendar.box, function(k, o){
             if(o.isshow){
@@ -137,6 +143,7 @@
 		})
     }
     
+    //获取容器边框以及内边距宽度
     Calendar.getSize = function(selector, dir, attr){
         var size = 0;
         attr = attr || 'border';
@@ -171,6 +178,7 @@
         return size
     }
     
+    //格式化时间
     Calendar.format = function(scope, format, flag){
         var date, timestamp;
         if(typeof scope === 'number'){
@@ -1158,6 +1166,7 @@
             }
             return arr
         },
+        //填充目标元素值
         setVal:function(val){
             var that = this, target = that.target;
             if(target){
@@ -1236,7 +1245,7 @@
             that.elem.hide();
             that.options.onhide(that.elem)
         },
-        //定位
+        //重置组件显示位置
         resize:function(){
             var that = this;
             var offset = that.target.offset();
@@ -1252,6 +1261,7 @@
                 left:offset.left
             });
         },
+        //重置时分秒下拉框大小，以及选中时间控制在中间显示
         resetSize:function(){
             var that = this, opts = that.options;
             var width = 0;
