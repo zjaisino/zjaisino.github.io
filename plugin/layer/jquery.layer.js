@@ -916,7 +916,7 @@
                 }
             }
         }))
-        if(!btns.confirm.callback){
+        if(btns.confirm && !btns.confirm.callback){
             btns.confirm.callback = function(main){
                 main.find('form').submit()
             }
