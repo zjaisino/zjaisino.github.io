@@ -1,8 +1,8 @@
 /**
  * @filename jquery.calendar.js
  * @author Aniu[2016-08-08 20:10]
- * @update Aniu[2016-11-03 17:40]
- * @version v1.4.7
+ * @update Aniu[2016-11-07 14:17]
+ * @version v1.4.8
  * @description 日历
  */
  
@@ -86,7 +86,7 @@
             onhide:$.noop,
             //编辑单元格
             editcell:null
-        }, options||{});
+        }, Calendar.config||{}, options||{});
         //将options备份，重置时将更改的选项还原
         that.optionsCache = $.extend({}, that.options)
         that.index = ++Calendar.id;
@@ -113,6 +113,9 @@
     
     //给实例绑定唯一id
     Calendar.id = 0;
+    
+    //全局配置
+    Calendar.config = {};
     
     //target上增加属性存储id，目的是解决重复创建实例的问题，直接从Calendar.box中取
     Calendar.attr = '_calendarid_';
@@ -1332,15 +1335,23 @@
         }
     })
     
-    $.each(['date', 'hide', 'destroy', 'reset'], function(index, method){
+    $.each(['config', 'date', 'hide', 'destroy', 'reset'], function(index, method){
         $.calendar[method] = function(){
             var that = this;
             var args = arguments;
+            var model = args[0];
             if(method === 'date'){
                 return Calendar.format.apply(that, args)
             }
+            else if(method === 'config'){
+                if(typeof model === 'object'){
+                    $.extend(Calendar.config, model)
+                }
+                else if(typeof model === 'string' && args[1]){
+                    Calendar.config[model] = args[1]
+                }
+            }
             else{
-                var model = args[0];
                 var param = args.length > 1 ? Array.prototype.slice.call(args, 1) : [];
                 if($.isArray(model)){
                     $.each(model, function(k, mod){

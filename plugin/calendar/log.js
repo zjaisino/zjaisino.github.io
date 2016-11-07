@@ -1,5 +1,11 @@
 var LOG = {
     list:[{
+        ver:'v1.4.8',
+        date:'2016-11-07',
+        desc:[
+            '1.增加全局配置方法$.calendar.config'
+        ]
+    },{
         ver:'v1.4.7',
         date:'2016-11-03',
         desc:[
