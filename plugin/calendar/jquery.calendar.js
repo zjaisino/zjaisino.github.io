@@ -1363,7 +1363,9 @@
                         param = args
                     }
                     $.each(Calendar.box, function(key, object){
-                        object.api[method].apply(that, param)
+                        if(object.options.ishide){
+                            object.api[method].apply(that, param)
+                        }
                     })
                 }
             }

@@ -803,11 +803,11 @@
                                         <td>[ Array, Object, String, Boolean ]</td>
                                         <td>
                                             功能和实例方法一样
-                                            <p>1、不传参，则作用于所有实例</p>
-                                            <p>2、model为String，则作用于设置theme=model的实例</p>
-                                            <p>3、model为Object且本身就是实例，则作用于该对象</p>
+                                            <p>1、不传参，作用于所有实例（ishide值为true除外）</p>
+                                            <p>2、model为String，作用于设置theme值为model的实例</p>
+                                            <p>3、model为Object且本身就是实例，作用于该对象</p>
                                             <p>4、model为Array，数组值类型只能为String和Object，功能同2、3</p>
-                                            <p>5、model为Boolean，则作为实例方法的参数</p>
+                                            <p>5、model为Boolean，作用于所有实例（ishide值为true除外），该值为实例方法的参数</p>
                                             <p>6、当有多个参数且第一个参数类型为String | Object | Array，后面的参数则作为实例方法的参数</p>
                                         </td>
                                     </tr>
