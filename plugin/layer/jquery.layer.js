@@ -953,7 +953,6 @@
 					onkeyup:false,
 					focusInvalid:false,
 					focusCleanup:true,
-                    onfocusout:false,
                     ignore:'',
                     success:function(error, element) {
 						error.remove();
