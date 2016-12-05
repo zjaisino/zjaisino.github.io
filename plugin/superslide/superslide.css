@@ -9,8 +9,9 @@
 .ui-slide-list { position:absolute; bottom:10px; z-index:1; width:100%; text-align:center;}
 .ui-slide-list span { display:inline-block; overflow:hidden; margin-left:5px; width:11px; height:11px; border-radius:100%; cursor:pointer; font-size:0; background-color:#fff;}
 .ui-slide-list span.s-crt { background-color:#E50065;}
-.ui-slide-title { position:absolute; bottom:0; left:0; width:100%; height:40px; line-height:40px; filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#7f000000,endColorstr=#7f000000); background:rgba(0,0,0,0.5); background:transparent\;}
-.ui-slide-title span { padding-left:10px; color:#fff; font-size:14px;}
+.ui-slide-title, .ui-slide-toolbar { position:absolute; bottom:0; left:0; width:100%; height:40px; line-height:40px; filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#7f000000,endColorstr=#7f000000); background:rgba(0,0,0,0.5); background:transparent\;}
+.ui-slide-title span, .ui-slide-toolbar span { padding-left:10px; color:#fff; font-size:14px;}
+.ui-slide-toolbar { text-align:left;}
 .ui-slide-scroll { position:relative; margin-top:10px; height:61px;}
 .ui-slide-scroll .ui-slide-btn { position:absolute; bottom:1px; width:15px; height:55px; background:#939393 url(images/slide-thumb-btn.png) no-repeat; cursor:pointer;}
 .ui-slide-scroll .ui-slide-prev { left:0; background-position:3px center;}

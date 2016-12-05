@@ -1,8 +1,8 @@
 /**
  * @filename jquery.superslide.js
  * @author Aniu[2014-12-15 08:07]
- * @update Aniu[2016-11-01 21:41]
- * @version v1.4.2
+ * @update Aniu[2016-12-02 16:04]
+ * @version v1.4.3
  * @description 超级幻灯片
  */
 
@@ -34,6 +34,14 @@
             isHorz:true,
             //是否显示标题，<li data-title="文本或者html"></li>
             isTitle:false,
+            //是否显示工具栏
+            toolbar:{
+                enable:false,
+                left:'左旋转',
+                right:'右旋转',
+                zoomin:'放大',
+                zoomout:'缩小'
+            },
             //圆点按钮配置
             list:{
                 //是否启用
@@ -173,6 +181,23 @@
                 that.title = $('<div class="ui-slide-title"><span></span></div>').appendTo(target).find('span');
             }
             
+            if(options.toolbar.enable === true){
+                var tpl = '';
+                $.each(options.toolbar, function(key, val){
+                    if(key !== 'enable'){
+                        if(typeof val === 'object'){
+                            tpl += '<span class="barbtn '+ key +'">'+ (val.text||'').replace('{{barid}}', key) +'</span>'
+                        }
+                        else{
+                            tpl += '<span class="barbtn" barid="'+ key +'">'+ val +'</span>'
+                        }
+                    }
+                })
+                that.toolbar = $('<div class="ui-slide-toolbar"><span class="toolbar">'+ tpl +'</span></div>').appendTo(target);
+                that.toolbarEvent();
+                that.bindMove();
+            }
+            
             that.list = $('<div class="ui-slide-list">'+ listItems +'</div>').appendTo(target);
 			
 			if(that.itemSize >= 1 && options.thumb.enable === true){
@@ -208,7 +233,14 @@
                     else{
                        oneItem.find('img').each(function(){
                             var crt = $(this);
-                            !crt.attr('src') && crt.attr('src', crt.data('src'));
+                            if(!crt.attr('src')){
+                                crt.attr('src', crt.data('src'))
+                                crt.load(function(e){
+                                    if(typeof options.load === 'function'){
+                                        options.load(0, oneItem)
+                                    }
+                                })
+                            }
                         });
                     }
                     that.scroll.append(oneItem.clone())[that.size.type]((that.itemSize+1)*that[that.size.type]);
@@ -230,6 +262,121 @@
             }
             
             return that;
+        },
+        toolbarEvent:function(){
+            var that = this, options = that.options;
+            var angle = 0;
+            that.toolbar.on('click', '[barid]', function(e){
+                var me = $(this);
+                var barid = me.attr('barid');
+                var opts = options.toolbar[barid];
+                var img = that.scroll.find('img:visible');
+                var imgdom = img.get(0);
+                if(typeof opts === 'object' && typeof opts.callback === 'function'){
+                    opts.callback.call(this, e)
+                }
+                else if(barid === 'left' || barid === 'right'){
+                    if(barid === 'left'){
+                        if(--angle < 0){
+                            angle = 3
+                        }
+                    }
+                    else{
+                        if(++angle > 3){
+                            angle = 0
+                        }
+                    }
+                    var deg = angle*90;
+                    $.each(['webkit', 'moz', 'ms', 'o', ''], function(key, val){
+                        imgdom.style['-'+val+'-transform'] = 'rotate('+ deg +'deg)';
+                        imgdom.style[val+'Transform'] = 'rotate('+ deg +'deg)';
+                        imgdom.style['transform-origin'] = '50% 50%';
+                    })
+                    if($.browser.msie && $.browser.version <= '8.0'){
+                        imgdom.style.filter = 'progid:DXImageTransform.Microsoft.BasicImage(rotation='+ angle +')';　
+                    }
+                    if(typeof options.rotate === 'function'){
+                        options.rotate(img, angle)
+                    }
+                    that.reset(img, true);
+                }
+                else if(barid === 'zoomin' || barid === 'zoomout'){
+                    var width = img.width();
+                    var height = img.height();
+                    if(barid === 'zoomin'){
+                        width += width*0.2;
+                        height += height*0.2;
+                    }
+                    else{
+                        width *= 0.8;
+                        height *= 0.8;
+                    }
+                    img.css('width', width);
+                    img.css('max-width', width);
+                    img.css('height', height);
+                    img.css('max-height', height);
+                    if(!that.ismove){
+                        img.css('margin-left', -width/2)
+                        img.css('margin-top', -height/2)
+                    }
+                }
+            })
+        },
+        reset:function(img, flag){
+            var that = this;
+            if(img.length && typeof that.ismove !== 'undefined'){
+                if(!flag){
+                    var imgdom = img.get(0);
+                    img.css('max-width', '100%');
+                    img.css('max-height', '100%');
+                    $.each(['webkit', 'moz', 'ms', 'o', ''], function(key, val){
+                        imgdom.style['-'+val+'-transform'] = 'rotate(0deg)';
+                        imgdom.style[val+'Transform'] = 'rotate(0deg)';
+                        imgdom.style['transform-origin'] = '50% 50%';
+                    })
+                    if($.browser.msie && $.browser.version <= '8.0'){
+                        imgdom.style.filter = 'progid:DXImageTransform.Microsoft.BasicImage(rotation=0)';　
+                    }
+                    that.ismove = false;
+                }
+                img.css('width', 'auto');
+                img.css('height', 'auto');
+                img.css('margin-left', -img.width()/2);
+                img.css('margin-top', -img.height()/2);
+            }
+        },
+        bindMove:function(){
+            var that = this, options = that.options;
+            var img = that.scroll.find('img');
+            var flag = false;
+            var x = 0;
+            var y = 0;
+            var wrap = img.parent();
+            var ele = $();
+            that.ismove = false;
+            img.on('mousedown', function(e){
+                flag = true;
+                x = e.pageX;
+                y = e.pageY;
+                ele = $(this).addClass('move');
+                return false;
+            })
+            that.scroll.on('mousemove', function(e){
+                if(flag){
+                    that.ismove = true;
+                    ele.css('margin-top', parseFloat(ele.css('marginTop')) + (e.pageY - y))
+                    ele.css('margin-left', parseFloat(ele.css('marginLeft')) + (e.pageX - x))
+                    x = e.pageX;
+                    y = e.pageY;
+                    return false
+                }
+            })
+            that.scroll.on('mouseup', function(){
+                if(flag){
+                    flag = false;
+                    ele.removeClass('move')
+                }
+            })
         },
         slideEvent:function(){
             var that = this, options = that.options, target = options.target;
@@ -279,6 +426,7 @@
         slideMove:function(isPrev){
             var that = this, options = that.options, index = that.index, item = that.items.eq(index), crt;
             var dot = that.list.children('span:eq('+ index +')');
+            that.reset(item.prev().find('img'));
             if(!that.thumbClick && options.thumb.enable === true){
                 var thumb = that.thumb, thumbLeft = Math.abs(thumb.scroll.position()[thumb.setting.dir]),
                     thumbNum = (thumbLeft+(thumb.cOutline))/thumb.outline;
@@ -297,7 +445,14 @@
             else{
                 item.find('img').each(function(){
                     crt = $(this);
-                    !crt.attr('src') && crt.attr('src', crt.data('src'));
+                    if(!crt.attr('src')){
+                        crt.load(function(e){
+                            if(typeof options.load === 'function'){
+                                options.load(index, item)
+                            }
+                        })
+                        crt.attr('src', crt.data('src'));
+                    }
                 });
             }
             if(options.isFadein !== true){

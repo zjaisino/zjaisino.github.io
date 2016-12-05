@@ -1,5 +1,11 @@
 var LOG = {
     list:[{
+        ver:'v1.4.9',
+        date:'2016-12-05',
+        desc:[
+            '1.新增onresize方法'
+        ]
+    },{
         ver:'v1.4.8',
         date:'2016-11-07',
         desc:[

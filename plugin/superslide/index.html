@@ -22,6 +22,8 @@
     .m-demo2 li a { display:inline;}
     .m-demo3 { height:400px;}
     .m-demo4 { margin-bottom:80px; width:500px; height:281px;}
+    .m-demo4 .ui-slidewrap li { text-align:center;}
+    .m-demo4 .ui-slidewrap li .pic { position:absolute; top:50%; left:50%; max-width:100%; max-height:100%; cursor:pointer;}
     .m-demo5 { width:500px; height:61px;}
     </style>
 </head>
@@ -184,15 +186,15 @@
                             <h3 class="f-fwb">相册切换</h3>
                             <div class="m-demo4 f-pr e-mt10">
                                 <ul class="ui-slide">
-                                    <li data-thumb="images/photo/1s.jpg"><img data-src="images/photo/1.jpg" width="500" /></li>
-                                    <li data-thumb="images/photo/2s.jpg"><img data-src="images/photo/2.jpg" width="500" /></li>
-                                    <li data-thumb="images/photo/3s.jpg"><img data-src="images/photo/3.jpg" width="500" /></li>
-                                    <li data-thumb="images/photo/4s.jpg"><img data-src="images/photo/4.jpg" width="500" /></li>
-                                    <li data-thumb="images/photo/5s.jpg"><img data-src="images/photo/5.jpg" width="500" /></li>
-                                    <li data-thumb="images/photo/6s.jpg"><img data-src="images/photo/6.jpg" width="500" /></li>
-                                    <li data-thumb="images/photo/7s.jpg"><img data-src="images/photo/7.jpg" width="500" /></li>
-                                    <li data-thumb="images/photo/8s.jpg"><img data-src="images/photo/8.jpg" width="500" /></li>
-                                    <li data-thumb="images/photo/9s.jpg"><img data-src="images/photo/9.jpg" width="500" /></li>
+                                    <li data-thumb="images/photo/1s.jpg"><img class="pic" data-src="images/photo/1.jpg" /></li>
+                                    <li data-thumb="images/photo/2s.jpg"><img class="pic" data-src="images/photo/2.jpg" /></li>
+                                    <li data-thumb="images/photo/3s.jpg"><img class="pic" data-src="images/photo/3.jpg" /></li>
+                                    <li data-thumb="images/photo/4s.jpg"><img class="pic" data-src="images/photo/4.jpg" /></li>
+                                    <li data-thumb="images/photo/5s.jpg"><img class="pic" data-src="images/photo/5.jpg" /></li>
+                                    <li data-thumb="images/photo/6s.jpg"><img class="pic" data-src="images/photo/6.jpg" /></li>
+                                    <li data-thumb="images/photo/7s.jpg"><img class="pic" data-src="images/photo/7.jpg" /></li>
+                                    <li data-thumb="images/photo/8s.jpg"><img class="pic" data-src="images/photo/8.jpg" /></li>
+                                    <li data-thumb="images/photo/9s.jpg"><img class="pic" data-src="images/photo/9.jpg" /></li>
                                 </ul>
                             </div>
                             <pre class="brush:css;">
@@ -572,7 +574,6 @@
             isHide:true
         },
         endCallback:function(index, item, dot){
-            console.log(dot);
         }
     });
     
@@ -598,12 +599,33 @@
     $('.m-demo4').superSlide({
         isAuto:false, 
         isFadein:true, 
-        speed:800,
+        toolbar:{
+            enable:true,
+            number:{
+                text:'<input /><button barid="{{barid}}">计算</button>',
+                callback:function(e){
+                    alert()
+                }
+            }
+        },
         thumb:{
             enable:true
         },
         list:{
             enable:false
+        },
+        rotate:function(elem, angle){
+            if(angle === 1 || angle === 3){
+                elem.css('max-width', 281)
+            }
+            else{
+                elem.css('max-width', 500)
+            }
+        },
+        load:function(index, item){
+            var elem = item.find('img');
+            elem.css('margin-top', -elem.height()/2)
+            elem.css('margin-left', -elem.width()/2)
         }
     });
     
@@ -613,7 +635,7 @@
             enable:true,
             isEvent:true,
             callback:function(items, count, index){
-                console.log(count, index);
+
             }
         }
     });

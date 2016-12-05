@@ -1,8 +1,8 @@
 /**
  * @filename jquery.calendar.js
  * @author Aniu[2016-08-08 20:10]
- * @update Aniu[2016-11-07 14:17]
- * @version v1.4.8
+ * @update Aniu[2016-12-05 08:34]
+ * @version v1.4.9
  * @description 日历
  */
  
@@ -84,6 +84,8 @@
             onshow:$.noop,
             //组件隐藏时回调函数
             onhide:$.noop,
+            //组件重置位置时回调函数
+            onresize:$.noop,
             //编辑单元格
             editcell:null
         }, Calendar.config||{}, options||{});
@@ -1263,6 +1265,9 @@
                 top:top,
                 left:offset.left
             });
+            if(typeof that.options.onresize === 'function'){
+            	that.options.onresize(that.elem)
+            }
         },
         //重置时分秒下拉框大小，以及选中时间控制在中间显示
         resetSize:function(){
