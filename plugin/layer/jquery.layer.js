@@ -1,8 +1,8 @@
 /**
  * @filename jquery.layer.js
  * @author Aniu[2014-07-11 14:01]
- * @update Aniu[2016-11-01 16:06]
- * @version v3.3.9
+ * @update Aniu[2016-12-01 09:43]
+ * @version v3.4.1
  * @description 弹出层组件
  */
 
@@ -52,6 +52,8 @@
             isFixed:false,
             //是否显示滚动条
             scrollbar:true,
+            //当前layer显示时，将指定layer对象置底，在遮罩层的下层，传数组或者layer对象，当前layer隐藏时，恢复指定layer层级
+            bottoms:null,
             //标题
             title:{
                 enable:true,
@@ -170,6 +172,7 @@
         return Layer.listArray[that.index] = that.init();
     }, win = $(window), doc = $(document);
     Layer.index = 0;
+    Layer.maskzIndex = 10000;
     Layer.zIndex = 10000;
     Layer.bsie6 = !!window.ActiveXObject && !window.XMLHttpRequest;
     Layer.listArray = [];
@@ -267,13 +270,19 @@
             if(typeof options.container === 'string'){
                 options.container = $(options.container||'body');
             }
-            if(options.container.get(0) === undefined){
+            var dom = options.container.get(0);
+            if(dom === undefined){
                 options.container = $('body');
             }
-            if(options.container.get(0).tagName !== 'BODY'){
+            if(dom.tagName !== 'BODY'){
                 options.isFixed = false;
-                that.wrap = options.container.css({position:'relative'});
+                that.wrap = options.container;
+                if(' absolute relative'.indexOf(that.wrap.css('position')) <= 0){
+                	that.wrap.css('position', 'relative')
+                }
             }
+            that.zIndex = Layer.zIndex;
+            that.setBottoms();
             that.createHtml().show().bindClick();
             if(options.isMove === true && options.title.enable === true){
                 that.bindMove();
@@ -301,7 +310,7 @@
                     }
                     return ' ui-layer-tips';
                 })() : '',
-                html = '<div class="ui-layer'+ theme + tips +'" style="z-index:'+ Layer.zIndex +';">',
+                html = '<div class="ui-layer'+ theme + tips +'" style="z-index:'+ that.zIndex +';">',
                 title = oHeight = oWidth = '';
                 html += '<div class="ui-layer-box">';
             if(options.close.enable === true){
@@ -402,7 +411,7 @@
             return '<iframe frameborder="0" name="layer-iframe-'+ that.index +'" id="layer-iframe-'+ that.index +'" scroll="hidden" style="width:100%;" src="'+ src +'" onload="layerResize('+ that.index +')"></iframe>';
         },
         createMoveMask:function(){
-            var that = this, options = that.options, zIndex = Layer.zIndex + 1, theme = options.theme ? ' t-movemask-'+options.theme : '';
+            var that = this, options = that.options, zIndex = that.zIndex + 1, theme = options.theme ? ' t-movemask-'+options.theme : '';
             return $('<div class="ui-layer-movemask'+ theme +'" style="z-index:'+ zIndex +';"></div>').appendTo(options.container);
         },
         bindMove:function(){
@@ -509,8 +518,20 @@
             var that = this, layer = that.layer, i;
             if(that.isClick){
                 that.isClick = false;
-                layer.css({zIndex:++Layer.zIndex});
+                that.zIndex = ++Layer.zIndex;
+                layer.css({zIndex:that.zIndex});
                 that.bindClick();
+            }
+        },
+        setBottoms:function(hide){
+        	var that = this, options = that.options;
+        	if(options.bottoms && typeof options.bottoms === 'object'){
+            	if(!$.isArray(options.bottoms)){
+            		options.bottoms = [options.bottoms]
+            	}
+            	$.each(options.bottoms, function(key, object){
+            		object.layer.css('z-index', !hide ? Layer.maskzIndex : object.zIndex)
+            	})
             }
         },
         layerResize:function(){
@@ -614,7 +635,6 @@
             if(options.scrollbar === true && options.padding>=0 && layer.outerHeight() > whieght){
                 that.size.height = layer.height(whieght - Layer.getSize(layer, 'tb', 'all')).outerHeight();
             }
-
             that.offset.top = parseInt(options.offset.top);
             that.offset.left = parseInt(options.offset.left);
             if(options.scrollbar !== true && that.size.height > whieght){
@@ -632,11 +652,11 @@
             if(options.isMask === true){
                 if(!Layer.mask || (that.wrap !== win && !that.mask)){
                     if(that.wrap !== win){
-                        that.mask = $('<div class="ui-layer-mask'+ theme +'"><div></div></div>').appendTo(options.container);
+                        that.mask = $('<div class="ui-layer-mask'+ theme +'" style="z-index:'+ Layer.maskzIndex +'"><div></div></div>').appendTo(options.container);
                         that.mask.css({position:'absolute'});
                     }
                     else{
-                        Layer.mask = $('<div class="ui-layer-mask'+ theme +'"><div></div></div>').appendTo(options.container);
+                        Layer.mask = $('<div class="ui-layer-mask'+ theme +'" style="z-index:'+ Layer.maskzIndex +'"><div></div></div>').appendTo(options.container);
                     }
                     that.bindEvent(that.mask||Layer.mask, 'click', function(e){
                         typeof options.onMaskClick === 'function' && options.onMaskClick(layer, $(this), e);
@@ -697,7 +717,7 @@
                 }
             }
             if(typeof options.onShowEvent === 'function'){
-                options.onShowEvent(layer.main, that.index);
+                options.onShowEvent.call(that, layer.main, that.index);
             }
             if(options.timer > 0){
                 that.timer = setTimeout(function(){
@@ -710,6 +730,7 @@
             var that = this, options = that.options, layer = that.layer, xMask = true;
             layer.remove();
             that.unbindEvent();
+            that.setBottoms(true);
             delete Layer.listArray[that.index];
             Layer.zIndex--;
             $.each(Layer.listArray, function(key, val){
@@ -965,19 +986,24 @@
 						}
 					},
                     submitHandler:function(){
-                        var serialize = form.serializeArray();
                         var param = {};
-                        $.each(serialize, function(k, v){
-                            if(!param[v.name]){
-                                param[v.name] = [];
+                        if(options.ajax && typeof options.ajax.getData === 'function'){
+                        	param = options.ajax.getData(form)
+                        }
+                        else{
+                        	var serialize = form.serializeArray();
+                        	$.each(serialize, function(k, v){
+                                if(!param[v.name]){
+                                    param[v.name] = [];
+                                }
+                                param[v.name].push(v.value)
+                            })
+                            for(var i in param){
+                                param[i] = param[i].join(',')
                             }
-                            param[v.name].push(v.value)
-                        })
-                        for(var i in param){
-                            param[i] = param[i].join(',')
                         }
                         $.layer.loading('正在保存..', {
-                            container:main.closest('.ui-layer-box')
+                            bottoms:layer
                         });
                         $.ajax($.extend({
                             url:form.attr('action'),
@@ -987,13 +1013,13 @@
                             success:function(res, xhr){
                                 layerHide('loading');
                                 if(typeof options.onSuccessEvent === 'function'){
-                                    options.onSuccessEvent.call(this, main, index, res)
+                                    options.onSuccessEvent.call(layer, main, index, res)
                                 }
                             },
                             error:function(xhr){
                                 layerHide('loading')
                                 if(typeof options.onErrorEvent === 'function'){
-                                    options.onErrorEvent.call(this, main, index, xhr)
+                                    options.onErrorEvent.call(layer, main, index, xhr)
                                 }
                             }
                         }, options.ajax||{}))

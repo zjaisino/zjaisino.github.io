@@ -1292,8 +1292,8 @@
         }
     }
     
-    //修复firefox获取不到event对象问题
-    if($.browser.mozilla){
+    //1修复firefox获取不到event对象问题
+    if($.browser.mozilla && navigator.userAgent.indexOf('Trident') === -1){
         var evt = function(){
             var func = evt.caller; 
             while(func != null){
@@ -1307,7 +1307,6 @@
         }
         window.__defineGetter__('event', evt)
     }
-    
     $.extend({
         calendar:function(options){
             options = options || {};

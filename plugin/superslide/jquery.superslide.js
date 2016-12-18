@@ -286,6 +286,8 @@
                             angle = 0
                         }
                     }
+                    img.css('max-width', '100%');
+                    img.css('max-height', '100%');
                     var deg = angle*90;
                     $.each(['webkit', 'moz', 'ms', 'o', ''], function(key, val){
                         imgdom.style['-'+val+'-transform'] = 'rotate('+ deg +'deg)';

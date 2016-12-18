@@ -1,8 +1,8 @@
 /**
  * @filename jquery.paging.js
  * @author Aniu[2014-03-29 10:07]
- * @update Aniu[2016-08-31 17:26]
- * @version v2.9
+ * @update Aniu[2016-12-06 11:23]
+ * @version v2.9.1
  * @description 分页组件
  */
 
@@ -71,9 +71,9 @@
              * @function 滚动分页配置
              * @type <Obejct>
              */
+            container:window,
 			scroll:{
-				enable:false,
-				container:window
+				enable:false
 			},
             /**
              * @function ajax配置信息
@@ -149,11 +149,10 @@
              * @param data <JSON Object> 响应数据
              */
             echoData:$.noop
-        }, options||{}));
-		
+        }, Paging.options, options||{}));
+        that.container = $(that.container||window);
 		if(that.scroll.enable === true){
 			that.wrap = null;
-			that.container = $(that.scroll.container||window);
 			that.children = that.container[0] === window ? $(document.body) : that.container.children();
 			that.container.scroll(function(){
 				that.resize();
@@ -161,6 +160,11 @@
 				that.resize();
 			});
 		}
+    }
+    
+    Paging.options = {};
+    Paging.config = function(options){
+    	$.extend(true, Paging.options, options||{})
     }
 
     Paging.prototype = {
@@ -269,6 +273,10 @@
                             data.current = that.current;
                         }
                         catch(e){}
+                        if(that.container[0] !== window && (type !== 'reload' || type === 'jump' && !that.scroll.enable)){
+                        	that.container.scrollTop(0)
+                        	that.container.scrollLeft(0)
+                        }
                         that.echoData(data, type);
                         that.aCount = data.aCount;
                         that.load = false;
