@@ -148,7 +148,7 @@
             if(sets.url){
                 var param = {};
                 param[sets.param] = that.keywords;
-                that.request = $.ajax({
+                that.request = $.ajax($.extend({
                     url:sets.url,
                     dataType:'json',
                     cache:false,
@@ -156,7 +156,7 @@
                     success:function(res){
                         that.filterData(res);
                     }
-                });
+                }, sets.ajaxOptions||{}));
             }
             else if(typeof sets.getData === 'function'){
                 that.filterData(sets.getData(that.keywords, that.target)||null);
