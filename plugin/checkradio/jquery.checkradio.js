@@ -76,6 +76,9 @@
 						o.callback(me, e)
 					});
 				}
+				if(o.init && !me.is(':disabled') && o.beforeCallback(me) !== false){
+					o.callback(me)
+				}
 			});
 		}
 		else{
