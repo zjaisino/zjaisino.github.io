@@ -1,8 +1,8 @@
 /**
  * @filename jquery.layer.js
  * @author Aniu[2014-07-11 14:01]
- * @update Aniu[2016-12-01 09:43]
- * @version v3.4.1
+ * @update Aniu[2017-03-12 09:43]
+ * @version v3.4.2
  * @description 弹出层组件
  */
 
@@ -486,7 +486,7 @@
                         that.hide();
                     }
                 }
-                return false;
+                //return false;
             });
         },
         bindClick:function(){
